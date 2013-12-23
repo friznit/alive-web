@@ -96,7 +96,6 @@
 </script>
 
 <div id="live_feed_container">
-
     <div id="live_feed">
 
     </div>

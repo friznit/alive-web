@@ -31,8 +31,16 @@
     })
 </script>
 
-<div id="overview_container">
+<div id="overview_container" style="text-align:center;">
 
+<span class="highlight">LIVE FEED</span> - ENEMY KILLED: <span id="ekia">0</span> | 
+LOSSES: <span id="losses">0</span> | 
+OPERATIONS: <span id="operation_count">0</span> | 
+COMBAT HRS: <span id="combat_hours">0</span> | 
+AMMUNITION: <span id="ammo">0</span> | 
+ACTIVE UNITS: <span id="active_units">0</span> - <span class="highlight">LIVE FEED</span>
+
+<!--
     <table cellpadding="0" cellspacing="0" border="0" class="table overview-table">
         <tbody>
         <tr>
@@ -63,5 +71,5 @@
         <tbody>
         </tbody>
     </table>
-
+-->
 </div>

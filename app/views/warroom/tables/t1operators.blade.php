@@ -4,7 +4,7 @@
 					"bJQueryUI": true,
 					"sAjaxSource": 'http://msostore.iriscouch.com/events/_design/kill/_view/player_kills_count?group_level=1&callback=?',
 					"sAjaxDataProp": "rows",
-					"sScrollY": "500px",
+					"sScrollY": "300px",
 					"bPaginate": false,
 					"bInfo": false,
 					"bScrollCollapse": true,
@@ -26,7 +26,7 @@
     <thead>
     <tr>
         <th width="70%">Player</th>
-        <th>EKIA</th>
+        <th width="30%">EKIA</th>
     </tr>
     </thead>
     <tbody>

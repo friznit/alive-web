@@ -22,16 +22,41 @@
                     </div>
                     <div class="panel-body">
                     	
-
-                        <img id="myImgId" alt="Global Map" src="{{ URL::to('/') }}/img/map_background.png"/>
+						<div id="map" style="height: 400px;"></div>
                         
                         <script type="text/javascript">
                         <!--
-						
-						
-                        var myImg = document.getElementById("myImgId");
-                        myImg.onmousedown = GetCoordinates;
-						                        //-->
+						 var map = L.map('map', {
+								minZoom: 0,
+								maxZoom: 5,
+								crs: L.CRS.Simple
+							}).setView([4096,4096], 2);
+							
+							var southWest = map.unproject([0,1654], map.getMaxZoom());
+							var northEast = map.unproject([8192,6400], map.getMaxZoom());
+							map.setMaxBounds(new L.LatLngBounds(southWest, northEast));
+							L.tileLayer("{{ URL::to('/') }}/maps/globalmap3/{z}/{x}/{y}.png" , {
+								attribution: 'ALiVE',
+								tms: true	//means invert.
+							}).addTo(map);
+							
+							map.on('click', function(e) {
+								
+								var p = map.project(e.latlng, map.getMaxZoom());
+
+								  document.getElementById("imageMapX").value = p.x;
+  								  document.getElementById("imageMapY").value = p.y;
+								  alert("You selected an area on the map: " + map.project(e.latlng, map.getMaxZoom())).latlng;
+							});
+							
+						$(document).ready(function() {
+							$(".trigger").click(function(){
+								$(".panel").toggle("fast");
+								$(this).toggleClass("active");
+								return false;
+							});
+						});
+						 //-->
                         </script>
 
                     </div>

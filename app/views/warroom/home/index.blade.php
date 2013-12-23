@@ -10,8 +10,9 @@
         var map = L.map('map', {
 			minZoom: 0,
 			maxZoom: 5,
+			zoomControl: false,
 			crs: L.CRS.Simple
-		}).setView([4096,4096], 2);
+		}).setView([4676,3864], 2);
 		
 		var southWest = map.unproject([0,1654], map.getMaxZoom());
 		var northEast = map.unproject([8192,6400], map.getMaxZoom());
@@ -21,10 +22,10 @@
             tms: true	//means invert.
         }).addTo(map);
 		
-		map.on('click', function(e) {
-			alert(map.project(e.latlng, map.getMaxZoom()));
-		});
-		
+		map.addControl(L.control.zoom({
+			position: "topright"
+		}));
+				
     $(document).ready(function() {
 		$(".trigger").click(function(){
 			$(".panel").toggle("fast");
@@ -32,38 +33,61 @@
 			return false;
 		});
 	});
+
 </script>
 
-<div class="col-md-2" style="position: absolute; z-index:10000; right: 10px; top:50px;">
+<?php
+	$allAOs = AO::all();
+?>
+
+@foreach ($allAOs as $ao)
+
+<script type="text/javascript">
+
+	var marker = L.circleMarker(map.unproject([{{$ao->imageMapX}},{{$ao->imageMapY}}], map.getMaxZoom()), {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5,
+		offset: [6,0]
+	});
+	
+	marker.bindPopup("<div class='war-room_popup'><h2>{{$ao->name}}</h2><h3>This is a test<h3><p>This is a test</p></div>");
+	
+	map.addLayer(marker);
+</script>
+
+@endforeach
+
+<div class="col-md-8 col-md-offset-2" style="position: absolute; z-index:10000; top:40px;">
     @include('warroom/tables/overview')
 </div>
 
-<div class="col-md-2" style="position: absolute; z-index:10000; left: 10px; top:50px;">
+<div class="col-md-2" style="position: absolute; z-index:10000; left: 10px; top:40px;">
     @include('warroom/tables/recent_ops')
 </div>
 
-<div class="col-md-2" style="position: absolute; z-index:10000; left: 10px; top:300px;">
+<div class="col-md-2" style="position: absolute; z-index:10000; left: 10px; top:350px;">
     @include('warroom/tables/t1operators')
 </div>
 
-<div class="col-md-2" style="position: absolute; z-index:10000; right: 10px; top:300px;">
+<div class="col-md-2" style="position: absolute; z-index:10000; right: 20px; top:40px;">
     @include('warroom/tables/live_feed')
 </div>
 
-<div class="col-md-12">
+<div id="trans-container" class="col-md-12 trans-container" style="position: absolute; z-index:10000; left: 10px; top:815px;">
 
-                <div class="col-md-3">
-                    @include('warroom/charts/blu_losses')
-                </div>
-                <div class="col-md-3">
-                    @include('warroom/charts/opf_losses')
-                </div>
-                <div class="col-md-3">
-                    @include('warroom/charts/casualties')
-                </div>
-                <div class="col-md-3">
-                    @include('warroom/charts/ops')
-                </div>
+        <div class="col-md-3">
+            @include('warroom/charts/blu_losses')
+        </div>
+        <div class="col-md-3">
+            @include('warroom/charts/opf_losses')
+        </div>
+        <div class="col-md-3">
+            @include('warroom/charts/casualties')
+        </div>
+        <div class="col-md-3">
+            @include('warroom/charts/ops')
+        </div>
 
  </div>
 
