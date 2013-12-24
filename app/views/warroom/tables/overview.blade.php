@@ -31,45 +31,13 @@
     })
 </script>
 
-<div id="overview_container" style="text-align:center;">
+<div id="overview_container">
 
-<span class="highlight">LIVE FEED</span> - ENEMY KILLED: <span id="ekia">0</span> | 
-LOSSES: <span id="losses">0</span> | 
-OPERATIONS: <span id="operation_count">0</span> | 
-COMBAT HRS: <span id="combat_hours">0</span> | 
-AMMUNITION: <span id="ammo">0</span> | 
-ACTIVE UNITS: <span id="active_units">0</span> - <span class="highlight">LIVE FEED</span>
+    <span class="highlight">LIVE FEED</span> - ENEMY KILLED: <span id="ekia">0</span> |
+    LOSSES: <span id="losses">0</span> |
+    OPERATIONS: <span id="operation_count">0</span> |
+    COMBAT HRS: <span id="combat_hours">0</span> |
+    AMMUNITION: <span id="ammo">0</span> |
+    ACTIVE UNITS: <span id="active_units">0</span> - <span class="highlight">LIVE FEED</span>
 
-<!--
-    <table cellpadding="0" cellspacing="0" border="0" class="table overview-table">
-        <tbody>
-        <tr>
-            <td width="40%">Enemy killed in action</td>
-            <td width="60%"><span id="ekia">0</span></td>
-        </tr>
-        <tr>
-            <td>Losses</td>
-            <td><span id="losses">0</span></td>
-        </tr>
-        <tr>
-            <td>Operations</td>
-            <td><span id="operation_count">0</span></td>
-        </tr>
-        <tr>
-            <td>Combat hours</td>
-            <td><span id="combat_hours">0</span></td>
-        </tr>
-        <tr>
-            <td>Ammunition</td>
-            <td><span id="ammo">0</span></td>
-        </tr>
-        <tr>
-            <td>Active units</td>
-            <td><span id="active_units">0</span></td>
-        </tr>
-        </tbody>
-        <tbody>
-        </tbody>
-    </table>
--->
 </div>

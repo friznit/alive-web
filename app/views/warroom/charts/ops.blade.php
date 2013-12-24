@@ -27,7 +27,7 @@ function makeOpChart() {
 
 {{-- Chart Colours --}}
 @section('chart_colours')
-colors: ['#33c6e7', '#910000', '#8bbc21', '#c8c8c8', '#2f7ed8', '#86aedb', '#86aedb', '#b25a5a', '#b0d363'],
+colors: ['#226365', '#47a1a4', '#3a9093', '#308183', '#266f71', '#1b5b5d', '#104547'],
 @overwrite
 
 {{-- Chart Id --}}

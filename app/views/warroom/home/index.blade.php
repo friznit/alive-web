@@ -1,4 +1,4 @@
-@extends('warroom.layouts.default')
+@extends('warroom.layouts.home')
 
 {{-- Content --}}
 @section('content')
@@ -58,24 +58,28 @@
 
 @endforeach
 
-<div class="col-md-8 col-md-offset-2" style="position: absolute; z-index:10000; top:40px;">
+<div id="warroom_overview">
     @include('warroom/tables/overview')
 </div>
 
-<div class="col-md-2" style="position: absolute; z-index:10000; left: 10px; top:40px;">
+<div id="warroom_recent">
+    <div class="strip">Recent Operations<span class="control" id="warroom_recent_toggle"><i class="fa fa-arrow-left"></i></span></div>
     @include('warroom/tables/recent_ops')
 </div>
 
-<div class="col-md-2" style="position: absolute; z-index:10000; left: 10px; top:350px;">
-    @include('warroom/tables/t1operators')
+<div id="warroom_t1operators">
+    <div class="strip">Tier 1 Operators<span class="control" id="warroom_t1_toggle"><i class="fa fa-arrow-left"></i></span></div>
+    @include('warroom/tables/t1operators_home')
 </div>
 
-<div class="col-md-2" style="position: absolute; z-index:10000; right: 20px; top:40px;">
+<div id="warroom_livefeed">
+    <div class="strip clearfix"><span id="warroom_livefeed_toggle"><i class="fa fa-arrow-right"></i></span><span id="warroom_livefeed_label" class="control">Live event feed</span></div>
     @include('warroom/tables/live_feed')
 </div>
 
-<div id="trans-container" class="col-md-12 trans-container" style="position: absolute; z-index:10000; left: 10px; top:815px;">
-
+<div id="warroom_charts">
+    <div class="strip"><span class="control-center" id="warroom_charts_toggle"><i class="fa fa-arrow-down"></i></span></div>
+    <div class="row">
         <div class="col-md-3">
             @include('warroom/charts/blu_losses')
         </div>
@@ -88,7 +92,8 @@
         <div class="col-md-3">
             @include('warroom/charts/ops')
         </div>
+    </div>
 
- </div>
+</div>
 
 @stop

@@ -109,7 +109,7 @@
 
                             <div class="form-group {{ ($errors->has('imageMapX')) ? 'has-error' : '' }}" for="imageMapX">
 							<label class="control-label" for="imageMapX">Position (X)</label>
-                                <input id="imageMapX" name="imageMapX" value="{{ Request::old("imageMapX") }}" type="number" class="form-control">
+                                <input id="imageMapX" name="imageMapX" value="{{ Request::old("imageMapX") }}" type="text" class="form-control">
                                 <?php
                                 if($errors->has('imageMapX')){
                                     echo '<span class="label label-danger">' . $errors->first('imageMapX') . '</span>';
@@ -119,7 +119,7 @@
                             
                             <div class="form-group {{ ($errors->has('imageMapY')) ? 'has-error' : '' }}" for="imageMapY">
 							<label class="control-label" for="imageMapY">Position (Y)</label>
-                                <input id="imageMapY" name="imageMapY" value="{{ Request::old("imageMapY") }}" type="number" class="form-control">
+                                <input id="imageMapY" name="imageMapY" value="{{ Request::old("imageMapY") }}" type="text" class="form-control">
                                 <?php
                                 if($errors->has('imageMapY')){
                                     echo '<span class="label label-danger">' . $errors->first('imageMapY') . '</span>';
@@ -129,7 +129,7 @@
                             
                             <div class="form-group {{ ($errors->has('latitude')) ? 'has-error' : '' }}" for="latitude">
                                 <label class="control-label" for="latitude">Latitude</label>
-                                <input name="latitude" value="{{ Request::old("latitude") }}" type="number" class="form-control" placeholder="latitude">
+                                <input name="latitude" value="{{ Request::old("latitude") }}" type="text" class="form-control" placeholder="latitude">
                                 <?php
                                 if($errors->has('latitude')){
                                     echo '<span class="label label-danger">' . $errors->first('latitude') . '</span>';
@@ -139,7 +139,7 @@
                             
                         	<div class="form-group {{ ($errors->has('longitude')) ? 'has-error' : '' }}" for="longitude">
                                 <label class="control-label" for="longitude">Longitude</label>
-                                <input name="longitude" value="{{ Request::old("longitude") }}" type="number" class="form-control" placeholder="longitude">
+                                <input name="longitude" value="{{ Request::old("longitude") }}" type="text" class="form-control" placeholder="longitude">
                                 <?php
                                 if($errors->has('longitude')){
                                     echo '<span class="label label-danger">' . $errors->first('longitude') . '</span>';

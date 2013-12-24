@@ -25,7 +25,7 @@ function makeBluLossesChart() {
 
 {{-- Chart Colours --}}
 @section('chart_colours')
-colors: ['#89b2e1', '#5e94d3', '#2f72bd', '#1a508d'],
+colors: ['#226365', '#47a1a4', '#3a9093', '#308183', '#266f71', '#1b5b5d', '#104547'],
 @overwrite
 
 {{-- Chart Id --}}

@@ -70,4 +70,9 @@ class APIController extends BaseController {
     {
         return $this->couchAPI->getDeathsByDay();
     }
+
+    public function getT1operators()
+    {
+        return $this->couchAPI->getT1Operators();
+    }
 }

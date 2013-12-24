@@ -25,7 +25,7 @@ function makeOpfLossesChart() {
 
 {{-- Chart Colours --}}
 @section('chart_colours')
-colors: ['#bf8484', '#b25a5a', '#a02a2a', '#681010'],
+colors: ['#226365', '#47a1a4', '#3a9093', '#308183', '#266f71', '#1b5b5d', '#104547'],
 @overwrite
 
 {{-- Chart Id --}}

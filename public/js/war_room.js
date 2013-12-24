@@ -22,6 +22,107 @@ $(document).ready(function() {
         theme:"light-thin"
     });
 
+    $("#t1operators_container").mCustomScrollbar({
+        scrollButtons:{
+            enable:true
+        },
+        advanced:{
+            updateOnContentResize: true
+        },
+        autoHideScrollbar:true,
+        theme:"light-thin"
+    });
+
+    $("#warroom_charts_toggle").click(function(e){
+
+        e.preventDefault();
+
+        var toggler = $('#warroom_charts_toggle');
+        var container = $('#warroom_charts');
+        var table = container.children('.row');
+        var timeline = new TimelineLite();
+
+        if(container.hasClass('clicked')){
+            timeline.to(container, .2, {css:{top:792}}).to(container, .2, {height:200}).to(table, .2, {autoAlpha:1});
+            toggler.html('<i class="fa fa-arrow-down"></i>');
+            container.removeClass('clicked');
+        } else {
+            timeline.to(table, .2, {autoAlpha:0}).to(container, .2, {height:25}).to(container, .2, {css:{top:930}});
+            toggler.html('<i class="fa fa-arrow-up"></i>');
+            container.addClass('clicked');
+        }
+    });
+
+    $("#warroom_recent_toggle").click(function(e){
+
+        e.preventDefault();
+
+        var toggler = $('#warroom_recent_toggle');
+        var container = $('#warroom_recent');
+        var table = $('#recent_ops_container');
+        var timeline = new TimelineLite();
+
+        if(container.hasClass('clicked')){
+            timeline.to(container, .2, {css:{left:10}}).to(container, .2, {height:330}).to(table, .2, {autoAlpha:1});
+            toggler.html('<i class="fa fa-arrow-left"></i>');
+            container.removeClass('clicked');
+        } else {
+            timeline.to(table, .2, {autoAlpha:0}).to(container, .2, {height:20}).to(container, .2, {css:{left:-250}});
+            toggler.html('<i class="fa fa-arrow-right"></i>');
+            container.addClass('clicked');
+        }
+    });
+
+    $("#warroom_t1_toggle").click(function(e){
+
+        e.preventDefault();
+
+        var toggler = $('#warroom_t1_toggle');
+        var container = $('#warroom_t1operators');
+        var table = $('#t1operators_container');
+        var timeline = new TimelineLite();
+
+        if(container.hasClass('clicked')){
+            timeline.to(container, .2, {css:{left:10}}).to(container, .2, {height:330}).to(table, .2, {autoAlpha:1});
+            toggler.html('<i class="fa fa-arrow-left"></i>');
+            container.removeClass('clicked');
+        } else {
+            timeline.to(table, .2, {autoAlpha:0}).to(container, .2, {height:20}).to(container, .2, {css:{left:-250}});
+            toggler.html('<i class="fa fa-arrow-right"></i>');
+            container.addClass('clicked');
+        }
+    });
+
+    $("#warroom_livefeed_toggle").click(function(e){
+
+        e.preventDefault();
+
+        var toggler = $('#warroom_livefeed_toggle');
+        var container = $('#warroom_livefeed');
+        var table = $('#live_feed_container');
+        var label = $('#warroom_livefeed_label');
+        var strip = container.children('.strip');
+        var timeline = new TimelineLite();
+
+        if(container.hasClass('clicked')){
+            timeline.to(strip, .2, {width:300}).to(container, .2, {height:500}).to(container, .2, {width:300});
+            timeline.to(container, .2, {css:{right:10}});
+            timeline.to(table, .2, {autoAlpha:1});
+            toggler.html('<i class="fa fa-arrow-right"></i>');
+            label.text('Live event feed');
+            timeline.to(label, .2, {autoAlpha:1});
+            container.removeClass('clicked');
+        } else {
+            timeline.to(label, .2, {autoAlpha:0});
+            label.text('');
+            timeline.to(table, .2, {autoAlpha:0});
+            timeline.to(strip, .2, {width:60}).to(container, .2, {height:24}).to(container, .2, {width:60});
+            timeline.to(container, .2, {css:{right:0}});
+            toggler.html('<i class="fa fa-arrow-left"></i>');
+            container.addClass('clicked');
+        }
+    });
+
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         var target = $(e.target);
         if(target.attr('href') == '#two'){
@@ -56,7 +157,6 @@ function counter(element, end) {
     };
 
     obj.setTextVal(0);
-
 
     currVal = 0; // Reset this every time
     endVal = end;
@@ -164,4 +264,4 @@ function resize() {
 	map.style.height = (getWindowHeight()-80) + "px";
 	map.style.width = (getWindowWidth()-20) + "px";
 	if (map.updateSize) { map.updateSize(); };
-} 
+}
