@@ -16,7 +16,7 @@
     <script src="http://code.highcharts.com/highcharts-more.src.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
     <script src="{{ URL::to('/') }}/js/highcharts_defaults.js"></script>
-    <script src="{{ URL::to('/') }}/js/war_room.js"></script>
+    <!--<script src="{{ URL::to('/') }}/js/war_room.js"></script>-->
     <script src="{{ URL::to('/') }}/js/dataTables.bootstrap.js"></script>
     <script src="{{ URL::to('/') }}/js/restfulizer.js"></script>
          <script src="http://cdn.leafletjs.com/leaflet-0.6/leaflet.js"></script>

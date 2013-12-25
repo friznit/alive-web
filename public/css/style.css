@@ -232,9 +232,10 @@ img {
     background-color: rgba(1, 1, 1, 0.6);
 }
 #t1operators_container {
-    max-height:300px;
+    font-family: 'Roboto Condensed', san-serif;
     font-size:12px;
     line-height: 13px;
+    max-height:300px;
 }
 
 #warroom_livefeed {
