@@ -15,6 +15,12 @@ class APIController extends BaseController {
     {
         return $this->couchAPI->getTotals();
     }
+	
+	public function getMaptotals()
+    {
+		$name = Input::get('name');
+        return $this->couchAPI->getMapTotals($name);
+    }
 
     public function getActiveunitcount()
     {

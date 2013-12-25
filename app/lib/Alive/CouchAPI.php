@@ -82,6 +82,44 @@ class CouchAPI {
 
         return $encoded;
     }
+	
+	 public function getMapTotals($name)
+    {
+
+        $cacheKey = 'MapTotals' . $name;
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'events/_design/operationsTable/_view/operationTotals?group_level=1&startkey=["' . $name . '"]&limit=1';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response']->rows[0]->value;
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+            \Cache::add($cacheKey, $encoded, 1000);
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
 
     public function getActiveUnitCount()
     {

@@ -7,6 +7,21 @@
 
 <script type="text/javascript">
 
+		L.Map = L.Map.extend({
+			openPopup: function(popup) {
+				//        this.closePopup();  // just comment this
+				this._popup = popup;
+		
+				return this.addLayer(popup).fire('popupopen', {
+					popup: this._popup
+				});
+			}
+		});
+		
+		L.Popup = L.Popup.extend({
+			
+		});
+
         var map = L.map('map', {
 			minZoom: 0,
 			maxZoom: 5,
@@ -25,6 +40,8 @@
 		map.addControl(L.control.zoom({
 			position: "topright"
 		}));
+		
+		var items = {};
 				
     $(document).ready(function() {
 		$(".trigger").click(function(){
@@ -33,6 +50,8 @@
 			return false;
 		});
 	});
+	
+	
 
 </script>
 
@@ -43,20 +62,34 @@
 @foreach ($allAOs as $ao)
 
 <script type="text/javascript">
-
+	var mapdata = {};
+	var ajaxUrl = '{{ URL::to('/') }}/api/maptotals?name={{$ao->configName}}';
+	 $.getJSON(ajaxUrl, function(data) {
+		mapdata = data;
+	 });
+	 
 	var marker = L.circleMarker(map.unproject([{{$ao->imageMapX}},{{$ao->imageMapY}}], map.getMaxZoom()), {
 		color: 'red',
 		fillColor: '#f03',
-		fillOpacity: 0.5,
-		offset: [6,0]
+		fillOpacity: 0.5
 	});
 	
-	marker.bindPopup("<div class='war-room_popup'><h2>{{$ao->name}}</h2><h3>This is a test<h3><p>This is a test</p></div>");
+	console.log(mapdata);
 	
+	var popup = L.popup( {
+			offset: map.unproject([6,0], map.getMaxZoom())
+		})
+		.setContent("<div class='war-room_popup'><p><span class='title'>{{$ao->name}}</span></br>OPS: " + mapdata.Operations + " | EKIA: " + mapdata.Kills + " | LOSSES: " + mapdata.Deaths + "</br>HRS: " + Math.round((mapdata.CombatHours / 60)*10)/10 + " | AMMO: " + mapdata.ShotsFired + " | UNITS: " + mapdata.Operations + "</p></div>");
+		
+	marker.bindPopup(popup);
 	map.addLayer(marker);
+	marker.openPopup();
+
 </script>
 
 @endforeach
+
+
 
 <div id="warroom_overview">
     @include('warroom/tables/overview')
