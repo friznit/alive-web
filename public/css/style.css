@@ -315,21 +315,20 @@ img {
 }
 
 .war-room_popup {
-    font-family: 'Roboto Condensed', san-serif;
-    font-size:12px;
     background: transparent;
     background-color: rgba(1, 1, 1, 0.6);
-    color: #926c20;
 }
 
-.war-room_popup h2 {
+.war-room_popup p {
+	font-family:"MorganSansCond Caps";
+	font-size:16px;
+	color: #fcaf17;
+}
 
+.war-room_popup .title {
+	font-family:"MorganSansCond Caps";
+	font-size:30px;
     color:#F00;
-}
-
-.war-room_popup h3 {
-
-    color:#060;
 }
 
 
@@ -456,6 +455,12 @@ img {
 }
 .table-container table tbody td a {
     margin-top: -10px;
+}
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+	background: transparent;
+	box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+	padding: 10px;
 }
 
 /* -----------------------------*/
