@@ -51,7 +51,16 @@
 		});
 	});
 	
+	var hostileIcon = L.icon({
+		iconUrl: '{{ URL::to('/') }}/img/icons/hostileIcon.png',
+		shadowUrl: '{{ URL::to('/') }}/img/icons/hostileIconShadow.png',
 	
+		iconSize:     [30, 30], // size of the icon
+		shadowSize:   [30, 30], // size of the shadow
+		iconAnchor:   [20, 20], // point of the icon which will correspond to marker's location
+		shadowAnchor: [15, 15],  // the same for the shadow
+		popupAnchor:  [90, 90] // point from which the popup should open relative to the iconAnchor
+	});
 
 </script>
 
@@ -66,10 +75,8 @@
 	var ajaxUrl = '{{ URL::to('/') }}/api/maptotals?name={{$ao->configName}}';
 	 $.getJSON(ajaxUrl, function(data) {
 		var mapdata = data;
-		var marker = L.circleMarker(map.unproject([{{$ao->imageMapX}},{{$ao->imageMapY}}], map.getMaxZoom()), {
-			color: 'red',
-			fillColor: '#f03',
-			fillOpacity: 0.5
+		var marker = new MyCustomMarker(map.unproject([{{$ao->imageMapX}},{{$ao->imageMapY}}], map.getMaxZoom()), {
+			icon: hostileIcon
 		});
 		
 		console.log(mapdata);
@@ -79,7 +86,9 @@
 			})
 			.setContent("<div class='war-room_popup'><p><span class='title'>{{$ao->name}}</span></br>OPS: " + mapdata.Operations + " | EKIA: " + mapdata.Kills + " | LOSSES: " + mapdata.Deaths + "</br>HRS: " + Math.round((mapdata.CombatHours / 60)*10)/10 + " | AMMO: " + mapdata.ShotsFired + " | UNITS: " + mapdata.Operations + "</p></div>");
 			
-		marker.bindPopup(popup);
+		marker.bindPopup(popup, { 			
+				showOnMouseOver: true
+			});
 		map.addLayer(marker);
 	 });
 	 
