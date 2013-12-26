@@ -62,29 +62,27 @@
 @foreach ($allAOs as $ao)
 
 <script type="text/javascript">
-	var mapdata = {};
+
 	var ajaxUrl = '{{ URL::to('/') }}/api/maptotals?name={{$ao->configName}}';
 	 $.getJSON(ajaxUrl, function(data) {
-		mapdata = data;
+		var mapdata = data;
+		var marker = L.circleMarker(map.unproject([{{$ao->imageMapX}},{{$ao->imageMapY}}], map.getMaxZoom()), {
+			color: 'red',
+			fillColor: '#f03',
+			fillOpacity: 0.5
+		});
+		
+		console.log(mapdata);
+		
+		var popup = L.popup( {
+				offset: map.unproject([6,0], map.getMaxZoom())
+			})
+			.setContent("<div class='war-room_popup'><p><span class='title'>{{$ao->name}}</span></br>OPS: " + mapdata.Operations + " | EKIA: " + mapdata.Kills + " | LOSSES: " + mapdata.Deaths + "</br>HRS: " + Math.round((mapdata.CombatHours / 60)*10)/10 + " | AMMO: " + mapdata.ShotsFired + " | UNITS: " + mapdata.Operations + "</p></div>");
+			
+		marker.bindPopup(popup);
+		map.addLayer(marker);
 	 });
 	 
-	var marker = L.circleMarker(map.unproject([{{$ao->imageMapX}},{{$ao->imageMapY}}], map.getMaxZoom()), {
-		color: 'red',
-		fillColor: '#f03',
-		fillOpacity: 0.5
-	});
-	
-	console.log(mapdata);
-	
-	var popup = L.popup( {
-			offset: map.unproject([6,0], map.getMaxZoom())
-		})
-		.setContent("<div class='war-room_popup'><p><span class='title'>{{$ao->name}}</span></br>OPS: " + mapdata.Operations + " | EKIA: " + mapdata.Kills + " | LOSSES: " + mapdata.Deaths + "</br>HRS: " + Math.round((mapdata.CombatHours / 60)*10)/10 + " | AMMO: " + mapdata.ShotsFired + " | UNITS: " + mapdata.Operations + "</p></div>");
-		
-	marker.bindPopup(popup);
-	map.addLayer(marker);
-	marker.openPopup();
-
 </script>
 
 @endforeach
