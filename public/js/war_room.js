@@ -184,84 +184,94 @@ function parseArmaDate(input) {
     return "on " + system_date;
 }
 
-// AO Edit/Create
-function FindPosition(oElement)
-{
-  if(typeof( oElement.offsetParent ) != "undefined")
-  {
-    for(var posX = 0, posY = 0; oElement; oElement = oElement.offsetParent)
-    {
-      posX += oElement.offsetLeft;
-      posY += oElement.offsetTop;
-    }
-      return [ posX, posY ];
-    }
-    else
-    {
-      return [ oElement.x, oElement.y ];
-    }
-}
-
-function GetCoordinates(e)
-{
-  var PosX = 0;
-  var PosY = 0;
-  var ImgPos;
-  var width = 2200 / myImg.clientWidth;
-  var height = 900/ myImg.clientHeight;
-  ImgPos = FindPosition(myImg);
-  
-  if (!e) var e = window.event;
-  if (e.pageX || e.pageY)
-  {
-    PosX = e.pageX;
-    PosY = e.pageY;
-  }
-  else if (e.clientX || e.clientY)
-    {
-      PosX = e.clientX + document.body.scrollLeft
-        + document.documentElement.scrollLeft;
-      PosY = e.clientY + document.body.scrollTop
-        + document.documentElement.scrollTop;
-    }
-  PosX = PosX - ImgPos[0];
-  PosY = PosY - ImgPos[1];
-  document.getElementById("imageMapX").value = PosX*width;
-  document.getElementById("imageMapY").value = PosY*height;
-}
-
-// Open Layers
-function overlay_getTileURL(bounds) {
-	var res = this.map.getResolution();
-	var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
-	var y = Math.round((bounds.bottom - this.maxExtent.bottom) / (res * this.tileSize.h));
-	var z = this.map.getZoom();
-	if (x >= 0 && y >= 0) {
-		return this.url + z + "/" + x + "/" + y + "." + this.type;				
-	} else {
-		return "http://www.maptiler.org/img/none.png";
+var MyCustomMarker = L.Marker.extend({
+ 
+    bindPopup: function(htmlContent, options) {
+	  			
+		if (options && options.showOnMouseOver) {
+			
+			// call the super method
+			L.Marker.prototype.bindPopup.apply(this, [htmlContent, options]);
+			
+			// unbind the click event - change to launching AO page
+			this.off("click", this.openPopup, this);
+			
+			// bind to mouse over
+			this.on("mouseover", function(e) {
+				
+				// get the element that the mouse hovered onto
+				var target = e.originalEvent.fromElement || e.originalEvent.relatedTarget;
+				var parent = this._getParent(target, "leaflet-popup");
+ 
+				// check to see if the element is a popup, and if it is this marker's popup
+				if (parent == this._popup._container)
+					return true;
+				
+				// show the popup
+				this.openPopup();
+				
+			}, this);
+			
+			// and mouse out
+			this.on("mouseout", function(e) {
+				
+				// get the element that the mouse hovered onto
+				var target = e.originalEvent.toElement || e.originalEvent.relatedTarget;
+				
+				// check to see if the element is a popup
+				if (this._getParent(target, "leaflet-popup")) {
+ 
+					L.DomEvent.on(this._popup._container, "mouseout", this._popupMouseOut, this);
+					return true;
+ 
+				}
+				
+				// hide the popup
+				this.closePopup();
+				
+			}, this);
+			
+		}
+		
+	},
+ 
+	_popupMouseOut: function(e) {
+	    
+		// detach the event
+		L.DomEvent.off(this._popup, "mouseout", this._popupMouseOut, this);
+ 
+		// get the element that the mouse hovered onto
+		var target = e.toElement || e.relatedTarget;
+		
+		// check to see if the element is a popup
+		if (this._getParent(target, "leaflet-popup"))
+			return true;
+		
+		// check to see if the marker was hovered back onto
+		if (target == this._icon)
+			return true;
+		
+		// hide the popup
+		this.closePopup();
+		
+	},
+	
+	_getParent: function(element, className) {
+		
+		var parent = element.parentNode;
+		
+		while (parent != null) {
+			
+			if (parent.className && L.DomUtil.hasClass(parent, className))
+				return parent;
+			
+			parent = parent.parentNode;
+			
+		}
+		
+		return false;
+		
 	}
-}
+ 
+});
 
-function getWindowHeight() {
-	if (self.innerHeight) return self.innerHeight;
-	if (document.documentElement && document.documentElement.clientHeight)
-		return document.documentElement.clientHeight;
-	if (document.body) return document.body.clientHeight;
-		return 0;
-}
-
-function getWindowWidth() {
-	if (self.innerWidth) return self.innerWidth;
-	if (document.documentElement && document.documentElement.clientWidth)
-		return document.documentElement.clientWidth;
-	if (document.body) return document.body.clientWidth;
-		return 0;
-}
-
-function resize() {  
-	var map = document.getElementById("map");  
-	map.style.height = (getWindowHeight()-80) + "px";
-	map.style.width = (getWindowWidth()-20) + "px";
-	if (map.updateSize) { map.updateSize(); };
-}
