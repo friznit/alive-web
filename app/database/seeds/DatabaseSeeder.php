@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder {
         $this->call('SentryUserGroupSeeder');
 
         $this->call('ProfileSeeder');
-
+		$this->call('ClanSeeder');
+		
         $this->call('CountriesSeeder');
 		$this->call('AOSeeder');
 
