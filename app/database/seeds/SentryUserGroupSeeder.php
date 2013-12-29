@@ -21,6 +21,10 @@ class SentryUserGroupSeeder extends Seeder {
 
 	    // Assign the groups to the users
         $adminUser->addGroup($adminGroup);
+		
+		$adminUser = Sentry::getUserProvider()->findByLogin('tupolov73@gmail.com');
+		$adminUser->addGroup($adminGroup);
+		
 	}
 
 }

@@ -12,8 +12,8 @@ class ClanSeeder extends Seeder {
 		DB::table('clans')->delete();
 		
 		$data = array();
-		
-		$data['JTFHQ'] = array('tupolov73+sbw@gmail.com','Joint Task Force Headquarters','','HQ','Brigade');
+		// Developer groups for credits
+		$data['JTFHQ'] = array('tupolov73+sbw@gmail.com','Joint Task Force Headquarters','JTFHQ','HQ','Brigade');
 		$data['NSG'] = array('tupolov73+mct@gmail.com','Naval Support Group','JTFHQ','Maritime','Squadron');
 		$data['BSG'] = array('tupolov73+rsr@gmail.com','Brigade Support Group','JTFHQ','Support','Battalion');
 		$data['JHTF'] = array('tupolov73+kgg@gmail.com','Joint Helicopter Task Force','JTFHQ','Helicopter','Squadron');
@@ -39,6 +39,7 @@ class ClanSeeder extends Seeder {
 			$profile = $currentUser->profile;
 			$profile->clan_id = $newclan->id;
 			$currentUser->addGroup(Sentry::getGroupProvider()->findByName('leader'));
+			$profile->save();
 		}
 	}
 

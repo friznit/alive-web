@@ -646,6 +646,44 @@ class CouchAPI {
 
         return $encoded;
     }
+	
+	public function getDevCredits($id)
+    {
+
+        $cacheKey = 'Devcredits' . $id;
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'credits/_design/warroom/_view/devcredits?key="' . $id . '"';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response']->rows[0]->value;
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+            \Cache::add($cacheKey, $encoded, 60);
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
 
     public function call($path, $data=array(), $requestType='GET')
     {

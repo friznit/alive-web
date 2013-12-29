@@ -54,12 +54,23 @@
 	var hostileIcon = L.icon({
 		iconUrl: '{{ URL::to('/') }}/img/icons/hostileIcon.png',
 		shadowUrl: '{{ URL::to('/') }}/img/icons/hostileIconShadow.png',
-	
 		iconSize:     [30, 30], // size of the icon
 		shadowSize:   [30, 30], // size of the shadow
-		iconAnchor:   [20, 20], // point of the icon which will correspond to marker's location
+		iconAnchor:   [20, 20], // point of the icon which will correspond to markers location
 		shadowAnchor: [15, 15],  // the same for the shadow
 		popupAnchor:  [90, 90] // point from which the popup should open relative to the iconAnchor
+	});
+	
+	var groupIcon = L.Icon.extend({ 
+		options: {
+			iconUrl: '{{ URL::to('/') }}/img/icons/b_inf.png',
+			shadowUrl: '{{ URL::to('/') }}/img/icons/groupIconShadow.png',
+			iconSize:     [35, 35], // size of the icon
+			shadowSize:   [35, 35], // size of the shadow
+			iconAnchor:   [20, 20], // point of the icon which will correspond to markers location
+			shadowAnchor: [15, 15],  // the same for the shadow
+			popupAnchor:  [105, 105] // point from which the popup should open relative to the iconAnchor
+		}
 	});
 
 </script>
@@ -78,17 +89,13 @@
 		var marker = new MyCustomMarker(map.unproject([{{$ao->imageMapX}},{{$ao->imageMapY}}], map.getMaxZoom()), {
 			icon: hostileIcon
 		});
-		
-		console.log(mapdata);
-		
-		var popup = L.popup( {
-				offset: map.unproject([6,0], map.getMaxZoom())
-			})
+	
+		var popup = L.popup()
 			.setContent("<div class='war-room_popup'><p><span class='title'>{{$ao->name}}</span></br>OPS: " + mapdata.Operations + " | EKIA: " + mapdata.Kills + " | LOSSES: " + mapdata.Deaths + "</br>HRS: " + Math.round((mapdata.CombatHours / 60)*10)/10 + " | AMMO: " + mapdata.ShotsFired + " | UNITS: " + mapdata.Operations + "</p></div>");
 			
 		marker.bindPopup(popup, { 			
 				showOnMouseOver: true
-			});
+		});
 		map.addLayer(marker);
 	 });
 	 
@@ -96,7 +103,38 @@
 
 @endforeach
 
+<?php
+	$devs= Profile::where('remark', '=', 'Developer')->get();
+?>
 
+@foreach ($devs as $profile)
+ <?php
+	$clan = Clan::where('id', '=', $profile->clan_id)->firstOrFail();
+	$orbat = DB::table('orbattypes')->select('icon','name')->where('type', $clan->type)->first();
+	$size = DB::table('orbatsizes')->select('icon','name')->where('type', $clan->size)->first();
+?>
+
+<script type="text/javascript">
+	var ajaxUrl = '{{ URL::to('/') }}/api/devcredits?id={{$profile->a3_id}}';
+	 $.getJSON(ajaxUrl, function(data) {
+
+		var myIcon = new groupIcon({iconURL: '{{ URL::to('/') }}/img/icons/b_inf.png'});
+		var marker = new MyCustomMarker(map.unproject([data.globalX,data.globalY], map.getMaxZoom()), {
+			icon: myIcon
+		});
+		
+		var popup = L.popup()
+			.setContent("<div class='war-room_popup'><p><span class='title'>{{$clan->name}} [{{$clan->tag}}]</span></br><img src='{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($profile->country) }}.png' alt='{{ $profile->country_name }}' title='{{ $profile->country_name }}'/>Cmdr: " + data.PlayerName + " | Type: {{$clan->type}} | Size: {{$clan->size}}<br/>Credits: " + data.Credits + " </p></div>");
+			
+		marker.bindPopup(popup, { 			
+				showOnMouseOver: true
+		});
+		map.addLayer(marker);
+	 });
+	 
+</script>
+
+@endforeach
 
 <div id="warroom_overview">
     @include('warroom/tables/overview')

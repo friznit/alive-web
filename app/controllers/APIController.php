@@ -81,4 +81,9 @@ class APIController extends BaseController {
     {
         return $this->couchAPI->getT1Operators();
     }
+	public function getDevcredits()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getDevCredits($id);
+    }
 }

@@ -16,6 +16,9 @@ class DatabaseSeeder extends Seeder {
 		$this->call('SentryUserSeeder');
         $this->call('SentryUserGroupSeeder');
 
+        $this->call('orbatTypeSeeder');
+		$this->call('orbatSizeSeeder');
+
         $this->call('ProfileSeeder');
 		$this->call('ClanSeeder');
 		

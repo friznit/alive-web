@@ -21,7 +21,7 @@
 <table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="t1_operators">
     <thead>
     <tr>
-        <th width="70%">Player</th>
+        <th width="70%">Designation</th>
         <th width="30%">EKIA</th>
     </tr>
     </thead>

@@ -7,6 +7,7 @@
             "bPaginate": false,
             "bFilter": false,
             "bInfo": false,
+			"aaSorting": [[1, "desc" ]],
             "fnDrawCallback": function ( oSettings ) {
                 $("#t1operators_container").mCustomScrollbar("update");
             },
@@ -24,7 +25,7 @@
     <table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="t1_operators">
         <thead>
         <tr>
-            <th width="70%">Player</th>
+            <th width="70%">Call Sign</th>
             <th width="30%">EKIA</th>
         </tr>
         </thead>

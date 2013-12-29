@@ -81,6 +81,16 @@ class AOSeeder extends Seeder {
         AO::create($ao);
 		
 		$ao = array();
+        $ao['name'] = 'Desert';
+        $ao['size'] = 4096;
+        $ao['configName'] = 'Desert_E';
+        $ao['imageMapX'] = 5501;
+		$ao['imageMapY'] = 3976;
+		$ao['latitude'] = -35;
+		$ao['longitude'] = 65.8;
+        AO::create($ao);
+		
+		$ao = array();
         $ao['name'] = 'Proving Grounds';
         $ao['size'] = 4096;
         $ao['configName'] = 'ProvingGrounds_PMC';

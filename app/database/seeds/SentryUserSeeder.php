@@ -23,6 +23,7 @@ class SentryUserSeeder extends Seeder {
 			'activated' => 1,
 		));
 		
+		// Developer users for credits/easy login
 		$data = array('tupolov73+sbw@gmail.com','tupolov73+mct@gmail.com','tupolov73+rsr@gmail.com','tupolov73+aja@gmail.com','tupolov73+ddh@gmail.com','tupolov73+ahf@gmail.com','tupolov73+djj@gmail.com','tupolov73+vrcr@gmail.com','tupolov73+kgg@gmail.com','tupolov73+whb@gmail.com');
 		
 		foreach ($data as $p) {
