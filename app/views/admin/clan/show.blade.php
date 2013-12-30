@@ -181,6 +181,10 @@
 
                 @endif
 
+                @if ($auth['isLeader'] || $auth['isOfficer'])
+
+                @endif
+
                 <table class="table table-hover">
                     <thead>
                     <th>Name</th>
@@ -192,6 +196,7 @@
                         <td>
                             @if ($auth['isLeader'] || $auth['isOfficer'])
                             <button class="btn btn-default" onClick="location.href='{{ URL::to('admin/server/edit') }}/{{ $server->id }}'">Edit</button>
+                            <button class="btn btn-yellow" onClick="location.href='{{ URL::to('admin/server/edit') }}/{{ $server->id }}'">Server Setup Instructions</button>
                             <button class="btn btn-default action_confirm" href="{{ URL::to('admin/server/delete') }}/{{ $server->id }}" data-token="{{ Session::getToken() }}" data-method="post">Delete</button>
                             @endif
                         </td>
@@ -205,6 +210,8 @@
                 @if ($auth['isLeader'] || $auth['isOfficer'])
 
                 <p>Your group has no servers setup</p>
+                <p><b>Connect your servers to the war room to start capturing live data from your sessions.</b></p>
+                <p><b>Start by setting up a server below.</b></p>
 
                 <table class="table table-hover">
                     <tbody>
