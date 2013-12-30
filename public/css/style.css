@@ -232,10 +232,9 @@ img {
     background-color: rgba(1, 1, 1, 0.6);
 }
 #t1operators_container {
-    font-family: 'Roboto Condensed', san-serif;
+    max-height:300px;
     font-size:12px;
     line-height: 13px;
-    max-height:300px;
 }
 
 #warroom_livefeed {
@@ -321,18 +320,32 @@ img {
 }
 
 .war-room_popup p {
-	font-family:"MorganSansCond Caps";
-	font-size:16px;
+	    font-family: 'Roboto Condensed', san-serif;
+	font-size:14px;
 	color: #fcaf17;
 }
 
 .war-room_popup .title {
-	font-family:"MorganSansCond Caps";
-	font-size:30px;
+	    font-family: 'Roboto Condensed', san-serif;
+	font-size:20px;
     color:#F00;
 }
 
+.unit_popup {
+    background: transparent;
+    background-color: rgba(1, 1, 1, 0.6);
+}
+.unit_popup p {
+	font-family: 'Roboto Condensed', san-serif;
+	font-size:14px;
+	color: #ffffff;
+}
 
+.unit_popup .title {
+	font-family: 'Roboto Condensed', san-serif;
+	font-size:20px;
+    color:#09F;
+}
 
 /*
  *  War Room Data

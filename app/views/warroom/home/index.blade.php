@@ -27,7 +27,7 @@
 			maxZoom: 5,
 			zoomControl: false,
 			crs: L.CRS.Simple
-		}).setView([4676,3864], 2);
+		}).setView([4674,3845], 2);
 		
 		var southWest = map.unproject([0,1654], map.getMaxZoom());
 		var northEast = map.unproject([8192,6400], map.getMaxZoom());
@@ -63,7 +63,6 @@
 	
 	var groupIcon = L.Icon.extend({ 
 		options: {
-			iconUrl: '{{ URL::to('/') }}/img/icons/b_inf.png',
 			shadowUrl: '{{ URL::to('/') }}/img/icons/groupIconShadow.png',
 			iconSize:     [35, 35], // size of the icon
 			shadowSize:   [35, 35], // size of the shadow
@@ -110,21 +109,24 @@
 @foreach ($devs as $profile)
  <?php
 	$clan = Clan::where('id', '=', $profile->clan_id)->firstOrFail();
-	$orbat = DB::table('orbattypes')->select('icon','name')->where('type', $clan->type)->first();
-	$size = DB::table('orbatsizes')->select('icon','name')->where('type', $clan->size)->first();
+	$orbattype = DB::select('select * from orbattypes where type = ?', array($clan->type));
+	$orbatsize = DB::select('select * from orbatsizes where type = ?', array($clan->size));
+	$icon = $orbattype[0]->icon;
+	$name = $orbattype[0]->name;
+	$size = $orbatsize[0]->name;
+	$sizeicon = $orbatsize[0]->icon;
 ?>
 
 <script type="text/javascript">
 	var ajaxUrl = '{{ URL::to('/') }}/api/devcredits?id={{$profile->a3_id}}';
 	 $.getJSON(ajaxUrl, function(data) {
-
-		var myIcon = new groupIcon({iconURL: '{{ URL::to('/') }}/img/icons/b_inf.png'});
+		var myIcon = new groupIcon({iconUrl: '{{ URL::to('/') }}/img/icons/b_{{$icon}}.png'});
 		var marker = new MyCustomMarker(map.unproject([data.globalX,data.globalY], map.getMaxZoom()), {
 			icon: myIcon
 		});
 		
 		var popup = L.popup()
-			.setContent("<div class='war-room_popup'><p><span class='title'>{{$clan->name}} [{{$clan->tag}}]</span></br><img src='{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($profile->country) }}.png' alt='{{ $profile->country_name }}' title='{{ $profile->country_name }}'/>Cmdr: " + data.PlayerName + " | Type: {{$clan->type}} | Size: {{$clan->size}}<br/>Credits: " + data.Credits + " </p></div>");
+			.setContent("<div class='unit_popup'><p><span class='title'>{{$clan->name}} [{{$clan->tag}}]</span></br>- {{$name}} {{$size}}</br><img src='{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($profile->country) }}.png' alt='{{ $profile->country_name }}' title='{{ $profile->country_name }}'/>Cmdr: " + data.PlayerName + "</br>Credits: " + data.Credits + " </p></div>");
 			
 		marker.bindPopup(popup, { 			
 				showOnMouseOver: true
