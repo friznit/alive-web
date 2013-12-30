@@ -6,6 +6,7 @@
             "sAjaxSource": 'http://msostore.iriscouch.com/events/_design/playerTable/_view/playerTotals?group_level=1&callback=?',
             "sAjaxDataProp": "rows",
             "bPaginate": true,
+			"aaSorting": [[1, "desc" ]],
             "fnDrawCallback": function ( oSettings ) {
                 /* Need to redo the counters if filtered or sorted */
                 /*

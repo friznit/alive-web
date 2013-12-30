@@ -37,13 +37,13 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <h2>Tier 1 Operators</h2>
-                    @include('warroom/tables/t1operators')
-
                     <h2>Tier 1 Marksmen</h2>
                     @include('warroom/tables/t1marksmen')
 
-                    <h2>Tier 1 Vehicle Commanders</h2>
+                    <h2>Top Vehicle Commanders</h2>
+                    @include('warroom/tables/vehicles')
+                    
+                    <h2>Top Guns</h2>
                     @include('warroom/tables/pilots')
                 </div>
             </div>

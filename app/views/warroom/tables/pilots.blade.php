@@ -2,7 +2,7 @@
     $(document).ready(function(){
         $('#pilots').dataTable({
             "bJQueryUI": true,
-            "sAjaxSource": 'http://msostore.iriscouch.com/events/_design/kill/_view/player_in_vehicle_kills_count?group_level=2&callback=?',
+            "sAjaxSource": 'http://msostore.iriscouch.com/events/_design/kill/_view/player_in_aircraft_kills_count?group_level=2&callback=?',
             "sAjaxDataProp": "rows",
             "bPaginate": true,
             "fnDrawCallback": function ( oSettings ) {

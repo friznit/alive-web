@@ -1,8 +1,8 @@
 <script>
     $(document).ready(function(){
-        $('#t1_marksmen').dataTable({
+        $('#vehicles').dataTable({
             "bJQueryUI": true,
-            "sAjaxSource": 'http://msostore.iriscouch.com/events/_design/kill/_view/kills_by_distance?group_level=2&callback=?',
+            "sAjaxSource": 'http://msostore.iriscouch.com/events/_design/kill/_view/player_in_vehicle_kills_count?group_level=2&callback=?',
             "sAjaxDataProp": "rows",
             "bPaginate": true,
             "fnDrawCallback": function ( oSettings ) {
@@ -19,21 +19,21 @@
             },
             "aaSorting": [[2, "desc" ]],
             "aoColumnDefs": [
-                { "mDataProp": "key.1", "aTargets": [ 0 ]  },
-                { "mDataProp": "key.0", "aTargets": [ 1 ]  },
-                { "mDataProp": "value", "aTargets": [ 2 ]  }
+                { "mDataProp": "key.0", "aTargets": [ 0 ] },
+                { "mDataProp": "key.1", "aTargets": [ 1 ] },
+                { "mDataProp": "value", "aTargets": [ 2 ] }
             ]
         } );
     });
 
 </script>
 
-<table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="t1_marksmen">
+<table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="vehicles">
     <thead>
     <tr>
         <th>Player</th>
-        <th>Weapon</th>
-        <th>Distance (in metres)</th>
+        <th>Vehicle</th>
+        <th>EKIA</th>
     </tr>
     </thead>
     <tbody>
