@@ -1,5 +1,7 @@
 <?php
 
+use Tempo\TempoDebug;
+
 class BaseController extends Controller {
 
 	/**
@@ -15,4 +17,8 @@ class BaseController extends Controller {
 		}
 	}
 
+    protected function dump($data,$title = null)
+    {
+        TempoDebug::dump($data, $title);
+    }
 }

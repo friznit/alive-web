@@ -74,10 +74,6 @@
 
 </script>
 
-<?php
-	$allAOs = AO::all();
-?>
-
 @foreach ($allAOs as $ao)
 
 <script type="text/javascript">
@@ -102,15 +98,11 @@
 
 @endforeach
 
-<?php
-	$devs= Profile::where('remark', '=', 'Developer')->get();
-?>
-
 @foreach ($devs as $profile)
  <?php
-    $clan = Clan::where('id', '=', $profile->clan_id)->firstOrFail();
-	$orbattype = DB::select('select * from orbattypes where type = ?', array($clan->type));
-	$orbatsize = DB::select('select * from orbatsizes where type = ?', array($clan->size));
+    $clan = $profile->clan;
+    $orbattype = $profile->orbat['type'];
+    $orbatsize = $profile->orbat['size'];
 
     $icon = '';
     $name = '';

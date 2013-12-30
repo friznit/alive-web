@@ -32,4 +32,12 @@ class Clan extends Eloquent {
         return $this->hasMany('Server');
     }
 
+    public function orbat()
+    {
+        $result = array();
+        $result["type"] = DB::select('select * from orbattypes where type = ?', array($this->type));
+        $result["size"] = DB::select('select * from orbatsizes where type = ?', array($this->size));
+        return $result;
+    }
+
 }
