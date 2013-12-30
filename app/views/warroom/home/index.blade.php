@@ -81,17 +81,28 @@
 
 	var ajaxUrl = '{{ URL::to('/') }}/api/maptotals?name={{$ao->configName}}';
 	 $.getJSON(ajaxUrl, function(data) {
+
 		var mapdata = data;
 		var marker = new MyCustomMarker(map.unproject([{{$ao->imageMapX}},{{$ao->imageMapY}}], map.getMaxZoom()), {
 			icon: hostileIcon
 		});
 	
 		var popup = L.popup()
-			.setContent("<div class='war-room_popup'><p><span class='title'>{{$ao->name}}</span></br>OPS: " + mapdata.Operations + " | EKIA: " + mapdata.Kills + " | LOSSES: " + mapdata.Deaths + "</br>HRS: " + Math.round((mapdata.CombatHours / 60)*10)/10 + " | AMMO: " + mapdata.ShotsFired + " | UNITS: " + mapdata.Operations + "</p></div>");
+			.setContent("<div class='strip'>AO</div>" +
+                        "<div class='ao-popup'>" +
+                        "<p>" +
+                        "<span class='title'>{{$ao->name}}</span></br>" +
+                        "<span class='highlight'>OPS:</span> " + mapdata.Operations + " <span class='highlight'>| EKIA:</span> " + mapdata.Kills + " <span class='highlight'>| LOSSES:</span> " + mapdata.Deaths + "</br>" +
+                        "<span class='highlight'>HRS:</span> " + Math.round((mapdata.CombatHours / 60)*10)/10 + " <span class='highlight'>| AMMO:</span> " + mapdata.ShotsFired + " <span class='highlight'>| UNITS:</span> " + mapdata.Operations +
+                        "</p>" +
+                        "</div>");
+
+
 			
-		marker.bindPopup(popup, { 			
-				showOnMouseOver: true
-		});
+		marker.bindPopup(popup, {
+            showOnMouseOver: true,
+            offset: new L.Point(-4, -12)
+        });
 		map.addLayer(marker);
 	 });
 	 
@@ -129,10 +140,20 @@
 		});
 		
 		var popup = L.popup()
-			.setContent("<div class='unit_popup'><p><span class='title'>{{$clan->name}} [{{$clan->tag}}]</span></br>- {{$name}} {{$size}}</br><img src='{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($profile->country) }}.png' alt='{{ $profile->country_name }}' title='{{ $profile->country_name }}'/>Cmdr: " + data.PlayerName + "</br>Credits: " + data.Credits + " </p></div>");
+			.setContent("<div class='strip'>Unit</div>" +
+                        "<div class='unit-popup'>" +
+                        "<p>" +
+                        "<span class='title'>{{$clan->name}} [{{$clan->tag}}]</span></br>" +
+                        "<span class='highlight'>{{$name}} {{$size}}</span></br>" +
+                        "<span class='highlight'>Cmdr:</span> " + data.PlayerName +
+                        " <img src='{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($profile->country) }}.png' alt='{{ $profile->country_name }}' title='{{ $profile->country_name }}' width='16' height='16'/><br/>" +
+                        "<span class='highlight'>Credits:</span> " + data.Credits +
+                        "</p>" +
+                        "</div>");
 			
-		marker.bindPopup(popup, { 			
-				showOnMouseOver: true
+		marker.bindPopup(popup, {
+            showOnMouseOver: true,
+            offset: new L.Point(-3, -5)
 		});
 		map.addLayer(marker);
 	 });

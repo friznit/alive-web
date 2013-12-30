@@ -1,4 +1,4 @@
-
+/*
 @font-face {
     font-family: 'silkscreennormal';
     src: url('../fonts/slkscr-webfont.eot');
@@ -53,6 +53,7 @@
     font-weight: normal;
     font-style: normal;
 }
+*/
 
 /*
  *  Global Styles
@@ -314,37 +315,72 @@ img {
     display:none;
 }
 
-.war-room_popup {
+.leaflet-popup {
+    position: absolute;
+    text-align: center;
+}
+.leaflet-popup-content-wrapper {
+    padding: 0px;
+    text-align: left;
+    border-radius: 0px;
+}
+.leaflet-popup-content {
+    margin: 0;
+    line-height: 1.4;
+}
+.leaflet-popup-content p {
+    margin: 0;
+}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
     background: transparent;
-    background-color: rgba(1, 1, 1, 0.6);
+    background-color: rgba(1, 1, 1, 0.8);
 }
-
-.war-room_popup p {
-	    font-family: 'Roboto Condensed', san-serif;
-	font-size:14px;
-	color: #fcaf17;
-}
-
-.war-room_popup .title {
-	    font-family: 'Roboto Condensed', san-serif;
-	font-size:20px;
-    color:#F00;
-}
-
-.unit_popup {
+.leaflet-container a.leaflet-popup-close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 4px 4px 0 0;
+    text-align: center;
+    width: 18px;
+    height: 14px;
+    font: 16px/14px Tahoma, Verdana, sans-serif;
+    color: #926c20;
+    text-decoration: none;
+    font-weight: bold;
     background: transparent;
-    background-color: rgba(1, 1, 1, 0.6);
-}
-.unit_popup p {
-	font-family: 'Roboto Condensed', san-serif;
-	font-size:14px;
-	color: #ffffff;
 }
 
-.unit_popup .title {
-	font-family: 'Roboto Condensed', san-serif;
-	font-size:20px;
-    color:#09F;
+#warroom_body .leaflet-container .strip {
+    margin-left:0px;
+}
+
+
+.ao-popup {
+    padding:10px;
+    font-family: 'Roboto Condensed', san-serif;
+    color:#a8a8a8;
+}
+.ao-popup .title {
+    color: #fcaf17;
+    font-size:16px;
+}
+.ao-popup .highlight {
+    color: #926c20;
+}
+
+
+.unit-popup {
+    padding:10px;
+    font-family: 'Roboto Condensed', san-serif;
+    color:#a8a8a8;
+}
+.unit-popup .title {
+    color: #fcaf17;
+    font-size:16px;
+}
+.unit-popup .highlight {
+    color: #926c20;
 }
 
 /*
@@ -469,12 +505,6 @@ img {
 }
 .table-container table tbody td a {
     margin-top: -10px;
-}
-
-.leaflet-popup-content-wrapper, .leaflet-popup-tip {
-	background: transparent;
-	box-shadow: 0 3px 14px rgba(0,0,0,0.4);
-	padding: 10px;
 }
 
 /* -----------------------------*/

@@ -183,8 +183,6 @@
                         </div>
                     </form>
                 </div>
-             </div>
-             <div class="col-md-8">
 
                 <div class="panel panel-dark">
                     <div class="panel-heading">
@@ -195,7 +193,7 @@
                         {{ Form::token() }}
 
                         <div class="strip">
-                  				 <p>We recommend using the Arma 3 Map Picture here</p>
+                            <p>We recommend using the Arma 3 Map Picture here</p>
                         </div>
 
                         <div class="panel-body avatars">
@@ -212,7 +210,8 @@
                         </div>
                     </form>
                 </div>
-			</div>
+
+             </div>
 		</div>
     </div>
 </div>
