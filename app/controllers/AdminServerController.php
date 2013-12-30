@@ -305,7 +305,7 @@ class AdminServerController extends BaseController {
 
         $headers = array(
             'Content-Type' => 'application/x-tt',
-            'Content-Disposition' => 'inline;filename=config.cfg',
+            'Content-Disposition' => 'inline;filename=alive.cfg',
         );
         return Response::make( $content, 200, $headers );
 
