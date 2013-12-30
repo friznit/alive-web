@@ -26,7 +26,8 @@
 			minZoom: 0,
 			maxZoom: 5,
 			zoomControl: false,
-			crs: L.CRS.Simple
+            attributionControl: false,
+            crs: L.CRS.Simple
 		}).setView([4674,3845], 2);
 		
 		var southWest = map.unproject([0,1654], map.getMaxZoom());
