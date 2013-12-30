@@ -21,7 +21,7 @@
     <script src="{{ URL::to('/') }}/js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script src="http://www.openlayers.org/api/2.7/OpenLayers.js" type="text/javascript"></script>
     <script src="http://cdn.leafletjs.com/leaflet-0.6/leaflet.js"></script>
-    <script src="{{ URL::to('/') }}/js/war_room.js"></script>
+    <script src="{{ URL::to('/') }}/js/war_room_sub_pages.js"></script>
     <script src="{{ URL::to('/') }}/js/greenthumb/plugins/CSSPlugin.min.js"></script>
     <script src="{{ URL::to('/') }}/js/greenthumb/easing/EasePack.min.js"></script>
     <script src="{{ URL::to('/') }}/js/greenthumb/TweenLite.min.js"></script>

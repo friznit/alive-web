@@ -13,11 +13,13 @@
         </div>
         <div class="navbar-collapse collapse">
         	<ul class="nav navbar-nav">
-                <li{{ (Request::is('war-room/personnel*') ? ' class="active"' : '') }}><a href="{{{ URL::to('war-room') }}}/">Personnel</a></li>
-                <li{{ (Request::is('war-room/ops*') ? ' class="active"' : '') }}><a href="{{{ URL::to('war-room') }}}/">Operations</a></li>
-                <li{{ (Request::is('war-room/orbat*') ? ' class="active"' : '') }}><a href="{{{ URL::to('war-room') }}}/">ORBAT</a></li>
-                <li{{ (Request::is('war-room/AO*') ? ' class="active"' : '') }}><a href="{{{ URL::to('war-room') }}}/">Maps</a></li>
-                <li{{ (Request::is('war-room/stats*') ? ' class="active"' : '') }}><a href="{{{ URL::to('war-room/stats') }}}/">Data</a></li>
+                <li{{ (Request::is('war-room/personnel*') ? ' class="active"' : '') }}><a href="{{ URL::to('war-room') }}/personnel">Personnel</a></li>
+                <li{{ (Request::is('war-room/ops*') ? ' class="active"' : '') }}><a href="{{ URL::to('war-room') }}/operations">Operations</a></li>
+                <!--
+                <li{{ (Request::is('war-room/orbat*') ? ' class="active"' : '') }}><a href="{{ URL::to('war-room') }}/">ORBAT</a></li>
+                <li{{ (Request::is('war-room/AO*') ? ' class="active"' : '') }}><a href="{{ URL::to('war-room') }}/">Maps</a></li>
+                <li{{ (Request::is('war-room/stats*') ? ' class="active"' : '') }}><a href="{{ URL::to('war-room/stats') }}/">Data</a></li>
+                -->
             </ul>
             <ul class="nav navbar-nav pull-right">
 

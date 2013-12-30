@@ -12,7 +12,7 @@ class WarRoomController extends BaseController {
 
     }
 
-    // List ------------------------------------------------------------------------------------------------------------
+    // Home ------------------------------------------------------------------------------------------------------------
 
     public function getIndex()
     {
@@ -33,5 +33,21 @@ class WarRoomController extends BaseController {
         $data['devs'] = $profiles;
 
         return View::make('warroom/home.index')->with($data);
+    }
+
+    // Personnel -------------------------------------------------------------------------------------------------------
+
+    public function getPersonnel()
+    {
+        $data = get_default_data();
+        return View::make('warroom/personnel.index')->with($data);
+    }
+
+    // Operations ------------------------------------------------------------------------------------------------------
+
+    public function getOperations()
+    {
+        $data = get_default_data();
+        return View::make('warroom/operations.index')->with($data);
     }
 }
