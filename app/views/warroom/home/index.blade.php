@@ -108,13 +108,23 @@
 
 @foreach ($devs as $profile)
  <?php
-	$clan = Clan::where('id', '=', $profile->clan_id)->firstOrFail();
+    $clan = Clan::where('id', '=', $profile->clan_id)->firstOrFail();
 	$orbattype = DB::select('select * from orbattypes where type = ?', array($clan->type));
 	$orbatsize = DB::select('select * from orbatsizes where type = ?', array($clan->size));
-	$icon = $orbattype[0]->icon;
-	$name = $orbattype[0]->name;
-	$size = $orbatsize[0]->name;
-	$sizeicon = $orbatsize[0]->icon;
+
+    $icon = '';
+    $name = '';
+    $size = '';
+    $sizeicon = '';
+
+    if(count($orbattype) > 0){
+        $icon = $orbattype[0]->icon;
+        $name = $orbattype[0]->name;
+    }
+    if(count($orbatsize) > 0){
+        $size = $orbatsize[0]->name;
+        $sizeicon = $orbatsize[0]->icon;
+    }
 ?>
 
 <script type="text/javascript">

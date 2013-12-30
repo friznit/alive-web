@@ -20,7 +20,7 @@ class ClanSeeder extends Seeder {
 		$data['BRF'] = array('tupolov73+ddh@gmail.com','Brigade Reconnaisance Force','JTFHQ','Recon','Battalion');
 		$data['1IBG'] = array('tupolov73+aja@gmail.com','1st Infantry Battle Group','JTFHQ','Infantry','Battalion');
 		$data['2IBG'] = array('tupolov73+djj@gmail.com','2nd Infantry Battle Group','JTFHQ','MotorizedInfantry','Battalion');
-		$data['3ABG'] = array('tupolov73+ahf@gmail.com','3rd Armoured Battle Group','JTFHQ','Armoured','Battalion');
+		$data['3ABG'] = array('tupolov73+ahf@gmail.com','3rd Armoured Battle Group','JTFHQ','Armored','Battalion');
 		$data['4IBG'] = array('tupolov73+vrcr@gmail.com','4th Infantry Battle Group','JTFHQ','MechanizedInfantry','Battalion');
 		$data['JTFAG'] = array('tupolov73+whb@gmail.com','Joint Task Force Air Group','JTFHQ','CombatAviation','Squadron');
 		

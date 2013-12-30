@@ -9,7 +9,7 @@ class orbatSizeSeeder extends Seeder {
 	 */
 	public function run()
 	{
-		DB::table('orbatSizes')->delete();
+		DB::table('orbatsizes')->delete();
 		
 		$data = array();
 		// Orbat group sizes
@@ -34,7 +34,7 @@ class orbatSizeSeeder extends Seeder {
 		$data['ArmyGroup'] = array('Army Group','group_11','400000','1000000');
 		
 		foreach ($data as $d => $v) {
-			DB::table('orbatSizes')->insert(array(
+			DB::table('orbatsizes')->insert(array(
 				'name' => $v[0],
 				'icon' => $v[1],
 				'type' => $d,

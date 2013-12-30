@@ -9,7 +9,7 @@ class orbatTypeSeeder extends Seeder {
 	 */
 	public function run()
 	{
-		DB::table('orbatTypes')->delete();
+		DB::table('orbattypes')->delete();
 		
 		$data = array();
 		// Orbat group types
@@ -40,7 +40,7 @@ class orbatTypeSeeder extends Seeder {
 		$data['Maritime'] = array('naval','Naval');
 		
 		foreach ($data as $d => $v) {
-			DB::table('orbatTypes')->insert(array(
+			DB::table('orbattypes')->insert(array(
 				'name' => $v[1],
 				'icon' => $v[0],
 				'type' => $d
