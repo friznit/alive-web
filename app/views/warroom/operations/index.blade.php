@@ -21,11 +21,13 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <h2>Operations</h2>
-                    @include('warroom/tables/operations')
-
+                
                     <h2>Operation Breakdown</h2>
                     @include('warroom/tables/breakdown')
+                    
+                    <h2>Operations Kills Breakdown</h2>
+                    @include('warroom/tables/operations')
+
                 </div>
             </div>
 
