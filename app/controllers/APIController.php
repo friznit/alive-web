@@ -86,4 +86,19 @@ class APIController extends BaseController {
 		$id = Input::get('id');
         return $this->couchAPI->getDevCredits($id);
     }
+	public function getPlayerdetails()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getPlayerDetails($id);
+    }
+	public function getPlayerweapon()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getPlayerWeapon($id);
+    }
+	public function getPlayervehicle()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getPlayerVehicle($id);
+    }
 }

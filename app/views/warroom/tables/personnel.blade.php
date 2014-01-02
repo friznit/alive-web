@@ -3,7 +3,7 @@
     $(document).ready(function(){
         $('#personnel').dataTable({
             "bJQueryUI": true,
-            "sAjaxSource": 'http://msostore.iriscouch.com/events/_design/playerTable/_view/playerTotals?group_level=1&callback=?',
+            "sAjaxSource": 'http://msostore.iriscouch.com/events/_design/playerTable/_view/playerTotals?group_level=2&callback=?',
             "sAjaxDataProp": "rows",
             "bPaginate": true,
 			"aaSorting": [[1, "desc" ]],
@@ -19,8 +19,15 @@
                  }
                  */
             },
+		
+		
             "aoColumnDefs": [
-                { "mData": "key.0", "aTargets": [ 0 ] },
+                { "mData": "key", 
+				  "aTargets": [ 0 ],
+				  "mRender" : function (data, type) {
+				  
+						return "<a href={{ URL::to('war-room/showpersonnel') }}/" + data[1] + ">" +  data[0] + "</a>";}
+				},
                 { "mData": "value.Operations", "aTargets": [ 1 ] },
                 { "mData": "value.CombatHours", "aTargets": [ 2 ] },
                 { "mData": "value.Kills", "aTargets": [ 3 ] },
@@ -42,15 +49,15 @@
 <table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="personnel">
     <thead>
     <tr>
-        <th>Player Name</th>
-        <th>Operations</th>
-        <th>Minutes Played</th>
+        <th width="15%">Name</th>
+        <th>Ops</th>
+        <th>Mins Played</th>
         <th>Kills</th>
         <th>Injuries</th>
         <th>Deaths</th>
         <th>Ammo</th>
-        <th>Combat Dives</th>
-        <th>Para. Jumps</th>
+        <th>Dives</th>
+        <th>Jumps</th>
         <th>Medic Exp.</th>
         <th>Vehicle Exp.</th>
         <th>Gunnery Kills</th>

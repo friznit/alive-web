@@ -63,7 +63,7 @@
                     <h2>Kills / Minute</h2>
                     @include('warroom/tables/kpm')
 
-                    <h2>AV</h2>
+                    <h2>Average Kill Distance</h2>
                     @include('warroom/tables/av_distance')
 
                     <h2>Score</h2>
