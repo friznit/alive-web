@@ -60,7 +60,7 @@
         <th>Jumps</th>
         <th>Medic Exp.</th>
         <th>Vehicle Exp.</th>
-        <th>Gunnery Kills</th>
+        <th>Mounted Weapon Kills</th>
         <th>Pilot Exp.</th>
     </tr>
     </thead>

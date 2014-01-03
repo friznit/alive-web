@@ -34,17 +34,17 @@
 		$('#playerlastop').append(playerDetails.Operation);
 		$('#playerlastactive').append(parseArmaDate(playerDetails.date));
 
-		if (playerWeapon.key) {
-			$('#playerweap').append(playerWeapon.key[2]);
-			$('#playerweapIcon').append("<img src='{{ URL::to('/') }}/img/classes/large/Arma3_CfgWeapons_" + playerWeapon.key[1] + ".png' alt='" + playerWeapon.key[2] +"'/>");
+		if (playerWeapon) {
+			$('#playerweap').append(playerWeapon[2]);
+			$('#playerweapicon').append("<img src='{{ URL::to('/') }}/img/classes/large/Arma3_CfgWeapons_" + playerWeapon[1] + ".png' alt='" + playerWeapon[2] +"'/>");
 		} else {
 			$('#playerweap').append("None");
 		}
 		
 		
-		if (playerVehicle.key) {
-			$('#playerveh').append(playerVehicle.key[2]);
-			$('#playervehIcon').append("<img src='{{ URL::to('/') }}/img/classes/medium/Arma3_CfgVehicles_" + playerVehicle.key[1] + ".png' alt='" + playerVehicle.key[2] +"'/>");
+		if (playerVehicle) {
+			$('#playerveh').append(playerVehicle[2]);
+			$('#playervehicon').append("<img src='{{ URL::to('/') }}/img/classes/medium/Arma3_CfgVehicles_" + playerVehicle[1] + ".png' alt='" + playerVehicle[2] +"'/>");
 		} else {
 			$('#playerveh').append("None");
 		}

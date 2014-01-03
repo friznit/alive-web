@@ -776,7 +776,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/events/_list/sort_by_value/players_weapons?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '", {}]';
+        $path = 'events/_design/events/_list/sort_by_value/players_weapons?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
 
         $data = $this->call($path);
 
@@ -814,7 +814,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/events/_list/sort_by_value/players_vehxp?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '", {}]';
+        $path = 'events/_design/events/_list/sort_by_value/players_vehxp?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
 
         $data = $this->call($path);
 
