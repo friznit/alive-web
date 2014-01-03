@@ -538,7 +538,7 @@ img {
     line-height: 1.428571429;
     vertical-align: top;
     border:none;
-    border-bottom: 1px solid #939393;
+    border-bottom: 1px solid #d4d4d4;
     color: #393939;
 }
 #warroom_body .white-panel .table>thead>tr>td,
@@ -547,7 +547,7 @@ img {
     padding: 8px;
     line-height: 1.428571429;
     vertical-align: top;
-    border-top: 1px solid #939393;
+    border-top: 1px solid #d4d4d4;
     color: #393939;
 }
 

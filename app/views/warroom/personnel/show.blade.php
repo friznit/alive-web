@@ -127,7 +127,9 @@
             <div class="col-md-4">
                 <div class="dark2-panel">
 
-                    <h2>Combat Experience</h2>
+                    <h1>Combat Experience</h1>
+                    <hr/>
+
                     <table class="table">
                         <tr>
                             <td width="40%">Vehicle Experience:</td>

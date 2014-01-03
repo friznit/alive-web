@@ -26,9 +26,9 @@
     <table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="top_vehicles">
         <thead>
         <tr>
-            <th width="40%">Image</th>
-            <th width="50%">Vehicle</th>
-            <th width="10%">Experience (mins)</th>
+            <th width="20%">Image</th>
+            <th width="60%">Vehicle</th>
+            <th width="20%">Experience (mins)</th>
         </tr>
         </thead>
         <tbody>

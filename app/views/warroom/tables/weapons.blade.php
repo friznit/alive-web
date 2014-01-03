@@ -26,9 +26,9 @@
     <table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="top_weapons">
         <thead>
         <tr>
-            <th width="40%">Image</th>
-            <th width="50%">Weapon</th>
-            <th width="10%">Shots<br />Fired</th>
+            <th width="20%">Image</th>
+            <th width="60%">Weapon</th>
+            <th width="20%">Shots Fired</th>
         </tr>
         </thead>
         <tbody>
