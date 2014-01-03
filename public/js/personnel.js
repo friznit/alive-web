@@ -1,5 +1,16 @@
 $(document).ready(function() {
 
+    $("#live_feed_container").mCustomScrollbar({
+        scrollButtons:{
+            enable:true
+        },
+        advanced:{
+            updateOnContentResize: true
+        },
+        autoHideScrollbar:true,
+        theme:"light-thin"
+    });
+
     $("#playerclass_container").mCustomScrollbar({
         scrollButtons:{
             enable:true

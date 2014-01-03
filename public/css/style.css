@@ -531,6 +531,12 @@ img {
     line-height: 13px;
 }
 
+#live_feed_container {
+    max-height:600px;
+    font-size:12px;
+    line-height: 13px;
+}
+
 #warroom_body .white-panel .table>thead>tr>th,
 #warroom_body .white-panel .table>tbody>tr>th,
 #warroom_body .white-panel .table>tfoot>tr>th{
