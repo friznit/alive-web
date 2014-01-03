@@ -1,5 +1,6 @@
 <script>
     $(document).ready(function(){
+		
         $('#top_classes').dataTable({
 					"bJQueryUI": true,
 					"bFilter": false,
@@ -26,7 +27,7 @@
 <table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="top_classes">
     <thead>
     <tr>
-        <th width="40%">Role</th>
+        <th width="40%">Image</th>
         <th width="50%">Role</th>
         <th width="10%">Experience (mins)</th>
     </tr>

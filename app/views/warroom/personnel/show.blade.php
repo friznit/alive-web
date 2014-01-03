@@ -7,16 +7,18 @@
                
 	var playerDetails = {{$playerdata['Details']}};
 	var playerTotals = {{$playerdata['Totals']}};
+	var playerVehicle = {{$playerdata['Vehicle']}};
+	var playerWeapon = {{$playerdata['Weapon']}};
 	
 	$(document).ready(function() {
 		if (playerDetails.PlayerRank){
 			$('#playername').prepend(playerDetails.PlayerRank);
 		}
-		$('#playerclass').append(playerDetails.PlayerClass);
+		
 		$('#playerlastclass').append(playerDetails.PlayerClass);
 		$('#playerclassicon').append("<img src='{{ URL::to('/') }}/img/classes/large/Arma3_CfgVehicles_" + playerDetails.PlayerType + ".png' alt='" + playerDetails.PlayerClass +"'/>");
 		
-		$('#playertp').append(playerTotals.CombatHours/60 + " hrs");
+		$('#playertp').append(Math.round(playerTotals.CombatHours/60*10)/10 + " hrs");
 		$('#playerops').append(playerTotals.Operations);
 		$('#playerkills').append(playerTotals.Kills);
 		$('#playerdeaths').append(playerTotals.Deaths);
@@ -32,7 +34,20 @@
 		$('#playerlastop').append(playerDetails.Operation);
 		$('#playerlastactive').append(parseArmaDate(playerDetails.date));
 
-				
+		if (playerWeapon.key) {
+			$('#playerweap').append(playerWeapon.key[2]);
+			$('#playerweapIcon').append("<img src='{{ URL::to('/') }}/img/classes/large/Arma3_CfgWeapons_" + playerWeapon.key[1] + ".png' alt='" + playerWeapon.key[2] +"'/>");
+		} else {
+			$('#playerweap').append("None");
+		}
+		
+		
+		if (playerVehicle.key) {
+			$('#playerveh').append(playerVehicle.key[2]);
+			$('#playervehIcon').append("<img src='{{ URL::to('/') }}/img/classes/medium/Arma3_CfgVehicles_" + playerVehicle.key[1] + ".png' alt='" + playerVehicle.key[2] +"'/>");
+		} else {
+			$('#playerveh').append("None");
+		}
 	});
 
 </script>
@@ -84,7 +99,8 @@
                 </table>
                 @endif
                 
-                <h2>Latest</h2><h4>
+                <h2>Latest</h2>
+                <h4>
                 <div id="playerlastclass">Last Role: </div>
                 <div id="playerlastop">Last Operation: </div>
                 <div id="playerlastactive">Last Active: </div>
@@ -93,13 +109,13 @@
                 <h2>Combat Experience</h2>
                 <h4>
                 <div id="playervehicletime">Vehicle Experience: </div>
-                <div id="playergunnery">Gunnery Kills: </div>
+                <div id="playergunnery">Mounted Weapon Kills: </div>
                 <div id="playerflighttime">Flight hours: </div>
                 <div id="playerdives">Combat Dives: </div>
                 <div id="playerdivetime">Dive Time: </div>
 				<div id="playerjumps">Para Jumps: </div>
                 <div id="playermedic">Medical Experience: </div>
-                
+                </h4>
 
                 <table class="table">
                  
@@ -117,9 +133,11 @@
             <div class="col-md-4">
                 <h2><div id="playerclass"></div></h2>
                 <div id="playerclassicon"></div>
-                <h2><div id="playerweap">Favoured Weapon </div></h2>
+                <h2>Weapon</h2>
+                <h4><div id="playerweap"></div></h4>
                 <div id="playerweapicon"></div>
-                <h2><div id="playerveh">Favoured Vehicle </div></h2>
+                <h2>Vehicle</h2>
+                <h4><div id="playerveh"> </div></h4>
                 <div id="playervehicon"></div>
             </div>
             
@@ -133,7 +151,7 @@
                         <td><h3>Confirmed Kills</h3><h2><div id="playerkills"></div></h2></td>
                     </tr>
                     <tr>
-                        <td><h3>Serious Injury/Death</h3><h2><div id="playerdeaths"></div></h2></td>
+                        <td><h3>Critically Injured/Death</h3><h2><div id="playerdeaths"></div></h2></td>
 						<td><h3>Kill/Death Ratio</h3><h2><div id="playerkd"></div></h2></td>
                         <td><h3>Shots Fired</h3><h2><div id="playershots"></div></h2></td>
                     </tr>
