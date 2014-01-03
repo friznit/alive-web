@@ -16,7 +16,7 @@
 		}
 		
 		$('#playerlastclass').append(playerDetails.PlayerClass);
-		//$('#playerclassicon').append("<img src='{{ URL::to('/') }}/img/classes/large/Arma3_CfgVehicles_" + playerDetails.PlayerType + ".png' alt='" + playerDetails.PlayerClass +"'/>");
+		$('#playerclassicon').append("<img src='{{ URL::to('/') }}/img/classes/large/Arma3_CfgVehicles_" + playerDetails.PlayerType + ".png' alt='" + playerDetails.PlayerClass +"'/>");
 		
 		$('#playertp').append(Math.round(playerTotals.CombatHours/60*10)/10 + " hrs");
 		$('#playerops').append(playerTotals.Operations);
@@ -127,8 +127,17 @@
             <div class="col-md-4">
                 <div class="dark2-panel">
 
-                    <h1>Combat Experience</h1>
+                    <h1>Overview</h1>
                     <hr/>
+
+                    <h3><span id="playertp"></span> played</h3>
+                    <h3><span id="playerops"></span> operations conducted</h3>
+                    <h3><span id="playerkills"></span> confirmed kills</h3>
+                    <h3><span id="playerdeaths"></span> critical injuries / deaths</h3>
+                    <h3><span id="playerkd"></span> kill / death ratio</h3>
+                    <h3><span id="playershots"></span> shots fired</h3>
+
+                    <h2>Combat Experience</h2>
 
                     <table class="table">
                         <tr>
@@ -167,17 +176,7 @@
             <div class="col-md-4">
                 <div class="dark2-panel">
 
-                    <h1>Overview</h1>
-                    <hr/>
-
-                    <h3><span id="playertp"></span> played</h3>
-                    <h3><span id="playerops"></span> operations conducted</h3>
-                    <h3><span id="playerkills"></span> confirmed kills</h3>
-                    <h3><span id="playerdeaths"></span> critical injuries / deaths</h3>
-                    <h3><span id="playerkd"></span> kill / death ratio</h3>
-                    <h3><span id="playershots"></span> shots fired</h3>
-
-                    <h2>Battle Feed</h2>
+                    <h1>Battle Feed</h1>
                     <hr/>
 
                     <div id="personnel_livefeed">
