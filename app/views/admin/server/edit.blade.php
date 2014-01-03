@@ -18,8 +18,34 @@
             <div class="col-md-4">
                 <div class="panel panel-dark">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Edit Server</h3>
+                        <h3 class="panel-title">Edit Server <span class="badge" data-toggle="modal" data-target="#myModal">?</span></h3>
                     </div>
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel">Guidance on Server Settings</h4>
+                                </div>
+                                <div class="strip">
+                                    <p>We require a number of identifiers for your group's servers</p>
+                                </div>
+                                <div class="modal-body">
+                                    <h4>Server Name</h4>
+                                    <p> - This should be entered as it appears in your server.cfg file, i.e. what the Arma 3 MP server name is listed as.</p>
+                                    <h4>Hostname </h4>
+                                    <p>- This should be the actual machine name of your server, i.e. run <i>hostname</i> from the command prompt</p>
+                                    <h4>IP Address</h4>
+                                    <p> - The external IP address of your Arma 3 dedicated server. We only support dedicated servers for War Room.</p>
+                                    <h4>Notes</h4>
+                                    <p>Add any additional information here like Teamspeak IP:port, times its available, public game times, etc.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <form action="{{ URL::to('admin/server/edit') }}/{{ $server->id }}" method="post">
 
                         {{ Form::token() }}
@@ -93,33 +119,38 @@
                         <table class="table">
                             <tr>
                                 <td width="80">Step 1</td>
-                                <td>Download the ALiVE version of @Arma2Net</td>
+                                <td>Download the ALiVE version of @Arma2Net and save the folder @Arma2NET in your Arma 3 root folder.</td>
                                 <td><a class="btn btn-yellow" href="{{ URL::to('/') }}/downloads/@Arma2NET.zip"><i class="fa fa-download"></i> Download</a></td>
                             </tr>
                             <tr>
                                 <td>Step 2</td>
-                                <td>Place the @Arma2NET mod in your server mod folder.</td>
-                                <td></td>
+                                <td>Download and save the alive.cfg to <i>C:\Users\USERNAME\AppData\Local\ALiVE</i>.<br />You may need to create the directory yourself, if it's not there.</td>
+                                <td><a class="btn btn-yellow" href="{{ URL::to('admin/server/config') }}/{{ $clan->id }}"><i class="fa fa-download"></i> Download</a></td>
                             </tr>
                             <tr>
                                 <td>Step 3</td>
-                                <td>Add @Arma2NET mod to your server startup parameters.</td>
+                                <td>Add @Arma2NET to your DEDICATED server startup parameters and start server.<br/>Example, <i>-mod=@CBA3;@Arma2NET;@ALiVE</i></td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>Step 4</td>
-                                <td>Download the alive.cfg for your group</td>
-                                <td><a class="btn btn-yellow" href="{{ URL::to('admin/server/config') }}/{{ $clan->id }}"><i class="fa fa-download"></i> Download</a></td>
+                                <td>Important: Your ALiVE mission needs the ALiVE System Database module (available in the Arma 3 Editor) for this feature to work!</td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>Step 5</td>
-                                <td>Copy the alive.cfg to C:\Users\USERNAME\AppData\Local\ALiVE - you may need to create the directory yourself.</td>
+                                <td>Run your ALiVE MP mission (with the Database module placed in the mission) on your dedicated server and connect with your client</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Step 6</td>
+                                <td>Go to alivemod.com War Room, under Recent Operations or Data Feed you should see a message stating your mission was launched.</td>
                                 <td></td>
                             </tr>
                         </table>
 
                         <div class="strip">
-                            <p>Validate setup</p>
+                            <p>Validating the setup (optional)</p>
                         </div>
 
                         <table class="table">
@@ -180,32 +211,7 @@
                             </tr>
                         </table>
 
-                        <div class="strip">
-                            <p>Running Arma 3</p>
-                        </div>
-
-                        <table class="table">
-                            <tr>
-                                <td width="80">Step 1</td>
-                                <td>Launch Arma3server.exe with the @Arma2Net and @ALiVE in the mod line</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Step 2</td>
-                                <td>Launch your arma3.exe as normal</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Step 3</td>
-                                <td>Run any MP mission on your dedicated local server and connect with your client</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Step 4</td>
-                                <td>Go to alivemod.com warroom, under Recent Operations or Data Feed you should see a message stating your mission was launched.</td>
-                                <td></td>
-                            </tr>
-                        </table>
+                      
 
                     </div>
 

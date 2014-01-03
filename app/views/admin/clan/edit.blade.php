@@ -204,7 +204,33 @@
 
                 <div class="panel panel-dark">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Add Group Member</h3>
+                        <h3 class="panel-title">Add Group Member <span class="badge" data-toggle="modal" data-target="#addGroupMemberModal">?</span></h3>
+                    </div>
+                    
+                    <div class="modal fade" id="addGroupMemberModal" tabindex="-1" role="dialog" aria-labelledby="addGroupMemberModal" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel">Guidance on adding Group Members</h4>
+                                </div>
+                                <div class="strip">
+                                    <p>You can manually create users here and add them to your group. If you wish to bulk register group members then use the Import Squad XML function.</p>
+                                </div>
+                                <div class="modal-body">
+                                    <h4>Email</h4>
+                                    <p> - This must be an email address that is not registered with Alivemod.com. If the user is already registered, get them to join your group via the group application function on their profile page. The user will not recieve an activation email from us, you will have to notify them of their username and password manually.</p>
+                                    <h4>Username</h4>
+                                    <p> - This is usually their game "handle" or nickname. They will be able to change this once they log in.</p>
+                                    <h4>Password</h4>
+                                    <p> - Choose a temporary password for them but ensure they change their password when they first login.</p>
+                                    <h4>Active Members</h4>
+                                    <p>Please only add active members who will use Alivemod.com, we track activity so any inactive user accounts will be deleted.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <form action="{{ URL::to('admin/clan/memberadd') }}/{{ $clan->id }}" method="post">
