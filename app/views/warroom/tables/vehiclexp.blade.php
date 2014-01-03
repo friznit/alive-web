@@ -2,13 +2,11 @@
     $(document).ready(function(){
         $('#top_vehicles').dataTable({
 					"bJQueryUI": true,
-					"bFilter": false,
 					"sAjaxSource": "http://msostore.iriscouch.com/events/_design/events/_view/players_vehxp?&group_level=3&startkey=[%22{{ $profile->a3_id }}%22]&endkey=[%22{{ $profile->a3_id }}%22,{}]&callback=?",
 					"sAjaxDataProp": "rows",
-					"sScrollY": "300px",
-					"bPaginate": false,
-					"bInfo": false,
-					"bScrollCollapse": true,
+                    "bPaginate": false,
+                    "bFilter": false,
+                    "bInfo": false,
 					"aaSorting": [[2, "desc" ]],
 					"aoColumnDefs": [
 						{ "mDataProp": "key.1",  "aTargets": [ 0 ],
@@ -23,14 +21,17 @@
     });
 
 </script>
-<table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="top_vehicles">
-    <thead>
-    <tr>
-        <th width="40%">Image</th>
-        <th width="50%">Vehicle</th>
-        <th width="10%">Experience (mins)</th>
-    </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+
+<div id="vehiclexp_container">
+    <table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="top_vehicles">
+        <thead>
+        <tr>
+            <th width="40%">Image</th>
+            <th width="50%">Vehicle</th>
+            <th width="10%">Experience (mins)</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>

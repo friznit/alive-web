@@ -52,16 +52,18 @@ class WarRoomController extends BaseController {
         $auth = $data['auth'];
 
         try {
-			//$idret = DB::select('select id from profiles where a3_id = ? OR a2_id = ?', array($armaid,$armaid));
-			//$id = $idret[0]->id;
-			$id = 140;
-            $profile = Profile::findOrFail($id);
+            $profile = Profile::where('a3_id', '=', $armaid)->first();
+
+            if(is_null($profile)){
+                return View::make('warroom/personnel.missing')->with($data);
+            }
+
             $data['profile'] = $profile;
-			$user = Sentry::findUserById($profile->user_id);
-			$data['user'] = $user;
-			$clan = Clan::findOrFail($profile->clan_id);
-			$data['clan'] = $clan;
-			
+            $user = $profile->user;
+            $data['user'] = $user;
+            $clan = $profile->clan;
+            $data['clan'] = $clan;
+
 			// Get data that won't be displayed as table data
             $couchAPI = new Alive\CouchAPI();
             $playerTotals = $couchAPI->getPlayerTotals($armaid);

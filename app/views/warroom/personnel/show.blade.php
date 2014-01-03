@@ -1,4 +1,4 @@
-@extends('warroom.layouts.default')
+@extends('warroom.layouts.personnel')
                 
 {{-- Content --}}
 @section('content')
@@ -16,7 +16,7 @@
 		}
 		
 		$('#playerlastclass').append(playerDetails.PlayerClass);
-		$('#playerclassicon').append("<img src='{{ URL::to('/') }}/img/classes/large/Arma3_CfgVehicles_" + playerDetails.PlayerType + ".png' alt='" + playerDetails.PlayerClass +"'/>");
+		//$('#playerclassicon').append("<img src='{{ URL::to('/') }}/img/classes/large/Arma3_CfgVehicles_" + playerDetails.PlayerType + ".png' alt='" + playerDetails.PlayerClass +"'/>");
 		
 		$('#playertp').append(Math.round(playerTotals.CombatHours/60*10)/10 + " hrs");
 		$('#playerops').append(playerTotals.Operations);
@@ -52,151 +52,182 @@
 
 </script>
 
-<div class="white-panel">
+
+<div class="warroom-profile">
+
     <div class="container">
+
         <div class="row">
 
-            <div class="col-md-12">
-                <br/><br/>
-                @include('alerts/alerts')
-            </div>
+            <div class="col-md-4">
+                <div class="dark2-panel">
 
-        </div>
-        <div class="row">
+                    <h1>
+                        @if ($clan)
+                        [{{{ $clan->tag }}}]
+                        @endif
+                        {{{ $profile->username }}}&nbsp;
+                        <img src="{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($profile->country) }}.png" alt="{{ $profile->country_name }}" title="{{ $profile->country_name }}"/>
+                    </h1>
 
-            <div class="col-md-4"><h2>
-                <div id="playername">
-                    {{{ $profile->username }}} <img src="{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($profile->country) }}.png" alt="{{ $profile->country_name }}" title="{{ $profile->country_name }}"/>
-                </div></h2>
+                    <hr/>
 
-                <img src="{{ $profile->avatar->url('medium') }}" >
-                
-                @if($profile->clan_id > 0)
-				<table class="table">
-                	<tr>
-                    	<td>
+                    @if($profile->clan_id > 0)
 
-                            	<h2>{{{ $clan->name }}}</h2>
-                                <?php
+                    <?php
+                    $userIsOfficer = $user->inGroup($auth['officerGroup']);
+                    $userIsLeader = $user->inGroup($auth['leaderGroup']);
+                    ?>
+                    <h4>
+                        @if ($userIsLeader)
+                        Group Leader {{{ $clan->name }}}
+                        @elseif ($userIsOfficer)
+                        Group Officer {{{ $clan->name }}}
+                        @else
+                        Group Member {{{ $clan->name }}}
+                        @endif
+                    </h4>
 
-								$userIsOfficer = $user->inGroup($auth['officerGroup']);
-								$userIsLeader = $user->inGroup($auth['leaderGroup']);
-			
-								?><h4>
-								@if ($userIsLeader)
-								Position: Group Leader
-								@elseif ($userIsOfficer)
-								Position: Group Officer
-								@else
-								Group Member
-								@endif
-								</h4>
-
-                        </td>
-                        <td><h2><button class="btn btn-yellow" onClick="location.href='{{ URL::to('admin/clan/show') }}/{{ $clan->id }}'">Group details</button></h2>
-                		</td>
-                    </tr>
-                </table>
-                @endif
-                
-                <h2>Latest</h2>
-                <h4>
-                <div id="playerlastclass">Last Role: </div>
-                <div id="playerlastop">Last Operation: </div>
-                <div id="playerlastactive">Last Active: </div>
-                </h4>
-                
-                <h2>Combat Experience</h2>
-                <h4>
-                <div id="playervehicletime">Vehicle Experience: </div>
-                <div id="playergunnery">Mounted Weapon Kills: </div>
-                <div id="playerflighttime">Flight hours: </div>
-                <div id="playerdives">Combat Dives: </div>
-                <div id="playerdivetime">Dive Time: </div>
-				<div id="playerjumps">Para Jumps: </div>
-                <div id="playermedic">Medical Experience: </div>
-                </h4>
-
-                <table class="table">
-                 
-                    @if (!is_null($profile->twitch_stream) && !$profile->twitch_stream=='')
-                    <tr>
-                        <td>Twitch Stream</td>
-                        <td><a target="_blank" href="{{{ $profile->twitch_stream }}}">{{{ $profile->twitch_stream }}}</a></td>
-                    </tr>
                     @endif
 
-                </table>
+                    <div class="black-panel">
+                        <img src="{{ $profile->avatar->url('medium') }}" >
+                    </div>
 
+                    <h2>Latest</h2>
+                    <table class="table">
+                        <tr>
+                            <td width="40%">Last Role:</td>
+                            <td width="60%" id="playerlastclass"></td>
+                        </tr>
+                        <tr>
+                            <td>Last Operation:</td>
+                            <td id="playerlastop"></td>
+                        </tr>
+                        <tr>
+                            <td>Last Active:</td>
+                            <td id="playerlastactive"></td>
+                        </tr>
+                    </table>
+
+                    <table class="table">
+
+                        @if (!is_null($profile->twitch_stream) && !$profile->twitch_stream=='')
+                        <tr>
+                            <td width="40%">Twitch Stream</td>
+                            <td width="60%"><a target="_blank" href="{{{ $profile->twitch_stream }}}">{{{ $profile->twitch_stream }}}</a></td>
+                        </tr>
+                        @endif
+
+                    </table>
+
+                </div>
             </div>
 
             <div class="col-md-4">
-                <h2><div id="playerclass"></div></h2>
-                <div id="playerclassicon"></div>
-                <h2>Weapon</h2>
-                <h4><div id="playerweap"></div></h4>
-                <div id="playerweapicon"></div>
-                <h2>Vehicle</h2>
-                <h4><div id="playerveh"> </div></h4>
-                <div id="playervehicon"></div>
+                <div class="dark2-panel">
+
+                    <h2>Combat Experience</h2>
+                    <table class="table">
+                        <tr>
+                            <td width="40%">Vehicle Experience:</td>
+                            <td width="60%" id="playervehicletime"></td>
+                        </tr>
+                        <tr>
+                            <td>Mounted Weapon Kills:</td>
+                            <td id="playergunnery"></td>
+                        </tr>
+                        <tr>
+                            <td>Flight hours:</td>
+                            <td id="playerflighttime"></td>
+                        </tr>
+                        <tr>
+                            <td>Combat Dives:</td>
+                            <td id="playerdives"></td>
+                        </tr>
+                        <tr>
+                            <td>Dive Time:</td>
+                            <td id="playerdivetime"></td>
+                        </tr>
+                        <tr>
+                            <td>Para Jumps:</td>
+                            <td id="playerjumps"></td>
+                        </tr>
+                        <tr>
+                            <td>Medical Experience:</td>
+                            <td id="playermedic"></td>
+                        </tr>
+                    </table>
+
+                </div>
             </div>
-            
+
             <div class="col-md-4">
-                
-                 <table class="table">
-                
-                    <tr>
-                        <td><h3>Time Played</h3><h2><div id="playertp"></div></h2></td>
-						<td><h3>Operations Conducted</h3><h2><div id="playerops"></div></h2></td>
-                        <td><h3>Confirmed Kills</h3><h2><div id="playerkills"></div></h2></td>
-                    </tr>
-                    <tr>
-                        <td><h3>Critically Injured/Death</h3><h2><div id="playerdeaths"></div></h2></td>
-						<td><h3>Kill/Death Ratio</h3><h2><div id="playerkd"></div></h2></td>
-                        <td><h3>Shots Fired</h3><h2><div id="playershots"></div></h2></td>
-                    </tr>
-                </table>
-                
+                <div class="dark2-panel">
 
-                
-				<h2>
-                    Battle Feed
-                </h2>
-                <div id="personnel_livefeed">
-		    		@include('warroom/tables/player_feed')
-				</div>
+                    <h1>Overview</h1>
+                    <hr/>
+
+                    <h3><span id="playertp"></span> played</h3>
+                    <h3><span id="playerops"></span> operations conducted</h3>
+                    <h3><span id="playerkills"></span> confirmed kills</h3>
+                    <h3><span id="playerdeaths"></span> critical injuries / deaths</h3>
+                    <h3><span id="playerkd"></span> kill / death ratio</h3>
+                    <h3><span id="playershots"></span> shots fired</h3>
+
+                    <h2>Battle Feed</h2>
+                    <hr/>
+
+                    <div id="personnel_livefeed">
+                        @include('warroom/tables/player_feed')
+                    </div>
+
+                </div>
             </div>
 
-        </div>
+        </div><br/>
+    </div>
+</div>
+
+<div class="jumbotron white-panel">
+    <div class="container">
+
         <div class="row">
 
             <div class="col-md-4">
 
-                <h2>
-                    Field Experience
-                </h2>
+                <h1><span id="playerclass">Recon Team Leader</span></h1>
+                <hr/>
+                <div id="playerclassicon"></div>
 
-		    	@include('warroom/tables/playerclass')
+                <h2>Weapon</h2>
+                <hr/>
+                <h4><span id="playerweap"></span></h4>
+                <div id="playerweapicon"></div>
 
+                <h2>Vehicle</h2>
+                <hr/>
+                <h4><span id="playerveh"> </span></h4>
+                <div id="playervehicon"></div>
 
             </div>
 
-            <div class="col-md-4">
-                 <h2>
-                    Vehicle Experience
-                </h2>
-                
+            <div class="col-md-8">
+                <h1>Vehicle Experience</h1>
+                <hr/>
                 @include('warroom/tables/vehiclexp')
-            </div>
-            
-            <div class="col-md-4">
-                 <h2>
-                    Weapons Experience
-                </h2>
- 				@include('warroom/tables/weapons')
+
+                <h1>Weapons Experience</h1>
+                <hr/>
+                @include('warroom/tables/weapons')
+
+                <h1>Field Experience</h1>
+                <hr/>
+                @include('warroom/tables/playerclass')
             </div>
 
-        </div>
+        </div><br/>
+
     </div>
 </div>
 
