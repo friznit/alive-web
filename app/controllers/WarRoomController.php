@@ -70,13 +70,15 @@ class WarRoomController extends BaseController {
 			$playerDetails = $couchAPI->getPlayerDetails($armaid);
 			$playerWeapon = $couchAPI->getPlayerWeapon($armaid);
 			$playerVehicle = $couchAPI->getPlayerVehicle($armaid);
+			$playerClass = $couchAPI->getPlayerClass($armaid);
 			//$playerLoadout = $couchAPI->getPlayerLoadout($armaid, $clan->tag, $lastMissionName);
 
 			$playerdata = array(
 				"Totals" => $playerTotals,
 				"Details" => $playerDetails,
 				"Weapon" => $playerWeapon,
-				"Vehicle" => $playerVehicle
+				"Vehicle" => $playerVehicle,
+				"Class" => $playerClass
 			//	"Loadout" => $playerLoadout
 			);
 			$data['playerdata'] = $playerdata;

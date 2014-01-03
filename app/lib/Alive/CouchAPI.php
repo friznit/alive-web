@@ -837,6 +837,82 @@ class CouchAPI {
         return $encoded;
     }
 	
+	public function getPlayerClass($id)
+    {
+
+        $cacheKey = 'PlayerClass' . $id;
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'events/_design/events/_list/sort_by_value/players_class?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response']->rows[0]->key;
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+            \Cache::add($cacheKey, $encoded, 60);
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+	
+	public function getPlayerAlias($id)
+    {
+
+        $cacheKey = 'PlayerAlias' . $id;
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'events/_design/events/_list/sort_by_value/players_alias?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response']->rows;
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+            \Cache::add($cacheKey, $encoded, 60);
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+	
     public function call($path, $data=array(), $requestType='GET')
     {
 

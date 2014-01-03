@@ -9,14 +9,15 @@
 	var playerTotals = {{$playerdata['Totals']}};
 	var playerVehicle = {{$playerdata['Vehicle']}};
 	var playerWeapon = {{$playerdata['Weapon']}};
+	var playerClass = {{$playerdata['Class']}};
 	
 	$(document).ready(function() {
 		if (playerDetails.PlayerRank){
 			$('#playername').prepend(playerDetails.PlayerRank);
 		}
-		
+		$('#playerclass').append(playerClass[2]);
 		$('#playerlastclass').append(playerDetails.PlayerClass);
-		$('#playerclassicon').append("<img src='{{ URL::to('/') }}/img/classes/large/Arma3_CfgVehicles_" + playerDetails.PlayerType + ".png' alt='" + playerDetails.PlayerClass +"'/>");
+		$('#playerclassicon').append("<img src='{{ URL::to('/') }}/img/classes/large/Arma3_CfgVehicles_" + playerClass[1] + ".png' alt='" + playerClass[2] +"'/>");
 		
 		$('#playertp').append(Math.round(playerTotals.CombatHours/60*10)/10 + " hrs");
 		$('#playerops').append(playerTotals.Operations);
@@ -197,7 +198,7 @@
 
             <div class="col-md-4">
 
-                <h1><span id="playerclass">Recon Team Leader</span></h1>
+                <h1><span id="playerclass"></span></h1>
                 <hr/>
                 <div id="playerclassicon"></div>
 
