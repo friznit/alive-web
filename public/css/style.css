@@ -557,6 +557,10 @@ img {
     color: #393939;
 }
 
+#playerclassicon {
+    text-align: center;
+}
+
 /*
  *  Panel Sections
  ----------------------------------------*/
