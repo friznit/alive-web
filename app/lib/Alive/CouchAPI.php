@@ -624,7 +624,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/kill/_view/player_kills_count?group_level=1';
+        $path = 'events/_design/kill/_view/player_kills_count?group_level=2';
 
         $data = $this->call($path);
 

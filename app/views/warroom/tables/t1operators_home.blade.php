@@ -12,7 +12,10 @@
                 $("#t1operators_container").mCustomScrollbar("update");
             },
             "aoColumnDefs": [
-                { "mDataProp": "key",  "aTargets": [ 0 ]},
+                { "mDataProp": "key",  "aTargets": [ 0 ],
+				"mRender" : function (data, type) {
+						return "<a href={{ URL::to('war-room/showpersonnel') }}/" + data[0] + ">" +  data[1] + "</a>";}
+				},
                 { "mDataProp": "value", "aTargets": [ 1 ]}
             ]
 		} );
