@@ -81,7 +81,7 @@
                             </div>
 
                             <div class="form-group {{ ($errors->has('tag')) ? 'has-error' : '' }}" for="tag">
-                                <label class="control-label" for="tag">Tag</label>
+                                <label class="control-label" for="tag">Tag</label><span class="badge" data-toggle="modal" data-target="#tagModal">?</span>
                                 <input name="tag" value="{{ (Request::old('tag')) ? Request::old("tag") : $clan->tag }}" type="text" class="form-control" placeholder="Tag">
                                 <?php
                                 if($errors->has('title')){
@@ -89,7 +89,59 @@
                                 }
                                 ?>
                             </div>
+                            
+                             <div class="modal fade" id="tagModal" tabindex="-1" role="dialog" aria-labelledby="tagModal" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="myModalLabel"></h4>
+                                        </div>
+                                        <div class="strip">
+                                            <p>This is the unique identifier in our global database. It has to be unique. If you delete your group and recreate it, ensure you use the same tag.</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="form-group {{ ($errors->has('type')) ? 'has-error' : '' }}" for="type">
+                                <label class="control-label" for="type">Type</label>
+                                <select name="type" value="{{ (Request::old('type')) ? Request::old("type") : $orbat['type'][0]->type }}" type="text" class="form-control" placeholder="Type">
+                                @foreach ($groupTypes as $key =>$value)
+                                @if ($key == $orbat['type'][0]->type)
+                                <option value="{{$key}}" selected="selected">{{$value}}</option>
+                                @else
+                                <option value="{{$key}}">{{$value}}</option>
+                                @endif
+                                @endforeach
+                                </select>
+                                <?php
+                                if($errors->has('type')){
+                                    echo '<span class="label label-danger">' . $errors->first('type') . '</span>';
+                                }
+                                ?>
+                            </div>
+
+                            <div class="form-group {{ ($errors->has('size')) ? 'has-error' : '' }}" for="size">
+                                <label class="control-label" for="size">Size</label>
+                                <select name="size" value="{{ (Request::old('size')) ? Request::old("size") : $orbat['size'][0]->type  }}" size="text" class="form-control" placeholder="Size">
+                                @foreach ($groupSizes as $group)
+                                @if ($group->type == $orbat['size'][0]->type)
+                                <option value="{{$group->type}}" selected="selected">{{$group->name}} ({{$group->min}}-{{$group->max}})</option>
+                                @else
+                                <option value="{{$group->type}}">{{$group->name}} ({{$group->min}}-{{$group->max}})</option>
+                                @endif
+                                @endforeach
+                                </select>
+                                <?php
+                                if($errors->has('size')){
+                                    echo '<span class="label label-danger">' . $errors->first('size') . '</span>';
+                                }
+                                ?>
+                            </div>
+                            
                             <div class="form-group {{ ($errors->has('website')) ? 'has-error' : '' }}" for="website">
                                 <label class="control-label" for="website">Website</label>
                                 <input name="website" value="{{ (Request::old('website')) ? Request::old("website") : $clan->website }}" type="text" class="form-control" placeholder="Website">

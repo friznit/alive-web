@@ -131,53 +131,59 @@ class AdminClanController extends BaseController {
                     $clan->password = $this->_generatePassword(32);
 
                     $clanExists = Clan::where('name', $clan->name)->count();
+					$tagExists = Clan::where('tag', $clan->tag)->count();
 
                     if(!$clanExists){
-                        if ($clan->save()) {
-
-                            $profile = $currentUser->profile;
-
-                            $profile->clan_id = $clan->id;
-
-                            if ($profile->save()) {
-
-                                if($auth['isUser']){
-                                    $currentUser->removeGroup($auth['userGroup']);
-                                    $currentUser->addGroup($auth['leaderGroup']);
-                                }
-
-                                if($auth['isAdmin']){
-                                    $currentUser->addGroup($auth['leaderGroup']);
-                                }
-
-                                $couchAPI = new Alive\CouchAPI();
-                                $result = $couchAPI->createClanUser($clan->key, $clan->password);
-
-                                if(isset($result['response'])){
-                                    if(isset($result['response']->rev)){
-                                        $remoteId = $result['response']->rev;
-                                        $clan->remote_id = $remoteId;
-                                        $clan->save();
-                                    }
-                                }
-
-                                if(is_null($profile->remote_id)){
-                                    $couchAPI = new Alive\CouchAPI();
-                                    $result = $couchAPI->createClanMember($profile->a3_id, $profile->username, $clan->id);
-
-                                    if(isset($result['response'])){
-                                        if(isset($result['response']->rev)){
-                                            $remoteId = $result['response']->rev;
-                                            $profile->remote_id = $remoteId;
-                                            $profile->save();
-                                        }
-                                    }
-                                }
-
-                                Alert::success('Group created. You are now the leader of this group')->flash();
-                                return Redirect::to('admin/clan/show/'. $clan->id);
-                            }
-                        }
+						if(!$tagExists) {
+							if ($clan->save()) {
+	
+								$profile = $currentUser->profile;
+	
+								$profile->clan_id = $clan->id;
+	
+								if ($profile->save()) {
+	
+									if($auth['isUser']){
+										$currentUser->removeGroup($auth['userGroup']);
+										$currentUser->addGroup($auth['leaderGroup']);
+									}
+	
+									if($auth['isAdmin']){
+										$currentUser->addGroup($auth['leaderGroup']);
+									}
+	
+									$couchAPI = new Alive\CouchAPI();
+									$result = $couchAPI->createClanUser($clan->key, $clan->password);
+	
+									if(isset($result['response'])){
+										if(isset($result['response']->rev)){
+											$remoteId = $result['response']->rev;
+											$clan->remote_id = $remoteId;
+											$clan->save();
+										}
+									}
+	
+									if(is_null($profile->remote_id)){
+										$couchAPI = new Alive\CouchAPI();
+										$result = $couchAPI->createClanMember($profile->a3_id, $profile->username, $clan->id);
+	
+										if(isset($result['response'])){
+											if(isset($result['response']->rev)){
+												$remoteId = $result['response']->rev;
+												$profile->remote_id = $remoteId;
+												$profile->save();
+											}
+										}
+									}
+	
+									Alert::success('Group created. You are now the leader of this group')->flash();
+									return Redirect::to('admin/clan/show/'. $clan->id);
+								}
+							} 
+						}else{
+							Alert::error('A group with this tag already exists.')->flash();
+							return Redirect::to('admin/clan/create/');
+                    	}
                     }else{
                         Alert::error('A group with this name already exists.')->flash();
                         return Redirect::to('admin/clan/create/');
@@ -240,9 +246,14 @@ class AdminClanController extends BaseController {
             $profile = $auth['profile'];
 
             $clan = Clan::find($id);
+			$orbat = $clan->orbat();
 
             $data['countries'] = DB::table('countries')->lists('name','iso_3166_2');
-
+			$data['groupTypes'] = DB::table('orbattypes')->lists('name','type');
+			$data['groupSizes'] = DB::table('orbatsizes')->take(9)->get();	
+			
+			$data['orbat'] = $orbat;
+			
             if ($auth['isAdmin']) {
                 $data['clan'] = $clan;
                 return View::make('admin/clan.edit')->with($data);
@@ -279,6 +290,8 @@ class AdminClanController extends BaseController {
             'twitchStream' => Input::get('twitchStream'),
             'teamspeak' => Input::get('teamspeak'),
             'country' => Input::get('country'),
+			'type' => Input::get('type'),
+			'size' => Input::get('size'),
             'description' => Input::get('description'),
             'allowApplicants' => Input::get('allowApplicants', 0),
             'applicationText' => Input::get('applicationText', 0),
@@ -335,6 +348,9 @@ class AdminClanController extends BaseController {
                 $clan->description = $input['description'];
                 $clan->allow_applicants = $allowApplicants;
                 $clan->application_text = $input['applicationText'];
+				
+				$clan->type = $input['type'];
+				$clan->size = $input['size'];
 
                 if ($clan->save()) {
                     Alert::success('Group updated.')->flash();
