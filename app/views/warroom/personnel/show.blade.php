@@ -25,9 +25,9 @@
 		$('#playerdeaths').append(playerTotals.Deaths);
 		$('#playerkd').append(Math.round(playerTotals.Kills/playerTotals.Deaths*10)/10);
 		$('#playershots').append(playerTotals.ShotsFired);
-		$('#playervehicletime').append(playerTotals.VehicleTime + " mins");
+		$('#playervehicletime').append(Math.round(playerTotals.VehicleTime/60*10)/10 + " hrs");
 		$('#playergunnery').append(playerTotals.VehicleKills);
-		$('#playerflighttime').append(playerTotals.PilotTime/60 + " hrs");
+		$('#playerflighttime').append(Math.round(playerTotals.PilotTime/60*10)/10 + " hrs");
 		$('#playerdives').append(playerTotals.CombatDives);
 		$('#playerdivetime').append(playerTotals.DiveTime + " mins");
 		$('#playerjumps').append(playerTotals.ParaJumps);

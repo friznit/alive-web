@@ -1,6 +1,6 @@
 <script>
     $(document).ready(function() {
-        $.getJSON('http://msostore.iriscouch.com/events/_design/playerPage/_list/sort/player_events?startkey=[%22{{$profile->a3_id}}%22]&endkey=[%22{{$profile->a3_id}}%22,{}]&callback=?', function(data) {
+        $.getJSON('http://msostore.iriscouch.com/events/_design/playerPage/_list/sort/player_events?startkey=[%22{{$profile->a3_id}}%22,{}]&endkey=[%22{{$profile->a3_id}}%22]&descending=true&limit=50&callback=?', function(data) {
 
 			$.each(data.rows, function (index, row) {
 
