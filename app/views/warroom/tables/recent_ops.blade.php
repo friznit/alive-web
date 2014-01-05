@@ -7,9 +7,7 @@
             "bPaginate": false,
             "bFilter": false,
             "bInfo": false,
-            "fnDrawCallback": function ( oSettings ) {
-                $("#recent_ops_container").mCustomScrollbar("update");
-            },
+			"aaSorting":[],
             "aoColumnDefs": [
                 {
                     "aTargets": [ 0 ],
