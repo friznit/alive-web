@@ -496,6 +496,15 @@ img {
     margin-bottom:5px;
 }
 
+#warroom_body .warroom-profile .dark2-panel .classified {
+    font-family: 'Roboto Condensed', san-serif;
+    font-weight:700;
+    font-size:26px;
+    margin:0;
+    color:#F00;
+    margin-bottom:5px;
+}
+
 #warroom_body .white-panel {
     padding:10px;
     min-height:800px;
@@ -521,6 +530,11 @@ img {
 #warroom_body .white-panel hr {
     color:#939393;
     background-color: #939393;
+}
+
+#warroom_body .white-panel .table>tbody>tr>td img {
+	max-height: 84px;
+	max-width: 150px;
 }
 
 #weapons_container,
@@ -1092,6 +1106,12 @@ img {
     border-color:#222222;
     background:#404040;
 }
+
+.modal-content .strip{
+    width:auto;
+    margin-left:0px;
+}
+
 .modal-header {
     font-size:1em;
     padding:8px;

@@ -53,6 +53,21 @@
 
 </script>
 
+<div class="modal fade" id="classifiedModal" tabindex="-1" role="dialog" aria-labelledby="classifiedModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Unregistered Unit</h4>
+            </div>
+            <div class="strip">
+                <p>This unit has not yet registered with ALiVE War Room. Either add them manually to your group or invite them to sign up.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="warroom-profile">
 
@@ -63,16 +78,22 @@
             <div class="col-md-4">
                 <div class="dark2-panel">
 
-                    <h1>
-                        @if ($clan)
-                        [{{{ $clan->tag }}}]
-                        @endif
-                        {{{ $profile->username }}}&nbsp;
-                        <img src="{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($profile->country) }}.png" alt="{{ $profile->country_name }}" title="{{ $profile->country_name }}"/>
-                    </h1>
+                    	@if(is_null($profile))
+                    		<h1><div class="classified">CLASSIFIED <span class="badge" data-toggle="modal" data-target="#classifiedModal">!</span></div></h1>
+                        @else
+                        <h1>
+                            @if ($clan)
+                            [{{{ $clan->tag }}}]
+                            @endif
+                            {{{ $profile->username }}}&nbsp;
+                            <img src="{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($profile->country) }}.png" alt="{{ $profile->country_name }}" title="{{ $profile->country_name }}"/>
+                            </h1>
+                         @endif
+                    
 
                     <hr/>
 
+           		 @if(!is_null($profile))
                     @if($profile->clan_id > 0)
 
                     <?php
@@ -91,10 +112,11 @@
 
                     @endif
 
-                    <div class="black-panel">
-                        <img src="{{ $profile->avatar->url('medium') }}" >
-                    </div>
-
+                        <div class="black-panel">
+                            <img src="{{ $profile->avatar->url('medium') }}" >
+                        </div>
+				@endif
+                    
                     <h2>Latest</h2>
                     <table class="table">
                         <tr>
@@ -111,6 +133,7 @@
                         </tr>
                     </table>
 
+				@if(!is_null($profile))
                     <table class="table">
 
                         @if (!is_null($profile->twitch_stream) && !$profile->twitch_stream=='')
@@ -121,7 +144,7 @@
                         @endif
 
                     </table>
-
+				@endif
                 </div>
             </div>
 

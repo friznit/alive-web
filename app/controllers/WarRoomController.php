@@ -54,15 +54,15 @@ class WarRoomController extends BaseController {
         try {
             $profile = Profile::where('a3_id', '=', $armaid)->first();
 
-            if(is_null($profile)){
-                return View::make('warroom/personnel.missing')->with($data);
-            }
-
-            $data['profile'] = $profile;
-            $user = $profile->user;
-            $data['user'] = $user;
-            $clan = $profile->clan;
-            $data['clan'] = $clan;
+			$data['profile'] = $profile;
+			$data['player_id'] = $armaid;
+			
+			if(!is_null($profile)){
+				$user = $profile->user;
+				$data['user'] = $user;
+				$clan = $profile->clan;
+				$data['clan'] = $clan;
+			}
 
 			// Get data that won't be displayed as table data
             $couchAPI = new Alive\CouchAPI();
