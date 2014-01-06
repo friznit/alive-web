@@ -17,7 +17,7 @@
 
     <div class="tab-pane active" id="tab_operations">
 
-        <div class="table-container dark3-panel container">
+        <div class="table-container dark2-panel container">
 
             <div class="row">
                 <div class="col-md-12">
