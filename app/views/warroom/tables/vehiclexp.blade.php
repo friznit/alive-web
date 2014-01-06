@@ -14,7 +14,10 @@
 				  				return "<img src={{ URL::to('img/classes/thumbs/150px-Arma3_CfgVehicles_') }}" + data + ".png>";}
 						},
 						{ "mDataProp": "key.2",  "aTargets": [ 1 ]},
-						{ "mDataProp": "value", "aTargets": [ 2 ]}
+						{ "mDataProp": "value", "aTargets": [ 2 ],
+							"mRender" : function (data, type) {
+				  				return Math.round(data/60*10)/10;}
+						}
 					]
 		} );
 
@@ -28,7 +31,7 @@
         <tr>
             <th width="20%">Image</th>
             <th width="60%">Vehicle</th>
-            <th width="20%">Experience (mins)</th>
+            <th width="20%">Experience (hrs)</th>
         </tr>
         </thead>
         <tbody>
