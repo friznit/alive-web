@@ -54,17 +54,62 @@
                         <img src="{{ $clan->avatar->url('medium') }}" >
                     </div>
 
-                    <h2>Leadership</h2>
+ <h2>Leadership</h2>
+				<table class="table table-hover">
+                    <tbody>
+                    @foreach ($members as $member)
+                    <?php
 
+                    $user = Sentry::findUserById($member->user_id);
+                    $memberIsGrunt = $user->inGroup($auth['gruntGroup']);
+                    $memberIsOfficer = $user->inGroup($auth['officerGroup']);
+                    $memberIsLeader = $user->inGroup($auth['leaderGroup']);
+
+                    ?>
+                    
+                    <tr>
+                        <td><img src="{{ $member->avatar->url('tiny') }}" ></td>
+                        <td>{{{ $member->username }}}</td>
+                        @if ($memberIsLeader)
+                        <td>Leader</td>
+                        @endif
+                        @if ($memberIsOfficer)
+                        <td>Officer</td>
+                        @endif
+                        @if ($memberIsGrunt)
+                        <td></td>
+                        @endif
+                        <td>{{{ $member->remark }}}</td>
+                    </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+
+                <?php echo $members->links(); ?>
+
+                 
+                    
+                    <h2>Communications</h2>
                     <table class="table">
 
                         @if (!is_null($clan->twitch_stream) && !$clan->twitch_stream=='')
                         <tr>
                             <td width="40%">Twitch Stream</td>
-                            <td width="60%"><a target="_blank" href="{{{ $profile->twitch_stream }}}">{{{ $profile->twitch_stream }}}</a></td>
+                            <td width="60%"><a target="_blank" href="{{{ $clan->twitch_stream }}}">{{{ $clan->twitch_stream }}}</a></td>
                         </tr>
                         @endif
-
+                        @if (!is_null($clan->website) && !$clan->website=='')
+                        <tr>
+                            <td width="40%">Web Site</td>
+                            <td width="60%"><a target="_blank" href="{{{ $clan->website }}}">{{{ $clan->website }}}</a></td>
+                        </tr>
+                        @endif
+                        @if (!is_null($clan->teamspeak) && !$clan->teamspeak=='')
+                        <tr>
+                            <td width="40%">TeamSpeak</td>
+                            <td width="60%"><a target="_blank" href="{{{ $clan->teamspeak }}}">{{{ $clan->teamspeak }}}</a></td>
+                        </tr>
+                        @endif
                     </table>
 
                 </div>
@@ -72,22 +117,20 @@
 
             <div class="col-md-4">
                 <div class="dark2-panel">
-
-                    <h1>Overview</h1>
-                    <hr/>
-
+                 <h1>Overview</h1>
+				<hr/>
                     <h3><span id="clantp"></span> of combat</h3>
                     <h3><span id="clanops"></span> operations conducted</h3>
                     <h3><span id="clankills"></span> confirmed kills</h3>
                     <h3><span id="clandeaths"></span> critical injuries / deaths</h3>
                     <h3><span id="clankd"></span> kill / death ratio</h3>
                     <h3><span id="clanshots"></span> shots fired</h3>
-
-                    <h2>Combat Experience</h2>
+  
+                   <h2>Combat Experience</h2>
 
                     <table class="table">
                         <tr>
-                            <td width="40%">Vehicle Experience:</td>
+                            <td width="40%">Vehicle Usage:</td>
                             <td width="60%" id="clanvehicletime"></td>
                         </tr>
                         <tr>
@@ -107,12 +150,13 @@
                             <td id="clanjumps"></td>
                         </tr>
                         <tr>
-                            <td>Medical Experience:</td>
+                            <td>Medical Support:</td>
                             <td id="clanmedic"></td>
                         </tr>
                     </table>
 
                 </div>
+
             </div>
 
             <div class="col-md-4">

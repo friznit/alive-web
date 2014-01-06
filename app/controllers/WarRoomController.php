@@ -155,6 +155,9 @@ class WarRoomController extends BaseController {
 					array_push($serverIPs, $serverIP);
 				}
 				$clanTotals = $couchAPI->getGroupTotalsByID($serverIPs, $clan->id);
+				
+				// Need a mechanism to sum the totals for each server row returned
+				
 				$data['clanTotals'] = $clanTotals;
 			}
 				
