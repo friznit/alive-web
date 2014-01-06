@@ -106,4 +106,12 @@ class WarRoomController extends BaseController {
         $data = get_default_data();
         return View::make('warroom/operations.index')->with($data);
     }
+	
+	// Orbat -------------------------------------------------------------------------------------------------------
+
+    public function getOrbat()
+    {
+        $data = get_default_data();
+        return View::make('warroom/orbat.index')->with($data);
+    }
 }
