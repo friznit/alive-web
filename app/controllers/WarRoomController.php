@@ -112,6 +112,22 @@ class WarRoomController extends BaseController {
     public function getOrbat()
     {
         $data = get_default_data();
+		
+		// Create a list of server IP addresses and clan names to view in datatables
+		$servers = Server::all();
+		$clanServers = array();
+		foreach($servers as $server) {
+			$clan = Clan::where('id','=',$server->clan_id)->first();
+
+			$clanServer = array();
+			$clanServer["IP"] = $server->ip;
+			$clanServer["Name"] = $clan->name;
+			$clanServer["id"] = $clan->id;
+			array_push($clanServers,$clanServer);
+		}
+		
+		$data['clanServers'] = json_encode($clanServers); 
+
         return View::make('warroom/orbat.index')->with($data);
     }
 }

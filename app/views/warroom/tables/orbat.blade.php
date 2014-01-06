@@ -1,5 +1,7 @@
 <script>
 
+	var clanNames = {{$clanServers}};
+	
     $(document).ready(function(){
         $('#orbat').dataTable({
             "bJQueryUI": true,
@@ -7,18 +9,15 @@
             "sAjaxDataProp": "rows",
             "bPaginate": true,
 			"aaSorting": [[1, "desc" ]],
-            "fnDrawCallback": function ( oSettings ) {
-                /* Need to redo the counters if filtered or sorted */
-                /*
-                 if ( oSettings.bSorted || oSettings.bFiltered )
-                 {
-                 for ( var i=0, iLen=oSettings.aiDisplay.length ; i<iLen ; i++ )
-                 {
-                 $('td:eq(0)', oSettings.aoData[ oSettings.aiDisplay[i] ].nTr ).html( i+1 );
-                 }
-                 }
-                 */
-            },
+            "fnCreatedRow": function( nRow, aoData, iDataIndex ) {
+					var key = aoData.key[0];
+					var clan = $.grep(clanNames, function(e){ return e.IP == key; });
+					if (clan.length == 0) {
+						$('td:eq(0)', nRow).html("CLASSIFIED");
+					} else {
+						$('td:eq(0)', nRow).html("<a href={{ URL::to('war-room/showclan') }}/" + clan[0].id + ">" +  clan[0].Name + "</a>");
+					}
+			},
 		
 		
             "aoColumnDefs": [
@@ -51,7 +50,7 @@
 <table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="orbat">
     <thead>
     <tr>
-        <th width="15%">Name</th>
+        <th width="15%">Group</th>
         <th>Ops</th>
         <th>Operational Hrs</th>
         <th>Kills</th>
