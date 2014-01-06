@@ -15,7 +15,7 @@
 					if (clan.length == 0) {
 						$('td:eq(0)', nRow).html("CLASSIFIED");
 					} else {
-						$('td:eq(0)', nRow).html("<a href={{ URL::to('war-room/showclan') }}/" + clan[0].id + ">" +  clan[0].Name + "</a>");
+						$('td:eq(0)', nRow).html("<a href={{ URL::to('war-room/showorbat') }}/" + clan[0].id + ">" +  clan[0].Name + "</a>");
 					}
 			},
 		

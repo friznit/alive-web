@@ -130,4 +130,44 @@ class WarRoomController extends BaseController {
 
         return View::make('warroom/orbat.index')->with($data);
     }
+	
+	// Show ------------------------------------------------------------------------------------------------------------
+
+    public function getShoworbat($id)
+    {
+
+        $data = get_default_data();
+        $auth = $data['auth'];
+
+        try {
+            $clan = Clan::findOrFail($id);
+            $data['clan'] = $clan;
+
+            $serverCount = $clan->servers->count();
+            if($serverCount > 0){
+				$servers = $clan->servers->all();
+			
+				// Get data from couch
+				$couchAPI = new Alive\CouchAPI();
+				$serverIPs = array();
+				foreach ($servers as $server) {
+					$serverIP = $server->ip;
+					array_push($serverIPs, $serverIP);
+				}
+				$clanTotals = $couchAPI->getGroupTotalsByID($serverIPs, $clan->id);
+				$data['clanTotals'] = $clanTotals;
+			}
+				
+            $members = $clan->members();
+            $data['members'] = $members->paginate(10);
+			
+			$data['clanOrbat'] = $clan->orbat();
+			
+            return View::make('warroom/orbat.show')->with($data);
+
+        } catch (ModelNotFoundException $e) {
+            return Redirect::to('warroom');
+        }
+
+    }
 }

@@ -4,51 +4,24 @@
 @section('content')
 
 <script type="text/javascript">
-               
-	var clanDetails = {{$clandata['Details']}};
-	var clanTotals = {{$clandata['Totals']}};
-	var clanVehicles = {{$clandata['Vehicles']}};
-	var clanWeapons = {{$clandata['Weapons']}};
-	var clanOperations = {{$clandata['Operations']}};
+
+	var Totals = {{$clanTotals}};
+	var clanTotals = Totals[0].value;
 	
 	$(document).ready(function() {
-		if (playerDetails.PlayerRank){
-			$('#playername').prepend(playerDetails.PlayerRank);
-		}
-		$('#playerclass').append(playerClass[2]);
-		$('#playerlastclass').append(playerDetails.PlayerClass);
-		$('#playerclassicon').append("<img src='{{ URL::to('/') }}/img/classes/large/Arma3_CfgVehicles_" + playerClass[1] + ".png' alt='" + playerClass[2] +"'/>");
-		
-		$('#playertp').append(Math.round(playerTotals.CombatHours/60*10)/10 + " hrs");
-		$('#playerops').append(playerTotals.Operations);
-		$('#playerkills').append(playerTotals.Kills);
-		$('#playerdeaths').append(playerTotals.Deaths);
-		$('#playerkd').append(Math.round(playerTotals.Kills/playerTotals.Deaths*10)/10);
-		$('#playershots').append(playerTotals.ShotsFired);
-		$('#playervehicletime').append(Math.round(playerTotals.VehicleTime/60*10)/10 + " hrs");
-		$('#playergunnery').append(playerTotals.VehicleKills);
-		$('#playerflighttime').append(Math.round(playerTotals.PilotTime/60*10)/10 + " hrs");
-		$('#playerdives').append(playerTotals.CombatDives);
-		$('#playerdivetime').append(playerTotals.DiveTime + " mins");
-		$('#playerjumps').append(playerTotals.ParaJumps);
-		$('#playermedic').append(playerTotals.Heals + " hrs");
-		$('#playerlastop').append(playerDetails.Operation);
-		$('#playerlastactive').append(parseArmaDate(playerDetails.date));
 
-		if (playerWeapon) {
-			$('#playerweap').append(playerWeapon[2]);
-			$('#playerweapicon').append("<img src='{{ URL::to('/') }}/img/classes/large/Arma3_CfgWeapons_" + playerWeapon[1] + ".png' alt='" + playerWeapon[2] +"'/>");
-		} else {
-			$('#playerweap').append("None");
-		}
-		
-		
-		if (playerVehicle) {
-			$('#playerveh').append(playerVehicle[2]);
-			$('#playervehicon').append("<img src='{{ URL::to('/') }}/img/classes/medium/Arma3_CfgVehicles_" + playerVehicle[1] + ".png' alt='" + playerVehicle[2] +"'/>");
-		} else {
-			$('#playerveh').append("None");
-		}
+		$('#clantp').append(Math.round(clanTotals.CombatHours/60*10)/10 + " hrs");
+		$('#clanops').append(clanTotals.Operations);
+		$('#clankills').append(clanTotals.Kills);
+		$('#clandeaths').append(clanTotals.Deaths);
+		$('#clankd').append(Math.round(clanTotals.Kills/clanTotals.Deaths*10)/10);
+		$('#clanshots').append(clanTotals.ShotsFired);
+		$('#clanvehicletime').append(Math.round(clanTotals.VehicleTime/60*10)/10 + " hrs");
+		$('#clangunnery').append(clanTotals.VehicleKills);
+		$('#clanflighttime').append(Math.round(clanTotals.PilotTime/60*10)/10 + " hrs");
+		$('#clandives').append(clanTotals.CombatDives);
+		$('#clanjumps').append(clanTotals.ParaJumps);
+		$('#clanmedic').append(clanTotals.Heals + " hrs");
 	});
 
 </script>
@@ -64,56 +37,28 @@
                 <div class="dark2-panel">
 
                     <h1>
-                        @if ($clan)
                         [{{{ $clan->tag }}}]
-                        @endif
-                        {{{ $profile->username }}}&nbsp;
-                        <img src="{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($profile->country) }}.png" alt="{{ $profile->country_name }}" title="{{ $profile->country_name }}"/>
+                        {{{ $clan->name }}}&nbsp;
+                        <img src="{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($clan->country) }}.png" alt="{{ $clan->country_name }}" title="{{ $clan->country_name }}"/>
+						
                     </h1>
 
                     <hr/>
 
-                    @if($profile->clan_id > 0)
-
-                    <?php
-                    $userIsOfficer = $user->inGroup($auth['officerGroup']);
-                    $userIsLeader = $user->inGroup($auth['leaderGroup']);
-                    ?>
-                    <h4>
-                        @if ($userIsLeader)
-                        Group Leader {{{ $clan->name }}}
-                        @elseif ($userIsOfficer)
-                        Group Officer {{{ $clan->name }}}
-                        @else
-                        Group Member {{{ $clan->name }}}
-                        @endif
+                     <h4>
+                   		 
+                         {{{ $clan->type }}} {{{ $clan->size }}} - {{{ $clan->title }}}
                     </h4>
 
-                    @endif
-
                     <div class="black-panel">
-                        <img src="{{ $profile->avatar->url('medium') }}" >
+                        <img src="{{ $clan->avatar->url('medium') }}" >
                     </div>
 
-                    <h2>Latest</h2>
-                    <table class="table">
-                        <tr>
-                            <td width="40%">Last Role:</td>
-                            <td width="60%" id="playerlastclass"></td>
-                        </tr>
-                        <tr>
-                            <td>Last Operation:</td>
-                            <td id="playerlastop"></td>
-                        </tr>
-                        <tr>
-                            <td>Last Active:</td>
-                            <td id="playerlastactive"></td>
-                        </tr>
-                    </table>
+                    <h2>Leadership</h2>
 
                     <table class="table">
 
-                        @if (!is_null($profile->twitch_stream) && !$profile->twitch_stream=='')
+                        @if (!is_null($clan->twitch_stream) && !$clan->twitch_stream=='')
                         <tr>
                             <td width="40%">Twitch Stream</td>
                             <td width="60%"><a target="_blank" href="{{{ $profile->twitch_stream }}}">{{{ $profile->twitch_stream }}}</a></td>
@@ -131,43 +76,39 @@
                     <h1>Overview</h1>
                     <hr/>
 
-                    <h3><span id="playertp"></span> played</h3>
-                    <h3><span id="playerops"></span> operations conducted</h3>
-                    <h3><span id="playerkills"></span> confirmed kills</h3>
-                    <h3><span id="playerdeaths"></span> critical injuries / deaths</h3>
-                    <h3><span id="playerkd"></span> kill / death ratio</h3>
-                    <h3><span id="playershots"></span> shots fired</h3>
+                    <h3><span id="clantp"></span> of combat</h3>
+                    <h3><span id="clanops"></span> operations conducted</h3>
+                    <h3><span id="clankills"></span> confirmed kills</h3>
+                    <h3><span id="clandeaths"></span> critical injuries / deaths</h3>
+                    <h3><span id="clankd"></span> kill / death ratio</h3>
+                    <h3><span id="clanshots"></span> shots fired</h3>
 
                     <h2>Combat Experience</h2>
 
                     <table class="table">
                         <tr>
                             <td width="40%">Vehicle Experience:</td>
-                            <td width="60%" id="playervehicletime"></td>
+                            <td width="60%" id="clanvehicletime"></td>
                         </tr>
                         <tr>
                             <td>Mounted Weapon Kills:</td>
-                            <td id="playergunnery"></td>
+                            <td id="clangunnery"></td>
                         </tr>
                         <tr>
                             <td>Flight hours:</td>
-                            <td id="playerflighttime"></td>
+                            <td id="clanflighttime"></td>
                         </tr>
                         <tr>
                             <td>Combat Dives:</td>
-                            <td id="playerdives"></td>
-                        </tr>
-                        <tr>
-                            <td>Dive Time:</td>
-                            <td id="playerdivetime"></td>
+                            <td id="clandives"></td>
                         </tr>
                         <tr>
                             <td>Para Jumps:</td>
-                            <td id="playerjumps"></td>
+                            <td id="clanjumps"></td>
                         </tr>
                         <tr>
                             <td>Medical Experience:</td>
-                            <td id="playermedic"></td>
+                            <td id="clanmedic"></td>
                         </tr>
                     </table>
 
@@ -180,8 +121,8 @@
                     <h1>Battle Feed</h1>
                     <hr/>
 
-                    <div id="personnel_livefeed">
-                        @include('warroom/tables/player_feed')
+                    <div id="clan_livefeed">
+
                     </div>
 
                 </div>
@@ -197,35 +138,17 @@
         <div class="row">
 
             <div class="col-md-4">
-
-                <h1><span id="playerclass"></span></h1>
+                <h1>Vehicle Usage</h1>
                 <hr/>
-                <div id="playerclassicon"></div>
-
-                <h2>Weapon</h2>
+			</div>
+			<div class="col-md-4">
+                <h1>Weapons Usage</h1>
                 <hr/>
-                <h4><span id="playerweap"></span></h4>
-                <div id="playerweapicon"></div>
-
-                <h2>Vehicle</h2>
+			</div>
+			<div class="col-md-4">
+                <h1>Units Deployed</h1>
                 <hr/>
-                <h4><span id="playerveh"> </span></h4>
-                <div id="playervehicon"></div>
-
-            </div>
-
-            <div class="col-md-8">
-                <h1>Vehicle Experience</h1>
-                <hr/>
-                @include('warroom/tables/vehiclexp')
-
-                <h1>Weapons Experience</h1>
-                <hr/>
-                @include('warroom/tables/weapons')
-
-                <h1>Field Experience</h1>
-                <hr/>
-                @include('warroom/tables/playerclass')
+			</div>
             </div>
 
         </div><br/>
