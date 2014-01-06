@@ -913,6 +913,82 @@ class CouchAPI {
         return $encoded;
     }
 	
+	public function getGroupTotals()
+    {
+
+        $cacheKey = 'GroupTotals';
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'events/_design/groupTable/_view/groupTotals?group_level=1';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response']->rows;
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+            \Cache::add($cacheKey, $encoded, 60);
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+	
+	public function getPersonnelTotals()
+    {
+
+        $cacheKey = 'PersonnelTotals';
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'events/_design/playerTable/_view/playerTotals?group_level=2';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response']->rows;
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+            \Cache::add($cacheKey, $encoded, 60);
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+	
     public function call($path, $data=array(), $requestType='GET')
     {
 

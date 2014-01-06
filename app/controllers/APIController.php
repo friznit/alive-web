@@ -101,4 +101,17 @@ class APIController extends BaseController {
 		$id = Input::get('id');
         return $this->couchAPI->getPlayerVehicle($id);
     }
+	public function getPlayeralias()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getPlayerAlias($id);
+    }
+	public function getGrouptotals()
+    {
+        return $this->couchAPI->getGroupTotals();
+    }
+	public function getPersonneltotals()
+    {
+        return $this->couchAPI->getPersonnelTotals();
+    }
 }
