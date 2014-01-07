@@ -59,7 +59,7 @@
             <div class="modal-header">
                 <h4 class="modal-title" id="myModalLabel">Unregistered Unit</h4>
             </div>
-            <div class="strip">
+            <div class="modal-strip">
                 <p>This unit has not yet registered with ALiVE War Room. Either add them manually to your group or invite them to sign up.</p>
             </div>
             <div class="modal-footer">
