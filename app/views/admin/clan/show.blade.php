@@ -59,6 +59,10 @@
                         <td>Updated</td>
                         <td>{{ $clan->updated_at }}</td>
                     </tr>
+                     <tr>
+                        <td>Description</td>
+                        <td>{{{ $clan->description }}}</td>
+                    </tr>                   
                     <tr>
                         <td>
                             @if ($auth['isLeader'])
@@ -87,8 +91,6 @@
                     </tr>
                     @endif
                 </table>
-
-                <p>{{{ $clan->description }}}</p><br/>
 
             </div>
 
