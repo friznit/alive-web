@@ -290,7 +290,7 @@ class AdminUserController extends BaseController {
 
                             if($cloudCreate){
                                 $couchAPI = new Alive\CouchAPI();
-                                $result = $couchAPI->createClanMember($profile->a3_id, $profile->username, $clan->id);
+                                $result = $couchAPI->createClanMember($profile->a3_id, $profile->username, $clan->tag);
 
                                 if(isset($result['response'])){
                                     if(isset($result['response']->rev)){
@@ -721,7 +721,7 @@ class AdminUserController extends BaseController {
                 }
 
                 $couchAPI = new Alive\CouchAPI();
-                $result = $couchAPI->createClanMember($profile->a3_id, $profile->username, $clan->id);
+                $result = $couchAPI->createClanMember($profile->a3_id, $profile->username, $clan->tag);
 
                 if(isset($result['response'])){
                     if(isset($result['response']->rev)){

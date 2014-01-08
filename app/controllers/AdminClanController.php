@@ -165,7 +165,7 @@ class AdminClanController extends BaseController {
 	
 									if(is_null($profile->remote_id)){
 										$couchAPI = new Alive\CouchAPI();
-										$result = $couchAPI->createClanMember($profile->a3_id, $profile->username, $clan->id);
+										$result = $couchAPI->createClanMember($profile->a3_id, $profile->username, $clan->tag);
 	
 										if(isset($result['response'])){
 											if(isset($result['response']->rev)){
@@ -1193,7 +1193,7 @@ class AdminClanController extends BaseController {
                             $profile->save();
 
                             $couchAPI = new Alive\CouchAPI();
-                            $result = $couchAPI->createClanMember($member->a3_id, $member->username, $clan->id);
+                            $result = $couchAPI->createClanMember($member->a3_id, $member->username, $clan->tag);
 
                             if(isset($result['response'])){
                                 if(isset($result['response']->rev)){
@@ -1372,7 +1372,7 @@ class AdminClanController extends BaseController {
             }
 
             $couchAPI = new Alive\CouchAPI();
-            $result = $couchAPI->createClanMember($memberProfile->a3_id, $memberProfile->username, $clan->id);
+            $result = $couchAPI->createClanMember($memberProfile->a3_id, $memberProfile->username, $clan->tag);
 
             if(isset($result['response'])){
                 if(isset($result['response']->rev)){
