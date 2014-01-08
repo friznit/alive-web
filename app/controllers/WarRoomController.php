@@ -160,10 +160,29 @@ class WarRoomController extends BaseController {
 				
 				$data['clanTotals'] = $clanTotals;
 			}
-				
-            $members = $clan->members();
-            $data['members'] = $members->paginate(10);
 			
+			$soldiers = array();
+			$officers = array();
+			
+			$members = $clan->members->all();
+			
+			forEach($members as $member) {
+					$user = Sentry::findUserById($member->user_id);
+					$memberIsGrunt = $user->inGroup($auth['gruntGroup']);
+					$memberIsOfficer = $user->inGroup($auth['officerGroup']);
+					$memberIsLeader = $user->inGroup($auth['leaderGroup']);
+
+					if($memberIsLeader) $leader = $member;
+					
+					if($memberIsOfficer) array_push($officers,$member);
+					
+					if($memberIsGrunt) array_push($soldiers,$member);
+			}
+				
+			$data['leader'] = $leader;
+			$data['officers'] = $officers;
+			$data['soldiers'] = $soldiers;
+
 			$data['clanOrbat'] = $clan->orbat();
 			
             return View::make('warroom/orbat.show')->with($data);
