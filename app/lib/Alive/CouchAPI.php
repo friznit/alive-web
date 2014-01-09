@@ -738,7 +738,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/events/_list/sort/player_finish?key="' . $id . '"&limit=1';
+        $path = 'events/_design/events/_list/sort_no_callback/player_finish?key=%22' . $id . '%22';
 
         $data = $this->call($path);
 
@@ -951,7 +951,7 @@ class CouchAPI {
         return $encoded;
     }
 	
-	public function getGroupTotalsByID($serverIPs, $id)
+	public function getGroupTotalsByTag($id)
     {
 
         $cacheKey = 'GroupTotals' . $id;
@@ -966,8 +966,83 @@ class CouchAPI {
             return $data;
         }
 		
-		$keys = implode(",",$serverIPs);
-        $path = 'events/_design/groupPage/_view/groupTotals?group_level=1&keys=["' . $keys . '"]&group=true';
+        $path = 'events/_design/groupPage/_view/groupTotals?group_level=1&key="' . $id . '"';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response']->rows[0]->value;
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+            \Cache::add($cacheKey, $encoded, 60);
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+	
+	public function getGroupPlayerTotalsByTag($id)
+    {
+
+        $cacheKey = 'GroupPlayerTotals' . $id;
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+		
+        $path = 'events/_design/groupPage/_view/groupPlayerTotals?group_level=1&key="' . $id . '"';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response']->rows[0]->value;
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+            \Cache::add($cacheKey, $encoded, 60);
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+	
+	public function getGroupClasses($id)
+    {
+
+        $cacheKey = 'GroupClasses' . $id;
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+		
+        $path = 'events/_design/groupPage/_view/group_classes?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
 
         $data = $this->call($path);
 

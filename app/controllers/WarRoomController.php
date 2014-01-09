@@ -142,25 +142,14 @@ class WarRoomController extends BaseController {
         try {
             $clan = Clan::findOrFail($id);
             $data['clan'] = $clan;
-
-            $serverCount = $clan->servers->count();
-            if($serverCount > 0){
-				$servers = $clan->servers->all();
 			
-				// Get data from couch
-				$couchAPI = new Alive\CouchAPI();
-				$serverIPs = array();
-				foreach ($servers as $server) {
-					$serverIP = $server->ip;
-					array_push($serverIPs, $serverIP);
-				}
-				$clanTotals = $couchAPI->getGroupTotalsByID($serverIPs, $clan->id);
+			// Get group stats from couch
+			$couchAPI = new Alive\CouchAPI();
+			$clanTotals = $couchAPI->getGroupTotalsByTag($clan->tag);	
+			$clanPlayerTotals = $couchAPI->getGroupPlayerTotalsByTag($clan->tag);	
+			$data['clanTotals'] = $clanTotals;
+			$data['clanPlayerTotals'] = $clanPlayerTotals;		
 				
-				// Need a mechanism to sum the totals for each server row returned
-				
-				$data['clanTotals'] = $clanTotals;
-			}
-			
 			$soldiers = array();
 			$officers = array();
 			
