@@ -51,22 +51,6 @@
 			return false;
 		});
 
-        /*
-        $.getJSON('http://msostore.iriscouch.com/events/_design/playerPage/_list/sort/player_events?key="76561197982137286"&limit=1&callback=?', function(data) {
-            console.log(data);
-            var parsed = JSON.parse('[object Object]');
-            console.log(parsed);
-        });
-        */
-
-        $.ajax({
-            url: 'http://msostore.iriscouch.com/events/_design/playerPage/_list/sort/player_events?key="76561197982137286"&limit=1',
-            type: 'get',
-            dataType: 'json',
-            success: function(data) {
-                alert(data);
-            }
-        });
 	});
 	
 	var hostileIcon = L.icon({
