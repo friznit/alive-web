@@ -184,8 +184,8 @@
                     <h1>Battle Feed</h1>
                     <hr/>
 
-                    <div id="clan_livefeed">
-
+                    <div id="personnel_livefeed">
+                        @include('warroom/tables/clan_feed')
                     </div>
 
                 </div>
