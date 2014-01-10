@@ -147,8 +147,10 @@ class WarRoomController extends BaseController {
 			$couchAPI = new Alive\CouchAPI();
 			$clanTotals = $couchAPI->getGroupTotalsByTag($clan->tag);	
 			$clanPlayerTotals = $couchAPI->getGroupPlayerTotalsByTag($clan->tag);	
+			$clanLastOp = $couchAPI->getGroupLastOp($clan->tag);
 			$data['clanTotals'] = $clanTotals;
-			$data['clanPlayerTotals'] = $clanPlayerTotals;		
+			$data['clanPlayerTotals'] = $clanPlayerTotals;	
+			$data['clanLastOp']	= $clanLastOp;	
 				
 			$soldiers = array();
 			$officers = array();

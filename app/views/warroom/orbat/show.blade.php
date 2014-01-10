@@ -7,6 +7,7 @@
 
 	var clanTotals = {{$clanTotals}};
 	var clanPlayerTotals = {{$clanPlayerTotals}};
+	var clanLastOp = {{$clanLastOp}};
 	
 	$(document).ready(function() {
 		$('#clantp').append(Math.round(clanTotals.CombatHours/60*10)/10 + " hrs");
@@ -21,6 +22,10 @@
 		$('#clandives').append(clanPlayerTotals.CombatDives);
 		$('#clanjumps').append(clanPlayerTotals.ParaJumps);
 		$('#clanmedic').append(clanPlayerTotals.Heals + " hrs");
+		
+		$('#lastop').append(clanLastOp.Operation);
+		$('#lastmap').append(clanLastOp.Map);
+		$('#lastactive').append(parseArmaDate(clanLastOp.date));
 	});
 
 </script>
@@ -52,7 +57,16 @@
                     <div class="black-panel">
                         <img src="{{ $clan->avatar->url('medium') }}" >
                     </div>
-
+ 				<h2>Most Recent Operation</h2>
+				<table class="table">
+                    <tbody>
+                        <tr>
+                            <td width="20%" id="lastmap"></td>
+                            <td width="60%" id="lastop"></td>
+                            <td width="20%" id="lastactive"></td>
+                        </tr>
+                    </tbody>
+                </table>
  				<h2>Leadership</h2>
                 <h4>Leader</h4>
 				<table class="table">

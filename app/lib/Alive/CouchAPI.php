@@ -1065,6 +1065,44 @@ class CouchAPI {
         return $encoded;
     }
 	
+	public function getGroupLastOp($id)
+    {
+
+        $cacheKey = 'GroupLastOp' . $id;
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'events/_design/groupPage/_list/sort_no_callback/group_finish?key=%22' . $id . '%22';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response']->rows[0]->value;
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+            \Cache::add($cacheKey, $encoded, 60);
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+	
 	public function getPersonnelTotals()
     {
 
