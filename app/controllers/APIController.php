@@ -110,9 +110,9 @@ class APIController extends BaseController {
     {
         return $this->couchAPI->getPersonnelTotals();
     }
-	public function getGrouptotalsbytag()
+	public function getGroupclasses()
     {
 		$id = Input::get('id');
-        return $this->couchAPI->getGroupTotalsByTag($id);
+        return $this->couchAPI->getGroupClasses($id);
     }
 }

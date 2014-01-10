@@ -1042,13 +1042,13 @@ class CouchAPI {
             return $data;
         }
 		
-        $path = 'events/_design/groupPage/_view/group_classes?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
+        $path = 'events/_design/groupPage/_view/group_classes?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",{}]';
 
         $data = $this->call($path);
 
         if(isset($data['response'])) {
 
-            $data = $data['response']->rows;
+            $data = $data['response'];
 
             if($this->debug){
                 TempoDebug::dump($data);

@@ -189,19 +189,41 @@
             <div class="col-md-4">
                 <h1>Vehicle Usage</h1>
                 <hr/>
-			</div>
+  				@include('warroom/tables/orbat_veh')       
+  			</div>
 			<div class="col-md-4">
                 <h1>Weapons Usage</h1>
                 <hr/>
+                @include('warroom/tables/orbat_weap') 
 			</div>
 			<div class="col-md-4">
                 <h1>Units Deployed</h1>
                 <hr/>
+                @include('warroom/tables/orbat_classes') 
 			</div>
-            </div>
 
-        </div><br/>
-
+        </div>
+        
+        <div class="row">
+        
+            <div class="col-md-4">
+                <h1>Mounted Weapons</h1>
+                <hr/>
+  				@include('warroom/tables/orbat_mwk')
+  			</div>
+			<div class="col-md-4">
+                <h1>Weapons Effectiveness</h1>
+                <hr/>
+                @include('warroom/tables/orbat_weap_kills') 
+			</div>
+			<div class="col-md-4">
+                <h1>Unit Effectiveness</h1>
+                <hr/>
+                @include('warroom/tables/orbat_player_kills') 
+			</div>
+            
+        </div><br />
+        
     </div>
 </div>
 
