@@ -60,7 +60,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/events/_view/Totals';
+        $path = 'events/_design/homePage/_view/Totals';
 
         $data = $this->call($path);
 
@@ -136,7 +136,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/events/_view/players_list?group_level=2';
+        $path = 'events/_design/homePage/_view/players_list?group_level=2';
 
         $data = $this->call($path);
 
@@ -174,7 +174,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/events/_view/recent_operations?descending=true&limit=50';
+        $path = 'events/_design/homePage/_view/recent_operations?descending=true&limit=50';
 
         $data = $this->call($path);
 
@@ -212,7 +212,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/events/_view/all_events?descending=true&limit=12';
+        $path = 'events/_design/homePage/_view/all_events?descending=true&limit=12';
 
         $data = $this->call($path);
 
@@ -250,7 +250,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/kill/_view/side_killed_count_by_class?group_level=2';
+        $path = 'events/_design/homePage/_view/side_killed_count_by_class?group_level=2';
 
         $data = $this->call($path);
 
@@ -297,7 +297,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/kill/_view/side_killed_count_by_class?group_level=2';
+        $path = 'events/_design/homePage/_view/side_killed_count_by_class?group_level=2';
 
         $data = $this->call($path);
 
@@ -344,7 +344,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/kill/_view/side_killed_count?group_level=1';
+        $path = 'events/_design/homePage/_view/side_killed_count?group_level=1';
 
         $data = $this->call($path);
 
@@ -389,7 +389,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/events/_view/operations_by_map?group_level=1';
+        $path = 'events/_design/homePage/_view/operations_by_map?group_level=1';
 
         $data = $this->call($path);
 
@@ -436,7 +436,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/events/_view/operations_by_day?group_level=1';
+        $path = 'events/_design/operationsTable/_view/operations_by_day?group_level=1';
 
         $data = $this->call($path);
 
@@ -483,7 +483,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/events/_view/players_by_day?group_level=1';
+        $path = 'events/_design/operationsTable/_view/players_by_day?group_level=1';
 
         $data = $this->call($path);
 
@@ -530,7 +530,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/events/_view/kills_by_day?group_level=1';
+        $path = 'events/_design/operationsTable/_view/kills_by_day?group_level=1';
 
         $data = $this->call($path);
 
@@ -577,7 +577,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/events/_view/deaths_by_day?group_level=1';
+        $path = 'events/_design/operationsTable/_view/deaths_by_day?group_level=1';
 
         $data = $this->call($path);
 
@@ -624,7 +624,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/kill/_view/player_kills_count?group_level=2';
+        $path = 'events/_design/homePage/_view/player_kills_count?group_level=2';
 
         $data = $this->call($path);
 
@@ -738,7 +738,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/events/_list/sort_no_callback/player_finish?key=%22' . $id . '%22';
+        $path = 'events/_design/playerPage/_list/sort_no_callback/player_finish?key=%22' . $id . '%22';
 
         $data = $this->call($path);
 
@@ -776,7 +776,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/events/_list/sort_by_value/players_weapons?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
+        $path = 'events/_design/playerPage/_list/sort_by_value/players_weapons?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
 
         $data = $this->call($path);
 
@@ -814,7 +814,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/events/_list/sort_by_value/players_vehxp?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
+        $path = 'events/_design/playerPage/_list/sort_by_value/players_vehxp?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
 
         $data = $this->call($path);
 
@@ -852,7 +852,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/events/_list/sort_by_value/players_class?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
+        $path = 'events/_design/playerPage/_list/sort_by_value/players_class?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
 
         $data = $this->call($path);
 
@@ -890,7 +890,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/events/_list/sort_by_value/players_alias?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
+        $path = 'events/_design/playerPage/_list/sort_by_value/players_alias?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
 
         $data = $this->call($path);
 
@@ -1124,7 +1124,7 @@ class CouchAPI {
 
         if(isset($data['response'])) {
 
-            $data = $data['response']->rows;
+            $data = $data['response'];
 
             if($this->debug){
                 TempoDebug::dump($data);
@@ -1141,6 +1141,234 @@ class CouchAPI {
         return $encoded;
     }
 	
+	public function getT1Marksmen()
+    {
+
+        $cacheKey = 'T1marksmen';
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'events/_design/playerTable/_view/kills_by_distance?group_level=4';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response'];
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+            \Cache::add($cacheKey, $encoded, 60);
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+	
+	public function getVehicleCommanders()
+    {
+
+        $cacheKey = 'VehicleCommanders';
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'events/_design/playerTable/_view/player_in_vehicle_kills_count?group_level=4';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response'];
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+            \Cache::add($cacheKey, $encoded, 60);
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+	
+	public function getPilots()
+    {
+
+        $cacheKey = 'Pilots';
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'events/_design/playerTable/_view/player_in_aircraft_kills_count?group_level=4';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response'];
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+            \Cache::add($cacheKey, $encoded, 60);
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+	
+	public function getScores()
+    {
+
+        $cacheKey = 'Scores';
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'events/_design/playerTable/_view/scoreTotal?group_level=2';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response'];
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+            \Cache::add($cacheKey, $encoded, 60);
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+	
+	public function getRatings()
+    {
+
+        $cacheKey = 'Ratings';
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'events/_design/playerTable/_view/AveRating?group_level=2';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response'];
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+            \Cache::add($cacheKey, $encoded, 60);
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+
+	public function getAvescores()
+    {
+
+        $cacheKey = 'Avescores';
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'events/_design/playerTable/_view/AveScore?group_level=2';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response'];
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+            \Cache::add($cacheKey, $encoded, 60);
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+		
     public function call($path, $data=array(), $requestType='GET')
     {
 

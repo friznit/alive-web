@@ -3,23 +3,10 @@
     $(document).ready(function(){
         $('#personnel').dataTable({
             "bJQueryUI": true,
-            "sAjaxSource": 'http://msostore.iriscouch.com/events/_design/playerTable/_view/playerTotals?group_level=2&callback=?',
+            "sAjaxSource": '{{ URL::to('/') }}/api/personneltotals',
             "sAjaxDataProp": "rows",
             "bPaginate": true,
 			"aaSorting": [[1, "desc" ]],
-            "fnDrawCallback": function ( oSettings ) {
-                /* Need to redo the counters if filtered or sorted */
-                /*
-                 if ( oSettings.bSorted || oSettings.bFiltered )
-                 {
-                 for ( var i=0, iLen=oSettings.aiDisplay.length ; i<iLen ; i++ )
-                 {
-                 $('td:eq(0)', oSettings.aoData[ oSettings.aiDisplay[i] ].nTr ).html( i+1 );
-                 }
-                 }
-                 */
-            },
-		
 		
             "aoColumnDefs": [
                 { "mData": "key", 

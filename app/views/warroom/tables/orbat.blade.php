@@ -8,21 +8,19 @@
             "sAjaxSource": 'http://msostore.iriscouch.com/events/_design/groupTable/_view/groupTotals?group_level=1&callback=?',
             "sAjaxDataProp": "rows",
             "bPaginate": true,
-			"aaSorting": [[1, "desc" ]],
-            "fnCreatedRow": function( nRow, aoData, iDataIndex ) {
-					var key = aoData.key[0];
-					var clan = $.grep(clanNames, function(e){ return e.IP == key; });
-					if (clan.length == 0) {
-						$('td:eq(0)', nRow).html("CLASSIFIED");
-					} else {
-						$('td:eq(0)', nRow).html("<a href={{ URL::to('war-room/showorbat') }}/" + clan[0].id + ">" +  clan[0].Name + "</a>");
-					}
-			},
-		
-		
+			"aaSorting": [[1, "desc" ]],		
             "aoColumnDefs": [
                 { "mData": "key", 
-				  "aTargets": [ 0 ]	},
+				  "aTargets": [ 0 ],
+				  "mRender" : function (data, type) {
+					  			var clan = $.grep(clanNames, function(e){ return e.IP == data; });
+								if (clan.length == 0) {
+									return "CLASSIFIED";
+								} else {
+									return "<a href={{ URL::to('war-room/showorbat') }}/" + clan[0].id + ">" +  clan[0].Name + "</a>";
+								}
+				  }
+				},
                 { "mData": "value.Operations", "aTargets": [ 1 ] },
                 { "mData": "value.CombatHours", "aTargets": [ 2 ],
 							"mRender" : function (data, type) {

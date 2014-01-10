@@ -59,17 +59,13 @@
             <div class="row">
                 <div class="col-md-12">
 
-
-                    <h2>Kills / Minute</h2>
-                    @include('warroom/tables/kpm')
-
-                    <h2>Average Kill Distance</h2>
-                    @include('warroom/tables/av_distance')
-
-                    <h2>Score</h2>
+                    <h2>Cumulative Score</h2>
                     @include('warroom/tables/score')
-
-                    <h2>Rating</h2>
+                    
+                    <h2>Average Score</h2>
+                    @include('warroom/tables/avescore')
+                    
+                    <h2>Average Rating</h2>
                     @include('warroom/tables/rating')
                 </div>
             </div>

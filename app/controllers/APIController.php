@@ -110,6 +110,30 @@ class APIController extends BaseController {
     {
         return $this->couchAPI->getPersonnelTotals();
     }
+	public function getT1marksmen()
+    {
+        return $this->couchAPI->getT1Marksmen();
+    }
+	public function getVehiclecommanders()
+    {
+        return $this->couchAPI->getVehicleCommanders();
+    }
+	public function getPilots()
+    {
+        return $this->couchAPI->getPilots();
+    }
+	public function getScores()
+    {
+        return $this->couchAPI->getScores();
+    }
+	public function getAvescores()
+    {
+        return $this->couchAPI->getAveScores();
+    }
+	public function getRatings()
+    {
+        return $this->couchAPI->getRatings();
+    }
 	public function getGroupclasses()
     {
 		$id = Input::get('id');

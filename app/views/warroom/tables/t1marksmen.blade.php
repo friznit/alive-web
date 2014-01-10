@@ -2,7 +2,7 @@
     $(document).ready(function(){
         $('#t1_marksmen').dataTable({
             "bJQueryUI": true,
-            "sAjaxSource": 'http://msostore.iriscouch.com/events/_design/kill/_view/kills_by_distance?group_level=2&callback=?',
+            "sAjaxSource": '{{ URL::to('/') }}/api/t1marksmen',
             "sAjaxDataProp": "rows",
             "bPaginate": true,
             "fnDrawCallback": function ( oSettings ) {
@@ -17,11 +17,20 @@
                 }
                 */
             },
-            "aaSorting": [[2, "desc" ]],
+            "aaSorting": [[3, "desc" ]],
             "aoColumnDefs": [
-                { "mDataProp": "key.1", "aTargets": [ 0 ]  },
-                { "mDataProp": "key.0", "aTargets": [ 1 ]  },
-                { "mDataProp": "value", "aTargets": [ 2 ]  }
+                { "mDataProp": "key", "aTargets": [ 0 ],
+					"mRender" : function (data, type) {
+						return "<a href={{ URL::to('war-room/showpersonnel') }}/" + data[2] + ">" +  data[1] + "</a>";
+					}  
+				},
+                { "mDataProp": "key.0", "aTargets": [ 1 ] },
+				{ "mDataProp": "key.3", "aTargets": [ 2 ],
+					"mRender" : function (data, type) {
+						return "<img src={{ URL::to('img/classes/small/300px-Arma3_CfgWeapons_') }}" + data + ".png>";
+					}
+			    },
+                { "mDataProp": "value", "aTargets": [ 3 ]  }
             ]
         } );
     });
@@ -33,6 +42,7 @@
     <tr>
         <th>Player</th>
         <th>Weapon</th>
+        <th>Image</th>
         <th>Distance (in metres)</th>
     </tr>
     </thead>
