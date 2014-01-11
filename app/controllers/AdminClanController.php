@@ -129,6 +129,8 @@ class AdminClanController extends BaseController {
                     $clan->tag = $input['tag'];
                     $clan->key = $this->_generatePassword(32);
                     $clan->password = $this->_generatePassword(32);
+					$clan->type = "Infantry";
+					$clan->size = "Squad";
 
                     $clanExists = Clan::where('name', $clan->name)->count();
 					$tagExists = Clan::where('tag', $clan->tag)->count();
@@ -250,7 +252,11 @@ class AdminClanController extends BaseController {
 
             $data['countries'] = DB::table('countries')->lists('name','iso_3166_2');
 			$data['groupTypes'] = DB::table('orbattypes')->lists('name','type');
-			$data['groupSizes'] = DB::table('orbatsizes')->take(9)->get();	
+			if ($auth['isAdmin']) {
+				$data['groupSizes'] = DB::table('orbatsizes')->get();
+			} else {
+				$data['groupSizes'] = DB::table('orbatsizes')->take(9)->get();
+			}
 			
 			$data['orbat'] = $orbat;
 			
