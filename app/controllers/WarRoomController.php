@@ -68,9 +68,9 @@ class WarRoomController extends BaseController {
             $couchAPI = new Alive\CouchAPI();
             $playerTotals = $couchAPI->getPlayerTotals($armaid);
 			$playerDetails = $couchAPI->getPlayerDetails($armaid);
-			$playerWeapon = $couchAPI->getPlayerWeapon($armaid);
-			$playerVehicle = $couchAPI->getPlayerVehicle($armaid);
-			$playerClass = $couchAPI->getPlayerClass($armaid);
+			$playerWeapon = $couchAPI->getPlayerWeapon($armaid,false);
+			$playerVehicle = $couchAPI->getPlayerVehicle($armaid,false);
+			$playerClass = $couchAPI->getPlayerClass($armaid,false);
 			//$playerLoadout = $couchAPI->getPlayerLoadout($armaid, $clan->tag, $lastMissionName);
 
 			$playerdata = array(
@@ -114,19 +114,18 @@ class WarRoomController extends BaseController {
         $data = get_default_data();
 		
 		// Create a list of server IP addresses and clan names to view in datatables
-		$servers = Server::all();
-		$clanServers = array();
-		foreach($servers as $server) {
-			$clan = Clan::where('id','=',$server->clan_id)->first();
+		$clans = Clan::all();
+		$clansArr = array();
+		foreach($clans as $clan) {
 
 			$clanServer = array();
-			$clanServer["IP"] = $server->ip;
+			$clanServer["tag"] = $clan->tag;
 			$clanServer["Name"] = $clan->name;
 			$clanServer["id"] = $clan->id;
-			array_push($clanServers,$clanServer);
+			array_push($clansArr,$clanServer);
 		}
 		
-		$data['clanServers'] = json_encode($clanServers); 
+		$data['clansArr'] = json_encode($clansArr); 
 
         return View::make('warroom/orbat.index')->with($data);
     }
@@ -146,10 +145,8 @@ class WarRoomController extends BaseController {
 			// Get group stats from couch
 			$couchAPI = new Alive\CouchAPI();
 			$clanTotals = $couchAPI->getGroupTotalsByTag($clan->tag);	
-			$clanPlayerTotals = $couchAPI->getGroupPlayerTotalsByTag($clan->tag);	
 			$clanLastOp = $couchAPI->getGroupLastOp($clan->tag);
 			$data['clanTotals'] = $clanTotals;
-			$data['clanPlayerTotals'] = $clanPlayerTotals;	
 			$data['clanLastOp']	= $clanLastOp;	
 				
 			$soldiers = array();

@@ -122,6 +122,10 @@ class APIController extends BaseController {
     {
         return $this->couchAPI->getPilots();
     }
+	public function getMedics()
+    {
+        return $this->couchAPI->getMedics();
+    }
 	public function getScores()
     {
         return $this->couchAPI->getScores();
@@ -133,6 +137,15 @@ class APIController extends BaseController {
 	public function getRatings()
     {
         return $this->couchAPI->getRatings();
+    }
+	public function getGrouptotals()
+    {
+        return $this->couchAPI->getGroupTotals();
+    }
+	public function getGrouptotalsbytag()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getGroupTotalsByTag($id);
     }
 	public function getGroupclasses()
     {

@@ -6,22 +6,21 @@
 <script type="text/javascript">
 
 	var clanTotals = {{$clanTotals}};
-	var clanPlayerTotals = {{$clanPlayerTotals}};
 	var clanLastOp = {{$clanLastOp}};
 	
 	$(document).ready(function() {
 		$('#clantp').append(Math.round(clanTotals.CombatHours/60*10)/10 + " hrs");
 		$('#clanops').append(clanTotals.Operations);
-		$('#clankills').append(clanPlayerTotals.Kills);
-		$('#clandeaths').append(clanPlayerTotals.Deaths);
-		$('#clankd').append(Math.round(clanPlayerTotals.Kills/clanPlayerTotals.Deaths*10)/10);
-		$('#clanshots').append(clanPlayerTotals.ShotsFired);
-		$('#clanvehicletime').append(Math.round(clanPlayerTotals.VehicleTime/60*10)/10 + " hrs");
-		$('#clangunnery').append(clanPlayerTotals.VehicleKills);
-		$('#clanflighttime').append(Math.round(clanPlayerTotals.PilotTime/60*10)/10 + " hrs");
-		$('#clandives').append(clanPlayerTotals.CombatDives);
-		$('#clanjumps').append(clanPlayerTotals.ParaJumps);
-		$('#clanmedic').append(clanPlayerTotals.Heals + " hrs");
+		$('#clankills').append(clanTotals.Kills);
+		$('#clandeaths').append(clanTotals.Deaths);
+		$('#clankd').append(Math.round(clanTotals.Kills/clanTotals.Deaths*10)/10);
+		$('#clanshots').append(clanTotals.ShotsFired);
+		$('#clanvehicletime').append(Math.round(clanTotals.VehicleTime/60*10)/10 + " hrs");
+		$('#clangunnery').append(clanTotals.VehicleKills);
+		$('#clanflighttime').append(Math.round(clanTotals.PilotTime/60*10)/10 + " hrs");
+		$('#clandives').append(clanTotals.CombatDives);
+		$('#clanjumps').append(clanTotals.ParaJumps);
+		$('#clanmedic').append(clanTotals.Heals + " hrs");
 		
 		$('#lastop').append(clanLastOp.Operation);
 		$('#lastmap').append(clanLastOp.Map);

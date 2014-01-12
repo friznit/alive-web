@@ -1,11 +1,11 @@
 <script>
 
-	var clanNames = {{$clanServers}};
+	var clanNames = {{$clansArr}};
 	
     $(document).ready(function(){
         $('#orbat').dataTable({
             "bJQueryUI": true,
-            "sAjaxSource": 'http://msostore.iriscouch.com/events/_design/groupTable/_view/groupTotals?group_level=1&callback=?',
+            "sAjaxSource": '{{ URL::to('/') }}/api/grouptotals',
             "sAjaxDataProp": "rows",
             "bPaginate": true,
 			"aaSorting": [[1, "desc" ]],		
@@ -13,7 +13,7 @@
                 { "mData": "key", 
 				  "aTargets": [ 0 ],
 				  "mRender" : function (data, type) {
-					  			var clan = $.grep(clanNames, function(e){ return e.IP == data; });
+					  			var clan = $.grep(clanNames, function(e){ return e.tag == data; });
 								if (clan.length == 0) {
 									return "CLASSIFIED";
 								} else {

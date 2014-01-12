@@ -45,6 +45,9 @@
                     
                     <h2>Top Guns</h2>
                     @include('warroom/tables/pilots')
+                    
+                    <h2>Top Medics</h2>
+                    @include('warroom/tables/medics')
                 </div>
             </div>
 
@@ -57,14 +60,16 @@
         <div class="table-container dark2-panel container">
 
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-4">
 
                     <h2>Cumulative Score</h2>
                     @include('warroom/tables/score')
-                    
+                   </div>
+                 <div class="col-md-4">   
                     <h2>Average Score</h2>
                     @include('warroom/tables/avescore')
-                    
+                  </div>
+                 <div class="col-md-4">   
                     <h2>Average Rating</h2>
                     @include('warroom/tables/rating')
                 </div>

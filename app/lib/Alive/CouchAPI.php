@@ -11,7 +11,7 @@ class CouchAPI {
     private $user = 'ARJay';
     private $pass = 'letmein';
     private $url = 'https://msostore.iriscouch.com/';
-    private $reset = false;
+    private $reset = true;
     private $debug = false;
 
     public function createClanUser($name, $password)
@@ -776,14 +776,16 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/playerPage/_list/sort_by_value/players_weapons?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
+
+        	$path = 'events/_design/playerPage/_list/sort_by_value/players_weapons?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
+
 
         $data = $this->call($path);
 
         if(isset($data['response'])) {
 
-            $data = $data['response']->rows[0]->key;
-
+            	$data = $data['response']->rows[0]->key;
+			
             if($this->debug){
                 TempoDebug::dump($data);
             }
@@ -814,13 +816,14 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/playerPage/_list/sort_by_value/players_vehxp?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
+        	$path = 'events/_design/playerPage/_list/sort_by_value/players_vehxp?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
+
 
         $data = $this->call($path);
 
         if(isset($data['response'])) {
 
-            $data = $data['response']->rows[0]->key;
+            	$data = $data['response']->rows[0]->key;
 
             if($this->debug){
                 TempoDebug::dump($data);
@@ -852,13 +855,13 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/playerPage/_list/sort_by_value/players_class?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
+        	$path = 'events/_design/playerPage/_list/sort_by_value/players_class?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
 
         $data = $this->call($path);
 
         if(isset($data['response'])) {
 
-            $data = $data['response']->rows[0]->key;
+            	$data = $data['response']->rows[0]->key;
 
             if($this->debug){
                 TempoDebug::dump($data);
@@ -934,7 +937,7 @@ class CouchAPI {
 
         if(isset($data['response'])) {
 
-            $data = $data['response']->rows;
+            $data = $data['response'];
 
             if($this->debug){
                 TempoDebug::dump($data);
@@ -966,45 +969,7 @@ class CouchAPI {
             return $data;
         }
 		
-        $path = 'events/_design/groupPage/_view/groupTotals?group_level=1&key="' . $id . '"';
-
-        $data = $this->call($path);
-
-        if(isset($data['response'])) {
-
-            $data = $data['response']->rows[0]->value;
-
-            if($this->debug){
-                TempoDebug::dump($data);
-            }
-
-            $encoded = json_encode($data);
-
-            \Cache::add($cacheKey, $encoded, 60);
-
-        }else{
-            $encoded = json_encode([]);
-        }
-
-        return $encoded;
-    }
-	
-	public function getGroupPlayerTotalsByTag($id)
-    {
-
-        $cacheKey = 'GroupPlayerTotals' . $id;
-
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
-		
-        $path = 'events/_design/groupPage/_view/groupPlayerTotals?group_level=1&key="' . $id . '"';
+        $path = 'events/_design/groupTable/_view/groupTotals?group_level=1&startkey=["' . $id . '"]&limit=1';
 
         $data = $this->call($path);
 
@@ -1233,6 +1198,44 @@ class CouchAPI {
         }
 
         $path = 'events/_design/playerTable/_view/player_in_aircraft_kills_count?group_level=4';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response'];
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+            \Cache::add($cacheKey, $encoded, 60);
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+	
+	public function getMedics()
+    {
+
+        $cacheKey = 'Medics';
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'events/_design/playerTable/_view/player_heals_count?group_level=2';
 
         $data = $this->call($path);
 
