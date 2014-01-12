@@ -131,7 +131,9 @@ class AdminClanController extends BaseController {
                     $clan->password = $this->_generatePassword(32);
 					$clan->type = "Infantry";
 					$clan->size = "Squad";
-
+					$clan->lat = rand(3300,4200);
+					$clan->lon = rand(2000,6000);
+					
                     $clanExists = Clan::where('name', $clan->name)->count();
 					$tagExists = Clan::where('tag', $clan->tag)->count();
 
@@ -301,6 +303,8 @@ class AdminClanController extends BaseController {
             'description' => Input::get('description'),
             'allowApplicants' => Input::get('allowApplicants', 0),
             'applicationText' => Input::get('applicationText', 0),
+			'lat' => Input::get('lat'),
+			'lon' => Input::get('lon'),
         );
 
         $rules = array (
@@ -357,6 +361,9 @@ class AdminClanController extends BaseController {
 				
 				$clan->type = $input['type'];
 				$clan->size = $input['size'];
+				
+				$clan->lat = $input['lat'];
+				$clan->lon = $input['lon'];
 
                 if ($clan->save()) {
                     Alert::success('Group updated.')->flash();

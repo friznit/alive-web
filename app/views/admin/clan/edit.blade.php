@@ -142,6 +142,26 @@
                                 ?>
                             </div>
                             
+                             <div class="form-group {{ ($errors->has('lat')) ? 'has-error' : '' }}" for="lat">
+                                <label class="control-label" for="lat">Position on Global Map (Lat)</label>
+                                <input id="lat" name="lat" value="{{ (Request::old('lat')) ? Request::old("lat") : $clan->lat }}" type="text" class="form-control" placeholder="lat">
+                                <?php
+                                if($errors->has('lat')){
+                                    echo '<span class="label label-danger">' . $errors->first('lat') . '</span>';
+                                }
+                                ?>
+                            </div>
+                            
+                           <div class="form-group {{ ($errors->has('lon')) ? 'has-error' : '' }}" for="lon">
+                                <label class="control-label" for="lon">Position on Global Map (Lon)</label>
+                                <input id="lon" name="lon" value="{{ (Request::old('lon')) ? Request::old("lon") : $clan->lon }}" type="text" class="form-control" placeholder="lon">
+                                <?php
+                                if($errors->has('lon')){
+                                    echo '<span class="label label-danger">' . $errors->first('lon') . '</span>';
+                                }
+                                ?>
+                            </div>
+                            
                             <div class="form-group {{ ($errors->has('website')) ? 'has-error' : '' }}" for="website">
                                 <label class="control-label" for="website">Website</label>
                                 <input name="website" value="{{ (Request::old('website')) ? Request::old("website") : $clan->website }}" type="text" class="form-control" placeholder="Website">
@@ -251,7 +271,51 @@
                     </form>
                 </div>
             </div>
+			<div class="col-md-8">
+                <div class="panel panel-dark">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Select Home Base Position</h3>
+                    </div>
+                    <div class="panel-body">
+                    	<div id="map" style="height: 400px;"></div>
+                        
+                        <script type="text/javascript">
+                        <!--
+						 var map = L.map('map', {
+								minZoom: 0,
+								maxZoom: 5,
+								crs: L.CRS.Simple
+							}).setView([4096,4096], 2);
+							
+							var southWest = map.unproject([0,1654], map.getMaxZoom());
+							var northEast = map.unproject([8192,6400], map.getMaxZoom());
+							map.setMaxBounds(new L.LatLngBounds(southWest, northEast));
+							L.tileLayer("{{ URL::to('/') }}/maps/globalmap3/{z}/{x}/{y}.png" , {
+								tms: true	//means invert.
+							}).addTo(map);
+							
+							map.on('click', function(e) {
+								
+								var p = map.project(e.latlng, map.getMaxZoom());
 
+								  document.getElementById("lon").value = p.x;
+  								  document.getElementById("lat").value = p.y;
+								  alert("You selected an area on the map: " + map.project(e.latlng, map.getMaxZoom())).latlng;
+							});
+							
+						$(document).ready(function() {
+							$(".trigger").click(function(){
+								$(".panel").toggle("fast");
+								$(this).toggleClass("active");
+								return false;
+							});
+						});
+						 //-->
+                        </script>
+
+                    </div>
+                </div>
+            </div>
             <div class="col-md-4">
 
                 <div class="panel panel-dark">

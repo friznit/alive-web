@@ -19,6 +19,7 @@ class WarRoomController extends BaseController {
         $data = get_default_data();
 
         $data['allAOs'] = AO::all();
+		$data['clans'] = Clan::where('parent', '!=', 'JTF')->orwhereNull('parent')->get();
 
         $devs = Profile::where('remark', '=', 'Developer')->get();
 

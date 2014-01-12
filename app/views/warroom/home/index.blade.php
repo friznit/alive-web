@@ -135,13 +135,15 @@
 <script type="text/javascript">
 	var ajaxUrl = '{{ URL::to('/') }}/api/devcredits?id={{$profile->a3_id}}';
 	 $.getJSON(ajaxUrl, function(data) {
-		var myIcon = new groupIcon({iconUrl: '{{ URL::to('/') }}/img/icons/b_{{$icon}}.png'});
+		var myIcon = new groupIcon({	iconSize:     [40, 40], // size of the icon
+										shadowSize:   [40, 40], // size of the shadowicon
+										iconUrl: '{{ URL::to('/') }}/img/icons/b_{{$icon}}.png'});
 		var marker = new MyCustomMarker(map.unproject([data.globalX,data.globalY], map.getMaxZoom()), {
 			icon: myIcon
 		});
 		
 		var popup = L.popup()
-			.setContent("<div class='strip'>Unit</div>" +
+			.setContent("<div class='strip'>Lead Unit</div>" +
                         "<div class='unit-popup'>" +
                         "<p>" +
                         "<span class='title'>{{$clan->name}} [{{$clan->tag}}]</span></br>" +
@@ -159,6 +161,69 @@
 		map.addLayer(marker);
 	 });
 	 
+</script>
+
+@endforeach
+
+@foreach ($clans as $clan)
+ <?php
+ 	$clanorbat = $clan->orbat();
+    $orbattype = $clanorbat['type'];
+    $orbatsize = $clanorbat['size'];
+
+    $icon = '';
+    $name = '';
+    $size = '';
+    $sizeicon = '';
+
+    if(count($orbattype) > 0){
+        $icon = $orbattype[0]->icon;
+        $name = $orbattype[0]->name;
+    }
+    if(count($orbatsize) > 0){
+        $size = $orbatsize[0]->name;
+        $sizeicon = $orbatsize[0]->icon;
+    }
+	
+	if (is_null ($clan->lat)) {
+		$lat = rand(3000,4500);
+	} else {
+		$lat = $clan->lat;
+	}
+	if (is_null ($clan->lon)) {
+		$lon = rand(1800,6400);
+	} else {
+		$lon = $clan->lon;
+	}
+?>
+
+<script type="text/javascript">
+	var ajaxUrl = '{{ URL::to('/') }}/api/grouptotalsbytag?id={{$clan->tag}}';
+	 $.getJSON(ajaxUrl, function(data) {
+			var myIcon = new groupIcon({iconUrl: '{{ URL::to('/') }}/img/icons/b_{{$icon}}.png'});
+			var marker = new MyCustomMarker(map.unproject([{{$lat}},{{$lon}}], map.getMaxZoom()), {
+				icon: myIcon
+			});
+			
+			var popup = L.popup()
+				.setContent("<div class='strip'>Unit</div>" +
+							"<div class='unit-popup'>" +
+							"<p>" +
+							"<a href={{ URL::to('war-room/showorbat') }}/{{$clan->id}}><span class='title'>{{$clan->name}} [{{$clan->tag}}]</span></a></br>" +
+							"<span class='highlight'>{{$name}} {{$size}}</span>" +
+							" <img src='{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($clan->country) }}.png' alt='{{ $clan->country_name }}' title='{{ $profile->country_name }}' width='18' height='18'/><br/>" +
+							 "<span class='highlight'>OPS:</span> " + data.Operations + " <span class='highlight'>| EKIA:</span> " + data.Kills + " <span class='highlight'>| LOSSES:</span> " + data.Deaths + "</br>" +
+                        "<span class='highlight'>HRS:</span> " + Math.round((data.CombatHours / 60)*10)/10 + " <span class='highlight'>| AMMO:</span> " + data.ShotsFired + 
+							"</p>" +
+							"</div>");
+				
+			marker.bindPopup(popup, {
+				showOnMouseOver: true,
+				offset: new L.Point(-3, -5)
+			});
+			map.addLayer(marker);
+	});
+	
 </script>
 
 @endforeach
