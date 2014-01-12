@@ -11,7 +11,7 @@ class CouchAPI {
     private $user = 'ARJay';
     private $pass = 'letmein';
     private $url = 'https://msostore.iriscouch.com/';
-    private $reset = true;
+    private $reset = false;
     private $debug = false;
 
     public function createClanUser($name, $password)
