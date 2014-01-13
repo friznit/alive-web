@@ -153,7 +153,7 @@
                                 <tr>
                                     <td>
                                     @if (is_null($member->remote_id))
-                                    <br/><button class="btn btn-yellow" onClick="location.href='{{ URL::to('admin/clan/connectmember') }}/{{ $member->user_id }}'">Connect to cloud</button>
+                                    <br/><button class="btn btn-yellow" onClick="location.href='{{ URL::to('admin/clan/connectmember') }}/{{ $member->user_id }}'">Connect to Game Data</button>
                                     @endif
                                     </td>
                                 </tr>
@@ -231,14 +231,14 @@
 
                 @if (is_null($clan->remote_id))
 
-                <h2>Cloud Connection</h2>
+                <h2>Game Data</h2>
 
-                <p>Your group is not connected to the cloud data store</p>
+                <p>Your group is not linked to its Game Data</p>
 
                 <table class="table table-hover">
                     <tbody>
                     <tr>
-                        <td><button class="btn btn-yellow" onClick="location.href='{{ URL::to('admin/clan/connect') }}/{{ $clan->id }}'">Connect</button></td>
+                        <td><button class="btn btn-yellow" onClick="location.href='{{ URL::to('admin/clan/connect') }}/{{ $clan->id }}'">Connect to Game Data</button></td>
                     </tr>
                     </tbody>
                 </table>

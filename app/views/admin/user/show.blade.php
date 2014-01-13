@@ -143,14 +143,14 @@
 
                 @if (is_null($profile->remote_id) && $profile->clan_id > 0)
 
-                <h2>Cloud Connection</h2>
+                <h2>Game Data</h2>
 
-                <p>You are not connected to the cloud data store</p>
+                <p>You're profile is not linked to your Game Data</p>
 
                 <table class="table table-hover">
                     <tbody>
                     <tr>
-                        <td><button class="btn btn-yellow" onClick="location.href='{{ URL::to('admin/user/connect') }}/{{ $clan->id }}'">Connect</button></td>
+                        <td><button class="btn btn-yellow" onClick="location.href='{{ URL::to('admin/user/connect') }}/{{ $clan->id }}'">Connect to Game Data</button></td>
                     </tr>
                     </tbody>
                 </table>
