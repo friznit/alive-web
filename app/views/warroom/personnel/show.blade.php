@@ -10,6 +10,7 @@
 	var playerVehicle = {{$playerdata['Vehicle']}};
 	var playerWeapon = {{$playerdata['Weapon']}};
 	var playerClass = {{$playerdata['Class']}};
+
 	
 	$(document).ready(function() {
 		if (playerDetails.PlayerRank){
@@ -132,6 +133,9 @@
                             <td id="playerlastactive"></td>
                         </tr>
                     </table>
+
+                    <h2>Aliases</h2>
+					@include('warroom/tables/alias')
 
 				@if(!is_null($profile))
                     <table class="table">

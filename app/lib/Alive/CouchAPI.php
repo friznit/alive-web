@@ -893,13 +893,13 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/playerPage/_list/sort_by_value/players_alias?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
+        $path = 'events/_design/playerPage/_list/sort_by_value/players_alias?group_level=2&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
 
         $data = $this->call($path);
 
         if(isset($data['response'])) {
 
-            $data = $data['response']->rows;
+            $data = $data['response'];
 
             if($this->debug){
                 TempoDebug::dump($data);
