@@ -251,6 +251,9 @@ class AdminClanController extends BaseController {
 
             $clan = Clan::find($id);
 			$orbat = $clan->orbat();
+			
+			$clans = Clan::all();
+			$data['clans'] = $clans;
 
             $data['countries'] = DB::table('countries')->lists('name','iso_3166_2');
 			$data['groupTypes'] = DB::table('orbattypes')->lists('name','type');

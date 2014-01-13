@@ -142,6 +142,40 @@
                                 ?>
                             </div>
                             
+                            <div class="form-group {{ ($errors->has('parent')) ? 'has-error' : '' }}" for="parent">
+                                <label class="control-label" for="parent">Parent</label><span class="badge" data-toggle="modal" data-target="#parentModal">?</span>
+                                <select name="parent" value="{{ (Request::old('parent')) ? Request::old("parent") : $clan->parent  }}" parent="text" class="form-control" placeholder="parent">
+                                @foreach ($clans as $key)
+                                @if ($key->tag == $clan->tag)
+                                <option value="{{$key->tag}}" selected="selected">{{$key->name}}</option>
+                                @else
+                                <option value="{{$key->tag}}">{{$key->name}}</option>
+                                @endif
+                                @endforeach
+                                </select>
+                                <?php
+                                if($errors->has('parent')){
+                                    echo '<span class="label label-danger">' . $errors->first('parent') . '</span>';
+                                }
+                                ?>
+                            </div>
+                            
+                            <div class="modal fade" id="parentModal" tabindex="-1" role="dialog" aria-labelledby="parentModal" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="myModalLabel"></h4>
+                                        </div>
+                                        <div class="strip">
+                                            <p>You can align yourself to the NATO Joint Task Force by specifying a parent unit. This maybe one of the ALiVE Lead Units or another community group if you wish. This is just for fun and will put your group on our ORBAT credits page. This has NO impact over statistics, operations, servers, group membership etc.</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                              <div class="form-group {{ ($errors->has('lat')) ? 'has-error' : '' }}" for="lat">
                                 <label class="control-label" for="lat">Position on Global Map (Lat)</label>
                                 <input id="lat" name="lat" value="{{ (Request::old('lat')) ? Request::old("lat") : $clan->lat }}" type="text" class="form-control" placeholder="lat">
