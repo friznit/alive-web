@@ -66,10 +66,11 @@
 	var groupIcon = L.Icon.extend({ 
 		options: {
 			shadowUrl: '{{ URL::to('/') }}/img/icons/groupIconShadow.png',
+			shadowUrl: '{{ URL::to('/') }}/img/icons/w_group_0.png',
 			iconSize:     [35, 35], // size of the icon
 			shadowSize:   [35, 35], // size of the shadow
 			iconAnchor:   [20, 20], // point of the icon which will correspond to markers location
-			shadowAnchor: [15, 15],  // the same for the shadow
+			shadowAnchor: [20, 20],  // the same for the shadow
 			popupAnchor:  [105, 105] // point from which the popup should open relative to the iconAnchor
 		}
 	});
@@ -137,6 +138,7 @@
 	 $.getJSON(ajaxUrl, function(data) {
 		var myIcon = new groupIcon({	iconSize:     [40, 40], // size of the icon
 										shadowSize:   [40, 40], // size of the shadowicon
+										shadowUrl: '{{ URL::to('/') }}/img/icons/w_{{$sizeicon}}.png',
 										iconUrl: '{{ URL::to('/') }}/img/icons/b_{{$icon}}.png'});
 		var marker = new MyCustomMarker(map.unproject([data.globalX,data.globalY], map.getMaxZoom()), {
 			icon: myIcon
@@ -201,7 +203,7 @@
 	var ajaxUrl = '{{ URL::to('/') }}/api/grouptotalsbytag?id={{$clan->tag}}';
 	 $.getJSON(ajaxUrl, function(data) {
 			var myIcon = new groupIcon({iconUrl: '{{ URL::to('/') }}/img/icons/b_{{$icon}}.png'});
-			var marker = new MyCustomMarker(map.unproject([{{$lat}},{{$lon}}], map.getMaxZoom()), {
+			var marker = new MyCustomMarker(map.unproject([{{$lon}},{{$lat}}], map.getMaxZoom()), {
 				icon: myIcon
 			});
 			
