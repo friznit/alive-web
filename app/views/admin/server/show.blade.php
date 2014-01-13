@@ -43,6 +43,10 @@
                 </table>
 
             </div>
+            
+            <div class="col-md-8">
+            	@include('warroom/charts/serverperf')
+            </div>
         </div>
     </div>
 </div>
