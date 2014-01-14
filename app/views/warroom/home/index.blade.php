@@ -112,11 +112,11 @@
 
 @endforeach
 
-@foreach ($devs as $profile)
+@foreach ($devs as $dprofile)
  <?php
-    $clan = $profile->clan;
-    $orbattype = $profile->orbat['type'];
-    $orbatsize = $profile->orbat['size'];
+    $clan = $dprofile->clan;
+    $orbattype = $dprofile->orbat['type'];
+    $orbatsize = $dprofile->orbat['size'];
 
     $icon = '';
     $name = '';
@@ -134,7 +134,7 @@
 ?>
 
 <script type="text/javascript">
-	var ajaxUrl = '{{ URL::to('/') }}/api/devcredits?id={{$profile->a3_id}}';
+	var ajaxUrl = '{{ URL::to('/') }}/api/devcredits?id={{$dprofile->a3_id}}';
 	 $.getJSON(ajaxUrl, function(data) {
 		var myIcon = new groupIcon({	iconSize:     [40, 40], // size of the icon
 										shadowSize:   [40, 40], // size of the shadowicon
@@ -151,7 +151,7 @@
                         "<span class='title'>{{$clan->name}} [{{$clan->tag}}]</span></br>" +
                         "<span class='highlight'>{{$name}} {{$size}}</span></br>" +
                         "<span class='highlight'>Cmdr:</span> " + data.PlayerName +
-                        " <img src='{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($profile->country) }}.png' alt='{{ $profile->country_name }}' title='{{ $profile->country_name }}' width='16' height='16'/><br/>" +
+                        " <img src='{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($dprofile->country) }}.png' alt='{{ $dprofile->country_name }}' title='{{ $dprofile->country_name }}' width='16' height='16'/><br/>" +
                         "<span class='highlight'>Credits:</span> " + data.Credits +
                         "</p>" +
                         "</div>");
@@ -213,7 +213,7 @@
 							"<p>" +
 							"<a href={{ URL::to('war-room/showorbat') }}/{{$clan->id}}><span class='title'>{{$clan->name}} [{{$clan->tag}}]</span></a></br>" +
 							"<span class='highlight'>{{$name}} {{$size}}</span>" +
-							" <img src='{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($clan->country) }}.png' alt='{{ $clan->country_name }}' title='{{ $profile->country_name }}' width='18' height='18'/><br/>" +
+							" <img src='{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($clan->country) }}.png' alt='{{ $clan->country_name }}' title='{{ $clan->country_name }}' width='18' height='18'/><br/>" +
 							 "<span class='highlight'>OPS:</span> " + data.Operations + " <span class='highlight'>| EKIA:</span> " + data.Kills + " <span class='highlight'>| LOSSES:</span> " + data.Deaths + "</br>" +
                         "<span class='highlight'>HRS:</span> " + Math.round((data.CombatHours / 60)*10)/10 + " <span class='highlight'>| AMMO:</span> " + data.ShotsFired + 
 							"</p>" +

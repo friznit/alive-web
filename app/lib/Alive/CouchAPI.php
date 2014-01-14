@@ -8,10 +8,10 @@ ini_set('max_execution_time', 60);
 
 class CouchAPI {
 
-    private $user = 'ARJay';
-    private $pass = 'letmein';
-    private $url = 'https://msostore.iriscouch.com/';
-    private $reset = false;
+    private $user = 'aliveadmin';
+    private $pass = 'tupolov';
+    private $url = 'http://localhost:5984/';
+    private $reset = true;
     private $debug = false;
 
     public function createClanUser($name, $password)
@@ -64,7 +64,7 @@ class CouchAPI {
 
         $data = $this->call($path);
 
-        if(isset($data['response'])) {
+        if(isset($data['response']->rows[0])) {
 
             $data = $data['response']->rows[0]->value;
 
@@ -102,7 +102,7 @@ class CouchAPI {
 
         $data = $this->call($path);
 
-        if(isset($data['response'])) {
+        if(isset($data['response']->rows[0])) {
 
             $data = $data['response']->rows[0]->value;
 
@@ -140,7 +140,7 @@ class CouchAPI {
 
         $data = $this->call($path);
 
-        if(isset($data['response'])) {
+        if(isset($data['response']->rows)) {
 
             $data = count($data['response']->rows);
 
@@ -254,7 +254,7 @@ class CouchAPI {
 
         $data = $this->call($path);
 
-        if(isset($data['response'])) {
+        if(isset($data['response']->rows)) {
 
             $data = $data['response']->rows;
             $result = array();
@@ -301,7 +301,7 @@ class CouchAPI {
 
         $data = $this->call($path);
 
-        if(isset($data['response'])) {
+        if(isset($data['response']->rows)) {
 
             $data = $data['response']->rows;
             $result = array();
@@ -348,7 +348,7 @@ class CouchAPI {
 
         $data = $this->call($path);
 
-        if(isset($data['response'])) {
+        if(isset($data['response']->rows)) {
 
             $data = $data['response']->rows;
             $result = array();
@@ -666,7 +666,7 @@ class CouchAPI {
 
         $data = $this->call($path);
 
-        if(isset($data['response'])) {
+        if(isset($data['response']->rows[0])) {
 
             $data = $data['response']->rows[0]->value;
 
@@ -704,7 +704,7 @@ class CouchAPI {
 
         $data = $this->call($path);
 
-        if(isset($data['response'])) {
+        if(isset($data['response']->rows[0])) {
 
             $data = $data['response']->rows[0]->value;
 
@@ -742,7 +742,7 @@ class CouchAPI {
 
         $data = $this->call($path);
 
-        if(isset($data['response'])) {
+        if(isset($data['response']->rows[0])) {
 
             $data = $data['response']->rows[0]->value;
 
@@ -782,7 +782,7 @@ class CouchAPI {
 
         $data = $this->call($path);
 
-        if(isset($data['response'])) {
+        if(isset($data['response']->rows[0])) {
 
             	$data = $data['response']->rows[0]->key;
 			
@@ -821,7 +821,7 @@ class CouchAPI {
 
         $data = $this->call($path);
 
-        if(isset($data['response'])) {
+        if(isset($data['response']->rows[0])) {
 
             	$data = $data['response']->rows[0]->key;
 
@@ -859,7 +859,7 @@ class CouchAPI {
 
         $data = $this->call($path);
 
-        if(isset($data['response'])) {
+        if(isset($data['response']->rows[0])) {
 
             	$data = $data['response']->rows[0]->key;
 
@@ -973,7 +973,7 @@ class CouchAPI {
 
         $data = $this->call($path);
 
-        if(isset($data['response'])) {
+        if(isset($data['response']->rows[0])) {
 
             $data = $data['response']->rows[0]->value;
 
@@ -1049,7 +1049,7 @@ class CouchAPI {
 
         $data = $this->call($path);
 
-        if(isset($data['response'])) {
+        if(isset($data['response']->rows[0])) {
 
             $data = $data['response']->rows[0]->value;
 

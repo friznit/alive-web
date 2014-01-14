@@ -25,10 +25,10 @@ class WarRoomController extends BaseController {
 
         $profiles = array();
 
-        forEach($devs as $profile) {
-            $clan = $profile->clan;
-            $profile->orbat = $clan->orbat();
-            array_push($profiles, $profile);
+        forEach($devs as $dprofile) {
+            $clan = $dprofile->clan;
+            $dprofile->orbat = $clan->orbat();
+            array_push($profiles, $dprofile);
         }
 
         $data['devs'] = $profiles;
@@ -156,10 +156,10 @@ class WarRoomController extends BaseController {
 			$members = $clan->members->all();
 			
 			forEach($members as $member) {
-					$user = Sentry::findUserById($member->user_id);
-					$memberIsGrunt = $user->inGroup($auth['gruntGroup']);
-					$memberIsOfficer = $user->inGroup($auth['officerGroup']);
-					$memberIsLeader = $user->inGroup($auth['leaderGroup']);
+					$tuser = Sentry::findUserById($member->user_id);
+					$memberIsGrunt = $tuser->inGroup($auth['gruntGroup']);
+					$memberIsOfficer = $tuser->inGroup($auth['officerGroup']);
+					$memberIsLeader = $tuser->inGroup($auth['leaderGroup']);
 
 					if($memberIsLeader) $leader = $member;
 					
