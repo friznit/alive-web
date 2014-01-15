@@ -10,9 +10,9 @@ class Profile extends Eloquent {
     public function __construct(array $attributes = array()) {
         $this->hasAttachedFile('avatar', [
             'styles' => [
-            'medium' => '300x300',
-            'thumb' => '100x100',
-            'tiny' => '40x40'
+            'medium' => 'x300',
+            'thumb' => 'x100',
+            'tiny' => 'x40'
             ]
         ]);
 
