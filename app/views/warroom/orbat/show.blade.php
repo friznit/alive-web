@@ -196,6 +196,26 @@
 
 <div class="jumbotron white-panel">
     <div class="container">
+    
+            <div class="row">
+
+			<div class="col-md-4">
+                <h1>Top Guns</h1>
+                <hr/>
+                @include('warroom/tables/orbat_pilots') 
+			</div>
+            <div class="col-md-4">
+                <h1>Tier 1 Operators</h1>
+                <hr/>
+  				@include('warroom/tables/orbat_t1')       
+  			</div>
+			<div class="col-md-4">
+                <h1>Medics</h1>
+                <hr/>
+                @include('warroom/tables/orbat_medics') 
+			</div>
+
+        </div>
 
         <div class="row">
 

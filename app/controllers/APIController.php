@@ -152,4 +152,19 @@ class APIController extends BaseController {
 		$id = Input::get('id');
         return $this->couchAPI->getGroupClasses($id);
     }
+	public function getOrbatt1()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getOrbatT1($id);
+    }
+	public function getOrbatmedics()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getOrbatMedics($id);
+    }
+	public function getOrbatpilots()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getOrbatPilots($id);
+    }
 }

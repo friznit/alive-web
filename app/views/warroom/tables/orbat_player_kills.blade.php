@@ -3,7 +3,7 @@
 		
         $('#top_groupplaykills').dataTable({
 					"bJQueryUI": true,
-					"sAjaxSource": 'http://msostore.iriscouch.com/events/_design/groupPage/_view/player_kills_count_bygroup?&group_level=4&startkey=[%22{{{$clan->tag}}}%22]&endkey=[%22{{{$clan->tag}}}%22,{}]&callback=?',
+					"sAjaxSource": 'http://alive.iriscouch.com/events/_design/groupPage/_view/player_kills_count_bygroup?&group_level=4&startkey=[%22{{{$clan->tag}}}%22]&endkey=[%22{{{$clan->tag}}}%22,{}]&callback=?',
 					"sAjaxDataProp": "rows",
                     "bPaginate": false,
                     "bFilter": false,

@@ -3,7 +3,7 @@
 		
         $('#top_classes').dataTable({
 					"bJQueryUI": true,
-					"sAjaxSource": "http://msostore.iriscouch.com/events/_design/playerPage/_view/players_class?&group_level=3&startkey=[%22{{ $player_id }}%22]&endkey=[%22{{ $player_id }}%22,{}]&callback=?",
+					"sAjaxSource": "http://alive.iriscouch.com/events/_design/playerPage/_view/players_class?&group_level=3&startkey=[%22{{ $player_id }}%22]&endkey=[%22{{ $player_id }}%22,{}]&callback=?",
 					"sAjaxDataProp": "rows",
                     "bPaginate": false,
                     "bFilter": false,

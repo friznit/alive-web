@@ -1,6 +1,6 @@
 <script>
     $(document).ready(function() {
-        $.getJSON('http://msostore.iriscouch.com/events/_design/groupPage/_list/sort/group_events?startkey=[%22{{$clan->tag}}%22,{}]&endkey=[%22{{$clan->tag}}%22]&descending=true&limit=50&callback=?', function(data) {
+        $.getJSON('http://alive.iriscouch.com/events/_design/groupPage/_list/sort/group_events?startkey=[%22{{$clan->tag}}%22,{}]&endkey=[%22{{$clan->tag}}%22]&descending=true&limit=50&callback=?', function(data) {
 
 			$.each(data.rows, function (index, row) {
 

@@ -1,7 +1,7 @@
 <script>
     $(document).ready(function() {
 
-        $.getJSON('http://msostore.iriscouch.com/events/_design/homePage/_view/all_events?descending=true&limit=50&callback=?', function(data) {
+        $.getJSON('http://db.alivemod.com/events/_design/homePage/_view/all_events?descending=true&limit=50&callback=?', function(data) {
 
             $.each(data.rows, function (index, row) {
 

@@ -3,7 +3,7 @@
     $(document).ready(function(){
         $('#kpm').dataTable({
             "bJQueryUI": true,
-            "sAjaxSource": 'http://msostore.iriscouch.com/events/_design/playerTable/_view/playerKillsperMin?group_level=2&callback=?',
+            "sAjaxSource": 'http://alive.iriscouch.com/events/_design/playerTable/_view/playerKillsperMin?group_level=2&callback=?',
             "sAjaxDataProp": "rows",
             "bPaginate": true,
             "aaSorting": [[1, "desc" ]],

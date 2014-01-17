@@ -46,7 +46,7 @@
 		
 		if (playerVehicle) {
 			$('#playerveh').append(playerVehicle[2]);
-			$('#playervehicon').append("<img src='{{ URL::to('/') }}/img/classes/medium/Arma3_CfgVehicles_" + playerVehicle[1] + ".png' alt='" + playerVehicle[2] +"'/>");
+			$('#playervehicon').append("<img src='{{ URL::to('/') }}/img/classes/medium/800px-Arma3_CfgVehicles_" + playerVehicle[1] + ".png' alt='" + playerVehicle[2] +"'/>");
 		} else {
 			$('#playerveh').append("None");
 		}

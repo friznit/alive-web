@@ -3,7 +3,7 @@
 		
         $('#top_groupclasses').dataTable({
 					"bJQueryUI": true,
-					"sAjaxSource": 'http://msostore.iriscouch.com/events/_design/groupPage/_view/group_classes?&group_level=3&startkey=[%22{{{$clan->tag}}}%22]&endkey=[%22{{{$clan->tag}}}%22,{}]&callback=?',
+					"sAjaxSource": 'http://alive.iriscouch.com/events/_design/groupPage/_view/group_classes?&group_level=3&startkey=[%22{{{$clan->tag}}}%22]&endkey=[%22{{{$clan->tag}}}%22,{}]&callback=?',
 					"sAjaxDataProp": "rows",
                     "bPaginate": false,
                     "bFilter": false,

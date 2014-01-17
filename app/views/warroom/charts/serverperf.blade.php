@@ -13,7 +13,7 @@ $(function() {
 
 	$.each(names, function(i, name) {
 
-		$.getJSON('http://msostore.iriscouch.com/sys_perf/_design/sys_perf/_view/'+ name +'?startkey="{{$server->ip}}"&endkey="{{$server->ip}}"&callback=?', function(data) {
+		$.getJSON('http://alive.iriscouch.com/sys_perf/_design/sys_perf/_view/'+ name +'?startkey="{{$server->ip}}"&endkey="{{$server->ip}}"&callback=?', function(data) {
             
             var seriesData = [];
             

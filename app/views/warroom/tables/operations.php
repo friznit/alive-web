@@ -3,7 +3,7 @@
     $(document).ready(function(){
         $('#operations').dataTable({
             "bJQueryUI": true,
-            "sAjaxSource": 'http://msostore.iriscouch.com/events/_design/operationsTable/_view/operationKillsByClass?group_level=3&callback=?',
+            "sAjaxSource": 'http://alive.iriscouch.com/events/_design/operationsTable/_view/operationKillsByClass?group_level=3&callback=?',
             "sAjaxDataProp": "rows",
             "bPaginate": true,
             "aaSorting": [[1, "desc" ]],
