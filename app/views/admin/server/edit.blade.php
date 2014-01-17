@@ -113,33 +113,33 @@
                     <div class="panel-body">
 
                         <div class="strip">
-                            <p>Preparing your server</p>
+                            <p>Getting your server up and running</p>
                         </div>
 
                         <table class="table">
                             <tr>
                                 <td width="80">Step 1</td>
-                                <td>Download the ALiVE server addin and save the folder @ALiVE in your Dedicated Server Arma 3root folder.</td>
-                                <td><a class="btn btn-yellow" href="{{ URL::to('/') }}/downloads/@ALiVE.zip"><i class="fa fa-download"></i> Download</a></td>
+                                <td>Download the ALiVE server addin and extract the folder into the @ALiVE folder in your Dedicated Server Arma 3 root folder.</td>
+                                <td><a class="btn btn-yellow" href="{{ URL::to('/') }}/downloads/ALiVE.zip"><i class="fa fa-download"></i> Download</a></td>
                             </tr>
                             <tr>
                                 <td>Step 2</td>
-                                <td>Download and save the alive.cfg to <i>C:\Users\USERNAME\AppData\Local\ALiVE</i>.<br />You may need to create the directory yourself, if it's not there.</td>
+                                <td>Download and save the alive.cfg file to <i>C:\Users\USERNAME\AppData\Local\ALiVE</i>.<br />You may need to create the directory yourself, if it's not there.</td>
                                 <td><a class="btn btn-yellow" href="{{ URL::to('admin/server/config') }}/{{ $clan->id }}"><i class="fa fa-download"></i> Download</a></td>
                             </tr>
                             <tr>
                                 <td>Step 3</td>
-                                <td>Important: Your ALiVE mission needs the ALiVE System Database module (available in the Arma 3 Editor) for this feature to work!</td>
+                                <td>Important: Your ALiVE mission needs the ALiVE System Database module (available in the Arma 3 Editor) placed for this feature to work!</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>Step 4</td>
-                                <td>Run your ALiVE MP mission (with the Database module placed in the mission) on your dedicated server and connect with your client</td>
+                                <td>Run your ALiVE MP mission on your dedicated server and connect with your client</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>Step 5</td>
-                                <td>Go to alivemod.com War Room, under Recent Operations or Data Feed you should see a message stating your mission was launched.</td>
+                                <td>Go to alivemod.com War Room, under Recent Operations or Live Data Feed on the home page and you should see a message stating your mission was launched.</td>
                                 <td></td>
                             </tr>
                         </table>
@@ -156,12 +156,12 @@
                             </tr>
                             <tr>
                                 <td>Step 2</td>
-                                <td>Launch Arma3server.exe with the @ALiVE in the mod line on your dedicated server</td>
+                                <td>Launch Arma3server.exe with the @ALiVE in the mod line on your dedicated server. Ensure the ALiVE Server addin has been downloaded into the @ALiVE folder</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>Step 3</td>
-                                <td>Launch your arma3.exe as normal</td>
+                                <td>Launch your arma3.exe as normal (with @ALiVE but no need for server addin on your client)</td>
                                 <td></td>
                             </tr>
                             <tr>
