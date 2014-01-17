@@ -119,8 +119,8 @@
                         <table class="table">
                             <tr>
                                 <td width="80">Step 1</td>
-                                <td>Download the ALiVE version of @Arma2Net and save the folder @Arma2NET in your Arma 3 root folder.</td>
-                                <td><a class="btn btn-yellow" href="{{ URL::to('/') }}/downloads/@Arma2NET.zip"><i class="fa fa-download"></i> Download</a></td>
+                                <td>Download the ALiVE server addin and save the folder @ALiVE in your Dedicated Server Arma 3root folder.</td>
+                                <td><a class="btn btn-yellow" href="{{ URL::to('/') }}/downloads/@ALiVE.zip"><i class="fa fa-download"></i> Download</a></td>
                             </tr>
                             <tr>
                                 <td>Step 2</td>
@@ -129,21 +129,16 @@
                             </tr>
                             <tr>
                                 <td>Step 3</td>
-                                <td>Add @Arma2NET to your DEDICATED server startup parameters and start server.<br/>Example, <i>-mod=@CBA3;@Arma2NET;@ALiVE</i></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Step 4</td>
                                 <td>Important: Your ALiVE mission needs the ALiVE System Database module (available in the Arma 3 Editor) for this feature to work!</td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Step 5</td>
+                                <td>Step 4</td>
                                 <td>Run your ALiVE MP mission (with the Database module placed in the mission) on your dedicated server and connect with your client</td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Step 6</td>
+                                <td>Step 5</td>
                                 <td>Go to alivemod.com War Room, under Recent Operations or Data Feed you should see a message stating your mission was launched.</td>
                                 <td></td>
                             </tr>
@@ -161,52 +156,37 @@
                             </tr>
                             <tr>
                                 <td>Step 2</td>
-                                <td>Launch @Arma2Net/arma2netexplorer.exe</td>
+                                <td>Launch Arma3server.exe with the @ALiVE in the mod line on your dedicated server</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>Step 3</td>
-                                <td>Click Load Addins</td>
+                                <td>Launch your arma3.exe as normal</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>Step 4</td>
-                                <td>In baretail open C:\Users\USERNAME\AppData\Local\arma2net\arma2net.log</td>
+                                <td>Run any MP mission (with the Database Module placed) on your dedicated local server and connect with your client, go into the game</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>Step 5</td>
-                                <td>Check that arma2net has initialized without error</td>
+                                <td>In baretail open users/username/appdata/local/arma2net/arma2net.log</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>Step 6</td>
-                                <td>In arma2netexplorer click List Addins</td>
+                                <td>In baretail open Arma3Server RPT usually users/username/appdata/local/Arma3/</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>Step 7</td>
-                                <td>Make sure that SendJSON is listed as an Addins</td>
+                                <td>Check for the log CONNECTED TO DATABASE OK</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>Step 8</td>
-                                <td>In arma2netexplorer type ServerName</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Step 9</td>
-                                <td>It should return your machine name</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Step 10</td>
-                                <td>type in SendJSON ["POST","events","{"hello":"world"}"]</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Step 11</td>
-                                <td>It should return a message from the couchDB service stating OK with a UID</td>
+                                <td>Go to alivemod.com War Room, under Recent Operations or Live Data Feed you should see a message stating your mission was launched.</td>
                                 <td></td>
                             </tr>
                         </table>
