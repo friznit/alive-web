@@ -14,7 +14,7 @@ class CouchAPI {
     private $reset = false;
     private $debug = false;
 
-    public function createClanUser($name, $password)
+    public function createClanUser($name, $password, $group)
     {
         $path = '_users/org.couchdb.user:' . $name;
 
@@ -23,6 +23,7 @@ class CouchAPI {
             'roles' => ['writer','reader'],
             'type' => 'user',
             'password' => $password,
+			'ServerGroup' => $group,
         );
 
         $requestType = 'PUT';
