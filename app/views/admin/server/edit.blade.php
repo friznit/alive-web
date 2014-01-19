@@ -117,28 +117,38 @@
                         </div>
 
                         <table class="table">
-                            <tr>
+                             <tr>
                                 <td width="80">Step 1</td>
+                                <td>Microsoft .NET Framework 4 Client Profile must be installed on your dedicated server.</td>
+                                <td>Get it from <a href="http://www.microsoft.com/download/en/details.aspx?id=24872" target="new">http://www.microsoft.com/download/en/details.aspx?id=24872</a></td>
+                            </tr>
+                             <tr>
+                                <td>Step 2</td>
+                                <td>Microsoft Visual C++ 2013 32-bit must also be installed on your dedicated server. </td>
+                                <td>Get it from <a href="http://www.microsoft.com/en-us/download/details.aspx?id=40784" target="new">http://www.microsoft.com/en-us/download/details.aspx?id=40784</a> , selecting vcredist_x86.exe.</td>
+                            </tr>                    
+                            <tr>
+                                <td>Step 3</td>
                                 <td>Download the ALiVE server addin and extract the folder into the @ALiVE folder in your Dedicated Server Arma 3 root folder.</td>
                                 <td><a class="btn btn-yellow" href="{{ URL::to('/') }}/downloads/ALiVE.zip"><i class="fa fa-download"></i> Download</a></td>
                             </tr>
                             <tr>
-                                <td>Step 2</td>
+                                <td>Step 4</td>
                                 <td>Download and save the alive.cfg file to <i>C:\Users\USERNAME\AppData\Local\ALiVE</i>.<br />You may need to create the directory yourself, if it's not there.</td>
                                 <td><a class="btn btn-yellow" href="{{ URL::to('admin/server/config') }}/{{ $clan->id }}"><i class="fa fa-download"></i> Download</a></td>
                             </tr>
                             <tr>
-                                <td>Step 3</td>
+                                <td>Step 5</td>
                                 <td>Important: Your ALiVE mission needs the ALiVE System Database module (available in the Arma 3 Editor) placed for this feature to work!</td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Step 4</td>
+                                <td>Step 6</td>
                                 <td>Run your ALiVE MP mission on your dedicated server and connect with your client</td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Step 5</td>
+                                <td>Step 7</td>
                                 <td>Go to alivemod.com War Room, under Recent Operations or Live Data Feed on the home page and you should see a message stating your mission was launched.</td>
                                 <td></td>
                             </tr>

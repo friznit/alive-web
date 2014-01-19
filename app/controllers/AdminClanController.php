@@ -157,7 +157,7 @@ class AdminClanController extends BaseController {
 									}
 	
 									$couchAPI = new Alive\CouchAPI();
-									$result = $couchAPI->createClanUser($clan->key, $clan->password);
+									$result = $couchAPI->createClanUser($clan->key, $clan->password, $clan->tag);
 	
 									if(isset($result['response'])){
 										if(isset($result['response']->rev)){
