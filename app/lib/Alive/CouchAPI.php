@@ -11,7 +11,7 @@ class CouchAPI {
     private $user = 'aliveadmin';
     private $pass = 'tupolov';
     private $url = 'http://alive.iriscouch.com/';
-    private $reset =true;
+    private $reset = false;
     private $debug = false;
 
     public function createClanUser($name, $password, $group)
