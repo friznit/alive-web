@@ -1,38 +1,26 @@
 <script>
 
     $(document).ready(function(){
-        $('#operations').dataTable({
+        $('#operations1').dataTable({
             "bJQueryUI": true,
-            "sAjaxSource": 'http://alive.iriscouch.com/events/_design/operationsTable/_view/operationKillsByClass?group_level=3&callback=?',
+            "sAjaxSource": '{{ URL::to('/') }}/api/opsbreakdown',
             "sAjaxDataProp": "rows",
             "bPaginate": true,
             "aaSorting": [[1, "desc" ]],
-            "fnDrawCallback": function ( oSettings ) {
-                /* Need to redo the counters if filtered or sorted */
-                /*
-                if ( oSettings.bSorted || oSettings.bFiltered )
-                {
-                    for ( var i=0, iLen=oSettings.aiDisplay.length ; i<iLen ; i++ )
-                    {
-                        $('td:eq(0)', oSettings.aoData[ oSettings.aiDisplay[i] ].nTr ).html( i+1 );
-                    }
-                }
-                */
-            },
             "aoColumnDefs": [
-                { "mDataProp": "key.2",  "aTargets": [ 0 ]},
-                { "mDataProp": "value.InfKills", "aTargets": [ 1 ]},
-                { "mDataProp": "value.VehKills", "aTargets": [ 2 ]},
-                { "mDataProp": "value.AirKills", "aTargets": [ 3 ]},
-                { "mDataProp": "value.ShipKills", "aTargets": [ 4 ]},
-                { "mDataProp": "value.OtherKills", "aTargets": [ 5 ]}
+                { "mData": "key.2",  "aTargets": [ 0 ]},
+                { "mData": "value.InfKills", "aTargets": [ 1 ]},
+                { "mData": "value.VehKills", "aTargets": [ 2 ]},
+                { "mData": "value.AirKills", "aTargets": [ 3 ]},
+                { "mData": "value.ShipKills", "aTargets": [ 4 ]},
+                { "mData": "value.OtherKills", "aTargets": [ 5 ]}
             ]
-        } );
+        });
     });
 
 </script>
 
-<table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="operations">
+<table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="operations1">
     <thead>
     <tr>
         <th>Operation</th>

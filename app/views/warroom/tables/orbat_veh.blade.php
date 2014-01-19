@@ -3,7 +3,7 @@
 		
         $('#top_groupveh').dataTable({
 					"bJQueryUI": true,
-					"sAjaxSource": 'http://alive.iriscouch.com/events/_design/groupPage/_view/group_veh?group_level=3&startkey=[%22{{{$clan->tag}}}%22]&endkey=[%22{{{$clan->tag}}}%22,{}]&callback=?',
+					"sAjaxSource": '{{ URL::to('/') }}/api/orbatvehicles?id={{{$clan->tag}}}',
 					"sAjaxDataProp": "rows",
                     "bPaginate": false,
                     "bFilter": false,
@@ -38,3 +38,4 @@
         </tbody>
     </table>
 </div>
+

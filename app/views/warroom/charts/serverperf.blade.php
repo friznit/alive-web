@@ -13,7 +13,7 @@ $(function() {
 
 	$.each(names, function(i, name) {
 
-		$.getJSON('http://alive.iriscouch.com/sys_perf/_design/sys_perf/_view/'+ name +'?startkey="{{$server->ip}}"&endkey="{{$server->ip}}"&callback=?', function(data) {
+		$.getJSON('{{ URL::to('/') }}/api/serverperf?id={{{$server->ip}}}&servername={{{$server->hostname}}}&type=' + name, function(data) {
             
             var seriesData = [];
             

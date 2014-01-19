@@ -3,7 +3,7 @@
 		
         $('#top_groupweapkills').dataTable({
 					"bJQueryUI": true,
-					"sAjaxSource": 'http://alive.iriscouch.com/events/_design/groupPage/_view/group_killsByWeapon?group_level=3&startkey=[%22{{{$clan->tag}}}%22]&endkey=[%22{{{$clan->tag}}}%22,{}]&callback=?',
+					"sAjaxSource": '{{ URL::to('/') }}/api/orbatkillsbyweapon?id={{{$clan->tag}}}',
 					"sAjaxDataProp": "rows",
                     "bPaginate": false,
                     "bFilter": false,

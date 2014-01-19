@@ -1,6 +1,6 @@
 <script>
     $(document).ready(function() {
-        $.getJSON('http://alive.iriscouch.com/events/_design/playerPage/_list/sort/player_events?startkey=[%22{{$player_id}}%22,{}]&endkey=[%22{{$player_id}}%22]&descending=true&limit=50&callback=?', function(data) {
+        $.getJSON('{{ URL::to('/') }}/api/playerfeed?id={{{$player_id}}}', function(data) {
 
 			$.each(data.rows, function (index, row) {
 

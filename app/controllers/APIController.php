@@ -96,10 +96,25 @@ class APIController extends BaseController {
 		$id = Input::get('id');
         return $this->couchAPI->getPlayerWeapon($id);
     }
+	public function getPlayerweapons()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getPlayerWeapons($id);
+    }
 	public function getPlayervehicle()
     {
 		$id = Input::get('id');
         return $this->couchAPI->getPlayerVehicle($id);
+    }
+	public function getPlayervehicles()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getPlayerVehicles($id);
+    }
+	public function getPlayerclasses()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getPlayerClasses($id);
     }
 	public function getPlayeralias()
     {
@@ -166,5 +181,59 @@ class APIController extends BaseController {
     {
 		$id = Input::get('id');
         return $this->couchAPI->getOrbatPilots($id);
+    }
+	public function getOrbatkillsbyweapon()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getOrbatKillsByWeapon($id);
+    }
+	public function getOrbatweapons()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getOrbatWeapons($id);
+    }
+	public function getOrbatvehicles()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getOrbatVehicles($id);
+    }
+	public function getOrbatplayerkills()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getOrbatPlayerKills($id);
+    }
+	public function getOrbatmountedkills()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getOrbatMountedKills($id);
+    }
+	public function getOrbatclasses()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getOrbatClasses($id);
+    }
+	public function getOperations()
+    {
+        return $this->couchAPI->getOperations();
+    }
+	public function getOpsbreakdown()
+    {
+        return $this->couchAPI->getOpsBreakdown();
+    }
+	public function getServerperf()
+    {
+		$id = Input::get('id');
+		$type = Input::get('type');
+        return $this->couchAPI->getServerPerf($id,$type);
+    }
+	public function getClanfeed()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getClanFeed($id);
+    }
+	public function getPlayerfeed()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getPlayerFeed($id);
     }
 }

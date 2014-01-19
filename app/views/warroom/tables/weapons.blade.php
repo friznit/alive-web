@@ -2,7 +2,7 @@
     $(document).ready(function(){
         $('#top_weapons').dataTable({
 					"bJQueryUI": true,
-					"sAjaxSource": "http://alive.iriscouch.com/events/_design/playerPage/_view/players_weapons?&group_level=3&startkey=[%22{{ $player_id }}%22]&endkey=[%22{{ $player_id }}%22,{}]&callback=?",
+					"sAjaxSource": '{{ URL::to('/') }}/api/playerweapons?id={{{$player_id}}}',
 					"sAjaxDataProp": "rows",
                     "bPaginate": false,
                     "bFilter": false,

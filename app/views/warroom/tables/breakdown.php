@@ -1,9 +1,10 @@
 <script>
 
     $(document).ready(function(){
+
         $('#breakdown').dataTable({
             "bJQueryUI": true,
-            "sAjaxSource": 'http://alive.iriscouch.com/events/_design/operationsTable/_view/operationTotals?group_level=3&callback=?',
+            "sAjaxSource": '{{ URL::to('/') }}/api/opsbreakdown',
             "sAjaxDataProp": "rows",
             "bPaginate": true,
             "bLengthChange": true,
@@ -11,18 +12,6 @@
             "bAutoWidth": true,
             "aaSorting": [[ 4, "desc" ]],
             "bProcessing" : true,
-            "fnDrawCallback": function ( oSettings ) {
-                /* Need to redo the counters if filtered or sorted */
-                /*
-                if ( oSettings.bSorted || oSettings.bFiltered )
-                {
-                    for ( var i=0, iLen=oSettings.aiDisplay.length ; i<iLen ; i++ )
-                    {
-                        $('td:eq(0)', oSettings.aoData[ oSettings.aiDisplay[i] ].nTr ).html( i+1 );
-                    }
-                }
-                */
-            },
             "aoColumns": [
                 { "mData": "key.2" },
                 { "mData": "key.0" },
@@ -39,7 +28,7 @@
                 { "mData": "value.VehicleKills" },
                 { "mData": "value.PilotTime" }
             ]
-        } );
+        });
     });
 
 </script>

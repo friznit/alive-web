@@ -124,7 +124,7 @@
                             </tr>
                              <tr>
                                 <td>Step 2</td>
-                                <td>Microsoft Visual C++ 2013 32-bit must also be installed on your dedicated server. </td>
+                                <td>Microsoft Visual C++ 2013 32-bit redistributable must also be installed on your dedicated server. </td>
                                 <td>Get it from <a href="http://www.microsoft.com/en-us/download/details.aspx?id=40784" target="new">http://www.microsoft.com/en-us/download/details.aspx?id=40784</a> , selecting vcredist_x86.exe.</td>
                             </tr>                    
                             <tr>
