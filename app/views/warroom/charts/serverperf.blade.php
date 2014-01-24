@@ -140,4 +140,4 @@ $(function() {
 		
 </script>
 
-<div id="container"</div>
+<div id="container"><div class="alert alert-info" style="text-align:center">Loading Server Performance Data</div></div>
