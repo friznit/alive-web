@@ -3,19 +3,6 @@
 {{-- Content --}}
 @section('content')
 
-<div class="jumbotron black-panel" id="Trailer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
-                    <!--<iframe width="420" height="500" src="http://www.youtube.com/apiplayer?video_id=88iDovAvk80&version=3" frameborder="0" modestbranding allowfullscreen></iframe>-->
-<iframe width="420" height="500" src="//www.youtube.com/embed/88iDovAvk80" autohide="3" frameborder="0" showinfo="0" modestbranding="1" allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="jumbotron alive-background-panel" id="Welcome">
     <div class="container">
         <div class="row">
@@ -85,18 +72,20 @@
         </div>
         <div class="row">
             <div class="col-md-2">
+                <p>The release trailer.</p>
+            </div>
+            <div class="col-md-4">
+                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                    <iframe width="420" height="500" src="//www.youtube.com/embed/88iDovAvk80" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="col-md-2">
                 <p>In the first techdemo video a brief glimpse under the hood of the Advanced Light Infantry Virtual Environment modification.</p>
             </div>
             <div class="col-md-4">
                 <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
                     <iframe width="420" height="500" src="//www.youtube.com/embed/jjeD0a7MdoU" frameborder="0" allowfullscreen></iframe>
                 </div>
-            </div>
-            <div class="col-md-2">
-                <p></p>
-            </div>
-            <div class="col-md-4">
-
             </div>
         </div>
         <div class="row top-margin">

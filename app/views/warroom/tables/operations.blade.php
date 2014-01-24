@@ -3,8 +3,7 @@
     $(document).ready(function(){
         $('#operations1').dataTable({
             "bJQueryUI": true,
-            "sAjaxSource": '{{ URL::to('/') }}/api/opsbreakdown',
-            "sAjaxDataProp": "rows",
+            "sAjaxSource": '{{ URL::to('/') }}/api/operations',
             "bPaginate": true,
             "aaSorting": [[1, "desc" ]],
             "aoColumnDefs": [
