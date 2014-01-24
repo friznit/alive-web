@@ -10,7 +10,7 @@ class CouchAPI {
 
     private $user = 'aliveadmin';
     private $pass = 'tupolov';
-    private $url = 'http://alive.iriscouch.com/';
+    private $url = 'https://alive.iriscouch.com/';
     private $reset = false;
     private $debug = false;
 
@@ -1897,23 +1897,11 @@ class CouchAPI {
 	public function getServerPerf($id,$type,$servername)
     {
 
-        $cacheKey = 'ServerPerf' . $id . $type;
-
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
-
-        $path = 'sys_perf/_design/sys_perf/_view/'. $type .'?startkey="%22' . $id . '%22&endkey=%22' . $id . '%22';
+        $path = 'sys_perf/_design/sys_perf/_view/'. $type .'?startkey=%22' . $id . '%22&endkey=%22' . $id . '%22';
 
         $data = $this->call($path);
 
-        if(isset($data['response']->rows)) {
+        if(isset($data['response']->rows[0]->key)) {
 
             $data = $data['response'];
 
@@ -1923,10 +1911,8 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
-
         }else{
-		     $path = 'sys_perf/_design/sys_perf/_view/'. $type .'?startkey="%22' . $servername . '%22&endkey=%22' . $servername . '%22';
+		     $path = 'sys_perf/_design/sys_perf/_view/'. $type .'?startkey=%22' . $servername . '%22&endkey=%22' . $servername . '%22';
 
        		 $data = $this->call($path);
 			 if(isset($data['response'])) {
@@ -1938,10 +1924,8 @@ class CouchAPI {
 				}
 	
 				$encoded = json_encode($data);
-	
-				\Cache::add($cacheKey, $encoded, 60);
 				
-			 } else {
+			 }else{
            		 $encoded = json_encode([]);
 			 }
         }
