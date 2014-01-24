@@ -44,10 +44,10 @@
                         <th></th>
                     </tr>
                     <tr class="success">
-                        <td>0.5.4</td>
-                        <td>Arma 3 Stable 1.08.113494</td>
-                        <td><a class="btn btn-primary btn-lg pull-right" href="http://dev-heaven.net/attachments/download/21377/@alive_0-5-4.7z"><i class="fa fa-download"></i> Download</a></td>
-                    </tr>
+                         <td>0.5.6</td>
+                        <td>Arma 3 Stable 1.10.114486</td>
+                        <td><a class="btn btn-primary btn-lg pull-right" href="http://dev.withsix.com/attachments/download/21598/@alive_0-5-6.7z"><i class="fa fa-download"></i> Download</a></td>
+             </tr>
                 </table>
                 <br/><h2>Installation</h2>
                 <p>Dependencies:  ALiVE Requires <b>CBA_A3</b><br/><br/>
@@ -56,8 +56,10 @@
                 Further instructions for installing mods are in this handy guide on <a target="_blank" href="http://www.armaholic.com/forums.php?m=posts&q=20866]ArmAholic">Armaholic</a>
                 </p>
             </div>
-            <div class="col-md-5">
-                <img src="{{ URL::to('/') }}/img/alivebox.gif" class="img-responsive" />
+             <div class="col-md-1">
+            </div>
+            <div class="col-md-4">
+                <img src="{{ URL::to('/') }}/img/classes/large/Arma3_CfgVehicles_O_sniper_F.png" class="img-responsive" />
             </div>
         </div>
     </div>
