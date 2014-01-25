@@ -30,7 +30,7 @@
                     <li {{ (Request::is('admin/application*') ? 'class="active"' : '') }}><a href="{{ URL::to('admin/application') }}">Join a Group</a></li>
                 @endif
                 <li {{ (Request::is('admin/user/show/*') ? 'class="active"' : '') }}><a href="{{ URL::to('admin/user/show/') }}/{{ Sentry::getUser()->getId() }}">Profile</a></li>
- 
+
                 @if ($auth['isAdmin'])
                 <li><a href="{{ URL::to('admin') }}">Admin</a></li>
 
