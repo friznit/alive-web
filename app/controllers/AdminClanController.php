@@ -1319,7 +1319,7 @@ class AdminClanController extends BaseController {
             }
 
             $couchAPI = new Alive\CouchAPI();
-            $result = $couchAPI->createClanUser($clan->key, $clan->password);
+            $result = $couchAPI->createClanUser($clan->key, $clan->password, $clan->tag);
 
             if(!is_null($clan->remote_id)){
                 Alert::error('Already connected to cloud data store.')->flash();
