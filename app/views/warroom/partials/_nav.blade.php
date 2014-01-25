@@ -32,11 +32,16 @@
                 <li {{ (Request::is('admin/user/show/*') ? 'class="active"' : '') }}><a href="{{ URL::to('admin/user/show/') }}/{{ Sentry::getUser()->getId() }}">Profile</a></li>
  
                 @if ($auth['isAdmin'])
+                <li><a href="{{ URL::to('admin') }}">Admin</a></li>
+
+                <!--
                 <li {{ (Request::is('admin/ao*') ? 'class="active"' : '') }}><a href="{{ URL::to('admin/ao') }}">AOs</a></li>
                 <li {{ (Request::is('admin/clan*') ? 'class="active"' : '') }}><a href="{{ URL::to('admin/clan') }}">Groups</a></li>
                 <li {{ (Request::is('admin/server*') ? 'class="active"' : '') }}><a href="{{ URL::to('admin/server') }}">Servers</a></li>
                 <li {{ (Request::is('admin/user*') ? 'class="active"' : '') }}><a href="{{ URL::to('admin/user') }}">Users</a></li>
                 <li {{ (Request::is('admin/group*') ? 'class="active"' : '') }}><a href="{{ URL::to('admin/group') }}">User Groups</a></li>
+                -->
+
                 @endif
 
                 <li id="logout"><a href="{{ URL::to('user/logout') }}">Logout</a></li>
