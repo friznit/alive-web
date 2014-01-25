@@ -13,6 +13,16 @@
 
                 @include('alerts/alerts')
 
+                @if ($auth['isAdmin'])
+                <li><a href="{{ URL::to('admin/ao') }}">AOs</a></li>
+                <li><a href="{{ URL::to('admin/clan') }}">Groups</a></li>
+                <li><a href="{{ URL::to('admin/server') }}">Servers</a></li>
+                <li><a href="{{ URL::to('admin/user') }}">Users</a></li>
+                <li><a href="{{ URL::to('admin/group') }}">User Groups</a></li>
+                @endif
+
+                <br/><br/><br/>
+
             </div>
         </div>
     </div>

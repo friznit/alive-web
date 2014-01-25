@@ -167,11 +167,11 @@
                 <?php echo $members->links(); ?>
 
 
-                <h2>Servers</h2>
-
                 @if (isset($servers))
 
                 @if ($auth['isLeader'] || $auth['isOfficer'])
+
+                <h2>Servers</h2>
 
                 <table class="table table-hover">
                     <tbody>
@@ -211,6 +211,10 @@
 
                 @if ($auth['isLeader'] || $auth['isOfficer'])
 
+                @if (!is_null($clan->remote_id))
+
+                <h2>Servers</h2>
+
                 <p>Your group has no servers setup</p>
                 <p><b>Connect your servers to the war room to start capturing live data from your sessions.</b></p>
                 <p><b>Start by setting up a server below.</b></p>
@@ -227,18 +231,20 @@
 
                 @endif
 
+                @endif
+
                 @if ($auth['isAdmin'] || $auth['isLeader'])
 
                 @if (is_null($clan->remote_id))
 
                 <h2>Game Data</h2>
 
-                <p>Your group is not linked to its Game Data</p>
+                <div class="alert alert-danger">Warning, your group is not linked to its game data, please connect to game data below.</div>
 
                 <table class="table table-hover">
                     <tbody>
                     <tr>
-                        <td><button class="btn btn-yellow" onClick="location.href='{{ URL::to('admin/clan/connect') }}/{{ $clan->id }}'">Connect to Game Data</button></td>
+                        <td><button class="btn btn-red" onClick="location.href='{{ URL::to('admin/clan/connect') }}/{{ $clan->id }}'">Connect to Game Data</button></td>
                     </tr>
                     </tbody>
                 </table>

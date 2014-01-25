@@ -125,8 +125,11 @@ class AdminClanController extends BaseController {
                 if(!is_null($profile->clan_id)){
                     $clan = new Clan;
 
+                    $tag = str_replace("[", "", $input['tag']);
+                    $tag = str_replace("]", "", $tag);
+
                     $clan->name = $input['newGroup'];
-                    $clan->tag = $input['tag'];
+                    $clan->tag = $tag;
                     $clan->key = $this->_generatePassword(32);
                     $clan->password = $this->_generatePassword(32);
 					$clan->type = "Infantry";
@@ -671,13 +674,15 @@ class AdminClanController extends BaseController {
         $auth = $data['auth'];
 
         $input = array(
+            /*
             'a2ID' => Input::get('a2ID'),
             'a3ID' => Input::get('a3ID'),
+            */
             'remark' => Input::get('remark'),
         );
 
         $rules = array (
-            'a3ID' => 'required',
+            //'a3ID' => 'required',
         );
 
         $v = Validator::make($input, $rules);
@@ -708,8 +713,10 @@ class AdminClanController extends BaseController {
                     return Redirect::to('admin/clan/show/'.$id);
                 }
 
+                /*
                 $memberProfile->a2_id = $input['a2ID'];
                 $memberProfile->a3_id = $input['a3ID'];
+                */
                 $memberProfile->remark = $input['remark'];
                 $memberProfile->save();
 

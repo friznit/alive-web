@@ -151,8 +151,7 @@ class AdminServerController extends BaseController {
             $server->key = $this->_generatePassword(32);
 
             if($server->save()){
-                Alert::success('You have created a server.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/server/edit/'.$server->id);
             }
 
         }

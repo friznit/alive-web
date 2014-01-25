@@ -59,7 +59,7 @@
              <div class="col-md-1">
             </div>
             <div class="col-md-4">
-                <img src="{{ URL::to('/') }}/img/classes/large/Arma3_CfgVehicles_O_sniper_F.png" class="img-responsive" />
+                <img src="{{ URL::to('/') }}/img/alivebox.gif" class="img-responsive" />
             </div>
         </div>
     </div>
