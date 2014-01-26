@@ -124,13 +124,13 @@
                             </tr>
                              <tr>
                                 <td>Step 2</td>
-                                <td>Microsoft Visual C++ 2013 32-bit redistributable must also be installed on your dedicated server. </td>
-                                <td>Get it from <a href="http://www.microsoft.com/en-us/download/details.aspx?id=40784" target="new">http://www.microsoft.com/en-us/download/details.aspx?id=40784</a> , selecting vcredist_x86.exe.</td>
+                                <td>Microsoft Visual C++ 2010 redistributable must also be installed on your dedicated server. </td>
+                                <td>Get it from <a href="http://www.microsoft.com/en-us/download/details.aspx?id=8328" target="new">http://www.microsoft.com/en-us/download/details.aspx?id=8328</a></td>
                             </tr>                    
                             <tr>
                                 <td>Step 3</td>
-                                <td>Download the ALiVE server addin and extract the folder into the @ALiVE folder in your Dedicated Server Arma 3 root folder.</td>
-                                <td><a class="btn btn-yellow" href="{{ URL::to('/') }}/downloads/ALiVE.zip"><i class="fa fa-download"></i> Download</a></td>
+                                <td>Download the @Arma2Net addon and extract the folder into the Dedicated Server Arma 3 root folder. Add @Arma2Net to your mod line on your dedicated server.</td>
+                                <td><a class="btn btn-yellow" href="{{ URL::to('/') }}/downloads/@Arma2NET.zip"><i class="fa fa-download"></i> Download</a></td>
                             </tr>
                             <tr>
                                 <td>Step 4</td>
@@ -166,12 +166,12 @@
                             </tr>
                             <tr>
                                 <td>Step 2</td>
-                                <td>Launch Arma3server.exe with the @ALiVE in the mod line on your dedicated server. Ensure the ALiVE Server addin has been downloaded into the @ALiVE folder</td>
+                                <td>Launch Arma3server.exe with the @ALiVE and @Arma2Net in the mod line on your dedicated server. Ensure the Arma2Net addon has been downloaded into the Arma root folder</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>Step 3</td>
-                                <td>Launch your arma3.exe as normal (with @ALiVE but no need for server addin on your client)</td>
+                                <td>Launch your arma3.exe as normal (with @ALiVE but no need for @Arma2Net on your client)</td>
                                 <td></td>
                             </tr>
                             <tr>
