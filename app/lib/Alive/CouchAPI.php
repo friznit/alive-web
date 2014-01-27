@@ -1936,7 +1936,7 @@ class CouchAPI {
 	public function getClanFeed($id)
     {
 
-        $path = 'events/_design/groupPage/_list/sort_no_callback/group_events?startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22]&descending=true&limit=50';
+        $path = 'events/_design/groupPage/_list/sort_no_callback/group_events?startkey=[%22' . $id . '%22,{}]&endkey=[%22' . $id . '%22]&descending=true&limit=50';
 
         $data = $this->call($path);
 
@@ -1960,7 +1960,7 @@ class CouchAPI {
 	public function getPlayerFeed($id)
     {
 
-        $path = 'events/_design/playerPage/_list/sort_no_callback/player_events?startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22]&descending=true&limit=50';
+        $path = 'events/_design/playerPage/_list/sort_no_callback/player_events?startkey=[%22' . $id . '%22,{}]&endkey=[%22' . $id . '%22]&descending=true&limit=50';
 
         $data = $this->call($path);
 
