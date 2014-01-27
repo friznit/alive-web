@@ -3,7 +3,7 @@
 		
         $('#top_groupweap').dataTable({
 					"bJQueryUI": true,
-					"sAjaxSource": '{{ URL::to('/') }}/api/orbatkillsbyweapon?id={{{$clan->tag}}}',,
+					"sAjaxSource": '{{ URL::to('/') }}/api/orbatweapons?id={{{$clan->tag}}}',
 					"sAjaxDataProp": "rows",
                     "bPaginate": false,
                     "bFilter": false,
