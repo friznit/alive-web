@@ -14,7 +14,10 @@
 							"mRender" : function (data, type) {
 				  				return "<img src={{ URL::to('img/classes/thumbs/150px-Arma3_CfgWeapons_') }}" + data + ".png>";}
 						},
-						{ "mDataProp": "key.2",  "aTargets": [ 0 ]},
+						{ "mDataProp": "key",  "aTargets": [ 0 ],
+						  "mRender" : function (data, type) {
+							return "<a href={{ URL::to('war-room/showpersonnel') }}/" + data[1] + ">" +  data[2] + "</a>";}
+						},
 						{ "mDataProp": "value", "aTargets": [ 2 ]}
 					]
 		} );
