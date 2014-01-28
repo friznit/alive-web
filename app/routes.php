@@ -21,7 +21,13 @@ Route::controller('admin/server', 'AdminServerController');
 Route::controller('admin/user', 'AdminUserController');
 Route::resource('admin/group', 'AdminGroupController');
 
+Route::get('/missions', function() {
+    return View::make('public/missions/index');
+});
+
 Route::get('/', function() {
     return View::make('public/home/index');
 });
+
+
 

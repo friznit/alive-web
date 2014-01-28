@@ -127,39 +127,8 @@
         </div>
         <div class="row top-margin">
              <div class="col-md-6">
-                <br/><h4>Sample Missions</h4><br/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2">
-                <p><b>Pyrgos Assault</b><br/><small>by [KH]Jman</small><br/>The Rebels have taken over Pyrgos. Take it back and drive them into the sea!. Player respawn and revive are enabled. You will see player's injured via markers. </p>
-                <a class="btn btn-yellow" href="downloads/CO10_Pyrgos_Assault_v1_7.Altis.zip"><i class="fa fa-download"></i> Download</a><br/>
-            </div>
-            <div class="col-md-4">
-                <img src="{{ URL::to('/') }}/img/pyrgos.jpg" class="img-responsive" />
-            </div>
-            <div class="col-md-2">
-
-            </div>
-            <div class="col-md-4">
-
-            </div>
-        </div>
-        <br/>
-        <div class="row top-margin">
-            <div class="col-md-2">
-                <p><b>Valley of Just Pure Death</b><br/><small>by ARJay</small><br/>A hectic 3 faction battle in a small valley on the western side of Altis.</p>
-                <a class="btn btn-yellow" href="downloads/ALiVE_ValleyOfJPD.Altis.zip"><i class="fa fa-download"></i> Download</a><br/>
-            </div>
-            <div class="col-md-4">
-               <img src="{{ URL::to('/') }}/img/jpd.jpg" class="img-responsive" />
-            </div>
-            <div class="col-md-2">
-                <p><b>Mountain War</b><br/><small>by (AEF)Spinfx</small><br/>Stratis is split down the middle with BLUFOR holding the western side and OPFOR holding the east. Featuring BIS support modules, BTC Revive, and VAS.</p>
-                <a class="btn btn-yellow" href="downloads/ALiVE_MountainWar.Stratis.zip"><i class="fa fa-download"></i> Download</a><br/>
-            </div>
-            <div class="col-md-4">
-                <img src="{{ URL::to('/') }}/img/mountain_war.jpg" class="img-responsive" />
+                <br/><h4>Sample Missions</h4>
+                 <p>Sample missions have moved <a href="{{ URL::to('missions/') }}">here.</p>
             </div>
         </div>
         <div class="row top-margin">
