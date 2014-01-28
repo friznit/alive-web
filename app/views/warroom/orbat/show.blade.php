@@ -72,7 +72,7 @@
                     <tbody>
                     <tr>
                         <td><img src="{{ $leader->avatar->url('tiny') }}" ></td>
-                        <td>{{{ $leader->username }}}</td>
+                        <td><a href={{ URL::to('war-room/showpersonnel') }}/{{ $leader->a3_id }}>{{{ $leader->username }}}</a></td>
                         <td>Leader</td>
                         <td>{{{ $leader->remark }}}</td>
                     </tr>
@@ -84,7 +84,7 @@
                     @foreach ($officers as $member)
                     <tr>
                         <td><img src="{{ $member->avatar->url('tiny') }}" ></td>
-                        <td>{{{ $member->username }}}</td>
+                        <td><a href={{ URL::to('war-room/showpersonnel') }}/{{ $member->a3_id }}>{{{ $member->username }}}</a></td>
                         <td>Officer</td>                      
                         <td>{{{ $member->remark }}}</td>
                     </tr>
@@ -171,16 +171,24 @@
 				<table class="table">
                     <tbody>
                     @foreach ($soldiers as $member)
-                    <tr>
-                        <td><img src="{{ $member->avatar->url('tiny') }}" ></td>
-                        <td>{{{ $member->username }}}</td>
-                        <td>Rank</td>                      
-                        <td>{{{ $member->remark }}}</td>
-                    </tr>
+						<?php
+                         $user = Sentry::findUserById($member->user_id);
+                         $memberIsGrunt = $user->inGroup($auth['gruntGroup']);
+                        ?>
+                        @if ($memberIsGrunt)
+                        <tr>
+                            <td><img src="{{ $member->avatar->url('tiny') }}" ></td>
+                            <td><a href={{ URL::to('war-room/showpersonnel') }}/{{ $member->a3_id }}>{{{ $member->username }}}</a></td>
+                            <td>Soldier</td>                      
+                            <td>{{{ $member->remark }}}</td>
+                        </tr>
+                        @endif
                     @endforeach
                     </tbody>
                 </table>
-                    <h1>Battle Feed</h1>
+                <?php echo $soldiers->links(); ?>
+                
+                <h1>Battle Feed</h1>
                     <hr/>
 
                     <div id="personnel_livefeed">

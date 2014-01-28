@@ -157,20 +157,18 @@ class WarRoomController extends BaseController {
 			
 			forEach($members as $member) {
 					$tuser = Sentry::findUserById($member->user_id);
-					$memberIsGrunt = $tuser->inGroup($auth['gruntGroup']);
 					$memberIsOfficer = $tuser->inGroup($auth['officerGroup']);
 					$memberIsLeader = $tuser->inGroup($auth['leaderGroup']);
 
 					if($memberIsLeader) $leader = $member;
 					
 					if($memberIsOfficer) array_push($officers,$member);
-					
-					if($memberIsGrunt) array_push($soldiers,$member);
+
 			}
 				
 			$data['leader'] = $leader;
 			$data['officers'] = $officers;
-			$data['soldiers'] = $soldiers;
+			$data['soldiers'] = $clan->members()->paginate(6);
 
 			$data['clanOrbat'] = $clan->orbat();
 			

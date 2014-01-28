@@ -94,7 +94,7 @@
     });
 </script>
 
-<div id="live_feed_container">
+<div id="live_feed_container" style="max-height:380px">
     <div id="clan_feed">
 
     </div>
