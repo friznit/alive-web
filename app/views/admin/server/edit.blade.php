@@ -129,8 +129,8 @@
                             </tr>                    
                             <tr>
                                 <td>Step 3</td>
-                                <td>Download the @Arma2Net addon and extract the folder into the Dedicated Server Arma 3 root folder. Add @Arma2Net to your mod line on your dedicated server.</td>
-                                <td><a class="btn btn-yellow" href="{{ URL::to('/') }}/downloads/@Arma2NET.zip"><i class="fa fa-download"></i> Download</a></td>
+                                <td>Download the @Arma2Net addon and extract the zip file into the Dedicated Server Arma 3 root folder. Add @Arma2Net to your mod line on your dedicated server.</td>
+                                <td><a class="btn btn-yellow" href="{{ URL::to('/') }}/downloads/@Arma2NET.7z"><i class="fa fa-download"></i> Download</a></td>
                             </tr>
                             <tr>
                                 <td>Step 4</td>
