@@ -44,9 +44,9 @@
                         <th></th>
                     </tr>
                     <tr class="success">
-                         <td>0.5.6</td>
-                        <td>Arma 3 Stable 1.10.114486</td>
-                        <td><a class="btn btn-primary btn-lg pull-right" href="http://dev.withsix.com/attachments/download/21598/@alive_0-5-6.7z"><i class="fa fa-download"></i> Download</a></td>
+                         <td>0.5.6.1401291</td>
+                        <td>Arma 3 Stable 1.10.114700</td>
+                        <td><a class="btn btn-primary btn-lg pull-right" href="http://dev.withsix.com/attachments/download/21631/@alive_0-5-6-1401291.7z"><i class="fa fa-download"></i> Download</a></td>
              </tr>
                 </table>
                 <br/><h2>Installation</h2>
