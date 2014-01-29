@@ -17,7 +17,7 @@
                 <p><b>Requirements</b><br/>
                     @CBA, @ALiVE
                 </p>
-                <a class="btn btn-yellow" href="downloads/CO10_ALiVE_Pyrgos_Assault_v1_10.Altis.7z"><i class="fa fa-download"></i> Download</a><br/>
+                <a class="btn btn-yellow" href="downloads/CO10_ALiVE_Pyrgos_Assault_v1_11.Altis.7z"><i class="fa fa-download"></i> Download</a><br/>
             </div>
             <div class="col-md-4">
                 <img src="{{ URL::to('/') }}/img/pyrgos.jpg" class="img-responsive" />
