@@ -167,6 +167,11 @@ class APIController extends BaseController {
 		$id = Input::get('id');
         return $this->couchAPI->getGroupClasses($id);
     }
+	Upublic function getOrbatrecentoperations()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getOrbatRecentOperations($id);
+    }
 	public function getOrbatt1()
     {
 		$id = Input::get('id');

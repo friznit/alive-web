@@ -1475,7 +1475,45 @@ class CouchAPI {
 
         return $encoded;
     }
-		
+
+ public function getOrbatRecentOperations($id)
+    {
+
+        $cacheKey = 'OrbatRecentOperations' . $id;
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'events/_design/groupPage/_list/sort_no_callback/group_recent_ops?startkey=%22' . $id . '%22&endkey=%22' . $id . '%22&descending=true&limit=10';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response'];
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+            \Cache::add($cacheKey, $encoded, 60);
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+			
 	public function getOrbatT1($id)
     {
 

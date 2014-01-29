@@ -1,4 +1,4 @@
-@extends('warroom.layouts.personnel')
+@extends('warroom.layouts.orbat')
                 
 {{-- Content --}}
 @section('content')
@@ -56,49 +56,7 @@
                     <div class="black-panel">
                         <img src="{{ $clan->avatar->url('medium') }}" >
                     </div>
- 				<h2>Most Recent Operation</h2>
-				<table class="table">
-                    <tbody>
-                        <tr>
-                            <td width="20%" id="lastmap"></td>
-                            <td width="60%" id="lastop"></td>
-                            <td width="20%" id="lastactive"></td>
-                        </tr>
-                    </tbody>
-                </table>
- 				<h2>Leadership</h2>
-                <h4>Leader</h4>
-				<table class="table">
-                    <tbody>
-                    <tr>
-                        <td><img src="{{ $leader->avatar->url('tiny') }}" ></td>
-                        <td><a href={{ URL::to('war-room/showpersonnel') }}/{{ $leader->a3_id }}>{{{ $leader->username }}}</a></td>
-                        <td>Leader</td>
-                        <td>{{{ $leader->remark }}}</td>
-                    </tr>
-                    </tbody>
-                </table>
- 				<h4>Officers</h4>
-				<table class="table">
-                    <tbody>
-                    @foreach ($officers as $member)
-                    <tr>
-                        <td><img src="{{ $member->avatar->url('tiny') }}" ></td>
-                        <td><a href={{ URL::to('war-room/showpersonnel') }}/{{ $member->a3_id }}>{{{ $member->username }}}</a></td>
-                        <td>Officer</td>                      
-                        <td>{{{ $member->remark }}}</td>
-                    </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-             
-   
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="dark2-panel">
-                 <h1>Overview</h1>
+                    <h1>Overview</h1>
 				<hr/>
                     <h3><span id="clantp"></span> of combat</h3>
                     <h3><span id="clanops"></span> operations conducted</h3>
@@ -106,7 +64,7 @@
                     <h3><span id="clandeaths"></span> critical injuries / deaths</h3>
                     <h3><span id="clankd"></span> kill / death ratio</h3>
                     <h3><span id="clanshots"></span> shots fired</h3>
-  
+                  
                    <h2>Combat Experience</h2>
 
                     <table class="table">
@@ -135,8 +93,65 @@
                             <td id="clanmedic"></td>
                         </tr>
                     </table>
-                    
-            @if ((!is_null($clan->twitch_stream) && !$clan->twitch_stream=='') || (!is_null($clan->website) && !$clan->website=='') || (!is_null($clan->teamspeak) && !$clan->teamspeak==''))
+
+ 				   				
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="dark2-panel">
+               <h1>Order of Battle</h1>
+				<hr/>
+                 <h2>Leadership</h2>
+                <h4>Leader</h4>
+				<table class="table">
+                    <tbody>
+                    <tr>
+                        <td><img src="{{ $leader->avatar->url('tiny') }}" ></td>
+                        <td><a href={{ URL::to('war-room/showpersonnel') }}/{{ $leader->a3_id }}>{{{ $leader->username }}}</a></td>
+                        <td>Leader</td>
+                        <td>{{{ $leader->remark }}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div id="officers_container" style="max-height:250px">
+ 				<h4>Officers</h4>
+				<table class="table">
+                    <tbody>
+                    @foreach ($officers as $member)
+                    <tr>
+                        <td><img src="{{ $member->avatar->url('tiny') }}" ></td>
+                        <td><a href={{ URL::to('war-room/showpersonnel') }}/{{ $member->a3_id }}>{{{ $member->username }}}</a></td>
+                        <td>Officer</td>                      
+                        <td>{{{ $member->remark }}}</td>
+                    </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+             	</div>
+
+                  <h2>Soldiers</h2>
+				<div id="soldiers_container" style="max-height:350px">
+                <table cellpadding="0" cellspacing="0" border="0" class="dataTable table">
+                    <tbody>
+                    @foreach ($soldiers as $member)
+						<?php
+                         $user = Sentry::findUserById($member->user_id);
+                         $memberIsGrunt = $user->inGroup($auth['gruntGroup']);
+                        ?>
+                        @if ($memberIsGrunt)
+                        <tr>
+                            <td><img src="{{ $member->avatar->url('tiny') }}" ></td>
+                            <td><a href={{ URL::to('war-room/showpersonnel') }}/{{ $member->a3_id }}>{{{ $member->username }}}</a></td>
+                            <td>Soldier</td>                      
+                            <td>{{{ $member->remark }}}</td>
+                        </tr>
+                        @endif
+                    @endforeach
+                    </tbody>
+                </table>
+                </div>
+				@if ((!is_null($clan->twitch_stream) && !$clan->twitch_stream=='') || (!is_null($clan->website) && !$clan->website=='') || (!is_null($clan->teamspeak) && !$clan->teamspeak==''))
                     <h2>Communications</h2>
                     <table class="table">
 
@@ -160,41 +175,21 @@
                         @endif
                     </table>
                   @endif
+            
                 </div>
 
             </div>
 
             <div class="col-md-4">
-                <div class="dark2-panel">
- 				<h1>Units</h1>
-                <h2>Deployed</h2>
-				<table class="table">
-                    <tbody>
-                    @foreach ($soldiers as $member)
-						<?php
-                         $user = Sentry::findUserById($member->user_id);
-                         $memberIsGrunt = $user->inGroup($auth['gruntGroup']);
-                        ?>
-                        @if ($memberIsGrunt)
-                        <tr>
-                            <td><img src="{{ $member->avatar->url('tiny') }}" ></td>
-                            <td><a href={{ URL::to('war-room/showpersonnel') }}/{{ $member->a3_id }}>{{{ $member->username }}}</a></td>
-                            <td>Soldier</td>                      
-                            <td>{{{ $member->remark }}}</td>
-                        </tr>
-                        @endif
-                    @endforeach
-                    </tbody>
-                </table>
-                <?php echo $soldiers->links(); ?>
-                
+                <div class="dark2-panel">           
                 <h1>Battle Feed</h1>
                     <hr/>
 
                     <div id="personnel_livefeed">
                         @include('warroom/tables/clan_feed')
                     </div>
-
+ 				<h2>Most Recent Operations</h2>
+                	@include('warroom/tables/orbat_recent_ops')
                 </div>
             </div>
 

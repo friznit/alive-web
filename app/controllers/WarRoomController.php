@@ -168,7 +168,7 @@ class WarRoomController extends BaseController {
 				
 			$data['leader'] = $leader;
 			$data['officers'] = $officers;
-			$data['soldiers'] = $clan->members()->paginate(6);
+			$data['soldiers'] = $members;
 
 			$data['clanOrbat'] = $clan->orbat();
 			
