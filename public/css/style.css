@@ -553,6 +553,8 @@ img {
 	max-width: 150px;
 }
 
+#soldiers_container,
+#orbat_recent_ops_container,
 #weapons_container,
 #vehiclexp_container,
 #playerclass_container {
