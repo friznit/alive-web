@@ -19,8 +19,7 @@
                 @if (Sentry::check() && Sentry::getUser()->hasAccess('admin'))
                 <li id="login"><a href="{{ URL::to('war-room') }}"><img src="{{ URL::to('/') }}/img/alive_warroom_tiny.png" class="img-responsive navbar-warroom"/></a></li>
                 @else
-                    <!--<li id="login"><a href="{{ URL::to('user/login') }}"><img src="{{ URL::to('/') }}/img/alive_warroom_login.png" class="img-responsive navbar-warroom"/></a></li>-->
-                @endif
+                 @endif
             </ul>
         </div>
     </div>
