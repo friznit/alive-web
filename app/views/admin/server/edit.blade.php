@@ -46,6 +46,28 @@
                         </div>
                     </div>
                     
+                    <div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="dataModalLabel">Example of Database Module</h4>
+                                </div>
+                                <div class="strip">
+                                    <p>You need to ensure you place the ALiVE Systems Database module</p>
+                                </div>
+                                <div class="modal-body">
+                                    <h4>Editor</h4>
+                                    <p> Select Modules (press F7) > Click on map to place module > Select Category: ALiVE Systems > Select Module: Database</p>
+                                    <h4>Example</h4>
+                                    <img src="{{ URL::to('/') }}/img/data.png" class="img-responsive dark-border center-block" /><br/>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <form action="{{ URL::to('admin/server/edit') }}/{{ $server->id }}" method="post">
 
                         {{ Form::token() }}
@@ -129,7 +151,7 @@
                             </tr>                    
                             <tr>
                                 <td>Step 3</td>
-                                <td>Download the @Arma2Net addon and extract the zip file into the Dedicated Server Arma 3 root folder. Add @Arma2Net to your mod line on your dedicated server.</td>
+                                <td>Download the @Arma2Net addon and extract the folder into the Dedicated Server Arma 3 root folder. Add @Arma2Net to your mod line on your dedicated server.</td>
                                 <td><a class="btn btn-yellow" href="{{ URL::to('/') }}/downloads/@Arma2NET.7z"><i class="fa fa-download"></i> Download</a></td>
                             </tr>
                             <tr>
@@ -140,7 +162,7 @@
                             <tr>
                                 <td>Step 5</td>
                                 <td>Important: Your ALiVE mission needs the ALiVE System Database module (available in the Arma 3 Editor) placed for this feature to work!</td>
-                                <td></td>
+                                <td><span class="btn btn-yellow" data-toggle="modal" data-target="#dataModal"><i class="fa fa-eye"></i> See Example</span></td>
                             </tr>
                             <tr>
                                 <td>Step 6</td>

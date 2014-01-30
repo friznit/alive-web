@@ -10,7 +10,7 @@ class CouchAPI {
 
     private $user = 'aliveadmin';
     private $pass = 'tupolov';
-    private $url = 'https://alive.iriscouch.com/';
+    private $url = 'https://msostore.iriscouch.com/';
     private $reset = false;
     private $debug = false;
 
@@ -1073,7 +1073,7 @@ class CouchAPI {
             return $data;
         }
 		
-        $path = 'events/_design/groupTable/_view/groupTotals?group_level=1&startkey=["' . $id . '"]&limit=1';
+        $path = 'events/_design/groupTable/_view/groupTotals?group_level=1&startkey=["' . $id . '"]&endkey=["' . $id . '",{}]';
 
         $data = $this->call($path);
 
