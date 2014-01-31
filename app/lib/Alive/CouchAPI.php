@@ -11,8 +11,9 @@ class CouchAPI {
     private $user = 'aliveadmin';
     private $pass = 'tupolov';
     private $url = 'https://msostore.iriscouch.com/';
-    private $reset = false;
-    private $debug = false;
+
+    public $reset = false;
+    public $debug = false;
 
     public function createClanUser($name, $password, $group)
     {
@@ -48,7 +49,6 @@ class CouchAPI {
 
     public function getTotals()
     {
-
         $cacheKey = 'Totals';
 
         if (\Cache::has($cacheKey) && !$this->reset) {
@@ -75,7 +75,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 1000);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
 
         }else{
             $encoded = json_encode([]);
@@ -83,7 +83,7 @@ class CouchAPI {
 
         return $encoded;
     }
-	
+
 	 public function getMapTotals($name)
     {
 
@@ -113,7 +113,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 1000);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
 
         }else{
             $encoded = json_encode([]);
@@ -151,7 +151,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 1000);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
 
         }else{
             $encoded = json_encode([]);
@@ -189,7 +189,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -260,7 +260,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, 1000);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
 
         }else{
             $encoded = json_encode([]);
@@ -307,7 +307,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, 1000);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
 
         }else{
             $encoded = json_encode([]);
@@ -352,7 +352,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, 1000);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
 
         }else{
             $encoded = json_encode([]);
@@ -399,7 +399,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -446,7 +446,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, 1000);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
 
         }else{
             $encoded = json_encode([]);
@@ -493,7 +493,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, 1000);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
 
         }else{
             $encoded = json_encode([]);
@@ -540,7 +540,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, 1000);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
 
         }else{
             $encoded = json_encode([]);
@@ -587,7 +587,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, 1000);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
 
         }else{
             $encoded = json_encode([]);
@@ -625,7 +625,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -663,7 +663,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -701,7 +701,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -739,7 +739,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -779,7 +779,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -819,7 +819,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -858,7 +858,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -897,7 +897,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -935,7 +935,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -973,7 +973,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1011,7 +1011,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1049,7 +1049,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1087,7 +1087,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1125,7 +1125,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1163,7 +1163,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1201,7 +1201,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1239,7 +1239,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1277,7 +1277,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1315,7 +1315,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1353,7 +1353,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1391,7 +1391,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1429,7 +1429,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1467,7 +1467,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1505,7 +1505,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1543,7 +1543,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1581,7 +1581,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1619,7 +1619,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1657,7 +1657,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1695,7 +1695,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1733,7 +1733,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1771,7 +1771,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1809,7 +1809,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1847,7 +1847,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1885,7 +1885,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -1923,7 +1923,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, 60);
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
@@ -2057,5 +2057,40 @@ class CouchAPI {
         curl_close($ch);
 
         return $result;
+    }
+
+    protected function _set_timeout($length){
+
+        $minutes = 60;
+
+        switch($length){
+            case 'minute':
+                $minutes = 1;
+                break;
+            case 'ten-minutes':
+                $minutes = 10 + rand(0,5);
+                break;
+            case 'hour':
+                $minutes = 60 + rand(0,10);
+                break;
+            case 'three-hours':
+                $minutes = 180 + rand(0,10);
+                break;
+            case 'six-hours':
+                $minutes = 360 + rand(0,10);
+                break;
+            case 'twelve-hours':
+                $minutes = 720 + rand(0,10);
+                break;
+            case 'day':
+                $minutes = 1440 + rand(0,10);
+                break;
+        }
+
+        if($this->debug){
+            TempoDebug::dump($minutes , 'Cache Timeout value');
+        }
+
+        return $minutes;
     }
 }

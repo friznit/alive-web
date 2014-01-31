@@ -73,7 +73,7 @@
                 <p><b>Requirements</b><br/>
                     @CBA, @ALiVE, <a href="http://www.armaholic.com/page.php?id=20106" target="_blank">@AiA</a> / <a href="http://www.armaholic.com/page.php?id=23863" target="_blank">@A3MP</a>
                 </p>
-                <a class="btn btn-yellow" href="downloads/CO10_HellofZargabad_v1_4.Zargabad.7z"><i class="fa fa-download"></i> Download</a><br/>
+                <a class="btn btn-yellow" href="downloads/CO10_HellofZargabad_v1_5.Zargabad.7z"><i class="fa fa-download"></i> Download</a><br/>
             </div>
             <div class="col-md-4">
                 <img src="{{ URL::to('/') }}/img/hellzarg.jpg" class="img-responsive" />
@@ -85,9 +85,9 @@
                 <h4>Black Needle</h4>
                 <p><small><b>by [KH]Jman</b></small><br/>Clear the fuelstation buildings and secure the crossroads. Make contact with UN troops and escort them to safety.</p>
                 <p><b>Requirements</b><br/>
-                    @CBA, @ALiVE, <a href="http://www.armaholic.com/page.php?id=20106" target="_blank">@AiA</a> / <a href="http://www.armaholic.com/page.php?id=23863" target="_blank">@A3MP</a>, <a href="http://www.armaholic.com/page.php?id=22548" target="_blank">@stkr_bi</a>, <a href="http://www.armaholic.com/page.php?id=23169" target="_blank">@Kio_L85A2</a>
+                    @CBA, @ALiVE, <a href="http://www.armaholic.com/page.php?id=20106" target="_blank">@AiA</a> / <a href="http://www.armaholic.com/page.php?id=23863" target="_blank">@A3MP</a>
                 </p>
-                <a class="btn btn-yellow" href="downloads/Co10_ALiVE_BNeedle_1_3.ProvingGrounds_PMC.7z"><i class="fa fa-download"></i> Download</a><br/>
+                <a class="btn btn-yellow" href="downloads/CO10_ALiVE_BNeedle_1_4.ProvingGrounds_PMC.7z"><i class="fa fa-download"></i> Download</a><br/>
             </div>
             <div class="col-md-4">
                 <img src="{{ URL::to('/') }}/img/blackneedle.jpg" class="img-responsive" />

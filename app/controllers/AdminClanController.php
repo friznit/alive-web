@@ -1072,7 +1072,7 @@ class AdminClanController extends BaseController {
         );
 
         $rules = array (
-            'squadURL' => 'url',
+            'squadURL' => 'required|url',
         );
 
         $v = Validator::make($input, $rules);

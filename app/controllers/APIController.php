@@ -1,6 +1,7 @@
 <?php
 
 use Alive\CouchAPI;
+use Tempo\TempoDebug;
 
 class APIController extends BaseController {
 
@@ -10,73 +11,59 @@ class APIController extends BaseController {
     {
         $this->couchAPI = new CouchAPI();
     }
-
     public function getTotals()
     {
         return $this->couchAPI->getTotals();
     }
-	
 	public function getMaptotals()
     {
 		$name = Input::get('name');
         return $this->couchAPI->getMapTotals($name);
     }
-
     public function getActiveunitcount()
     {
         return $this->couchAPI->getActiveUnitCount();
     }
-
     public function getRecentoperations()
     {
         return $this->couchAPI->getRecentOperations();
     }
-
     public function getLivefeed()
     {
         return $this->couchAPI->getLiveFeed();
     }
-
     public function getLossesblu()
     {
         return $this->couchAPI->getLossesBLU();
     }
-
     public function getLossesopf()
     {
         return $this->couchAPI->getLossesOPF();
     }
-
     public function getCasualties()
     {
         return $this->couchAPI->getCasualties();
     }
-
     public function getOperationsbymap()
     {
         return $this->couchAPI->getOperationsByMap();
     }
-
     public function getOperationsbyday()
     {
         return $this->couchAPI->getOperationsByDay();
     }
-
     public function getPlayersbyday()
     {
         return $this->couchAPI->getPlayersByDay();
     }
-
     public function getKillsbyday()
     {
         return $this->couchAPI->getKillsByDay();
     }
-
     public function getDeathsbyday()
     {
         return $this->couchAPI->getDeathsByDay();
     }
-
     public function getT1operators()
     {
         return $this->couchAPI->getT1Operators();
@@ -241,5 +228,216 @@ class APIController extends BaseController {
     {
 		$id = Input::get('id');
         return $this->couchAPI->getPlayerFeed($id);
+    }
+
+    public function getTestcalls()
+    {
+
+        $this->couchAPI->debug = true;
+        $this->couchAPI->reset = false;
+
+        /*
+
+        $name = 'SOMETHING';
+        $id = 'SOMETHING';
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getMaptotals($name;
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getDevcredits($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getPlayerdetails($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getPlayerweapon($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getPlayerweapons($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getPlayerVehicle($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getPlayerVehicles($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getPlayerClasses($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getPlayerAlias($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getGrouptotalsbytag($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getGroupclasses($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getOrbatrecentoperations($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getOrbatt1($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getOrbatmedics($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getOrbatpilots($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getOrbatkillsbyweapon($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getOrbatweapons($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getOrbatvehicles($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getOrbatplayerkills($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getOrbatmountedkills($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getServerperf($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getClanfeed($id);
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getPlayerfeed($id);
+        TempoDebug::stopProfile($profiler);
+
+        */
+
+        /*
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getLivefeed();
+        TempoDebug::stopProfile($profiler);
+        */
+
+
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getTotals();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getActiveunitcount();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getRecentoperations();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getLossesblu();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getLossesopf();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getCasualties();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getOperationsbymap();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getOperationsbyday();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getPlayersByDay();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getKillsbyday();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getDeathsbyday();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getT1operators();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getPersonnelTotals();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getT1Marksmen();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getVehicleCommanders();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getPilots();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getMedics();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getScores();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getAvescores();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getRatings();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getGrouptotals();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getOrbatclasses();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getOperations();
+        TempoDebug::stopProfile($profiler);
+
+        $profiler = TempoDebug::startProfile();
+        $result = $this->getOpsbreakdown();
+        TempoDebug::stopProfile($profiler);
+
     }
 }
