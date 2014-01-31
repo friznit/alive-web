@@ -103,11 +103,11 @@
                     ?>
                     <h4>
                         @if ($userIsLeader)
-                        Group Leader {{{ $clan->name }}}
+                        Group Leader <a href={{ URL::to('war-room/showorbat') }}/{{ $profile->clan_id }}>{{{ $clan->name }}}</a>
                         @elseif ($userIsOfficer)
-                        Group Officer {{{ $clan->name }}}
+                        Group Officer <a href={{ URL::to('war-room/showorbat') }}/{{ $profile->clan_id }}>{{{ $clan->name }}}</a>
                         @else
-                        Group Member {{{ $clan->name }}}
+                        Group Member <a href={{ URL::to('war-room/showorbat') }}/{{ $profile->clan_id }}>{{{ $clan->name }}}</a>
                         @endif
                     </h4>
 
