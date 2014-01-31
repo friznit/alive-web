@@ -2,7 +2,7 @@
     $(document).ready(function(){
         $('#pilots').dataTable({
             "bJQueryUI": true,
-            "sAjaxSource": '{{ URL::to('/') }}/api/orbat_pilots?id={{{$clan->tag}}}',
+            "sAjaxSource": '{{ URL::to('/') }}/api/orbatpilots?id={{{$clan->tag}}}',
             "sAjaxDataProp": "rows",
 					"bPaginate": false,
 					"bInfo": false,
