@@ -25,7 +25,7 @@
 
 </script>
 
-<div id="playerclass_container">
+<div id="units_container">
     <table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="top_groupclasses">
         <thead>
         <tr>

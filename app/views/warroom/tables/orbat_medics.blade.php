@@ -21,6 +21,7 @@
 
 </script>
 
+<div id="medics_container">
 <table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="medics">
     <thead>
     <tr>
@@ -31,3 +32,4 @@
     <tbody>
     </tbody>
 </table>
+</div>

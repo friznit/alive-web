@@ -87,6 +87,61 @@ $(document).ready(function() {
         autoHideScrollbar:true,
         theme:"dark-thin"
     });
+	
+	$("#owk_container").mCustomScrollbar({
+        scrollButtons:{
+            enable:true
+        },
+        advanced:{
+            updateOnContentResize: true
+        },
+        autoHideScrollbar:true,
+        theme:"dark-thin"
+    });
+	
+	$("#vehiclexp_container").mCustomScrollbar({
+        scrollButtons:{
+            enable:true
+        },
+        advanced:{
+            updateOnContentResize: true
+        },
+        autoHideScrollbar:true,
+        theme:"dark-thin"
+    });
+	
+	$("#pilots_container").mCustomScrollbar({
+        scrollButtons:{
+            enable:true
+        },
+        advanced:{
+            updateOnContentResize: true
+        },
+        autoHideScrollbar:true,
+        theme:"dark-thin"
+    });
+	
+	$("#medics_container").mCustomScrollbar({
+        scrollButtons:{
+            enable:true
+        },
+        advanced:{
+            updateOnContentResize: true
+        },
+        autoHideScrollbar:true,
+        theme:"dark-thin"
+    });
+	
+	$("#units_container").mCustomScrollbar({
+        scrollButtons:{
+            enable:true
+        },
+        advanced:{
+            updateOnContentResize: true
+        },
+        autoHideScrollbar:true,
+        theme:"dark-thin"
+    });
 
 });
 
