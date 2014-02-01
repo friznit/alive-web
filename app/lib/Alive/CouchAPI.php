@@ -687,7 +687,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/playerPage/_view/playerTotals?group_level=1&startkey="' . $id . '"&limit=1';
+        $path = 'events/_design/playerPage/_view/playerTotals?group_level=1&startkey="' . $id . '"&endkey="' . $id . '"';
 
         $data = $this->call($path);
 
@@ -725,7 +725,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/playerPage/_list/sort_no_callback/player_finish?key=%22' . $id . '%22';
+        $path = 'events/_design/playerPage/_list/sort_no_callback/player_finish?&startkey="' . $id . '"&endkey="' . $id . '"';
 
         $data = $this->call($path);
 
