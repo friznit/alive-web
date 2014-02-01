@@ -20,6 +20,8 @@
     });
 
 </script>
+
+<div id="playerclass_container">
 <table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="t1_operators">
     <thead>
     <tr>
@@ -30,3 +32,4 @@
     <tbody>
     </tbody>
 </table>
+</div>

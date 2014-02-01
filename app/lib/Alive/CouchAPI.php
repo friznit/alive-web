@@ -1757,7 +1757,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/groupPage/_view/player_kills_count_bygroup?&group_level=4&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
+        $path = 'events/_design/groupPage/_view/player_kills_count_bygroup?&group_level=5&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
 
         $data = $this->call($path);
 

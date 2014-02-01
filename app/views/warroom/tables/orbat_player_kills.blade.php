@@ -10,9 +10,9 @@
                     "bInfo": false,
 					"aaSorting": [[2, "desc" ]],
 					"aoColumnDefs": [
-						{ "mDataProp": "key.3",  "aTargets": [ 1 ],
+						{ "mDataProp": "key",  "aTargets": [ 1 ],
 							"mRender" : function (data, type) {
-				  				return "<img src={{ URL::to('img/classes/thumbs/150px-Arma3_CfgWeapons_') }}" + data + ".png>";}
+				  				return "<img src='{{ URL::to('img/classes/thumbs/150px-Arma3_CfgWeapons_') }}" + data[3] + ".png' alt='" + data[4] +"'/>";}
 						},
 						{ "mDataProp": "key",  "aTargets": [ 0 ],
 						  "mRender" : function (data, type) {
@@ -26,7 +26,7 @@
 
 </script>
 
-<div id="playerclass_container">
+<div id="oweapons_container">
     <table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="top_groupplaykills">
         <thead>
         <tr>

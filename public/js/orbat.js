@@ -43,6 +43,50 @@ $(document).ready(function() {
         autoHideScrollbar:true,
         theme:"light-thin"
     });
+	
+	$("#playerclass_container").mCustomScrollbar({
+        scrollButtons:{
+            enable:true
+        },
+        advanced:{
+            updateOnContentResize: true
+        },
+        autoHideScrollbar:true,
+        theme:"light-thin"
+    });
+	
+	$("#oweapons_container").mCustomScrollbar({
+        scrollButtons:{
+            enable:true
+        },
+        advanced:{
+            updateOnContentResize: true
+        },
+        autoHideScrollbar:true,
+        theme:"dark-thin"
+    });
+	
+	$("#weapons_container").mCustomScrollbar({
+        scrollButtons:{
+            enable:true
+        },
+        advanced:{
+            updateOnContentResize: true
+        },
+        autoHideScrollbar:true,
+        theme:"dark-thin"
+    });
+	
+	$("#mwk_container").mCustomScrollbar({
+        scrollButtons:{
+            enable:true
+        },
+        advanced:{
+            updateOnContentResize: true
+        },
+        autoHideScrollbar:true,
+        theme:"dark-thin"
+    });
 
 });
 

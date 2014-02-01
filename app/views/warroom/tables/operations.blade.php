@@ -4,6 +4,7 @@
         $('#operations1').dataTable({
             "bJQueryUI": true,
             "sAjaxSource": '{{ URL::to('/') }}/api/operations',
+            "sAjaxDataProp": "rows",
             "bPaginate": true,
             "aaSorting": [[1, "desc" ]],
             "aoColumnDefs": [

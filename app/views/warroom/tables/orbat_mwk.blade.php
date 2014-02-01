@@ -23,7 +23,7 @@
 
 </script>
 
-<div id="class_container">
+<div id="mwk_container">
     <table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="top_groupmwk">
         <thead>
         <tr>

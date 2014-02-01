@@ -23,7 +23,7 @@
 
 </script>
 
-<div id="playerclass_container">
+<div id="weapons_container">
     <table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="top_groupweap">
         <thead>
         <tr>

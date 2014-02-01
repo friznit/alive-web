@@ -12,21 +12,21 @@
             "bAutoWidth": true,
             "aaSorting": [[ 4, "desc" ]],
             "bProcessing" : true,
-            "aoColumns": [
-                { "mData": "key.2" },
-                { "mData": "key.0" },
-                { "mData": "value.Operations" },
-                { "mData": "value.CombatHours" },
-                { "mData": "value.Kills" },
-                { "mData": "value.Injured" },
-                { "mData": "value.Deaths" },
-                { "mData": "value.ShotsFired" },
-                { "mData": "value.CombatDives" },
-                { "mData": "value.ParaJumps" },
-                { "mData": "value.Heals" },
-                { "mData": "value.VehicleTime" },
-                { "mData": "value.VehicleKills" },
-                { "mData": "value.PilotTime" }
+            "aoColumnDefs": [
+                { "mData": "key.2", "aTargets": [ 0 ] },
+                { "mData": "key.0", "aTargets": [ 1 ] },
+                { "mData": "value.Operations", "aTargets": [ 2 ] },
+                { "mData": "value.CombatHours", "aTargets": [ 3 ] },
+                { "mData": "value.Kills", "aTargets": [ 4 ] },
+                { "mData": "value.Injured", "aTargets": [ 5 ] },
+                { "mData": "value.Deaths", "aTargets": [ 6 ] },
+                { "mData": "value.ShotsFired", "aTargets": [ 7 ] },
+                { "mData": "value.CombatDives", "aTargets": [ 8 ] },
+                { "mData": "value.ParaJumps", "aTargets": [ 9 ] },
+                { "mData": "value.Heals", "aTargets": [ 10 ] },
+                { "mData": "value.VehicleTime", "aTargets": [ 11 ] },
+                { "mData": "value.VehicleKills", "aTargets": [ 12 ] },
+                { "mData": "value.PilotTime", "aTargets": [ 13 ] }
             ]
         });
     });
