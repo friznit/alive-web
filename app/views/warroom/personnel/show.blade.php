@@ -18,7 +18,7 @@
 		}
 		$('#playerclass').append(playerClass[2]);
 		$('#playerlastclass').append(playerDetails.PlayerClass);
-		$('#playerclassicon').append("<img src='{{ URL::to('/') }}/img/classes/large/Arma3_CfgVehicles_" + playerClass[1] + ".png' alt='" + playerClass[2] +"'/>");
+		$('#playerclassicon').append("<img src='{{ URL::to('/') }}/img/classes/large/Arma3_CfgVehicles_" + playerClass[1] + ".png' onerror=this.style.display='none' alt='" + playerClass[2] +"'/>");
 		
 		$('#playertp').append(Math.round(playerTotals.CombatHours/60*10)/10 + " hrs");
 		$('#playerops').append(playerTotals.Operations);
@@ -38,7 +38,7 @@
 
 		if (playerWeapon) {
 			$('#playerweap').append(playerWeapon[2]);
-			$('#playerweapicon').append("<img src='{{ URL::to('/') }}/img/classes/large/Arma3_CfgWeapons_" + playerWeapon[1] + ".png' alt='" + playerWeapon[2] +"'/>");
+			$('#playerweapicon').append("<img src='{{ URL::to('/') }}/img/classes/large/Arma3_CfgWeapons_" + playerWeapon[1] + ".png' onerror=this.style.display='none' alt='" + playerWeapon[2] +"'/>");
 		} else {
 			$('#playerweap').append("None");
 		}
@@ -46,7 +46,7 @@
 		
 		if (playerVehicle) {
 			$('#playerveh').append(playerVehicle[2]);
-			$('#playervehicon').append("<img src='{{ URL::to('/') }}/img/classes/medium/800px-Arma3_CfgVehicles_" + playerVehicle[1] + ".png' alt='" + playerVehicle[2] +"'/>");
+			$('#playervehicon').append("<img src='{{ URL::to('/') }}/img/classes/medium/800px-Arma3_CfgVehicles_" + playerVehicle[1] + ".png' onerror=this.style.display='none' alt='" + playerVehicle[2] +"'/>");
 		} else {
 			$('#playerveh').append("None");
 		}

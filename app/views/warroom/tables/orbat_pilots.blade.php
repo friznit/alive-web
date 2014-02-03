@@ -17,7 +17,7 @@
                 { "mDataProp": "key.3", "aTargets": [ 1 ] },
 				{ "mDataProp": "key.4", "aTargets": [ 2 ],
 					"mRender" : function (data, type) {
-						return "<img src={{ URL::to('img/classes/thumbs/150px-Arma3_CfgVehicles_') }}" + data + ".png>";
+						return "<img src={{ URL::to('img/classes/thumbs/150px-Arma3_CfgVehicles_') }}" + data + ".png onerror=this.style.display='none'>";
 					}
 			    },
                 { "mDataProp": "value", "aTargets": [ 3 ]  }

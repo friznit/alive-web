@@ -12,7 +12,7 @@
 					"aoColumnDefs": [
 						{ "mDataProp": "key",  "aTargets": [ 1 ],
 							"mRender" : function (data, type) {
-				  				return "<img src='{{ URL::to('img/classes/thumbs/150px-Arma3_CfgWeapons_') }}" + data[3] + ".png' alt='" + data[4] +"'/>";}
+				  				return "<img src='{{ URL::to('img/classes/thumbs/150px-Arma3_CfgWeapons_') }}" + data[3] + ".png' onerror=this.style.display='none' alt='" + data[4] +"'/>";}
 						},
 						{ "mDataProp": "key",  "aTargets": [ 0 ],
 						  "mRender" : function (data, type) {

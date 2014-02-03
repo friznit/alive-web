@@ -25,12 +25,7 @@
 					}  
 				},
                 { "mDataProp": "key.0", "aTargets": [ 1 ] },
-				{ "mDataProp": "key.3", "aTargets": [ 2 ],
-					"mRender" : function (data, type) {
-						return "<img src={{ URL::to('img/classes/small/300px-Arma3_CfgWeapons_') }}" + data + ".png>";
-					}
-			    },
-                { "mDataProp": "value", "aTargets": [ 3 ]  }
+                { "mDataProp": "value", "aTargets": [ 2 ]  }
             ]
         } );
     });
@@ -42,7 +37,6 @@
     <tr>
         <th>Player</th>
         <th>Weapon</th>
-        <th>Image</th>
         <th>Distance (in metres)</th>
     </tr>
     </thead>

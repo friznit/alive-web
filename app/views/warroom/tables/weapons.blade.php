@@ -11,7 +11,7 @@
 					"aoColumnDefs": [
 						{ "mDataProp": "key.1",  "aTargets": [ 0 ],
 							"mRender" : function (data, type) {
-				  				return "<img src={{ URL::to('img/classes/small/300px-Arma3_CfgWeapons_') }}" + data + ".png>";}
+				  				return "<img src={{ URL::to('img/classes/small/300px-Arma3_CfgWeapons_') }}" + data + ".png onerror=this.style.display='none'>";}
 						},
 						{ "mDataProp": "key.2",  "aTargets": [ 1 ]},
 						{ "mDataProp": "value", "aTargets": [ 2 ]}
