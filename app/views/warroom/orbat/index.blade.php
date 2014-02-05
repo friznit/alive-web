@@ -8,7 +8,7 @@
     <div class="container">
         <ul class="nav navbar-nav nav-tabs" data-tabs="tabs">
             <li class="active"><a data-toggle="tab" href="#tab_group">Groups</a></li>
-            <li><a data-toggle="tab" href="#tab_orbat">ORBAT</a></li>
+  <!--            <li><a data-toggle="tab" href="#tab_orbat">ORBAT</a></li> -->
         </ul>
     </div>
 </div>
