@@ -93,6 +93,45 @@
                 <img src="{{ URL::to('/') }}/img/blackneedle.jpg" class="img-responsive" />
             </div>
         </div>
+        <div class="row top-margin">
+            <div class="col-md-6">
+                <h4>Insurgency ALiVE</h4>
+                <p><small><b>by Sacha Ligthert + Mphillips'Hazey'</b></small><br/> This is an Insurgency template based on the ALiVE-mod. Based on the classic A2 Insurgency, find intel and destroy weapons caches. Offered to the ArmA 3 community as a template to fit your (community's) ArmA 3 needs. Feel free to edit!</p>
+                <p><b>Requirements</b><br/>
+                    @CBA, @ALiVE
+                </p>
+                <a class="btn btn-yellow" href="downloads/InsurgencyALiVE.7z"><i class="fa fa-download"></i> Download</a><br/>
+            </div>
+            <div class="col-md-4">
+                <img src="{{ URL::to('/') }}/img/insurgency.jpg" class="img-responsive" />
+            </div>
+        </div>
+        <div class="row top-margin">
+            <div class="col-md-6">
+                <h4>AS Alamo</h4>
+                <p><small><b>by ARJay</b></small><br/> This mission shows some handy things for scripters working with ALiVE, custom blacklists, custom location spawn script. Features Aggressors from CAF, and AIS Wounding System from [TcB]-Psycho, and custom scripted radio messages</p>
+                <p><b>Requirements</b><br/>
+                    @CBA, @ALiVE, <a href="http://forums.bistudio.com/showthread.php?172069-Arma3-AGGRESSORS" target="_blank">@CAF_AG</a>
+                </p>
+                <a class="btn btn-yellow" href="downloads/ASAlamo.7z"><i class="fa fa-download"></i> Download</a><br/>
+            </div>
+            <div class="col-md-4">
+                <img src="{{ URL::to('/') }}/img/as_alamo_ag.jpg" class="img-responsive" />
+            </div>
+        </div>
+        <div class="row top-margin">
+            <div class="col-md-6">
+                <h4>The Scavengers</h4>
+                <p><small><b>by Highhead</b></small><br/> Scavenge weapons and vehicles to continue the resistance! You start with a pistol and very limited supplies, can you gather the resources to survive in a hostile land?</p>
+                <p><b>Requirements</b><br/>
+                    @CBA, @ALiVE
+                </p>
+                <a class="btn btn-yellow" href="downloads/Scavengers.7z"><i class="fa fa-download"></i> Download</a><br/>
+            </div>
+            <div class="col-md-4">
+                <img src="{{ URL::to('/') }}/img/scavengers.jpg" class="img-responsive" />
+            </div>
+        </div>
     </div>
 </div>
 
