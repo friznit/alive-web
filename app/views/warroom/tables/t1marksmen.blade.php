@@ -17,7 +17,7 @@
                 }
                 */
             },
-            "aaSorting": [[3, "desc" ]],
+            "aaSorting": [[2, "desc" ]],
             "aoColumnDefs": [
                 { "mDataProp": "key", "aTargets": [ 0 ],
 					"mRender" : function (data, type) {
