@@ -75,7 +75,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
 
         }else{
             $encoded = json_encode([]);
