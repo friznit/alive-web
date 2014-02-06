@@ -13,7 +13,10 @@
             "aaSorting": [[ 4, "desc" ]],
             "bProcessing" : true,
             "aoColumnDefs": [
-                { "mData": "key.2", "aTargets": [ 0 ] },
+                { "mData": "key", "aTargets": [ 0 ],
+				  "mRender" : function (data, type) {
+						return "<a href={{ URL::to('war-room') }}/showoperation?name=" + encodeURIComponent(data[2]) +"&map=" + encodeURIComponent(data[0]) + "&clan=" + encodeURIComponent(data[1]) + ">" +  data[2] + " (" + data[1] +")</a>";}
+				},
                 { "mData": "key.0", "aTargets": [ 1 ] },
                 { "mData": "value.Operations", "aTargets": [ 2 ] },
                 { "mData": "value.CombatHours", "aTargets": [ 3 ] },
@@ -36,7 +39,7 @@
 <table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="breakdown">
     <thead>
     <tr>
-        <th>Operation</th>
+        <th width="20%">Operation</th>
         <th>AO</th>
         <th>Sessions</th>
         <th>Minutes Played</th>

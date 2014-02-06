@@ -309,10 +309,10 @@ class CouchAPI {
         return $encoded;
     }
 	
-	public function getOpLiveFeed($name, $map, $clan)
+	public function getOpLiveFeed($map, $clan, $name)
     {
-
-        $path = 'events/_design/operationPage/_list/sort_no_callback/operation_events?startkey=["' . $map . '","' .$clan. '","' .$name. '"]&endkey=["' . $map . '","' .$clan. '","' .$name. '",{}]';
+		$name = urlencode($name);
+        $path = 'events/_design/operationPage/_list/sort_no_callback/operation_events?startkey=["' . $map . '","' . $clan . '","' . $name . '",{}]&endkey=["' . $map . '","' . $clan . '","' . $name . '"]&descending=true';
 
         $data = $this->call($path);
 

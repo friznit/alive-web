@@ -8,12 +8,16 @@
             "bPaginate": true,
             "aaSorting": [[1, "desc" ]],
             "aoColumnDefs": [
-                { "mData": "key.2",  "aTargets": [ 0 ]},
-                { "mData": "value.InfKills", "aTargets": [ 1 ]},
-                { "mData": "value.VehKills", "aTargets": [ 2 ]},
-                { "mData": "value.AirKills", "aTargets": [ 3 ]},
-                { "mData": "value.ShipKills", "aTargets": [ 4 ]},
-                { "mData": "value.OtherKills", "aTargets": [ 5 ]}
+                { "mData": "key",  "aTargets": [ 0 ],
+				  "mRender" : function (data, type) {
+						return "<a href={{ URL::to('war-room') }}/showoperation?name=" + encodeURIComponent(data[2]) +"&map=" + encodeURIComponent(data[0]) + "&clan=" + encodeURIComponent(data[1]) + ">" +  data[2] + " (" + data[1] +")</a>";}
+				},
+				{ "mData": "key.0", "aTargets": [ 1 ]},
+                { "mData": "value.InfKills", "aTargets": [ 2 ]},
+                { "mData": "value.VehKills", "aTargets": [ 3 ]},
+                { "mData": "value.AirKills", "aTargets": [ 4 ]},
+                { "mData": "value.ShipKills", "aTargets": [ 5 ]},
+                { "mData": "value.OtherKills", "aTargets": [ 6 ]}
             ]
         });
     });
@@ -24,6 +28,7 @@
     <thead>
     <tr>
         <th>Operation</th>
+		<th>AO</th>
         <th>Inf</th>
         <th>Veh</th>
         <th>Air</th>
