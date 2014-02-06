@@ -51,7 +51,7 @@ class APIController extends BaseController {
 		$name = Input::get('name');
 		$map = Input::get('map');
 		$clan = Input::get('clan');
-        return $this->couchAPI->getOpLiveFeed($name,$map,$clan);
+        return $this->couchAPI->getOpLiveFeed($map,$clan,$name);
     }
     public function getLossesblu()
     {
