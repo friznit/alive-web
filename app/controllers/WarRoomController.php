@@ -108,6 +108,22 @@ class WarRoomController extends BaseController {
         return View::make('warroom/operations.index')->with($data);
     }
 	
+	public function getShowoperation()
+    {
+		$name = Input::get('name');
+		$map = Input::get('map');
+		$clan = Input::get('clan');
+		
+        $data = get_default_data();
+		
+		// Get Map and Clan
+		$data['name'] = urldecode($name);
+        $data['ao'] = AO::where('configName', '=', urldecode($map))->first();
+		$data['clan'] = Clan::where('tag', '=', urldecode($clan))->first();
+
+        return View::make('warroom/operations.show')->with($data);
+    }
+	
 	// Orbat -------------------------------------------------------------------------------------------------------
 
     public function getOrbat()

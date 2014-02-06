@@ -15,6 +15,13 @@ class APIController extends BaseController {
     {
         return $this->couchAPI->getTotals();
     }
+	public function getOptotals()
+    {
+		$name = Input::get('name');
+		$map = Input::get('map');
+		$clan = Input::get('clan');
+        return $this->couchAPI->getOpTotals($name,$map,$clan);
+    }	
 	public function getMaptotals()
     {
 		$name = Input::get('name');
@@ -24,6 +31,13 @@ class APIController extends BaseController {
     {
         return $this->couchAPI->getActiveUnitCount();
     }
+	public function getOpactiveunitcount()
+    {
+		$name = Input::get('name');
+		$map = Input::get('map');
+		$clan = Input::get('clan');
+        return $this->couchAPI->getOpActiveunitcount($name,$map,$clan);
+    }	
     public function getRecentoperations()
     {
         return $this->couchAPI->getRecentOperations();
@@ -31,6 +45,13 @@ class APIController extends BaseController {
     public function getLivefeed()
     {
         return $this->couchAPI->getLiveFeed();
+    }
+	public function getOplivefeed()
+    {
+		$name = Input::get('name');
+		$map = Input::get('map');
+		$clan = Input::get('clan');
+        return $this->couchAPI->getOpLiveFeed($name,$map,$clan);
     }
     public function getLossesblu()
     {
@@ -43,6 +64,27 @@ class APIController extends BaseController {
     public function getCasualties()
     {
         return $this->couchAPI->getCasualties();
+    }
+    public function getOpcasualties()
+    {
+		$name = Input::get('name');
+		$map = Input::get('map');
+		$clan = Input::get('clan');
+        return $this->couchAPI->getOpCasualties($name,$map,$clan);
+    }
+	public function getOplossesblu()
+    {
+		$name = Input::get('name');
+		$map = Input::get('map');
+		$clan = Input::get('clan');
+        return $this->couchAPI->getOpLossesBLU($name,$map,$clan);
+    }
+    public function getOplossesopf()
+    {
+		$name = Input::get('name');
+		$map = Input::get('map');
+		$clan = Input::get('clan');
+        return $this->couchAPI->getOpLossesOPF($name,$map,$clan);
     }
     public function getOperationsbymap()
     {

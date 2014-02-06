@@ -12,7 +12,7 @@ class CouchAPI {
     private $pass = 'tupolov';
     private $url = 'https://msostore.iriscouch.com/';
 
-    public $reset = false;
+    public $reset = true;
     public $debug = false;
 
     public function createClanUser($name, $password, $group)
@@ -84,6 +84,49 @@ class CouchAPI {
         return $encoded;
     }
 
+    public function getOptotals($name, $map, $clan)
+    {
+        $cacheKey = 'Totals' . $name . $map . $clan;
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'events/_design/homePage/_view/Totals?group_level=3';
+
+        $data = $this->call($path);
+
+        if(isset($data['response']->rows[0])) {
+
+            $data = $data['response']->rows;
+
+            foreach($data as $item){
+                    if($item->key[0] == $map && $item->key[1] == $clan && $item->key[2] == $name){
+                        $result = $item->value;
+                    }
+            }
+			
+            if($this->debug){
+                TempoDebug::dump($result);
+            }
+
+            $encoded = json_encode($result);
+
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+	
 	 public function getMapTotals($name)
     {
 
@@ -159,6 +202,50 @@ class CouchAPI {
 
         return $encoded;
     }
+	
+	public function getOpActiveUnitCount($name, $map, $clan)
+    {
+
+        $cacheKey = 'OpActiveUnits' . $name . $map . $clan;
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'events/_design/operationPage/_view/players_list?group_level=3';
+
+        $data = $this->call($path);
+
+        if(isset($data['response']->rows)) {
+
+            $data = $data['response']->rows;
+
+            foreach($data as $item){
+                    if($item->key[0] == $map && $item->key[1] == $clan && $item->key[2] == $name){
+                        $result = $item->value;
+                    }
+            }
+			
+            if($this->debug){
+                TempoDebug::dump($result);
+            }
+
+            $encoded = json_encode($result);
+
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
 
     public function getRecentOperations()
     {
@@ -175,7 +262,7 @@ class CouchAPI {
             return $data;
         }
 
-        $path = 'events/_design/homePage/_view/recent_operations?descending=true&limit=50';
+        $path = 'events/_design/homePage/_view/recent_operations?descending=true&limit=20';
 
         $data = $this->call($path);
 
@@ -202,6 +289,30 @@ class CouchAPI {
     {
 
         $path = 'events/_design/homePage/_view/all_events?descending=true&limit=50';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response'];
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+	
+	public function getOpLiveFeed($name, $map, $clan)
+    {
+
+        $path = 'events/_design/operationPage/_list/sort_no_callback/operation_events?startkey=["' . $map . '","' .$clan. '","' .$name. '"]&endkey=["' . $map . '","' .$clan. '","' .$name. '",{}]';
 
         $data = $this->call($path);
 
@@ -360,7 +471,146 @@ class CouchAPI {
 
         return $encoded;
     }
+   public function getOpLossesBLU($name, $map, $clan)
+    {
 
+        $cacheKey = 'OpLossesBLU' . $name . $map . $clan;
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'events/_design/operationPage/_view/side_killed_count_by_class?group_level=5';
+
+        $data = $this->call($path);
+
+        if(isset($data['response']->rows)) {
+
+            $data = $data['response']->rows;
+            $result = array();
+
+            foreach($data as $item){
+                if($item->value > 0){
+                    if($item->key[3] == 'WEST' && $item->key[0] == $map && $item->key[1] == $clan && $item->key[2] == $name){
+                        array_push($result, [$item->key[4], $item->value]);
+                    }
+                }
+            }
+
+            if($this->debug){
+                TempoDebug::dump($result);
+            }
+
+            $encoded = json_encode($result);
+
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+
+    public function getOpLossesOPF($name, $map, $clan)
+    {
+
+        $cacheKey = 'OpLossesOPF' . $name . $map . $clan;
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'events/_design/operationPage/_view/side_killed_count_by_class?group_level=5';
+
+        $data = $this->call($path);
+
+        if(isset($data['response']->rows)) {
+
+            $data = $data['response']->rows;
+            $result = array();
+
+            foreach($data as $item){
+                if($item->value > 0){
+                    if($item->key[3] == 'EAST' && $item->key[0] == $map && $item->key[1] == $clan && $item->key[2] == $name){
+                        array_push($result, [$item->key[4], $item->value]);
+                    }
+                }
+            }
+
+            if($this->debug){
+                TempoDebug::dump($result);
+            }
+
+            $encoded = json_encode($result);
+
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+
+    public function getOpCasualties($name, $map, $clan)
+    {
+
+        $cacheKey = 'OpCasualties' . $name . $map . $clan;
+
+        if (\Cache::has($cacheKey) && !$this->reset) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }
+
+        $path = 'events/_design/operationPage/_view/side_killed_count?group_level=4';
+
+        $data = $this->call($path);
+
+        if(isset($data['response']->rows)) {
+
+            $data = $data['response']->rows;
+            $result = array();
+
+            foreach($data as $item){
+                if($item->value > 0){
+					if($item->key[0] == $map && $item->key[1] == $clan && $item->key[2] == $name){
+                        array_push($result, [$item->key[3], $item->value]);
+                    }
+                }
+            }
+
+            if($this->debug){
+                TempoDebug::dump($result);
+            }
+
+            $encoded = json_encode($result);
+
+            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
     public function getOperationsByMap()
     {
 
