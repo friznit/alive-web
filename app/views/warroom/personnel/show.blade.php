@@ -32,7 +32,7 @@
 		$('#playerdives').append(playerTotals.CombatDives);
 		$('#playerdivetime').append(playerTotals.DiveTime + " mins");
 		$('#playerjumps').append(playerTotals.ParaJumps);
-		$('#playermedic').append(playerTotals.Heals + " hrs");
+		$('#playermedic').append(playerTotals.Heals + " mins");
 		$('#playerlastop').append(playerDetails.Operation);
 		$('#playerlastactive').append(parseArmaDate(playerDetails.date));
 

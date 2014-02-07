@@ -84,7 +84,9 @@
 
 <div id="warroom_livefeed">
     <div class="strip clearfix"><span id="warroom_livefeed_toggle"><i class="fa fa-arrow-right"></i></span><span id="warroom_livefeed_label" class="control">{{ $name }} - AAR</span></div>
-	@include('warroom/tables/op_live_feed')
+
+		@include('warroom/tables/aar_table')
+
 </div>
 
 <div id="warroom_charts">
