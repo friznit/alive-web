@@ -850,7 +850,7 @@ class AdminUserController extends BaseController {
                     exit;
                 }
 
-                if(is_null($profile->a3_id)){
+                if(is_null($profile->a3_id) || $profile->a3_id == ''){
                     echo '<p>Players profile A3ID is not set!</p>';
                     exit;
                 }
@@ -886,11 +886,14 @@ class AdminUserController extends BaseController {
                             }
                         }
                     }else{
+                        print_r($response);
+                        /*
                         echo '<p>Couch _id: ' . $response->_id . '</p>';
                         echo '<p>Couch _rev: ' . $response->_rev . '</p>';
                         echo '<p>Couch username: ' . $response->username . '</p>';
                         echo '<p>Couch ServerGroup: ' . $response->ServerGroup . '</p>';
                         echo '<p>Couch A3PUID: ' . $response->A3PUID . '</p>';
+                        */
                     }
                 }
 
