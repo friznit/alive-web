@@ -8,9 +8,14 @@ ini_set('max_execution_time', 60);
 
 class CouchAPI {
 
+    /*
     private $user = 'aliveadmin';
     private $pass = 'tupolov';
     private $url = 'https://msostore.iriscouch.com/';
+    */
+    private $user = 'arjay';
+    private $pass = 'sfgdhl;asdr234';
+    private $url = 'http://localhost:5984/';
 
     public $reset = true;
     public $debug = false;
@@ -32,6 +37,20 @@ class CouchAPI {
         return $this->call($path, $data, $requestType);
     }
 
+    public function getClanUser($name, $password)
+    {
+        $path = '_users/org.couchdb.user:' . $name;
+
+        $data = array(
+            'name' => $name,
+            'password' => $password,
+        );
+
+        $requestType = 'GET';
+
+        return $this->call($path, $data, $requestType);
+    }
+
     public function createClanMember($a3Id, $username, $group)
     {
         $path = 'players/' . $a3Id;
@@ -43,6 +62,17 @@ class CouchAPI {
         );
 
         $requestType = 'PUT';
+
+        return $this->call($path, $data, $requestType);
+    }
+
+    public function getClanMember($a3Id)
+    {
+        $path = 'players/' . $a3Id;
+
+        $data = [];
+
+        $requestType = 'GET';
 
         return $this->call($path, $data, $requestType);
     }

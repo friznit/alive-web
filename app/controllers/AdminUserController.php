@@ -753,4 +753,158 @@ class AdminUserController extends BaseController {
             return Redirect::to('admin/user/edit/' . $id);
         }
     }
+
+    public function getConnectdebug($id)
+    {
+
+        $data = get_default_data();
+        $auth = $data['auth'];
+
+        try {
+
+            if ($auth['isAdmin']) {
+
+                $user = Sentry::getUserProvider()->findById($id);
+                $profile = $user->profile;
+
+
+                $clan_id = $profile->clan_id;
+
+                $clan = Clan::find($clan_id);
+
+                echo '<h2>Connection test for group : ' . $clan->name . ' [' .  $clan->tag . ']</h2>';
+
+                if(!is_null($clan->remote_id)){
+                    echo '<p>Group remote_id is set rev id: ' . $clan->remote_id . '</p>';
+
+                    echo '<h3>Get group couch profile..</h3>';
+                    $couchAPI = new Alive\CouchAPI();
+                    $result = $couchAPI->getClanUser($clan->key, $clan->password);
+
+                    if(isset($result['response'])){
+                        $response = $result['response'];
+                        if(isset($response->error)){
+                            echo '<p>Couch error response: ' . $response->error . '</p>';
+                            echo '<p>Couch reason response: ' . $response->reason . '</p>';
+                        }else{
+                            echo '<p>Couch id: ' . $response->_id . '</p>';
+                            echo '<p>Couch rev: ' . $response->_rev . '</p>';
+                            echo '<p>Couch ServerGroup: ' . $response->ServerGroup . '</p>';
+                        }
+                    }
+                }
+
+                $couchAPI = new Alive\CouchAPI();
+                $result = $couchAPI->getClanUser($clan->key, $clan->password);
+
+                if(isset($result['response'])){
+                    $response = $result['response'];
+                    if(isset($response->error)){
+                        echo '<p>Couch error response: ' . $response->error . '</p>';
+                        echo '<p>Couch reason response: ' . $response->reason . '</p>';
+
+                        echo '<h3>Attempt to create couch group user..</h3>';
+                        $result = $couchAPI->createClanUser($clan->key, $clan->password, $clan->tag);
+
+                        if(isset($result['response'])){
+                            if(isset($result['response']->rev)){
+                                $remoteId = $result['response']->rev;
+                                $clan->remote_id = $remoteId;
+                                $clan->save();
+
+                                echo '<h3>Couch group user created!</h3>';
+                                echo '<p>Couch id: ' . $response->id . '</p>';
+                                echo '<p>Couch rev: ' . $response->rev . '</p>';
+                            }else{
+                                echo '<p>Couch error response: ' . $response->error . '</p>';
+                                echo '<p>Couch reason response: ' . $response->reason . '</p>';
+                            }
+                        }
+                    }
+                }
+
+                echo '<h2>Connection test for player : ' . $profile->username . '</h2>';
+
+                if(!is_null($profile->remote_id)){
+                    echo '<p>Profile remote_id is set rev id: ' . $profile->remote_id . '</p>';
+
+                    echo '<h3>Get player couch profile..</h3>';
+
+                    $couchAPI = new Alive\CouchAPI();
+                    $result = $couchAPI->getClanMember($profile->a3_id);
+
+                    if(isset($result['response'])){
+                        $response = $result['response'];
+                        if(isset($response->error)){
+                            echo '<p>Couch error response: ' . $response->error . '</p>';
+                            echo '<p>Couch reason response: ' . $response->reason . '</p>';
+                        }else{
+                            echo '<p>Couch _id: ' . $response->_id . '</p>';
+                            echo '<p>Couch _rev: ' . $response->_rev . '</p>';
+                            echo '<p>Couch username: ' . $response->username . '</p>';
+                            echo '<p>Couch ServerGroup: ' . $response->ServerGroup . '</p>';
+                            echo '<p>Couch A3PUID: ' . $response->A3PUID . '</p>';
+                        }
+                    }
+
+                    exit;
+                }
+
+                if(is_null($profile->a3_id)){
+                    echo '<p>Players profile A3ID is not set!</p>';
+                    exit;
+                }
+
+                $couchAPI = new Alive\CouchAPI();
+                $result = $couchAPI->getClanMember($profile->a3_id);
+
+                if(isset($result['response'])){
+                    $response = $result['response'];
+                    echo '<h3>Get player couch profile..</h3>';
+
+                    if(isset($response->error)){
+                        echo '<p>Couch error response: ' . $response->error . '</p>';
+                        echo '<p>Couch reason response: ' . $response->reason . '</p>';
+
+                        echo '<h3>Attempt to create couch profile..</h3>';
+
+                        $result = $couchAPI->createClanMember($profile->a3_id, $profile->username, $clan->tag);
+                        if(isset($result['response'])){
+                            $response = $result['response'];
+                            if(isset($response->error)){
+                                echo '<p>Couch error response: ' . $response->error . '</p>';
+                                echo '<p>Couch reason response: ' . $response->reason . '</p>';
+                            }else{
+                                if(isset($response->rev)){
+                                    $remoteId = $response->rev;
+                                    $profile->remote_id = $remoteId;
+                                    $profile->save();
+                                    echo '<h3>Couch profile created!</h3>';
+                                    echo '<p>Couch id: ' . $response->_id . '</p>';
+                                    echo '<p>Couch rev: ' . $response->_rev . '</p>';
+                                }
+                            }
+                        }
+                    }else{
+                        echo '<p>Couch _id: ' . $response->_id . '</p>';
+                        echo '<p>Couch _rev: ' . $response->_rev . '</p>';
+                        echo '<p>Couch username: ' . $response->username . '</p>';
+                        echo '<p>Couch ServerGroup: ' . $response->ServerGroup . '</p>';
+                        echo '<p>Couch A3PUID: ' . $response->A3PUID . '</p>';
+                    }
+                }
+
+            } else {
+                Alert::error('Sorry.')->flash();
+                return Redirect::to('admin/user/show/'.$auth['userId']);
+            }
+
+        } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
+            Alert::error('User was not found.')->flash();
+            return Redirect::to('admin/user/edit/' . $id);
+        } catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
+            Alert::error('Trying to access unidentified Groups.')->flash();
+            return Redirect::to('admin/user/edit/' . $id);
+        }
+    }
 }

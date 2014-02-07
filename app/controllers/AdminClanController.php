@@ -1325,13 +1325,13 @@ class AdminClanController extends BaseController {
                 return Redirect::to('admin/clan/show/'.$id);
             }
 
-            $couchAPI = new Alive\CouchAPI();
-            $result = $couchAPI->createClanUser($clan->key, $clan->password, $clan->tag);
-
             if(!is_null($clan->remote_id)){
                 Alert::error('Already connected to cloud data store.')->flash();
                 return Redirect::to('admin/clan/show/'.$id);
             }
+
+            $couchAPI = new Alive\CouchAPI();
+            $result = $couchAPI->createClanUser($clan->key, $clan->password, $clan->tag);
 
             if(isset($result['response'])){
                 if(isset($result['response']->rev)){

@@ -67,6 +67,26 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="modal fade" id="blockedModal" tabindex="-1" role="dialog" aria-labelledby="blockedModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="blockedModalLabel">Example of blocked achive</h4>
+                                </div>
+                                <div class="strip">
+                                    <p>Right click on the downloaded archive and select properties.</p>
+                                    <p>You need to ensure that you select unblock if the archive properties look like the example below:</p>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="{{ URL::to('/') }}/img/blocked.jpg" class="img-responsive dark-border center-block" /><br/>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     
                     <form action="{{ URL::to('admin/server/edit') }}/{{ $server->id }}" method="post">
 
@@ -151,7 +171,11 @@
                             </tr>                    
                             <tr>
                                 <td>Step 3</td>
-                                <td>Download the @Arma2Net addon and extract the folder into the Dedicated Server Arma 3 root folder. Add @Arma2Net to your mod line on your dedicated server.</td>
+                                <td>Download the @Arma2Net addon and extract the folder into the Dedicated Server Arma 3 root folder. Add @Arma2Net to your mod line on your dedicated server.<br/><br/>
+                                    <div class="strip">
+                                        <p>NOTE: Prior to extracting the addon from the 7zip archive, make sure that the archive isn't blocked.<br/><br/><span class="btn btn-yellow" data-toggle="modal" data-target="#blockedModal"><i class="fa fa-eye"></i> See Example</span></p>
+                                    </div>
+                                </td>
                                 <td><a class="btn btn-yellow" href="{{ URL::to('/') }}/downloads/@Arma2NET.7z"><i class="fa fa-download"></i> Download</a></td>
                             </tr>
                             <tr>

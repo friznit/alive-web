@@ -100,7 +100,7 @@
                 <p><b>Requirements</b><br/>
                     @CBA, @ALiVE
                 </p>
-                <a class="btn btn-yellow" href="downloads/InsurgencyALiVE.7z"><i class="fa fa-download"></i> Download</a><br/>
+                <a class="btn btn-yellow" href="downloads/insurgency.7z"><i class="fa fa-download"></i> Download</a><br/>
             </div>
             <div class="col-md-4">
                 <img src="{{ URL::to('/') }}/img/insurgency.jpg" class="img-responsive" />
