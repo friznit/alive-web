@@ -8,14 +8,15 @@ ini_set('max_execution_time', 60);
 
 class CouchAPI {
 
-    /*
     private $user = 'aliveadmin';
     private $pass = 'tupolov';
     private $url = 'https://msostore.iriscouch.com/';
-    */
+
+    /*
     private $user = 'arjay';
     private $pass = 'sfgdhl;asdr234';
     private $url = 'http://localhost:5984/';
+    */
 
     public $reset = true;
     public $debug = false;
