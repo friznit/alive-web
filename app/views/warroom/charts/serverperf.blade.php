@@ -8,7 +8,7 @@ $(function() {
 	var seriesOptions = [],
 		yAxisOptions = [],
 		seriesCounter = 0,
-		names = ['CPS', 'Objects', 'FPS', 'Players','REMAI','LOCAI'],
+		names = ['CPS', 'Objects', 'FPS', 'Players','REMAI','LOCAI','ActiveProf','InactiveProf','UnitsProf','VehProf'],
 		colors = Highcharts.getOptions().colors;
 
 	$.each(names, function(i, name) {

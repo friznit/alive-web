@@ -20,7 +20,7 @@
 		$('#clanflighttime').append(Math.round(clanTotals.PilotTime/60*10)/10 + " hrs");
 		$('#clandives').append(clanTotals.CombatDives);
 		$('#clanjumps').append(clanTotals.ParaJumps);
-		$('#clanmedic').append(clanTotals.Heals + " hrs");
+		$('#clanmedic').append(clanTotals.Heals + " mins");
 		
 		$('#lastop').append(clanLastOp.Operation);
 		$('#lastmap').append(clanLastOp.Map);
@@ -41,7 +41,7 @@
 
                     <h1>
                         [{{{ $clan->tag }}}]
-                        {{{ $clan->name }}}&nbsp;
+                        {{{ $clan->name }}}
                         <img src="{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($clan->country) }}.png" alt="{{ $clan->country_name }}" title="{{ $clan->country_name }}"/>
 						
                     </h1>
@@ -94,7 +94,30 @@
                         </tr>
                     </table>
 
- 				   				
+ 				   	@if ((!is_null($clan->twitch_stream) && !$clan->twitch_stream=='') || (!is_null($clan->website) && !$clan->website=='') || (!is_null($clan->teamspeak) && !$clan->teamspeak==''))
+                    <h2>Communications</h2>
+                    <table class="table">
+
+                        @if (!is_null($clan->twitch_stream) && !$clan->twitch_stream=='')
+                        <tr>
+                            <td width="40%">Twitch Stream</td>
+                            <td width="60%"><a target="_blank" href="{{{ $clan->twitch_stream }}}">{{{ $clan->twitch_stream }}}</a></td>
+                        </tr>
+                        @endif
+                        @if (!is_null($clan->website) && !$clan->website=='')
+                        <tr>
+                            <td width="40%">Web Site</td>
+                            <td width="60%"><a target="_blank" href="{{{ $clan->website }}}">{{{ $clan->website }}}</a></td>
+                        </tr>
+                        @endif
+                        @if (!is_null($clan->teamspeak) && !$clan->teamspeak=='')
+                        <tr>
+                            <td width="40%">TeamSpeak</td>
+                            <td width="60%"><a target="_blank" href="t3server://{{{ $clan->teamspeak }}}">{{{ $clan->teamspeak }}}</a></td>
+                        </tr>
+                        @endif
+                    </table>
+                  @endif		
                 </div>
             </div>
 
@@ -131,7 +154,7 @@
              	</div>
 
                   <h2>Soldiers</h2>
-				<div id="soldiers_container" style="max-height:350px">
+				<div id="soldiers_container" style="max-height:400px">
                 <table cellpadding="0" cellspacing="0" border="0" class="dataTable table">
                     <tbody>
                     @foreach ($soldiers as $member)
@@ -151,30 +174,7 @@
                     </tbody>
                 </table>
                 </div>
-				@if ((!is_null($clan->twitch_stream) && !$clan->twitch_stream=='') || (!is_null($clan->website) && !$clan->website=='') || (!is_null($clan->teamspeak) && !$clan->teamspeak==''))
-                    <h2>Communications</h2>
-                    <table class="table">
-
-                        @if (!is_null($clan->twitch_stream) && !$clan->twitch_stream=='')
-                        <tr>
-                            <td width="40%">Twitch Stream</td>
-                            <td width="60%"><a target="_blank" href="{{{ $clan->twitch_stream }}}">{{{ $clan->twitch_stream }}}</a></td>
-                        </tr>
-                        @endif
-                        @if (!is_null($clan->website) && !$clan->website=='')
-                        <tr>
-                            <td width="40%">Web Site</td>
-                            <td width="60%"><a target="_blank" href="{{{ $clan->website }}}">{{{ $clan->website }}}</a></td>
-                        </tr>
-                        @endif
-                        @if (!is_null($clan->teamspeak) && !$clan->teamspeak=='')
-                        <tr>
-                            <td width="40%">TeamSpeak</td>
-                            <td width="60%"><a target="_blank" href="{{{ $clan->teamspeak }}}">{{{ $clan->teamspeak }}}</a></td>
-                        </tr>
-                        @endif
-                    </table>
-                  @endif
+				
             
                 </div>
 
