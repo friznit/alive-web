@@ -94,6 +94,7 @@
                         "<div class='ao-popup'>" +
                         "<p>" +
                         "<span class='title'>{{$ao->name}}</span></br>" +
+						"<img src='{{ $ao->image->url('thumbAO') }}' ></br>" +
                         "<span class='highlight'>OPS:</span> " + mapdata.Operations + " <span class='highlight'>| EKIA:</span> " + mapdata.Kills + " <span class='highlight'>| LOSSES:</span> " + mapdata.Deaths + "</br>" +
                         "<span class='highlight'>HRS:</span> " + Math.round((mapdata.CombatHours / 60)*10)/10 + " <span class='highlight'>| AMMO:</span> " + mapdata.ShotsFired + " <span class='highlight'>| UNITS:</span> " + mapdata.Operations +
                         "</p>" +
