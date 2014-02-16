@@ -25,7 +25,7 @@
                     "aTargets": [ 2 ],
                     "mDataProp": "value",
                     "mRender": function ( data, type, row) {
-                        return data[2];
+						return "<a href={{ URL::to('war-room') }}/showoperation?name=" + encodeURIComponent(data[2]) +"&map=" + encodeURIComponent(data[1]) + "&clan=" + encodeURIComponent(data[3]) + ">" +  data[2] + " (" + data[3] +")</a>";
                     }
                 }
             ]
