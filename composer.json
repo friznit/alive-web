@@ -9,7 +9,7 @@
 		"cartalyst/sentry": "2.0.*",
 		"prologue/alerts": "dev-master",
 		"laravelbook/ardent": "2.1.0",
-		"way/generators": "dev-master",
+		"way/generators": "~1.1",
 		"codesleeve/stapler": "dev-master",
 		"anlutro/curl": "0.1.1",
 		"webpatser/laravel-countries": "dev-master"
