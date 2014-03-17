@@ -6,11 +6,11 @@
 	"require": {
 		"laravel/framework": "4.0.*",
 		"doctrine/couchdb": "1.0.0-alpha1",
-        "cartalyst/sentry": "2.0.*",
-        "prologue/alerts": "dev-master",
-        "laravelbook/ardent": "2.1.0",
-        "way/generators": "dev-master",
-        "codesleeve/stapler": "dev-master",
+		"cartalyst/sentry": "2.0.*",
+		"prologue/alerts": "dev-master",
+		"laravelbook/ardent": "2.1.0",
+		"way/generators": "dev-master",
+		"codesleeve/stapler": "dev-master",
 		"anlutro/curl": "0.1.1",
 		"webpatser/laravel-countries": "dev-master"
 	},
@@ -25,11 +25,11 @@
 		],
 		"files": [
 		    "app/helpers.php"
-        ],
-        "psr-0": {
-            "Alive": "app/lib",
-            "Tempo": "app/lib"
-        }
+		],
+		"psr-0": {
+			"Alive": "app/lib",
+			"Tempo": "app/lib"
+		}
 	},
 	"scripts": {
 		"post-install-cmd": [
