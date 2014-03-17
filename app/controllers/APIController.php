@@ -11,6 +11,27 @@ class APIController extends BaseController {
     {
         $this->couchAPI = new CouchAPI();
     }
+	public function getAuthorise()
+    {
+		$ip = Input::get('ip');
+		$group = Input::get('group');
+		$result = "false";
+		// Get server based on IP
+		try {
+			$servers = Server::where('ip','=',$ip)->get();
+			// Get clan from server
+			$clan = $servers[0]->clan;
+			// Check clan tag = group 
+			if ($clan->tag == $group) {
+				$result = "true";
+			} else {
+				$result = "false";
+			}
+		} catch (ModelNotFoundException $e) {
+            $result = "false";
+        }
+        return json_encode($result);
+    }
     public function getTotals()
     {
         return $this->couchAPI->getTotals();
