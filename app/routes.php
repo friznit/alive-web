@@ -29,6 +29,10 @@ Route::get('/thankyou', function() {
     return View::make('public/thankyou/index');
 });
 
+Route::get('/staginghome', function() {
+    return View::make('public/staginghome/index');
+});
+
 Route::get('/', function() {
     return View::make('public/home/index');
 });
