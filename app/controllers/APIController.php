@@ -410,6 +410,8 @@ class APIController extends BaseController {
         $result = $this->getTotals();
         TempoDebug::stopProfile($profiler);
 
+        /*
+
         $profiler = TempoDebug::startProfile();
         $result = $this->getActiveunitcount();
         TempoDebug::stopProfile($profiler);
@@ -501,6 +503,8 @@ class APIController extends BaseController {
         $profiler = TempoDebug::startProfile();
         $result = $this->getOpsbreakdown();
         TempoDebug::stopProfile($profiler);
+
+        */
 
     }
 }

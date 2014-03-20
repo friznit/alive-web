@@ -40,20 +40,6 @@
         <br/>
         <div class="row top-margin">
             <div class="col-md-6">
-                <h4>Mountain War</h4>
-                <p><small><b>by (AEF)Spinfx</b></small><br/>Stratis is split down the middle with BLUFOR holding the western side and OPFOR holding the east. Featuring BIS support modules, BTC Revive, and VAS.</p>
-                <p><b>Requirements</b><br/>
-                    @CBA, @ALiVE
-                </p>
-                <a class="btn btn-yellow" href="downloads/ALiVE_MountainWar.Stratis.zip"><i class="fa fa-download"></i> Download</a><br/>
-            </div>
-            <div class="col-md-4">
-                <img src="{{ URL::to('/') }}/img/mountain_war.jpg" class="img-responsive" />
-            </div>
-        </div>
-        <br/>
-        <div class="row top-margin">
-            <div class="col-md-6">
                 <h4>The Grind</h4>
                 <p><small><b>by ARJay</b></small><br/>You occupy a small base close to the front lines, the Russians are approaching!</p>
                 <p><b>Requirements</b><br/>
@@ -93,6 +79,7 @@
                 <img src="{{ URL::to('/') }}/img/blackneedle.jpg" class="img-responsive" />
             </div>
         </div>
+        <br/>
         <div class="row top-margin">
             <div class="col-md-6">
                 <h4>Insurgency ALiVE</h4>
@@ -106,6 +93,7 @@
                 <img src="{{ URL::to('/') }}/img/insurgency.jpg" class="img-responsive" />
             </div>
         </div>
+        <br/>
         <div class="row top-margin">
             <div class="col-md-6">
                 <h4>AS Alamo</h4>
@@ -119,6 +107,7 @@
                 <img src="{{ URL::to('/') }}/img/as_alamo_ag.jpg" class="img-responsive" />
             </div>
         </div>
+        <br/>
         <div class="row top-margin">
             <div class="col-md-6">
                 <h4>The Scavengers</h4>

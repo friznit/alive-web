@@ -32,6 +32,44 @@
     </div>
 </div>
 
+<div class="jumbotron white-panel" id="Donate">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <h2>Help the team, donate</h2>
+                <p>To help cover costs of server expenses and to just say thanks, dontate to the ALiVE team.</p>
+                <table class="table">
+                    <tr>
+                        <th>PayPal</th>
+                        <th></th>
+                        <th>Bitcoin</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                                <input type="hidden" name="cmd" value="_s-xclick">
+                                <input type="hidden" name="hosted_button_id" value="YEX976YKH796L">
+                                <input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online.">
+                                <img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
+                            </form>
+                        </td>
+                        <td></td>
+                        <td>
+                            <a href="bitcoin:1M8uieNM4tiEhkBLJNoUcFYHPpwj8z3HTC?amount=0.01&label=ALiVE%20Mod">
+                                <p>1M8uieNM4tiEhkBLJNoUcFYHPpwj8z3HTC</p>
+                            </a>
+                            <img src="{{ URL::to('/') }}/img/alive_ss.gif"/>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="jumbotron white-panel" id="Download">
     <div class="container">
         <div class="row">
@@ -47,7 +85,7 @@
                          <td>0.5.6.1401291</td>
                         <td>Arma 3 Stable 1.10.114700</td>
                         <td><a class="btn btn-primary btn-lg pull-right" href="http://dev.withsix.com/attachments/download/21631/@alive_0-5-6-1401291.7z"><i class="fa fa-download"></i> Download</a></td>
-             </tr>
+                    </tr>
                 </table>
                 <br/><h2>Installation</h2>
                 <p>Dependencies:  ALiVE Requires <b>CBA_A3</b><br/><br/>
@@ -59,7 +97,7 @@
              <div class="col-md-1">
             </div>
             <div class="col-md-4">
-                <img src="{{ URL::to('/') }}/img/alivebox.gif" class="img-responsive" />
+                <img src="{{ URL::to('/') }}/img/alive_box.jpg" class="img-responsive" />
             </div>
         </div>
     </div>
@@ -74,7 +112,25 @@
         </div>
         <div class="row">
             <div class="col-md-2">
-                <p>The release trailer.</p>
+                <p>In this video a peaceful tour of Takistan with the new CAF Aggressors civilian middle east faction, and the almost ready for release civilian module for ALiVE.</p>
+            </div>
+            <div class="col-md-4">
+                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                    <iframe width="420" height="500" src="//www.youtube.com/embed/rdGtaFjrF3M" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <p>In this video the war torn side of Takistan with the new CAF Aggressors civilian middle east faction, and the almost ready for release civilian module for ALiVE.</p>
+            </div>
+            <div class="col-md-4">
+                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                    <iframe width="420" height="500" src="//www.youtube.com/embed/5MyMoY8PBOs" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="row top-margin">
+            <div class="col-md-2">
+                <p>The release trailer. Captured entirely using the xStream module.</p>
             </div>
             <div class="col-md-4">
                 <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
@@ -237,19 +293,8 @@
                 <p>ALiVE mod introduces revolutionary web services integration by streaming Arma 3 in game data to our ALiVE War Room web platform. War Room allows players and groups to review current and past operations as well keep track of individual and group performance statistics.</p>
                 <p>War Room offers groups membership to a "virtual" task force operating across the various AO's offered by the Arma 3 engine. War Room exposes task force wins, losses and leaderboards for performance. The platform will provide live streaming capabilities for BLUFOR tracking in a web browser as well as Twitch integration for live helmet cam views and the much awaited ALiVE xStream functionality.</p>
                 <p>Beside events, statistics and streaming, War Room provides the platform for persisting Multiplayer Campaigns. This allows groups to run "multi-session operations" by storing game state to a cloud based database. Group admins can update campaign data via the War Room, such as adding map markers, objectives, editing loadouts or adding vehicles and units to the campaign - all via the web platform.</p>
-                <!--<p>We believe ALiVE War Room is a revolutionary step in Arma gaming - sign up today!</p>-->
+                <p>We believe ALiVE War Room is a revolutionary step in Arma gaming - sign up today!</p>
             </div>
-            <div class="col-md-5 col-md-offset-1">
-                <div class="panel panel-dark">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">ALiVE War Room</h3>
-                    </div>
-                    <div class="panel-body">
-                        <p>Registrations opening soon!</p>
-                    </div>
-                </div>
-            </div>
-            <!--
             <div class="col-md-5 col-md-offset-1">
                 <div class="panel panel-dark">
                     <div class="panel-heading">
@@ -260,7 +305,6 @@
                     </div>
                 </div>
             </div>
-            -->
         </div>
     </div>
 </div>

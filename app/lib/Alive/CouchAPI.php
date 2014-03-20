@@ -8,9 +8,13 @@ ini_set('max_execution_time', 60);
 
 class CouchAPI {
 
+    ///*
     private $user = 'aliveadmin';
     private $pass = 'tupolov';
-    private $url = 'https://msostore.iriscouch.com/';
+    private $url = 'http://db.alivemod.com:5984/';
+    //private $url = 'http://5.9.58.105:5984/';
+    //private $url = 'https://msostore.iriscouch.com/';
+    //*/
 
     /*
     private $user = 'arjay';
@@ -18,8 +22,9 @@ class CouchAPI {
     private $url = 'http://localhost:5984/';
     */
 
-    public $reset = true;
+    public $reset = false;
     public $debug = false;
+    public $cache = true;
 
     public function createClanUser($name, $password, $group)
     {
@@ -82,15 +87,7 @@ class CouchAPI {
     {
         $cacheKey = 'Totals';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/homePage/_view/Totals';
 
@@ -106,7 +103,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -119,15 +116,7 @@ class CouchAPI {
     {
         $cacheKey = 'Totals' . $name . $map . $clan;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/homePage/_view/Totals?group_level=3';
 
@@ -149,7 +138,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -163,15 +152,7 @@ class CouchAPI {
 
         $cacheKey = 'MapTotals' . $name;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/operationsTable/_view/operationTotals?group_level=1&startkey=["' . $name . '"]&limit=1';
 
@@ -187,7 +168,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
+            $this->setCache($cacheKey, $encoded, "day");
 
         }else{
             $encoded = json_encode([]);
@@ -201,15 +182,7 @@ class CouchAPI {
 
         $cacheKey = 'ActiveUnits';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/homePage/_view/players_list?group_level=2';
 
@@ -225,7 +198,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
+            $this->setCache($cacheKey, $encoded, "day");
 
         }else{
             $encoded = json_encode([]);
@@ -239,15 +212,7 @@ class CouchAPI {
 
         $cacheKey = 'OpActiveUnits' . $name . $map . $clan;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/operationPage/_view/players_list?group_level=3';
 
@@ -269,7 +234,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
+            $this->setCache($cacheKey, $encoded, "day");
 
         }else{
             $encoded = json_encode([]);
@@ -283,15 +248,7 @@ class CouchAPI {
 
         $cacheKey = 'RecentOperations';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/homePage/_view/recent_operations?descending=true&limit=20';
 
@@ -369,15 +326,7 @@ class CouchAPI {
 
         $cacheKey = 'LossesBLU';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/homePage/_view/side_killed_count_by_class?group_level=2';
 
@@ -402,7 +351,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
+            $this->setCache($cacheKey, $encoded, "day");
 
         }else{
             $encoded = json_encode([]);
@@ -416,15 +365,7 @@ class CouchAPI {
 
         $cacheKey = 'LossesOPF';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/homePage/_view/side_killed_count_by_class?group_level=2';
 
@@ -449,7 +390,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
+            $this->setCache($cacheKey, $encoded, "day");
 
         }else{
             $encoded = json_encode([]);
@@ -463,15 +404,7 @@ class CouchAPI {
 
         $cacheKey = 'Casualties';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/homePage/_view/side_killed_count?group_level=1';
 
@@ -494,7 +427,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
+            $this->setCache($cacheKey, $encoded, "day");
 
         }else{
             $encoded = json_encode([]);
@@ -507,15 +440,7 @@ class CouchAPI {
 
         $cacheKey = 'OpLossesBLU' . $name . $map . $clan;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/operationPage/_view/side_killed_count_by_class?group_level=5';
 
@@ -540,7 +465,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
+            $this->setCache($cacheKey, $encoded, "day");
 
         }else{
             $encoded = json_encode([]);
@@ -554,15 +479,7 @@ class CouchAPI {
 
         $cacheKey = 'OpLossesOPF' . $name . $map . $clan;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/operationPage/_view/side_killed_count_by_class?group_level=5';
 
@@ -587,7 +504,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
+            $this->setCache($cacheKey, $encoded, "day");
 
         }else{
             $encoded = json_encode([]);
@@ -601,15 +518,7 @@ class CouchAPI {
 
         $cacheKey = 'OpCasualties' . $name . $map . $clan;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/operationPage/_view/side_killed_count?group_level=4';
 
@@ -634,7 +543,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -647,15 +556,7 @@ class CouchAPI {
 
         $cacheKey = 'OperationsByMap';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/homePage/_view/operations_by_map?group_level=1';
 
@@ -680,7 +581,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -694,15 +595,7 @@ class CouchAPI {
 
         $cacheKey = 'OperationsByDay';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/operationsTable/_view/operations_by_day?group_level=1';
 
@@ -727,7 +620,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
+            $this->setCache($cacheKey, $encoded, "day");
 
         }else{
             $encoded = json_encode([]);
@@ -741,15 +634,7 @@ class CouchAPI {
 
         $cacheKey = 'PlayersByDay';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/operationsTable/_view/players_by_day?group_level=1';
 
@@ -774,7 +659,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
+            $this->setCache($cacheKey, $encoded, "day");
 
         }else{
             $encoded = json_encode([]);
@@ -788,15 +673,7 @@ class CouchAPI {
 
         $cacheKey = 'KillsByDay';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/operationsTable/_view/kills_by_day?group_level=1';
 
@@ -821,7 +698,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
+            $this->setCache($cacheKey, $encoded, "day");
 
         }else{
             $encoded = json_encode([]);
@@ -835,15 +712,7 @@ class CouchAPI {
 
         $cacheKey = 'DeathsByDay';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/operationsTable/_view/deaths_by_day?group_level=1';
 
@@ -868,7 +737,7 @@ class CouchAPI {
 
             $encoded = json_encode($result);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("day"));
+            $this->setCache($cacheKey, $encoded, "day");
 
         }else{
             $encoded = json_encode([]);
@@ -882,15 +751,7 @@ class CouchAPI {
 
         $cacheKey = 'T1Operators';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/homePage/_view/player_kills_count?group_level=2';
 
@@ -906,7 +767,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -920,15 +781,7 @@ class CouchAPI {
 
         $cacheKey = 'Devcredits' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'credits/_design/warroom/_view/devcredits?key="' . $id . '"';
 
@@ -944,7 +797,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -958,15 +811,7 @@ class CouchAPI {
 
         $cacheKey = 'PlayerTotals' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/playerPage/_view/playerTotals?group_level=1&startkey="' . $id . '"&endkey="' . $id . '"';
 
@@ -982,7 +827,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -996,15 +841,7 @@ class CouchAPI {
 
         $cacheKey = 'PlayerDetails' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/playerPage/_list/sort_no_callback/player_finish?&startkey="' . $id . '"&endkey="' . $id . '"';
 
@@ -1020,7 +857,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1034,19 +871,9 @@ class CouchAPI {
 
         $cacheKey = 'PlayerWeapon' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
-
-
-        	$path = 'events/_design/playerPage/_list/sort_by_value/players_weapons?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
-
+        $path = 'events/_design/playerPage/_list/sort_by_value/players_weapons?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
 
         $data = $this->call($path);
 
@@ -1060,7 +887,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1074,19 +901,9 @@ class CouchAPI {
 
         $cacheKey = 'PlayerWeapons' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
-
-
-        	$path = 'events/_design/playerPage/_view/players_weapons?&group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
-
+        $path = 'events/_design/playerPage/_view/players_weapons?&group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
 
         $data = $this->call($path);
 
@@ -1100,7 +917,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1114,18 +931,9 @@ class CouchAPI {
 
         $cacheKey = 'PlayerVehicle' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
-
-        	$path = 'events/_design/playerPage/_list/sort_by_value/players_vehxp?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
-
+        $path = 'events/_design/playerPage/_list/sort_by_value/players_vehxp?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
 
         $data = $this->call($path);
 
@@ -1139,7 +947,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1153,18 +961,9 @@ class CouchAPI {
 
         $cacheKey = 'PlayerVehicles' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
-
-        	$path = 'events/_design/playerPage/_view/players_vehxp?&group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
-
+        $path = 'events/_design/playerPage/_view/players_vehxp?&group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
 
         $data = $this->call($path);
 
@@ -1178,7 +977,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1192,17 +991,9 @@ class CouchAPI {
 
         $cacheKey = 'PlayerClass' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
-
-        	$path = 'events/_design/playerPage/_list/sort_by_value/players_class?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
+        $path = 'events/_design/playerPage/_list/sort_by_value/players_class?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
 
         $data = $this->call($path);
 
@@ -1216,7 +1007,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1230,17 +1021,9 @@ class CouchAPI {
 
         $cacheKey = 'PlayerClasses' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
-
-        	$path = 'events/_design/playerPage/_view/players_class?&group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
+        $path = 'events/_design/playerPage/_view/players_class?&group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
 
         $data = $this->call($path);
 
@@ -1254,7 +1037,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1268,15 +1051,7 @@ class CouchAPI {
 
         $cacheKey = 'PlayerAlias' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/playerPage/_list/sort_by_value/players_alias?group_level=2&startkey=["' . $id . '"]&endkey=["' . $id . '",%20{}]';
 
@@ -1292,7 +1067,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1306,15 +1081,7 @@ class CouchAPI {
 
         $cacheKey = 'GroupTotals';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/groupTable/_view/groupTotals?group_level=1';
 
@@ -1330,7 +1097,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1344,15 +1111,7 @@ class CouchAPI {
 
         $cacheKey = 'GroupTotals' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 		
         $path = 'events/_design/groupTable/_view/groupTotals?group_level=1&startkey=["' . $id . '"]&endkey=["' . $id . '",{}]';
 
@@ -1368,7 +1127,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1382,15 +1141,7 @@ class CouchAPI {
 
         $cacheKey = 'GroupClasses' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 		
         $path = 'events/_design/groupPage/_view/group_classes?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",{}]';
 
@@ -1406,7 +1157,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1420,15 +1171,7 @@ class CouchAPI {
 
         $cacheKey = 'GroupLastOp' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/groupPage/_list/sort_no_callback/group_finish?key=%22' . $id . '%22';
 
@@ -1444,7 +1187,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1458,15 +1201,7 @@ class CouchAPI {
 
         $cacheKey = 'PersonnelTotals';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/playerTable/_view/playerTotals?group_level=2';
 
@@ -1482,7 +1217,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1496,15 +1231,7 @@ class CouchAPI {
 
         $cacheKey = 'T1marksmen';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/playerTable/_view/kills_by_distance?group_level=4';
 
@@ -1520,7 +1247,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1534,15 +1261,7 @@ class CouchAPI {
 
         $cacheKey = 'VehicleCommanders';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/playerTable/_view/player_in_vehicle_kills_count?group_level=4';
 
@@ -1558,7 +1277,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1572,15 +1291,7 @@ class CouchAPI {
 
         $cacheKey = 'Pilots';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/playerTable/_view/player_in_aircraft_kills_count?group_level=4';
 
@@ -1596,7 +1307,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1610,15 +1321,7 @@ class CouchAPI {
 
         $cacheKey = 'Medics';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/playerTable/_view/player_heals_count?group_level=2';
 
@@ -1634,7 +1337,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1648,15 +1351,7 @@ class CouchAPI {
 
         $cacheKey = 'Scores';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/playerTable/_view/scoreTotal?group_level=2';
 
@@ -1672,7 +1367,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1686,15 +1381,7 @@ class CouchAPI {
 
         $cacheKey = 'Ratings';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/playerTable/_view/AveRating?group_level=2';
 
@@ -1710,7 +1397,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1724,15 +1411,7 @@ class CouchAPI {
 
         $cacheKey = 'Avescores';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/playerTable/_view/AveScore?group_level=2';
 
@@ -1748,7 +1427,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1762,15 +1441,7 @@ class CouchAPI {
 
         $cacheKey = 'OrbatRecentOperations' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/groupPage/_list/sort_no_callback/group_recent_ops?startkey=%22' . $id . '%22&endkey=%22' . $id . '%22&descending=true&limit=10';
 
@@ -1786,7 +1457,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1800,15 +1471,7 @@ class CouchAPI {
 
         $cacheKey = 'OrbatT1'. $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/groupPage/_view/player_kills_count?group_level=3&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
 
@@ -1824,7 +1487,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1838,15 +1501,7 @@ class CouchAPI {
 
         $cacheKey = 'OrbatPilots'. $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/groupPage/_view/player_in_aircraft_kills_count?group_level=5&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
 
@@ -1862,7 +1517,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1876,15 +1531,7 @@ class CouchAPI {
 
         $cacheKey = 'OrbatMedics'. $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/groupPage/_view/player_heals_count?group_level=3&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
 
@@ -1900,7 +1547,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1914,15 +1561,7 @@ class CouchAPI {
 
         $cacheKey = 'OrbatKillsByWeapon' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/groupPage/_view/group_killsByWeapon?group_level=3&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
 
@@ -1938,7 +1577,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1952,15 +1591,7 @@ class CouchAPI {
 
         $cacheKey = 'OrbatWeapons' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/groupPage/_view/group_weapons?group_level=3&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
 
@@ -1976,7 +1607,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -1990,15 +1621,7 @@ class CouchAPI {
 
         $cacheKey = 'OrbatVehicles' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/groupPage/_view/group_veh?group_level=3&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
 
@@ -2014,7 +1637,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -2028,15 +1651,7 @@ class CouchAPI {
 
         $cacheKey = 'OrbatPlayerKills' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/groupPage/_view/player_kills_count_bygroup?&group_level=5&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
 
@@ -2052,7 +1667,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -2066,15 +1681,7 @@ class CouchAPI {
 
         $cacheKey = 'OrbatMountedKills' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/groupPage/_view/group_mwk?group_level=3&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
 
@@ -2090,7 +1697,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -2104,15 +1711,7 @@ class CouchAPI {
 
         $cacheKey = 'OrbatClasses' . $id;
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/groupPage/_view/group_classes?&group_level=3&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
 
@@ -2128,7 +1727,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -2142,17 +1741,9 @@ class CouchAPI {
 
         $cacheKey = 'Operations';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
-
-        	$path = 'events/_design/operationsTable/_view/operationKillsByClass?group_level=3';
+        $path = 'events/_design/operationsTable/_view/operationKillsByClass?group_level=3';
 
         $data = $this->call($path);
 
@@ -2166,7 +1757,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -2180,15 +1771,7 @@ class CouchAPI {
 
         $cacheKey = 'OpsBreakdown';
 
-        if (\Cache::has($cacheKey) && !$this->reset) {
-            $data = \Cache::get($cacheKey);
-
-            if($this->debug){
-                TempoDebug::dump($data , $cacheKey . ' From Cache');
-            }
-
-            return $data;
-        }
+        if($cache = $this->getCache($cacheKey)){ return $cache;}
 
         $path = 'events/_design/operationsTable/_view/operationTotals?group_level=3';
 
@@ -2204,7 +1787,7 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-            \Cache::add($cacheKey, $encoded, $this->_set_timeout("hour"));
+            $this->setCache($cacheKey, $encoded, "hour");
 
         }else{
             $encoded = json_encode([]);
@@ -2299,7 +1882,29 @@ class CouchAPI {
 
         return $encoded;
     }
-	
+
+    public function getCache($cacheKey)
+    {
+        if (\Cache::has($cacheKey) && !$this->reset && $this->cache) {
+            $data = \Cache::get($cacheKey);
+
+            if($this->debug){
+                TempoDebug::dump($data , $cacheKey . ' From Cache');
+            }
+
+            return $data;
+        }else{
+            return false;
+        }
+    }
+
+    public function setCache($cacheKey, $data, $timeout)
+    {
+        if ($this->cache) {
+            \Cache::add($cacheKey, $data, $this->_set_timeout($timeout));
+        }
+    }
+
     public function call($path, $data=array(), $requestType='GET')
     {
 
@@ -2312,6 +1917,8 @@ class CouchAPI {
         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT ,30);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout in seconds
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-type: application/json',
             'Accept: application/json'
