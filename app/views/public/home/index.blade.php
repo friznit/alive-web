@@ -62,9 +62,33 @@
                         </td>
                     </tr>
                 </table>
-
             </div>
             <div class="col-md-1">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="jumbotron dark-panel" id="ALiVEWarRoom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2><img src="{{ URL::to('/') }}/img/alive_warroom_sm.png" class="img-responsive" /></h2>
+
+                <p>ALiVE mod introduces revolutionary web services integration by streaming Arma 3 in game data to our ALiVE War Room web platform. War Room allows players and groups to review current and past operations as well keep track of individual and group performance statistics.</p>
+                <p>War Room offers groups membership to a "virtual" task force operating across the various AO's offered by the Arma 3 engine. War Room exposes task force wins, losses and leaderboards for performance. The platform will provide live streaming capabilities for BLUFOR tracking in a web browser as well as Twitch integration for live helmet cam views and the much awaited ALiVE xStream functionality.</p>
+                <p>Beside events, statistics and streaming, War Room provides the platform for persisting Multiplayer Campaigns. This allows groups to run "multi-session operations" by storing game state to a cloud based database. Group admins can update campaign data via the War Room, such as adding map markers, objectives, editing loadouts or adding vehicles and units to the campaign - all via the web platform.</p>
+                <p>We believe ALiVE War Room is a revolutionary step in Arma gaming - sign up today!</p>
+            </div>
+            <div class="col-md-5 col-md-offset-1">
+                <div class="panel panel-dark">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Join the ALiVE War Room</h3>
+                    </div>
+                    <div class="panel-body">
+                        <a href="{{ URL::to('user/register') }}" class="btn btn-yellow">Sign Up Now!</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -284,30 +308,7 @@
     </div>
 </div>
 
-<div class="jumbotron dark-panel" id="ALiVEWarRoom">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h2><img src="{{ URL::to('/') }}/img/alive_warroom_sm.png" class="img-responsive" /></h2>
 
-                <p>ALiVE mod introduces revolutionary web services integration by streaming Arma 3 in game data to our ALiVE War Room web platform. War Room allows players and groups to review current and past operations as well keep track of individual and group performance statistics.</p>
-                <p>War Room offers groups membership to a "virtual" task force operating across the various AO's offered by the Arma 3 engine. War Room exposes task force wins, losses and leaderboards for performance. The platform will provide live streaming capabilities for BLUFOR tracking in a web browser as well as Twitch integration for live helmet cam views and the much awaited ALiVE xStream functionality.</p>
-                <p>Beside events, statistics and streaming, War Room provides the platform for persisting Multiplayer Campaigns. This allows groups to run "multi-session operations" by storing game state to a cloud based database. Group admins can update campaign data via the War Room, such as adding map markers, objectives, editing loadouts or adding vehicles and units to the campaign - all via the web platform.</p>
-                <p>We believe ALiVE War Room is a revolutionary step in Arma gaming - sign up today!</p>
-            </div>
-            <div class="col-md-5 col-md-offset-1">
-                <div class="panel panel-dark">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Join the ALiVE War Room</h3>
-                    </div>
-                    <div class="panel-body">
-                        <a href="{{ URL::to('user/register') }}" class="btn btn-yellow">Sign Up Now!</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="jumbotron white-panel" id="FAQ">
     <div class="container">

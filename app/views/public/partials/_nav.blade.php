@@ -13,10 +13,10 @@
             <ul class="nav navbar-nav">
                 <li><a href="#Welcome">Welcome</a></li>
                 <li><a href="#Gameplay">Gameplay</a></li>
+                <li><a href="#ALiVEWarRoom">ALiVE War Room</a></li>
                 <li><a href="#Download">Download</a></li>
                 <li><a href="#Media">Media</a></li>
                 <li><a href="#Editors">Editors</a></li>
-                <li><a href="#ALiVEWarRoom">ALiVE War Room</a></li>
                 <li><a href="#FAQ">FAQ's</a></li>
                 <li><a href="#INFO">More Info</a></li>
                 <li><a href="{{ URL::to('/') }}/wiki">Wiki</a></li>
