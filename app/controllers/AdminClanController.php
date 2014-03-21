@@ -1208,10 +1208,16 @@ class AdminClanController extends BaseController {
                             $profile->user_id = $data['userId'];
                             $profile->username = $member->username;
                             $profile->alias = $member->username;
-                            $profile->remark = $member->remark;
+
+                            if(!is_array($member->remark)){
+                                $profile->remark = $member->remark;
+                            }
+
                             $profile->a2_id = $member->a2_id;
                             $profile->a3_id = $member->a3_id;
                             $profile->clan_id = $clan->id;
+
+
 
                             $profile->save();
 
