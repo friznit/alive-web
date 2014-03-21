@@ -23,10 +23,10 @@
                 <li><a href="{{ URL::to('/') }}/missions">Missions</a></li>
             </ul>
             <ul class="nav navbar-nav pull-right">
-                @if (Sentry::check() && Sentry::getUser()->hasAccess('admin'))
+                @if (Sentry::check())
                 <li id="login"><a href="{{ URL::to('war-room') }}"><img src="{{ URL::to('/') }}/img/alive_warroom_tiny.png" class="img-responsive navbar-warroom"/></a></li>
                 @else
-                    
+                <li id="login"><a href="{{ URL::to('user/login') }}"><img src="{{ URL::to('/') }}/img/alive_warroom_tiny.png" class="img-responsive navbar-warroom"/></a></li>
                 @endif
             </ul>
         </div>

@@ -81,6 +81,9 @@
                 <p>We believe ALiVE War Room is a revolutionary step in Arma gaming - sign up today!</p>
             </div>
             <div class="col-md-5 col-md-offset-1">
+                    <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                        <iframe width="420" height="500" src="//www.youtube.com/embed/StKbdxL6LnA" frameborder="0" allowfullscreen></iframe>
+                    </div>
                 <div class="panel panel-dark">
                     <div class="panel-heading">
                         <h3 class="panel-title">Join the ALiVE War Room</h3>
@@ -106,9 +109,9 @@
                         <th></th>
                     </tr>
                     <tr class="success">
-                         <td>0.5.6.1401291</td>
-                        <td>Arma 3 Stable 1.10.114700</td>
-                        <td><a class="btn btn-primary btn-lg pull-right" href="http://dev.withsix.com/attachments/download/21631/@alive_0-5-6-1401291.7z"><i class="fa fa-download"></i> Download</a></td>
+                        <td>0.6.0</td>
+                        <td>Arma 3 Stable 1.14.116216</td>
+                        <td><a class="btn btn-primary btn-lg pull-right" href="http://dev.withsix.com/attachments/download/21785/@alive_0-6-0-1403201.7z"><i class="fa fa-download"></i> Download</a></td>
                     </tr>
                 </table>
                 <br/><h2>Installation</h2>
