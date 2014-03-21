@@ -114,6 +114,10 @@
                                 ?>
                             </div>
 
+                            <div class="strip">
+                                <p>DO NOT INCLUDE THE SERVER PORT</p>
+                            </div>
+
                             <div class="form-group {{ ($errors->has('ip')) ? 'has-error' : '' }}" for="ip">
                                 <label class="control-label" for="ip">IP Address</label>
                                 <input name="ip" value="{{ (Request::old('ip')) ? Request::old("ip") : $server->ip }}" type="text" class="form-control" placeholder="IP Address">
@@ -155,7 +159,7 @@
                     <div class="panel-body">
 
                         <div class="strip">
-                            <p>Getting your server up and running</p>
+                            <p>Getting your server up and running.<br/><b>NOTE: These steps must be performed on your dedicated server NOT your client machine</b></p>
                         </div>
 
                         <table class="table">

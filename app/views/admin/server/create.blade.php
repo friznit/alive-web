@@ -74,6 +74,10 @@
                                 ?>
                             </div>
 
+                            <div class="strip">
+                                <p>DO NOT INCLUDE THE SERVER PORT</p>
+                            </div>
+
                             <div class="form-group {{ ($errors->has('ip')) ? 'has-error' : '' }}" for="ip">
                                 <label class="control-label" for="ip">IP Address</label>
                                 <input name="ip" value="{{ Request::old("ip") }}" type="text" class="form-control" placeholder="IP Address">
