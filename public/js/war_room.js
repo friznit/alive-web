@@ -123,6 +123,17 @@ $(document).ready(function() {
         }
     });
 
+    $("#warroom_notice_close").click(function(e){
+
+        e.preventDefault();
+
+        var container = $('#warroom_notice');
+        var timeline = new TimelineLite();
+
+        timeline.to(container, .2, {autoAlpha:0});
+
+    });
+
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         var target = $(e.target);
         if(target.attr('href') == '#two'){
