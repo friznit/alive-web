@@ -155,13 +155,12 @@
 	
 	var groupIcon = L.Icon.extend({ 
 		options: {
-			shadowUrl: '{{ URL::to('/') }}/img/icons/groupIconShadow.png',
 			shadowUrl: '{{ URL::to('/') }}/img/icons/w_group_0.png',
-			iconSize:     [35, 35], // size of the icon
-			shadowSize:   [35, 35], // size of the shadow
-			iconAnchor:   [20, 20], // point of the icon which will correspond to markers location
-			shadowAnchor: [20, 20],  // the same for the shadow
-			popupAnchor:  [105, 105] // point from which the popup should open relative to the iconAnchor
+			iconSize:     [30, 30], // size of the icon
+			shadowSize:   [30, 30], // size of the shadow
+			iconAnchor:   [15, 15], // point of the icon which will correspond to markers location
+			shadowAnchor: [15, 15],  // the same for the shadow
+			popupAnchor:  [100, 100] // point from which the popup should open relative to the iconAnchor
 		}
 	});
 
