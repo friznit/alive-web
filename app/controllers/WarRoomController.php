@@ -114,7 +114,7 @@ class WarRoomController extends BaseController {
                 }
 
                 $clan->icon = $icon;
-                $clan->name = $name;
+                $clan->orbatname = $name;
                 $clan->size = $size;
                 $clan->sizeicon = $sizeicon;
                 $clan->lat = $lat;

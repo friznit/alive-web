@@ -96,7 +96,7 @@
                     "<div class='unit-popup'>" +
                     "<p>" +
                     "<span class='title'>{{$dev->clan->name}} [{{$dev->clan->tag}}]</span></br>" +
-                    "<span class='highlight'>{{$dev->name}} {{$dev->size}}</span></br>" +
+                    "<span class='highlight'>{{$dev->orbatname}} {{$dev->size}}</span></br>" +
                     "<span class='highlight'>Cmdr:</span> " + data.PlayerName +
                     " <img src='{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($dev->country) }}.png' alt='{{ $dev->country_name }}' title='{{ $dev->country_name }}' width='16' height='16'/><br/>" +
                     "<span class='highlight'>Credits:</span> " + data.Credits +
