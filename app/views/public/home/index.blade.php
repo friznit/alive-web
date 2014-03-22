@@ -37,7 +37,7 @@
         <div class="row">
             <div class="col-md-7">
                 <h2>Help the team, donate</h2>
-                <p>To help cover costs of server expenses and to just say thanks, dontate to the ALiVE team.</p>
+                <p>To help cover costs of server expenses and to just say thanks, donate to the ALiVE team.</p>
                 <table class="table">
                     <tr>
                         <th>PayPal</th>
@@ -111,7 +111,7 @@
                     <tr class="success">
                         <td>0.6.0</td>
                         <td>Arma 3 Stable 1.14.116248</td>
-                        <td><a class="btn btn-primary btn-lg pull-right" href="http://dev.withsix.com/attachments/download/21788/@alive_0.6.0.1403211.7z"><i class="fa fa-download"></i> Download</a></td>
+                        <td><a class="btn btn-primary btn-lg pull-right" href="http://dev.withsix.com/attachments/download/21789/@alive_0.6.0.1403221.7z"><i class="fa fa-download"></i> Download</a></td>
                     </tr>
                 </table>
                 <br/><h2>Installation</h2>
