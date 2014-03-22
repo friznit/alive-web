@@ -181,11 +181,6 @@
     @include('warroom/tables/t1operators_home')
 </div>
 
-<div id="warroom_livefeed">
-    <div class="strip clearfix"><span id="warroom_livefeed_toggle"><i class="fa fa-arrow-right"></i></span><span id="warroom_livefeed_label" class="control">Live event feed</span></div>
-    @include('warroom/tables/live_feed')
-</div>
-
 <div id="warroom_charts">
     <div class="strip"><span class="control-center" id="warroom_charts_toggle"><i class="fa fa-arrow-down"></i></span></div>
     <div class="row">

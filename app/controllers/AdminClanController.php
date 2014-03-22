@@ -511,6 +511,11 @@ class AdminClanController extends BaseController {
                 $application->delete();
             }
 
+            if(!is_null($clan->remote_id)){
+                $couchAPI = new Alive\CouchAPI();
+                $result = $couchAPI->deleteClanUser($clan->key, $clan->remote_id);
+            }
+
             $clan->delete();
 
             return Redirect::to('admin/user/show/' . $currentUser->getId());

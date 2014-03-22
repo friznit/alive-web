@@ -661,6 +661,11 @@ class AdminUserController extends BaseController {
                     $application->delete();
                 }
 
+                if(!is_null($profile->remote_id)){
+                    $couchAPI = new Alive\CouchAPI();
+                    $result = $couchAPI->deleteClanMember($profile->a3_id, $profile->remote_id);
+                }
+
                 $profile->delete();
 
                 if ($user->delete()) {

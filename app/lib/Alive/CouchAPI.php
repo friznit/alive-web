@@ -8,13 +8,9 @@ ini_set('max_execution_time', 60);
 
 class CouchAPI {
 
-    ///*
     private $user = 'aliveadmin';
     private $pass = 'tupolov';
     private $url = 'http://db.alivemod.com:5984/';
-    //private $url = 'http://5.9.58.105:5984/';
-    //private $url = 'https://msostore.iriscouch.com/';
-    //*/
 
     /*
     private $user = 'arjay';
@@ -41,6 +37,15 @@ class CouchAPI {
         $requestType = 'PUT';
 
         return $this->call($path, $data, $requestType);
+    }
+
+    public function deleteClanUser($name, $rev)
+    {
+        $path = '_users/org.couchdb.user:' . $name . '?rev=' . $rev;
+
+        $requestType = 'DELETE';
+
+        return $this->call($path, array(), $requestType);
     }
 
     public function getClanUser($name, $password)
@@ -70,6 +75,15 @@ class CouchAPI {
         $requestType = 'PUT';
 
         return $this->call($path, $data, $requestType);
+    }
+
+    public function deleteClanMember($a3Id, $rev)
+    {
+        $path = 'players/' . $a3Id . '?rev=' . $rev;
+
+        $requestType = 'DELETE';
+
+        return $this->call($path, array(), $requestType);
     }
 
     public function getClanMember($a3Id)
