@@ -894,6 +894,12 @@ class AdminUserController extends BaseController {
                         }
                     }else{
                         print_r($response);
+
+
+                        $remoteId = $response->_rev;
+                        $profile->remote_id = $remoteId;
+                        $profile->save();
+                        echo '<h3>Rev id saved!</h3>';
                         /*
                         echo '<p>Couch _id: ' . $response->_id . '</p>';
                         echo '<p>Couch _rev: ' . $response->_rev . '</p>';
