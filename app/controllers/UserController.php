@@ -307,6 +307,11 @@ class UserController extends BaseController {
                 return Redirect::to('user/profile/' . $user->id);
             }
 
+            $email = $input['email'];
+            $domain = explode('@',$email);
+            if($domain[1] === 'alivemod.com'){
+                Alert::error('<b>WARNING</b> Your account is using a generated email address, please update your profile with your correct email address so you will be able to reset your password etc in the future.')->flash();
+            }
             return Redirect::to('war-room');
         }
     }

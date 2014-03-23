@@ -175,6 +175,10 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="strip">
+                                <p>Set the Lat and Lon values by clicking on a position on the map to the right.</p>
+                            </div>
                             
                              <div class="form-group {{ ($errors->has('lat')) ? 'has-error' : '' }}" for="lat">
                                 <label class="control-label" for="lat">Position on Global Map (Lat)</label>
