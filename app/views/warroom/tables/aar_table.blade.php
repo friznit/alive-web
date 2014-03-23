@@ -10,19 +10,13 @@
 			"bSort": false,
             "sAjaxSource": '{{ URL::to('/') }}/api/oplivefeed?name={{ $name }}&clan={{ $clan->tag }}&map={{ $ao->configName }}',
             "sAjaxDataProp": "rows",
-            "bPaginate": true,
-			"fnDrawCallback": function ( oSettings ) {
-						for ( var i=0, iLen=oSettings.aiDisplay.length ; i<iLen ; i++ )
-						{
-							$('td:eq(0)', oSettings.aoData[ oSettings.aiDisplay[i] ].nTr ).html( i+1 );
-						}
-			},		
+            "bPaginate": true,		
             "aoColumnDefs": [
-			    { "bSortable": false, "aTargets": [ 0 ] },
                 { "mData": "value", 
-				  "aTargets": [ 1 ],
+				  "aTargets": [ 0 ],
 				  "mRender" : function (data, type) {
 				  		var value = data;
+						var action = value.Event;
 						if (value.Event == "Kill")
 						{
 							var posx = value.KilledGeoPos[0];
@@ -40,7 +34,12 @@
 										action = value.Map + ' - Grid:' + value.KilledPos + ' - ' + value.gameTime + ' local<br>' + value.Killerfaction + ' ' + value.KillerType + '(<a href={{ URL::to("war-room/showpersonnel") }}/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></a>) </span> kills ' + value.Killedfaction + '<span class="highlight"> ' + value.KilledType + '</span> with an ' + value.Weapon + ' from ' + value.Distance + 'm';
 									}
 								}
-			
+							var popup = L.popup().setContent('<div class="admin-panel">' + action + '</div>');
+			           		marker.bindPopup(popup, {
+								showOnMouseOver: true,
+								offset: new L.Point(0, 0)
+							});
+
 						}
 			
 						if (value.Event == "OperationStart")
@@ -68,7 +67,7 @@
 							}
 		
 						}
-						
+
 						return action;}
 				}
 			]
@@ -81,7 +80,6 @@
 <table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="aar">
     <thead>
     <tr>
-        <th width="10%">No.</th>
         <th>Action</th>
     </tr>
     </thead>
