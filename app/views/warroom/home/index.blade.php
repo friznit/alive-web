@@ -119,6 +119,16 @@
             var marker = new MyCustomMarker(map.unproject([{{$clan->lon}},{{$clan->lat}}], map.getMaxZoom()), {
                 icon: myIcon
             });
+			
+			if (!(data.Operations)) {
+				data.Operations = 0;
+				data.Kills = 0;
+				data.Deaths = 0;
+				data.CombatHours = 0.1;
+				data.ShotsFired = 0;
+				data.VehicleTime = 0.01;
+				data.PilotTime = 0.01;
+			}
 
             var popup = L.popup()
                 .setContent("<table><tr><td colspan='2'><div class='strip'>Unit</div></td></tr><tr><td><img width='100' src='{{ $clan->avatar->url('thumb') }}' ></td><td>" +
