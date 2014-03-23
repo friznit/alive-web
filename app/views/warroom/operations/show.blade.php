@@ -23,15 +23,15 @@
 		});
 
         var map = L.map('map', {
-			minZoom: 2,
+			minZoom: 0,
 			maxZoom: 7,
 			zoomControl: true,
             attributionControl: false,
             crs: L.CRS.Simple
-		}).setView( [0,0], 2);
+		}).setView( [4000,4000], 2);
 						
-		var southWest = map.unproject([0,{{ $ao->size }}], map.getMaxZoom());
-		var northEast = map.unproject([{{ $ao->size }},0], map.getMaxZoom());
+		var southWest = map.unproject([0, 32769], map.getMaxZoom());
+		var northEast = map.unproject([30718, 2048], map.getMaxZoom());
 		map.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 		L.tileLayer("http://alivemod.com/maps/{{ strtolower($ao->configName) }}/{z}/{x}/{y}.png" , {
             attribution: 'ALiVE',
