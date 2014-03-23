@@ -284,6 +284,21 @@ img {
     color: #a8a8a8;
 }
 
+#warroom_alert {
+    position: absolute;
+    z-index:905;
+    left:320px;
+    top:100px;
+    width:300px;
+    padding:0 10px 10px 10px;
+    background: transparent;
+}
+
+#warroom_alert .alert {
+    font-family: 'Roboto Condensed', san-serif;
+    font-size:14px;
+}
+
 #live_feed_container {
     max-height:620px;
     margin-top:25px;

@@ -15,6 +15,8 @@
 
 </div>
 
+@include('alerts/home_alerts')
+
 @include('warroom/partials/_abs_footer')
 
 </body>
