@@ -25,6 +25,48 @@ class AdminApplicationController extends BaseController {
 
     }
 
+    public function postSearch()
+    {
+
+        $data = get_default_data();
+        $auth = $data['auth'];
+
+        $input = array(
+            'query' => Input::get('query'),
+            'type' => Input::get('type')
+        );
+
+        $rules = array (
+            'query' => 'required',
+            'type' => 'required|alpha',
+        );
+
+        $v = Validator::make($input, $rules);
+
+        if ($v->fails()) {
+            return Redirect::to('admin/clan/')->withErrors($v)->withInput()->with($data);
+        } else {
+
+            $query = $input['query'];
+            $type = $input['type'];
+
+            switch($type){
+                case 'name':
+                    $clans = Clan::where('clans.name', 'LIKE', '%'.$query.'%');
+                    break;
+            }
+
+            $clans = $clans->paginate(10);
+
+            $data['links'] = $clans->links();
+            $data['allClans'] = $clans;
+            $data['query'] = $query;
+
+            return View::make('admin/application.search')->with($data);
+
+        }
+    }
+
     // Show ------------------------------------------------------------------------------------------------------------
 
     public function getShowapplicant($id)

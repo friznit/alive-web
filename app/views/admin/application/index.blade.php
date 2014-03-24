@@ -10,6 +10,34 @@
 
             @if (Sentry::check())
 
+            <form class="light" action="{{ URL::to('admin/application/search') }}" method="post">
+
+                {{ Form::token() }}
+
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="input-group">
+                            <input type="text" name="query" class="form-control">
+                        <span class="input-group-btn">
+                            <input class="btn btn-default" type="submit" value="Search">
+                        </span>
+                        </div>
+                        <?php
+                        if($errors->has('query')){
+                            echo '<span class="label label-danger">' . $errors->first('query') . '</span>';
+                        }
+                        ?>
+                        <div class="input-group">
+                            <label class="radio-inline">
+                                <input type="radio" name="type" value="name" checked> by Name
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+
             <h2>Groups</h2>
 
             <table class="table table-hover">
