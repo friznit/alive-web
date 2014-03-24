@@ -82,7 +82,7 @@
 
                             <div class="form-group {{ ($errors->has('tag')) ? 'has-error' : '' }}" for="tag">
                                 <label class="control-label" for="tag">Tag</label><span class="badge" data-toggle="modal" data-target="#tagModal">?</span>
-                                <input name="tag" value="{{ (Request::old('tag')) ? Request::old("tag") : $user->tag }}" type="text" class="form-control" placeholder="Tag" readonly>
+                                <input name="tag" value="{{ (Request::old('tag')) ? Request::old("tag") : $clan->tag }}" type="text" class="form-control" placeholder="Tag" readonly>
                                 <?php
                                 if($errors->has('title')){
                                     echo '<span class="label label-danger">' . $errors->first('title') . '</span>';
