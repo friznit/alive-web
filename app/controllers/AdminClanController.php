@@ -1172,8 +1172,10 @@ class AdminClanController extends BaseController {
                         $member->name = '';
                     }
                     if(!isset($member->email) || (is_array($member->email))){
-                        $member->email = $clan->tag . $member->username . '@alivemod.com';
+                        $member->email = $clan->tag . $member->username;
                         $member->email = preg_replace("/[^A-Za-z0-9 ]/", '', $member->email);
+                        $member->email = str_replace(' ', '', $member->email);
+                        $member->email = $member->email . '@alivemod.com';
                         $member->temporaryEmail = true;
                     }else{
                         $member->temporaryEmail = false;

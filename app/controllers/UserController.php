@@ -276,7 +276,8 @@ class UserController extends BaseController {
                     'password' => $input['password']
                 );
 
-                $user = Sentry::authenticate($credentials, $input['rememberMe']);
+                $remember = (bool) $input['rememberMe'];
+                $user = Sentry::authenticate($credentials, $remember);
 
             } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
                 Alert::error('Invalid username or password.')->flash();
