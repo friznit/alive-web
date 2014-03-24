@@ -120,6 +120,9 @@
 
                     ?>
                     <tr>
+                        @if ($auth['isAdmin'])
+                        <td><a href="http://alivemod.com/admin/user/show/{{ $member->user_id }}">{{ $member->user_id }}</a></td>
+                        @endif
                         <td><img src="{{ $member->avatar->url('tiny') }}" ></td>
                         <td>{{{ $member->username }}}</td>
                         @if ($memberIsLeader)

@@ -1,5 +1,7 @@
 <?php
 
+use Tempo\TempoDebug;
+
 class AdminClanController extends BaseController {
 
     public function __construct()
@@ -1401,29 +1403,51 @@ class AdminClanController extends BaseController {
                 return Redirect::to('admin/clan/show/'.$clan_id);
             }
 
-            if(is_null($memberProfile->a3_id)){
+            if(is_null($memberProfile->a3_id) || ($memberProfile->a3_id === '')){
                 Alert::error('Member needs to add their Arma 3 player id to their profile to connect to the cloud.')->flash();
                 return Redirect::to('admin/clan/show/'.$clan_id);
             }
 
             $couchAPI = new Alive\CouchAPI();
-            $result = $couchAPI->createClanMember($memberProfile->a3_id, $memberProfile->username, $clan->tag);
+            $result = $couchAPI->getClanMember($memberProfile->a3_id);
 
             if(isset($result['response'])){
-                if(isset($result['response']->rev)){
-                    $remoteId = $result['response']->rev;
+                $response = $result['response'];
+
+                if(isset($response->error)){
+
+                    $result = $couchAPI->createClanMember($memberProfile->a3_id, $memberProfile->username, $clan->tag);
+
+                    if(isset($result['response'])){
+                        if(isset($result['response']->rev)){
+                            $remoteId = $result['response']->rev;
+                            $memberProfile->remote_id = $remoteId;
+                            $memberProfile->save();
+
+                            Alert::success('Member connected to the cloud data store.')->flash();
+                            return Redirect::to('admin/clan/show/' . $clan_id);
+                        }else{
+                            Alert::error('There was an error connecting to the cloud data store, please try again later.')->flash();
+                            return Redirect::to('admin/clan/show/' . $clan_id);
+                        }
+                    }else{
+                        Alert::error('There was an error connecting to the cloud data store, please try again later.')->flash();
+                        return Redirect::to('admin/clan/show/' . $clan_id);
+                    }
+
+                }else{
+
+                    $remoteId = $response->_rev;
                     $memberProfile->remote_id = $remoteId;
                     $memberProfile->save();
 
                     Alert::success('Member connected to the cloud data store.')->flash();
                     return Redirect::to('admin/clan/show/' . $clan_id);
-                }else{
-                    Alert::error('There was an error connecting to the cloud data store, please try again later.')->flash();
-                    return Redirect::to('admin/clan/show/' . $clan_id);
+
                 }
             }else{
-                Alert::error('There was an error connecting to the cloud data store, please try again later.')->flash();
-                return Redirect::to('admin/clan/show/' . $clan_id);
+                Alert::error('Members Arma 3 player id is probably faulty, have the player check their Arma 3 id.')->flash();
+                return Redirect::to('admin/clan/show/'.$clan_id);
             }
 
         } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {

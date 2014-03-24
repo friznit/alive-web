@@ -1,5 +1,8 @@
 <?php
 
+use Alive\CouchAPI;
+use Tempo\TempoDebug;
+
 class AdminUserController extends BaseController {
 
     public function __construct()
@@ -773,30 +776,28 @@ class AdminUserController extends BaseController {
 
                 $user = Sentry::getUserProvider()->findById($id);
                 $profile = $user->profile;
-
-
                 $clan_id = $profile->clan_id;
-
                 $clan = Clan::find($clan_id);
 
-                echo '<h2>Connection test for group : ' . $clan->name . ' [' .  $clan->tag . ']</h2>';
+                TempoDebug::dump($user->toArray());
+                TempoDebug::dump($profile->toArray());
+                TempoDebug::dump($clan->toArray());
+
+                TempoDebug::message('Connection test for group : ' . $clan->name . ' [' .  $clan->tag . ']');
 
                 if(!is_null($clan->remote_id)){
-                    echo '<p>Group remote_id is set rev id: ' . $clan->remote_id . '</p>';
+                    TempoDebug::message('Group remote_id is set rev id: ' . $clan->remote_id);
+                    TempoDebug::message('Get group couch profile..');
 
-                    echo '<h3>Get group couch profile..</h3>';
                     $couchAPI = new Alive\CouchAPI();
                     $result = $couchAPI->getClanUser($clan->key, $clan->password);
 
                     if(isset($result['response'])){
                         $response = $result['response'];
                         if(isset($response->error)){
-                            echo '<p>Couch error response: ' . $response->error . '</p>';
-                            echo '<p>Couch reason response: ' . $response->reason . '</p>';
+                            TempoDebug::dump($response);
                         }else{
-                            echo '<p>Couch id: ' . $response->_id . '</p>';
-                            echo '<p>Couch rev: ' . $response->_rev . '</p>';
-                            echo '<p>Couch ServerGroup: ' . $response->ServerGroup . '</p>';
+                            TempoDebug::dump($response);
                         }
                     }
                 }
@@ -807,10 +808,10 @@ class AdminUserController extends BaseController {
                 if(isset($result['response'])){
                     $response = $result['response'];
                     if(isset($response->error)){
-                        echo '<p>Couch error response: ' . $response->error . '</p>';
-                        echo '<p>Couch reason response: ' . $response->reason . '</p>';
 
-                        echo '<h3>Attempt to create couch group user..</h3>';
+                        TempoDebug::message('Attempt to create couch group user..');
+                        TempoDebug::dump($response);
+
                         $result = $couchAPI->createClanUser($clan->key, $clan->password, $clan->tag);
 
                         if(isset($result['response'])){
@@ -819,46 +820,32 @@ class AdminUserController extends BaseController {
                                 $clan->remote_id = $remoteId;
                                 $clan->save();
 
-                                echo '<h3>Couch group user created!</h3>';
-                                echo '<p>Couch id: ' . $response->id . '</p>';
-                                echo '<p>Couch rev: ' . $response->rev . '</p>';
-                            }else{
-                                echo '<p>Couch error response: ' . $response->error . '</p>';
-                                echo '<p>Couch reason response: ' . $response->reason . '</p>';
+                                TempoDebug::message('Couch group user created!');
                             }
                         }
                     }
                 }
 
-                echo '<h2>Connection test for player : ' . $profile->username . '</h2>';
+                TempoDebug::message('Connection test for player : ' . $profile->username);
 
                 if(!is_null($profile->remote_id)){
-                    echo '<p>Profile remote_id is set rev id: ' . $profile->remote_id . '</p>';
 
-                    echo '<h3>Get player couch profile..</h3>';
+                    TempoDebug::message('Profile remote_id is set rev id: ' . $profile->remote_id);
+                    TempoDebug::message('Get player couch profile..');
 
                     $couchAPI = new Alive\CouchAPI();
                     $result = $couchAPI->getClanMember($profile->a3_id);
 
                     if(isset($result['response'])){
                         $response = $result['response'];
-                        if(isset($response->error)){
-                            echo '<p>Couch error response: ' . $response->error . '</p>';
-                            echo '<p>Couch reason response: ' . $response->reason . '</p>';
-                        }else{
-                            echo '<p>Couch _id: ' . $response->_id . '</p>';
-                            echo '<p>Couch _rev: ' . $response->_rev . '</p>';
-                            echo '<p>Couch username: ' . $response->username . '</p>';
-                            echo '<p>Couch ServerGroup: ' . $response->ServerGroup . '</p>';
-                            echo '<p>Couch A3PUID: ' . $response->A3PUID . '</p>';
-                        }
+                        TempoDebug::dump($response);
                     }
 
                     exit;
                 }
 
                 if(is_null($profile->a3_id) || $profile->a3_id == ''){
-                    echo '<p>Players profile A3ID is not set!</p>';
+                    TempoDebug::message('Players profile A3ID is not set!');
                     exit;
                 }
 
@@ -867,46 +854,35 @@ class AdminUserController extends BaseController {
 
                 if(isset($result['response'])){
                     $response = $result['response'];
-                    echo '<h3>Get player couch profile..</h3>';
+
+                    TempoDebug::message('Get player couch profile..');
 
                     if(isset($response->error)){
-                        echo '<p>Couch error response: ' . $response->error . '</p>';
-                        echo '<p>Couch reason response: ' . $response->reason . '</p>';
 
-                        echo '<h3>Attempt to create couch profile..</h3>';
+                        TempoDebug::dump($response);
+                        TempoDebug::message('Attempt to create couch profile..');
 
                         $result = $couchAPI->createClanMember($profile->a3_id, $profile->username, $clan->tag);
                         if(isset($result['response'])){
                             $response = $result['response'];
                             if(isset($response->error)){
-                                echo '<p>Couch error response: ' . $response->error . '</p>';
-                                echo '<p>Couch reason response: ' . $response->reason . '</p>';
                             }else{
                                 if(isset($response->rev)){
                                     $remoteId = $response->rev;
                                     $profile->remote_id = $remoteId;
                                     $profile->save();
-                                    echo '<h3>Couch profile created!</h3>';
-                                    echo '<p>Couch id: ' . $response->_id . '</p>';
-                                    echo '<p>Couch rev: ' . $response->_rev . '</p>';
+                                    TempoDebug::message('Couch profile created!');
                                 }
                             }
                         }
                     }else{
-                        print_r($response);
 
+                        TempoDebug::dump($response);
 
                         $remoteId = $response->_rev;
                         $profile->remote_id = $remoteId;
                         $profile->save();
-                        echo '<h3>Rev id saved!</h3>';
-                        /*
-                        echo '<p>Couch _id: ' . $response->_id . '</p>';
-                        echo '<p>Couch _rev: ' . $response->_rev . '</p>';
-                        echo '<p>Couch username: ' . $response->username . '</p>';
-                        echo '<p>Couch ServerGroup: ' . $response->ServerGroup . '</p>';
-                        echo '<p>Couch A3PUID: ' . $response->A3PUID . '</p>';
-                        */
+                        TempoDebug::message('Rev id saved!');
                     }
                 }
 

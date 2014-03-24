@@ -36,6 +36,10 @@
                                 ?>
                             </div>
 
+                            <div class="strip">
+                                <p>Please select your Tag carefully, you will not be able to change this once set.</p>
+                            </div>
+
                             <div class="form-group {{ ($errors->has('tag')) ? 'has-error' : '' }}" for="tag">
                                 <label class="control-label" for="tag">Tag</label>
                                 <input name="tag" value="{{ Request::old('tag') }}" type="text" class="form-control" placeholder="Tag">

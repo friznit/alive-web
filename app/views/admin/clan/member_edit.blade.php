@@ -26,17 +26,10 @@
 
                         <div class="panel-body">
 
-                            <!--
                             <div class="form-group {{ $errors->has('a3ID') ? 'has-error' : '' }}" for="a3ID">
                                 <label class="control-label" for="a3ID">Arma 3 ID</label>
-                                <input name="a3ID" value="{{ (Request::old('a3ID')) ? Request::old("a3ID") : $member->a3_id }}" type="text" class="form-control" placeholder="Arma 3 ID">
-                                <?php
-                                if($errors->has('a3ID')){
-                                    echo '<span class="label label-danger">' . $errors->first('a3ID') . '</span>';
-                                }
-                                ?>
+                                <input name="a3ID" value="{{ (Request::old('a3ID')) ? Request::old("a3ID") : $member->a3_id }}" type="text" class="form-control" placeholder="Arma 3 ID" readonly>
                             </div>
-                            -->
 
                             <div class="form-group {{ $errors->has('remark') ? 'has-error' : '' }}" for="remark">
                                 <label class="control-label" for="remark">Remark</label>
