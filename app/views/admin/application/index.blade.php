@@ -10,6 +10,7 @@
 
             @if (Sentry::check())
 
+            <br/>
             <form class="light" action="{{ URL::to('admin/application/search') }}" method="post">
 
                 {{ Form::token() }}

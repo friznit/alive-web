@@ -60,6 +60,7 @@ class AdminApplicationController extends BaseController {
 
             $data['links'] = $clans->links();
             $data['allClans'] = $clans;
+            $data['applications'] = $auth['user']->applications;
             $data['query'] = $query;
 
             return View::make('admin/application.search')->with($data);
