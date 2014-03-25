@@ -31,6 +31,11 @@
                                 <input name="a3ID" value="{{ (Request::old('a3ID')) ? Request::old("a3ID") : $member->a3_id }}" type="text" class="form-control" placeholder="Arma 3 ID" readonly>
                             </div>
 
+                            <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}" for="email">
+                                <label class="control-label" for="email">Email</label>
+                                <input name="email" value="{{ (Request::old('email')) ? Request::old("email") : $user->email }}" type="text" class="form-control" placeholder="Email" readonly>
+                            </div>
+
                             <div class="form-group {{ $errors->has('remark') ? 'has-error' : '' }}" for="remark">
                                 <label class="control-label" for="remark">Remark</label>
                                 <input name="remark" value="{{ (Request::old('remark')) ? Request::old("remark") : $member->remark }}" type="text" class="form-control" placeholder="Remark">

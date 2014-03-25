@@ -665,6 +665,7 @@ class AdminClanController extends BaseController {
             }
 
             $data['member'] = $memberProfile;
+            $data['user'] = $user;
 
             return View::make('admin/clan.member_edit')->with($data);
 
@@ -1121,10 +1122,6 @@ class AdminClanController extends BaseController {
                     $clan->website = $xmldata['web'];
                 }
 
-                if(isset($xmldata['@attributes']['nick'])){
-                    $clan->tag = $xmldata['@attributes']['nick'];
-                }
-
                 $consolidatedMembers = array();
 
                 foreach($xmldata['member'] as $member){
@@ -1195,7 +1192,12 @@ class AdminClanController extends BaseController {
 
                     $existingMember = User::where('email', $member->email)->get();
 
-                    if(count($existingMember) == 0){
+                    $existingID = 1;
+                    if($member->a3_id != ''){
+                        $existingID = Profile::where('a3_id', $member->a3_id)->get();
+                    }
+
+                    if(count($existingMember) == 0 || count($existingID) == 0){
 
                         $member->password = $this->_generatePassword();
 
