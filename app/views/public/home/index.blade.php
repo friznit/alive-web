@@ -205,7 +205,7 @@
         <div class="row">
             <div class="col-md-6">
                 <br/><h4>ALiVE User Manual</h4>
-                <a class="btn btn-yellow btn-lg"href="http://dev-heaven.net/attachments/download/21306/ALiVE%20Manual%20Compressed.pdf"><i class="fa fa-download"></i> Download User Manual</a><br/>
+                <a class="btn btn-yellow btn-lg"href="http://alivemod.com/wiki/index.php?title=Main_Page"><i class="fa fa-eye"></i> View the Wiki now...</a><br/>
             </div>
         </div>
         <div class="row top-margin">
