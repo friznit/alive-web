@@ -22,7 +22,10 @@
 						{
 							var posx = value.KilledGeoPos[0];
 							var posy = value.KilledGeoPos[1];
-							var marker= L.marker(map.unproject([posx,32769 - posy], map.getMaxZoom())).addTo(map);
+							var size = 32768;
+							var multiplier = size / {{$ao->size}};
+
+							var marker= L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom())).addTo(map);
 							if (value.Death == "true")
 								{
 									action = value.Map + ' - Grid:' + value.KilledPos + ' - ' + value.gameTime + ' local<br>' + value.Killedfaction + ' ' + value.KilledType + '<a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="highlight"> ' + value.PlayerName + '</span></a> has been KIA';
