@@ -1192,12 +1192,12 @@ class AdminClanController extends BaseController {
 
                     $existingMember = User::where('email', $member->email)->get();
 
-                    $existingID = 1;
+                    $existingID = 0;
                     if($member->a3_id != ''){
                         $existingID = Profile::where('a3_id', $member->a3_id)->get();
                     }
 
-                    if(count($existingMember) == 0 || count($existingID) == 0){
+                    if(count($existingMember) == 0 && count($existingID) == 0){
 
                         $member->password = $this->_generatePassword();
 
