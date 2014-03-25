@@ -22,16 +22,23 @@
 			
 		});
 		
+		var mz = 6;
+		var size = 16384;
+		
+		var mapname = "{{$ao->configName}}";
+		if (mapname == "Altis") {
+			mz = 7;
+			size = 32768;
+		}
+		
         var map = L.map('map', {
 			minZoom: 0,
-			maxZoom: 7,
+			maxZoom: mz,
 			zoomControl: true,
             attributionControl: false,
             crs: L.CRS.Simple
 		});
-	
-		var size = 32768;
-						
+			
 		var southWest = map.unproject([0, size], map.getMaxZoom());
 		var northEast = map.unproject([size, 0], map.getMaxZoom());
 		map.setMaxBounds(new L.LatLngBounds(southWest, northEast));

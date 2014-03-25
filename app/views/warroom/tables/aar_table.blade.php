@@ -22,7 +22,6 @@
 						{
 							var posx = value.KilledGeoPos[0];
 							var posy = value.KilledGeoPos[1];
-							var size = 32768;
 							var multiplier = size / {{$ao->size}};
 
 							var marker= L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom())).addTo(map);
