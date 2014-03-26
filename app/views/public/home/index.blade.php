@@ -216,6 +216,29 @@
         </div>
         <div class="row top-margin">
             <div class="col-md-6">
+                <br/><h4>0.6.0 Tutorials</h4><br/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <p>An in depth look at the civilian modules</p>
+            </div>
+            <div class="col-md-4">
+                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                    <iframe width="420" height="500" src="//www.youtube.com/embed/lIL-m5PAcrA" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <p>An in depth look at the convoy module</p>
+            </div>
+            <div class="col-md-4">
+                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                    <iframe width="420" height="500" src="//www.youtube.com/embed/6byV6qxWuh4" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="row top-margin">
+            <div class="col-md-6">
                 <br/><h4>Simple Mission Tutorials</h4><br/>
             </div>
         </div>
