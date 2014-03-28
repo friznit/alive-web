@@ -1,4 +1,4 @@
-@extends('warroom.layouts.home')
+@extends('warroom.layouts.operations')
 
 {{-- Content --}}
 @section('content')
