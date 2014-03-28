@@ -7,6 +7,19 @@
 
 <script type="text/javascript">
 
+var icon = L.Icon.extend({
+			options: {
+				iconSize: [32, 32],
+				iconAnchor: [16, 16],
+				labelAnchor: [8, 0]
+			}
+		});
+		
+var west_unit = new icon ({iconUrl: 'http://alivemod.com/img/icons/b_iconman_ca.png'});
+var east_unit = new icon ({iconUrl: 'http://alivemod.com/img/icons/o_iconman_ca.png'});
+var indy_unit = new icon ({iconUrl: 'http://alivemod.com/img/icons/i_iconman_ca.png'});
+var civ_unit = new icon ({iconUrl: 'http://alivemod.com/img/icons/c_iconman_ca.png'});
+
 		L.Map = L.Map.extend({
 			openPopup: function(popup) {
 				//        this.closePopup();  // just comment this
@@ -22,19 +35,20 @@
 			
 		});
 		
-		var mz = 6;
-		var size = 16384;
+		var mz = 7;
+		var size = 32768;
 		
-		var mapname = "{{$ao->configName}}";
-		if (mapname == "Altis") {
-			mz = 7;
-			size = 32768;
-		}
+	  var westkills = new L.LayerGroup();
+	  var eastkills = new L.LayerGroup();
+	  var civkills = new L.LayerGroup();
+	  var indykills = new L.LayerGroup();
 		
-        var map = L.map('map', {
+		
+      var map = L.map('map', {
 			minZoom: 0,
 			maxZoom: mz,
 			zoomControl: true,
+			layers: [westkills, eastkills, civkills, indykills],
             attributionControl: false,
             crs: L.CRS.Simple
 		});
@@ -45,11 +59,27 @@
 		
 		map.fitWorld();
 		
-		L.tileLayer("http://alivemod.com/maps/{{ strtolower($ao->configName) }}/{z}/{x}/{y}.png" , {
+	var AO = L.tileLayer("http://alivemod.com/maps/{{ strtolower($ao->configName) }}/{z}/{x}/{y}.png" , {
             attribution: 'ALiVE',
             tms: true	//means invert.
         }).addTo(map);
 			
+			
+		var baseLayer = {
+			"AO": AO
+		};
+
+		
+		var overlays = {
+			"West Killed": westkills,
+			"East Killed": eastkills,
+			"Indy Killed": indykills,
+			"Civ Killed": civkills
+		};
+		
+		layerControl = L.control.layers(baseLayer, overlays,{position: 'topleft'});
+		layerControl.addTo(map);
+				
 		var items = {};
 				
     $(document).ready(function() {
@@ -84,7 +114,6 @@
 	});
 
 </script>
-
 
 <div id="warroom_overview">
     @include('warroom/tables/op_overview')

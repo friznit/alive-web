@@ -23,8 +23,26 @@
 							var posx = value.KilledGeoPos[0];
 							var posy = value.KilledGeoPos[1];
 							var multiplier = size / {{$ao->size}};
-
-							var marker= L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom())).addTo(map);
+								
+									if (value.KilledSide == "WEST")
+									{
+								var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(westkills);
+								
+								}
+								if (value.KilledSide == "EAST")
+								{
+								var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: east_unit}).addTo(eastkills);
+								} 
+								if (value.KilledSide == "INDY")
+								{
+								var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: indy_unit}).addTo(indykills);
+								} 
+								if (value.KilledSide == "CIV")
+								{
+								var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: civ_unit}).addTo(civkills);
+								}
+							if (value.Event == "Kill")
+						{
 							if (value.Death == "true")
 								{
 									action = value.Map + ' - Grid:' + value.KilledPos + ' - ' + value.gameTime + ' local<br>' + value.Killedfaction + ' ' + value.KilledType + '<a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="highlight"> ' + value.PlayerName + '</span></a> has been KIA';
@@ -37,14 +55,15 @@
 										action = value.Map + ' - Grid:' + value.KilledPos + ' - ' + value.gameTime + ' local<br>' + value.Killerfaction + ' ' + value.KillerType + '(<a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></a>) </span> kills ' + value.Killedfaction + '<span class="highlight"> ' + value.KilledType + '</span> with an ' + value.Weapon + ' from ' + value.Distance + 'm';
 									}
 								}
-							var popup = L.popup().setContent('<div class="admin-panel">' + action + '</div>');
+								var popup = L.popup().setContent('<div class="admin-panel">' + action + '</div>');
 			           		marker.bindPopup(popup, {
 								showOnMouseOver: true,
 								offset: new L.Point(0, 0)
 							});
 
+
 						}
-			
+						}
 						if (value.Event == "OperationStart")
 						{
 							action = value.Map + ' - ' + value.gameTime + ' local<br>Operation <span class="highlight2">' + value.Operation + '</span> has been launched.';
