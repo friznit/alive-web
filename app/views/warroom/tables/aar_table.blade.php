@@ -42,7 +42,7 @@
                         }
                     }
 
-                    var popup = L.popup().setContent('<div class="admin-panel">' + action + '</div>');
+                    var popup = L.popup().setContent('<div class="admin-panel">' + output + '</div>');
 
                     if (value.KilledSide == "WEST")
                     {
