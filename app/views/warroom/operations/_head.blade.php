@@ -1,3 +1,8 @@
 <script type="text/javascript">
-    alert("hello from head script block in operations/_head.blade.php");
+    $(document).ready(function() {
+        $(window).on("resize", function() {
+            $("#map").height($(window).height()).width($(window).width());
+            map.invalidateSize();
+        }).trigger("resize");
+    });
 </script>

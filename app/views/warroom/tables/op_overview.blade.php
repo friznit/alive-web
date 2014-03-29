@@ -28,12 +28,15 @@
     })
 </script>
 
-<div id="overview_container">
+<div id="overview_logo">
+    <a href="{{ URL::to('/') }}"><img src="{{ URL::to('/') }}/img/logo.png"/></a>
+    <a href="{{ URL::to('/war-room') }}"><img src="{{ URL::to('/') }}/img/alive_warroom_tiny.png"/></a>
+</div>
 
+<div id="overview_container">
     <span class="highlight">LIVE FEED</span> - ENEMY KILLED: <span id="ekia">0</span> |
     LOSSES: <span id="losses">0</span> |
     COMBAT HRS: <span id="combat_hours">0</span> |
     AMMUNITION: <span id="ammo">0</span> |
     ACTIVE UNITS: <span id="active_units">0</span> - <span class="highlight">LIVE FEED</span>
-
 </div>

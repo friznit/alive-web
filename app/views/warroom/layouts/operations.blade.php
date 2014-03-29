@@ -25,20 +25,16 @@
     <script src="{{ URL::to('/') }}/js/greenthumb/easing/EasePack.min.js"></script>
     <script src="{{ URL::to('/') }}/js/greenthumb/TweenLite.min.js"></script>
     <script src="{{ URL::to('/') }}/js/greenthumb/TimelineLite.min.js"></script>
+    <script src="{{ URL::to('/') }}/js/Control.FullScreen.js"></script>
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
     @include('warroom/operations/_head')
 </head>
-<body id="warroom_body">
-
-@include('warroom/partials/_nav')
+<body id="warroom_operations_body">
 
 @yield('content')
-
-@include('warroom/partials/_abs_footer')
-
 
 </body>
 </html>
