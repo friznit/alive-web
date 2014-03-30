@@ -199,11 +199,23 @@
                 //console.log(endDate);
 
                 var event = new Object();
+				
+				//Start of Gunny's Event Data WIP
+						var action = eventObj.Event;
+						var output = '';
+				
+				 if (action == "Kill")
+                {
+				  output = eventObj.Map + ' - Grid:' + eventObj.KilledPos + ' - ' + eventObj.gameTime + ' local<br>' + eventObj.Killedfaction + ' ' + eventObj.KilledType + '<a href=http://alivemod.com/war-room/showpersonnel/' + eventObj.Player +'><span class="highlight"> ' + eventObj.PlayerName + '</span></a> has been KIA';}
+				  else {
+				}
+				//END of Gunny's Event data WIP
+					
 
                 event.startDate = startDate;
                 event.endDate = startDate;
                 event.headline = eventObj.Event;
-                event.text = eventObj.Event;
+                event.text = output;
                 event.asset = new Object();
                 event.asset.media = '';
                 event.asset.credit = '';
@@ -222,6 +234,7 @@
                 for(var i = 0; i < diff; i++){
 
                     var event = new Object();
+					
 
                     event.startDate = startDate;
                     event.endDate = endDate;
