@@ -21,9 +21,6 @@
                 var action = value.Event;
                 var output = '';
 
-                console.log(value);
-                console.log(action);
-
                 if (action == "Kill")
                 {
                     var posx = value.KilledGeoPos[0];
@@ -119,8 +116,6 @@
                     }
                 }
 
-                console.log(output);
-
                 return output;
             }
         }]
@@ -129,7 +124,7 @@
 
 </script>
 
-<div id="live_feed_container">
+<div id="event_container_data">
 <table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="aar">
     <thead>
     <tr>

@@ -74,6 +74,15 @@ class APIController extends BaseController {
 		$clan = Input::get('clan');
         return $this->couchAPI->getOpLiveFeed($map,$clan,$name);
     }
+    public function getOplivefeedpaged()
+    {
+        $name = Input::get('name');
+        $map = Input::get('map');
+        $clan = Input::get('clan');
+        $limit = Input::get('limit');
+        $skip = Input::get('skip');
+        return $this->couchAPI->getOpLiveFeedPaged($map,$clan,$name,$limit,$skip);
+    }
     public function getLossesblu()
     {
         return $this->couchAPI->getLossesBLU();

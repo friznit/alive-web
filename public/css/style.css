@@ -1480,7 +1480,7 @@ form .badge {
     color: #fcaf17;
 }
 
-#warroom_operations_body #warroom_livefeed {
+#warroom_operations_body #event_container {
     position: absolute;
     z-index:903;
     right:15px;
@@ -1489,6 +1489,43 @@ form .badge {
     padding:0 10px 10px 10px;
     background: transparent;
     background-color: rgba(1, 1, 1, 0.6);
+}
+
+#warroom_operations_body #warroom_timeline_container {
+    position: absolute;
+    z-index:904;
+    right:0;
+    top:33px;
+    width:100%;
+    background: transparent;
+    background-color: rgba(1, 1, 1, 0.6);
+}
+
+#warroom_operations_body #warroom_timeline_loading {
+    position: absolute;
+    z-index:906;
+    right:0;
+    top:0;
+    height:300px;
+    width:100%;
+    background: #fff url(../img/ajax-loader.gif) no-repeat center center;
+}
+
+#warroom_operations_body #warroom_timeline_controls {
+    position: absolute;
+    z-index:905;
+    right:0;
+    top:98px;
+    width:100%;
+    background: transparent;
+}
+
+#warroom_operations_body .leaflet-left {
+    top:225px;
+}
+
+#warroom_operations_body #warroom_timeline .vco-feature {
+    /*display:none;*/
 }
 
 .leaflet-control-zoom-fullscreen {

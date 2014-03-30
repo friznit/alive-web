@@ -87,11 +87,38 @@
     var items = {};
 
     $(document).ready(function() {
+
+        cursor = 0;
+        itemsPerPage = 50;
+
+        loadData(cursor);
+
         $(".trigger").click(function(){
             $(".panel").toggle("fast");
             $(this).toggleClass("active");
             return false;
         });
+
+        $("#prev").click(function(){
+            console.log("PREV");
+            $("#warroom_timeline_loading").fadeIn();
+            $("#warroom_timeline").remove();
+            $('<div id="warroom_timeline"></div>').insertBefore("#warroom_timeline_controls");
+            loadData(itemsPerPage);
+        });
+
+        $("#next").click(function(){
+            console.log("NEXT");
+            $("#warroom_timeline_loading").fadeIn();
+            $("#warroom_timeline").remove();
+            $('<div id="warroom_timeline"></div>').insertBefore("#warroom_timeline_controls");
+            loadData(-itemsPerPage);
+        });
+
+        $(window).on("resize", function() {
+            $("#map").height($(window).height()).width($(window).width());
+            map.invalidateSize();
+        }).trigger("resize");
 
         map.on('enterFullscreen', function(){
             console.log('entered fullscreen');
@@ -100,6 +127,7 @@
         map.on('exitFullscreen', function(){
             console.log('exited fullscreen');
         });
+
     });
 
     var hostileIcon = L.icon({
@@ -124,35 +152,120 @@
         }
     });
 
+    function loadData(skip) {
+
+        cursor = cursor + skip;
+
+        if(cursor <= 0){
+            cursor = 0;
+        }
+
+        console.log(cursor);
+
+        $.getJSON("{{ URL::to('/') }}/api/oplivefeedpaged?name={{ $name }}&clan={{ $clan->tag }}&map={{ $ao->configName }}&limit="+itemsPerPage+"&skip="+cursor, function( data ) {
+
+            if(data.error) {
+                console.log(data);
+            }
+
+            var timelineData = new Object();
+            timelineData.timeline = new Object();
+            timelineData.timeline.headline = "TEST";
+            timelineData.timeline.type = "default";
+            timelineData.timeline.text = "CHEESE";
+            timelineData.timeline.startDate = "2014,03,30,11,00";
+            timelineData.timeline.date = [];
+
+            var startDate = '';
+            var endDate = '';
+
+            $.each( data.rows, function( key, val ) {
+
+                eventObj = val.value;
+
+                //console.log(eventObj.realTime);
+
+                var parsedDateArray = eventObj.realTime.split(" ");
+                var parsedDayArray = parsedDateArray[0].split("/");
+                var parsedTimeArray = parsedDateArray[1].split(":");
+
+                //console.log(parsedDayArray);
+                //console.log(parsedTimeArray);
+
+                startDate = parsedDayArray[2] + ',' + parsedDayArray[1] + ',' + parsedDayArray[0] + ',' + parsedTimeArray[0] + ',' + parsedTimeArray[1] + ',' + parsedTimeArray[2];
+                endDate = parsedDayArray[2] + ',' + parsedDayArray[1] + ',' + parsedDayArray[0] + ',' + parsedTimeArray[0] + ',' + parsedTimeArray[1] + ',' + (parseInt(parsedTimeArray[2]) + 1);
+
+                //console.log(startDate);
+                //console.log(endDate);
+
+                var event = new Object();
+
+                event.startDate = startDate;
+                event.endDate = startDate;
+                event.headline = eventObj.Event;
+                event.text = eventObj.Event;
+                event.asset = new Object();
+                event.asset.media = '';
+                event.asset.credit = '';
+                event.asset.caption = '';
+
+                timelineData.timeline.date.push(event);
+
+            });
+
+            if(data.rows.length == 0){
+                return;
+            }
+
+            if(data.rows.length < itemsPerPage){
+                var diff = itemsPerPage - data.rows.length;
+                for(var i = 0; i < diff; i++){
+
+                    var event = new Object();
+
+                    event.startDate = startDate;
+                    event.endDate = endDate;
+                    event.headline = '';
+                    event.text = '';
+                    event.asset = new Object();
+                    event.asset.media = '';
+                    event.asset.credit = '';
+                    event.asset.caption = '';
+
+                    timelineData.timeline.date.push(event);
+                }
+            }
+
+            createStoryJS({
+                type:		'timeline',
+                width:		'100%',
+                height:		'320',
+                source:		timelineData,
+                embed_id:	'warroom_timeline',
+                start_at_end: true,
+                debug:		false
+            });
+
+            $("#warroom_timeline_loading").fadeOut();
+
+        });
+    }
+
 </script>
 
 <div id="warroom_overview">
     @include('warroom/tables/op_overview')
 </div>
 
-<div id="warroom_livefeed">
-    <div class="strip clearfix"><span id="warroom_livefeed_toggle"><i class="fa fa-arrow-right"></i></span><span id="warroom_livefeed_label" class="control">{{ $name }} - AAR</span></div>
-
-		@include('warroom/tables/aar_table')
-
-</div>
-
-<!--
-<div id="warroom_charts">
-    <div class="strip"><span class="control-center" id="warroom_charts_toggle"><i class="fa fa-arrow-down"></i></span></div>
-    <div class="row">
-        <div class="col-md-3">
-            //@include('warroom/charts/op_blu_losses')
-        </div>
-        <div class="col-md-3">
-            //@include('warroom/charts/op_opf_losses')
-        </div>
-        <div class="col-md-3">
-            //@include('warroom/charts/op_casualties')
-        </div>
+<div id="warroom_timeline_container">
+    <div id="warroom_timeline_loading"></div>
+    <div id="warroom_timeline"></div>
+    <div id="warroom_timeline_controls">
+        <a class="btn btn-yellow btn-lg" href="javascript:void(0)" id="prev">
+        Load previous 50 events</a>
+        <a class="btn btn-yellow btn-lg" href="javascript:void(0)" id="next">Load next 50 events</a>
     </div>
-
 </div>
--->
+
 
 @stop

@@ -4,13 +4,15 @@ namespace Alive;
 
 use Tempo\TempoDebug;
 
-ini_set('max_execution_time', 60);
+ini_set('max_execution_time', 400);
 
 class CouchAPI {
 
+    ///*
     private $user = 'aliveadmin';
     private $pass = 'tupolov';
     private $url = 'http://db.alivemod.com:5984/';
+    //*/
 
     /*
     private $user = 'arjay';
@@ -315,6 +317,30 @@ class CouchAPI {
     {
 		$name = urlencode($name);
         $path = 'events/_design/operationPage/_list/sort_no_callback/operation_events?startkey=["' . $map . '","' . $clan . '","' . $name . '",{}]&endkey=["' . $map . '","' . $clan . '","' . $name . '"]&descending=true';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response'];
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+        }else{
+            $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }
+
+    public function getOpLiveFeedPaged($map, $clan, $name, $limit, $skip)
+    {
+        $name = urlencode($name);
+        $path = 'events/_design/operationPage/_list/sort_no_callback/operation_events?startkey=["' . $map . '","' . $clan . '","' . $name . '",{}]&endkey=["' . $map . '","' . $clan . '","' . $name . '"]&descending=true&limit=' . $limit . "&skip=" . $skip;
 
         $data = $this->call($path);
 

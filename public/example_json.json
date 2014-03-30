@@ -1,0 +1,36 @@
+
+{
+    "timeline":
+    {
+        "headline":"Sh*t People Say",
+        "type":"default",
+		"text":"People say stuff",
+		"startDate":"2014,03,30,11,00",
+        "date": [
+            {
+                "startDate":"2014,03,30,12,00",
+				"endDate":"2014,03,30,12,15",
+                "headline":"Vine",
+                "text":"<p>Vine Test</p>",
+                "asset":
+                {
+                    "media":"",
+                    "credit":"",
+                    "caption":""
+                }
+            },
+            {
+                "startDate":"2014,03,30,13,00",
+				"endDate":"2014,03,30,14,11",
+                "headline":"Sh*t Politicians Say",
+                "text":"<p>In true political fashion, his character rattles off common jargon heard from people running for office.</p>",
+                "asset":
+                {
+                    "media":"",
+                    "credit":"",
+                    "caption":""
+                }
+            }
+        ]
+    }
+}
