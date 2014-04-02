@@ -5312,6 +5312,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Slider == 'undefined') {
 		/* NAVIGATION
 		================================================== */
 		function onNextClick(e) {
+
 			if (current_slide == slides.length - 1) {
 				backToCurrentSlide();
 			} else {
@@ -5377,6 +5378,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Slider == 'undefined') {
 		================================================== */
 		function upDate() {
 			config.current_slide = current_slide;
+            //handleChange(config.current_slide, data);
 			VMM.fireEvent(layout, "UPDATE");
 		};
 		
@@ -7186,6 +7188,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 
 		function onDataReady(e, d) {
 			trace("onDataReady");
+
 			data = d.timeline;
 			
 			if (type.of(data.era) != "array") {
@@ -7960,6 +7963,8 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 				is_first	= false;
 			
 			current_marker = 	n;
+
+            handleTimelineChange(current_marker, data[current_marker], data);
 			
 			timenav_pos.left			= (config.width/2) - markers[current_marker].pos_left
 			timenav_pos.visible.left	= Math.abs(timenav_pos.left) - 100;

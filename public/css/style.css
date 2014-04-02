@@ -1495,7 +1495,7 @@ form .badge {
     position: absolute;
     z-index:904;
     right:0;
-    top:33px;
+    top:-80px;
     width:100%;
     background: transparent;
     background-color: rgba(1, 1, 1, 0.6);
@@ -1515,7 +1515,7 @@ form .badge {
     position: absolute;
     z-index:905;
     right:0;
-    top:98px;
+    top:310px;
     width:100%;
     background: transparent;
 }
