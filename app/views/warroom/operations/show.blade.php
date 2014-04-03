@@ -45,13 +45,16 @@
     var eastkills = new L.LayerGroup();
     var civkills = new L.LayerGroup();
     var indykills = new L.LayerGroup();
+    var getIn = new L.LayerGroup();
+    var getOut = new L.LayerGroup();
+    var heals = new L.LayerGroup();
 
 
     var map = L.map('map', {
         minZoom: 0,
         maxZoom: mz,
         zoomControl: true,
-        layers: [westkills, eastkills, civkills, indykills],
+        layers: [westkills, eastkills, civkills, indykills, getIn, getOut, heals],
         attributionControl: false,
         crs: L.CRS.Simple,
         fullscreenControl: true,
@@ -80,7 +83,10 @@
         "West Killed": westkills,
         "East Killed": eastkills,
         "Indy Killed": indykills,
-        "Civ Killed": civkills
+        "Civ Killed": civkills,
+        "Get In": getIn,
+        "Get Out": getOut,
+        "Heals": heals
     };
 
     layerControl = L.control.layers(baseLayer, overlays,{position: 'topleft'});
@@ -141,9 +147,31 @@
         // ------------------------------------------------------------
 
         cursor = 0;
-        itemsPerPage = 50;
+        itemsPerPage = 100;
 
         loadData(cursor);
+
+        $("#warroom_timeline_toggle").click(function(e){
+
+            e.preventDefault();
+
+            var toggler = $('#warroom_timeline_toggle');
+            var container = $('#warroom_timeline_container');
+            var leafletControls = $('.leaflet-left');
+            var timeline = new TimelineLite();
+
+            if(toggler.hasClass('clicked')){
+                timeline.to(container, .2, {css:{top:-270}})
+                timeline.to(leafletControls, .2, {css:{top:68}})
+                toggler.html('<i class="fa fa-arrow-down"></i>');
+                toggler.removeClass('clicked');
+            } else {
+                timeline.to(leafletControls, .2, {css:{top:260}})
+                timeline.to(container, .2, {css:{top:-80}});
+                toggler.html('<i class="fa fa-arrow-up"></i>');
+                toggler.addClass('clicked');
+            }
+        });
 
         /*
         $(".trigger").click(function(){
@@ -206,12 +234,22 @@
 
             var startDate = '';
             var endDate = '';
-            var eventCount = data.rows.length;
+            var events = [];
 
-            // loop loaded row data and create timeline objects
+            // loop loaded row data filter out some events
             $.each( data.rows, function( key, val ) {
-
                 eventObj = val.value;
+                if(eventObj.Event != 'PlayerFinish' && eventObj.Event != 'Hit'){
+                    events.push(eventObj);
+                }
+            });
+
+            var eventCount = events.length;
+
+            // loop filtered event data create timeline objects
+            $.each( events, function( key, val ) {
+
+                eventObj = val;
 
                 // parse dates into timeline friendly format
                 var parsedDateArray = eventObj.realTime.split(" ");
@@ -227,8 +265,8 @@
                 var event = new Object();
                 event.startDate = startDate;
                 event.endDate = startDate;
-                event.headline = eventObj.Event;
-                event.text = output;
+                event.headline = output.shortDescription;
+                event.text = output.description;
                 event.asset = new Object();
                 event.asset.media = '';
                 event.asset.credit = '';
@@ -242,50 +280,13 @@
 
             });
 
-            console.log(markers);
-
             // no data
             if(data.rows.length == 0){
                 return;
             }
 
-            // first load of page
-            // create the timeline
-            if(typeof VMM == 'undefined') {
-                createStoryJS({
-                    type:		'timeline',
-                    width:		'100%',
-                    height:		'320',
-                    source:		timelineData,
-                    embed: true,
-                    embed_id:	'warroom_timeline',
-                    start_at_end: true,
-                    start_zoom_adjust: 0,
-                    debug:		false,
-                    css: '{{ URL::to("/") }}/css/timeline.css',
-                    js: '{{ URL::to("/") }}/js/timeline.js'
-                });
-            }else{
-
-                // subsequent load of page
-                // reset and recreate the timeline
-
-                $(global).unbind()
-
-                createStoryJS({
-                    type:		'timeline',
-                    width:		'100%',
-                    height:		'320',
-                    source:		timelineData,
-                    embed: true,
-                    embed_id:	'warroom_timeline',
-                    start_at_end: true,
-                    start_zoom_adjust: 0,
-                    debug:		false,
-                    css: '{{ URL::to("/") }}/css/timeline.css',
-                    js: '{{ URL::to("/") }}/js/timeline.js'
-                });
-            }
+            // create or recreate the timeline
+            createTimeline(timelineData);
 
             // hide the loading overlay
             $("#warroom_timeline_loading").fadeOut();
@@ -294,12 +295,58 @@
     }
 
     /*
+     * Create the timeline
+     */
+    function createTimeline(data) {
+
+        // first load of page
+        // create the timeline
+        if(typeof VMM == 'undefined') {
+            createStoryJS({
+                type:		'timeline',
+                width:		'100%',
+                height:		'320',
+                source:		data,
+                embed: true,
+                embed_id:	'warroom_timeline',
+                start_at_end: true,
+                start_zoom_adjust: 0,
+                debug:		false,
+                css: '{{ URL::to("/") }}/css/timeline.css',
+                js: '{{ URL::to("/") }}/js/timeline.js'
+            });
+        }else{
+
+            // subsequent load of page
+            // reset and recreate the timeline
+
+            $(global).unbind()
+
+            createStoryJS({
+                type:		'timeline',
+                width:		'100%',
+                height:		'320',
+                source:		data,
+                embed: true,
+                embed_id:	'warroom_timeline',
+                start_at_end: true,
+                start_zoom_adjust: 0,
+                debug:		false,
+                css: '{{ URL::to("/") }}/css/timeline.css',
+                js: '{{ URL::to("/") }}/js/timeline.js'
+            });
+        }
+    }
+
+    /*
      * Setup map marker and prepare output for timeline and marker display
      */
     function prepareEvent(index, value) {
 
         var action = value.Event;
-        var output = '';
+        var output = {};
+        output.shortDescription = '';
+        output.description = '';
 
         switch(action){
 
@@ -311,17 +358,48 @@
 
                 if (value.Death == "true")
                 {
-                    output = value.Map + ' - Grid:' + value.KilledPos + ' - ' + value.gameTime + ' local<br>' + value.Killedfaction + ' ' + value.KilledType + '<a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="highlight"> ' + value.PlayerName + '</span></a> has been KIA';
+
+                    if(value.Killed === value.Killer){
+                        output.shortDescription = value.PlayerName + ' has been KIA';
+
+                        output.description =
+                            value.gameTime + ' local<br><h2><i class="fa fa-ban"></i> <a href="http://alivemod.com/war-room/showpersonnel/' + value.Player +'" target="_blank"><span class="operation">' + value.PlayerName + '</span></h2><br/></a>' +
+                            value.Killedfaction + ' ' + value.KilledType + ' has been KIA';
+                    }else{
+
+                        output.shortDescription = value.Killedfaction + ' ' + value.KilledType + ' kills ' + value.PlayerName;
+
+                        output.description =
+                            value.gameTime + ' local<br><h2><i class="fa fa-ban"></i> <a href="http://alivemod.com/war-room/showpersonnel/' + value.Player +'" target="_blank"><span class="operation">' + value.PlayerName + '</span></h2><br/></a>' +
+                            value.Killedfaction + ' ' + value.KilledType +
+                            ' killed by ' + value.Killerfaction + '<span class="highlight"> ' + value.KillerType + '</span> with an <br/>' + value.Weapon + ' from ' + value.Distance + 'm';
+                    }
+
+
+
                 } else {
                     if (value.KilledClass != "Infantry")
                     {
-                        output = value.Map + ' - Grid:' + value.KilledPos + ' - ' + value.gameTime + ' local<br>' + value.Killedfaction + ' <span class="highlight">' + value.KilledType + '</span> has been destroyed';
+
+                        output.shortDescription = value.Killedfaction + ' ' + value.KilledType + ' has been destroyed';
+
+                        output.description =
+                            value.gameTime + ' local<br><h2><i class="fa fa-exclamation-triangle"></i> </h2><br/>' +
+                            value.Killedfaction + ' <span class="highlight">' + value.KilledType + '</span> has been destroyed';
+
                     } else {
-                        output = value.Map + ' - Grid:' + value.KilledPos + ' - ' + value.gameTime + ' local<br>' + value.Killerfaction + ' ' + value.KillerType + '(<a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></a>) </span> kills ' + value.Killedfaction + '<span class="highlight"> ' + value.KilledType + '</span> with an ' + value.Weapon + ' from ' + value.Distance + 'm';
+
+                        output.shortDescription = '<i class="fa fa-dot-circle-o"></i>' + value.PlayerName + ' kills ' + value.Killedfaction + ' ' + value.KilledType;
+
+                        output.description =
+                            value.gameTime + ' local<br><h2><i class="fa fa-dot-circle-o"></i> <a href="http://alivemod.com/war-room/showpersonnel/' + value.Player +'" target="_blank"><span class="operation">' + value.PlayerName + '</span></h2><br/></a>' +
+                            value.Killerfaction + ' ' + value.KillerType +
+                            ' kills ' + value.Killedfaction + '<span class="highlight"> ' + value.KilledType + '</span> with an <br/>' + value.Weapon + ' from ' + value.Distance + 'm';
+
                     }
                 }
 
-                var popup = L.popup().setContent('<div class="admin-panel">' + output + '</div>');
+                var popup = L.popup().setContent('<div class="admin-panel">' + output.description + '</div>');
 
                 if (value.KilledSide == "WEST")
                 {
@@ -366,12 +444,63 @@
 
                 break;
 
+            case "Heal":
+
+                var posx = value.medicGeoPos[0];
+                var posy = value.medicGeoPos[1];
+                var multiplier = size / {{$ao->size}};
+
+                if(value.medic === value.patient){
+
+                    output.shortDescription = '<a href="http://alivemod.com/war-room/showpersonnel/' + value.Player +'" target="_blank"><span class="highlight"> ' + value.PlayerName + '</span></a> heals self';
+
+                    output.description =
+                        value.gameTime + ' local<br><h2><i class="fa fa-medkit"></i> <a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></h2><br/></a>' +
+                        ' Heals self ';
+
+                }else{
+
+                    output.shortDescription = '<a href="http://alivemod.com/war-room/showpersonnel/' + value.Player +'" target="_blank"><span class="highlight"> ' + value.PlayerName + '</span></a> heals ' + value.patientType;
+
+                    output.description =
+                        value.gameTime + ' local<br><h2><i class="fa fa-medkit"></i> <a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></h2><br/></a>' +
+                        ' Heals ' + value.patientfaction + '<span class="highlight"> ' + value.patientType + ' ' + value.patient;
+
+                }
+
+
+
+                var popup = L.popup().setContent('<div class="admin-panel">' + output.description + '</div>');
+                var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(getIn);
+                marker.bindPopup(popup, {
+                    showOnMouseOver: true,
+                    offset: new L.Point(0, 0)
+                });
+
+                markers[index] = marker;
+
+                break;
+
             case "GetIn":
 
                 var posx = value.unitGeoPos[0];
                 var posy = value.unitGeoPos[1];
                 var multiplier = size / {{$ao->size}};
-                output = value.Map + ' - Grid:' + value.unitPos + ' - ' + value.gameTime + ' local<br><a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="highlight"> ' + value.PlayerName + '</span></a> got in a ' + value.vehicleType;
+
+                output.shortDescription = '<a href="http://alivemod.com/war-room/showpersonnel/' + value.Player +'" target="_blank"><span class="highlight"> ' + value.PlayerName + '</span></a> got in a ' + value.vehicleType;
+
+                output.description =
+                    value.gameTime + ' local<br><h2><i class="fa fa-external-link-square"></i> <a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></h2><br/></a>' +
+                    ' got in a ' + value.vehicleType;
+
+                var popup = L.popup().setContent('<div class="admin-panel">' + output.description + '</div>');
+                var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(getIn);
+                marker.bindPopup(popup, {
+                    showOnMouseOver: true,
+                    offset: new L.Point(0, 0)
+                });
+
+                markers[index] = marker;
 
                 break;
 
@@ -380,26 +509,119 @@
                 var posx = value.unitGeoPos[0];
                 var posy = value.unitGeoPos[1];
                 var multiplier = size / {{$ao->size}};
-                output = value.Map + ' - Grid:' + value.unitPos + ' - ' + value.gameTime + ' local<br><a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="highlight"> ' + value.PlayerName + '</span></a> got out of a ' + value.vehicleType;
+
+                output.shortDescription = '<a href="http://alivemod.com/war-room/showpersonnel/' + value.Player +'" target="_blank"><span class="highlight"> ' + value.PlayerName + '</span></a> got out of a ' + value.vehicleType;
+
+                output.description =
+                    value.gameTime + ' local<br><h2><i class="fa fa-external-link"></i> <a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></h2><br/></a>' +
+                    ' got out of a ' + value.vehicleType;
+
+                var popup = L.popup().setContent('<div class="admin-panel">' + output.description + '</div>');
+                var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(getOut);
+                marker.bindPopup(popup, {
+                    showOnMouseOver: true,
+                    offset: new L.Point(0, 0)
+                });
+
+                markers[index] = marker;
 
                 break;
 
+            case "ParaJump":
+
+                console.log(value);
+
+                var posx = value.unitGeoPos[0];
+                var posy = value.unitGeoPos[1];
+                var multiplier = size / {{$ao->size}};
+
+                output.shortDescription = '<a href="http://alivemod.com/war-room/showpersonnel/' + value.Player +'" target="_blank"><span class="highlight"> ' + value.PlayerName + '</span></a> parajumps from a ' + value.vehicleType;
+
+                output.description =
+                    value.gameTime + ' local<br><h2><i class="fa fa-level-down"></i> <a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></h2><br/></a>' +
+                    ' parajumped from a ' + value.vehicleType + ' at height ' + value.jumpHeight;
+
+                var popup = L.popup().setContent('<div class="admin-panel">' + output.description + '</div>');
+                var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(getOut);
+                marker.bindPopup(popup, {
+                    showOnMouseOver: true,
+                    offset: new L.Point(0, 0)
+                });
+
+                markers[index] = marker;
+
+                break;
+
+            case "Landed":
+
+                var posx = value.vehicleGeoPos[0];
+                var posy = value.vehicleGeoPos[1];
+                var multiplier = size / {{$ao->size}};
+
+                output.shortDescription = '<a href="http://alivemod.com/war-room/showpersonnel/' + value.Player +'" target="_blank"><span class="highlight"> ' + value.PlayerName + '</span></a> landed a ' + value.vehicleType;
+
+                output.description =
+                    value.gameTime + ' local<br><h2><i class="fa fa-fighter-jet"></i> <a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></h2><br/></a>' +
+                    ' landed a ' + value.vehicleType;
+
+                var popup = L.popup().setContent('<div class="admin-panel">' + output.description + '</div>');
+                var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(getOut);
+                marker.bindPopup(popup, {
+                    showOnMouseOver: true,
+                    offset: new L.Point(0, 0)
+                });
+
+                markers[index] = marker;
+
+                break;
+
+            case "CombatDive":
+
+                var posx = value.unitGeoPos[0];
+                var posy = value.unitGeoPos[1];
+                var multiplier = size / {{$ao->size}};
+
+                output.shortDescription = '<a href="http://alivemod.com/war-room/showpersonnel/' + value.Player +'" target="_blank"><span class="highlight"> ' + value.PlayerName + '</span></a> combat dive ';
+
+                output.description =
+                    value.gameTime + ' local<br><h2><i class="fa fa-arrow-circle-down"></i> <a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></h2><br/></a>' +
+                        ' took a combat dive for ' + value.diveTime + ' minutes';
+
+                var popup = L.popup().setContent('<div class="admin-panel">' + output.description + '</div>');
+                var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(getOut);
+                marker.bindPopup(popup, {
+                    showOnMouseOver: true,
+                    offset: new L.Point(0, 0)
+                });
+
+                markers[index] = marker;
+
+                break;
+
+
             case "OperationStart":
 
-                output = value.Map + ' - ' + value.gameTime + ' local<br>Operation <span class="highlight2">' + value.Operation + '</span> has been launched.';
+                output.shortDescription = 'Operation <span class="highlight2">' + value.Operation + '</span> has been launched.';
+
+                output.description = value.Map + ' - ' + value.gameTime + ' local<br>Operation <span class="highlight2">' + value.Operation + '</span> has been launched.';
 
                 break;
 
             case "OperationFinish":
 
-                output = value.Map + ' - ' + value.gameTime + ' local<br>Operation <span class="highlight2">' + value.Operation + '</span> has ended after ' + value.timePlayed + ' minutes.';
+                output.shortDescription = 'Operation <span class="highlight2">' + value.Operation + '</span> has ended after ' + value.timePlayed + ' minutes.';
+
+                output.description = value.Map + ' - ' + value.gameTime + ' local<br>Operation <span class="highlight2">' + value.Operation + '</span> has ended after ' + value.timePlayed + ' minutes.';
 
                 break;
 
             case "Hit":
 
                 if(!value.PlayerHit){
-                    output = value.Map + ' - Grid:' + value.hitPos + ' - ' + value.gameTime + ' local<br>' + value.sourcefaction + ' ' + value.sourceType + '(<a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></a>) has scored a hit on a ' + value.hitfaction + ' ' + value.hitType + '.';
+
+                    output.shortDescription = value.sourcefaction + ' ' + value.sourceType + '(<a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></a>) has scored a hit on a ' + value.hitfaction + ' ' + value.hitType + '.';
+
+                    output.description = value.Map + ' - Grid:' + value.hitPos + ' - ' + value.gameTime + ' local<br>' + value.sourcefaction + ' ' + value.sourceType + '(<a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></a>) has scored a hit on a ' + value.hitfaction + ' ' + value.hitType + '.';
                 }
 
                 break;
@@ -408,19 +630,27 @@
 
                 if (value.FiredAt == "true")
                 {
-                    output = value.Map + ' - Grid:' + value.targetPos + ' - ' + value.gameTime + ' local<br>' + value.targetFaction + ' ' + value.targetType + '(<a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></a>) has been engaged by a ' + value.sourceFaction + ' ' + value.sourceType + '.';
+
+                    output.shortDescription = value.targetFaction + ' ' + value.targetType + '(<a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></a>) has been engaged by a ' + value.sourceFaction + ' ' + value.sourceType + '.';
+
+                    output.description = value.Map + ' - Grid:' + value.targetPos + ' - ' + value.gameTime + ' local<br>' + value.targetFaction + ' ' + value.targetType + '(<a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></a>) has been engaged by a ' + value.sourceFaction + ' ' + value.sourceType + '.';
+
                 } else {
-                    output = value.Map + ' - Grid:' + value.sourcePos + ' - ' + value.gameTime + ' local<br>' + value.sourceFaction + ' ' + value.sourceType + '(<a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></a>)</span><b> is engaging ' + value.targetFaction + value.targetType + ' with a ' + value.Weapon + ' from ' + value.Distance + 'm using a ' + value.projectile;
+
+                    output.shortDescription = value.sourceFaction + ' ' + value.sourceType + '(<a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></a>)</span><b> is engaging ' + value.targetFaction + value.targetType + ' with a ' + value.Weapon + ' from ' + value.Distance + 'm using a ' + value.projectile;
+
+                    output.description = value.Map + ' - Grid:' + value.sourcePos + ' - ' + value.gameTime + ' local<br>' + value.sourceFaction + ' ' + value.sourceType + '(<a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></a>)</span><b> is engaging ' + value.targetFaction + value.targetType + ' with a ' + value.Weapon + ' from ' + value.Distance + 'm using a ' + value.projectile;
+
                 }
 
                 break;
 
             default:
 
+                console.log(value);
+
                 break;
         }
-
-    output = index + " - " + output;
 
         return output;
     }
@@ -429,10 +659,11 @@
      * Delete all leaflet markers
      */
     function clearAllMarkers() {
-        for(i=0;i<markers.length;i++) {
-            map.removeLayer(markers[i]);
+        for (key in markers) {
+            if (String(parseInt(key, 10)) === key && markers.hasOwnProperty(key)) {
+                map.removeLayer(markers[key]);
+            }
         }
-
         markers = [];
     }
 
@@ -440,11 +671,14 @@
      * Close all leaflet popups
      */
     function closeAllPopups() {
+
         if(markers.length > 0){
-            for(i=0;i<markers.length;i++) {
-                if(typeof(markers[i]) != 'undefined'){
-                    if(typeof(markers[i].closePopup) !== 'undefined' && typeof(markers[i].closePopup) === 'function'){
-                        markers[i].closePopup();
+            for (key in markers) {
+                if (String(parseInt(key, 10)) === key && markers.hasOwnProperty(key)) {
+                    if(typeof(markers[key]) != 'undefined'){
+                        if(typeof(markers[key].closePopup) !== 'undefined' && typeof(markers[key].closePopup) === 'function'){
+                            markers[key].closePopup();
+                        }
                     }
                 }
             }
@@ -459,7 +693,6 @@
         closeAllPopups();
 
         if(markers[index]){
-            console.log(markers[index]);
             if(typeof(markers[index].openPopup) !== 'undefined' && typeof(markers[index].openPopup) === 'function'){
                 markers[index].openPopup();
                 map.setView(markers[index].getLatLng(), 8);
@@ -476,6 +709,8 @@
         id = timelineData[index].uniqueid;
         VMM.fireEvent("#marker_" + id + " .flag","click");
     }
+
+
 
     /*
      * Play timeline forward
@@ -558,15 +793,20 @@
     <div id="warroom_timeline_loading"></div>
     <div id="warroom_timeline"></div>
     <div id="warroom_timeline_controls">
-        <a class="btn btn-yellow btn-lg" href="javascript:void(0)" id="prev">Load previous 50 events</a>
-        <a class="btn btn-yellow btn-lg" href="javascript:void(0)" id="next">Load next 50 events</a>
-        <a class="btn btn-yellow btn-lg" href="javascript:jumpTimelineTo(20)">JUMP</a>
-        <a class="btn btn-yellow btn-lg" href="javascript:playForward()">PLAY FORWARD</a>
-        <a class="btn btn-yellow btn-lg" href="javascript:playReverse()">PLAY REVERSE</a>
-        <a class="btn btn-yellow btn-lg" href="javascript:stop()">STOP PLAYBACK</a>
-        <a class="btn btn-yellow btn-lg" href="javascript:gotoTimelinePrev()">PREV</a>
-        <a class="btn btn-yellow btn-lg" href="javascript:gotoTimelineNext()">NEXT</a>
-
+        <div class="btn-group" role="toolbar">
+            <a class="btn btn-white btn-sm" title="Load previous 100 events" href="javascript:void(0)" id="prev"><i class="fa fa-fast-backward"></i></a>
+            <a class="btn btn-white btn-sm" title="Load next 100 events" href="javascript:void(0)" id="next"><i class="fa fa-fast-forward"></i></a>
+        </div>
+        <div class="btn-group" role="toolbar">
+            <a class="btn btn-white btn-sm" title="Play reverse" href="javascript:playReverse()"><i class="fa fa-backward"></i></a>
+            <a class="btn btn-white btn-sm" title="Step to previous event" href="javascript:gotoTimelinePrev()"><i class="fa fa-step-backward"></i></a>
+            <a class="btn btn-white btn-sm" title="Stop playing" href="javascript:stop()"><i class="fa fa-stop"></i></a>
+            <a class="btn btn-white btn-sm" title="Step to next event" href="javascript:gotoTimelineNext()"><i class="fa fa-step-forward"></i></a>
+            <a class="btn btn-white btn-sm" title="Play forward" href="javascript:playForward()"><i class="fa fa-forward"></i></a>
+        </div>
+        <div class="btn-group" role="toolbar">
+            <a class="btn btn-white btn-sm clicked" title="Hide timeline" id="warroom_timeline_toggle"><i class="fa fa-arrow-up"></i></a>
+        </div>
     </div>
 </div>
 

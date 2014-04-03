@@ -10,7 +10,10 @@
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.2/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Roboto:400,900,500italic,500,300' rel='stylesheet' type='text/css'>
     <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="{{ URL::to('/') }}/js/greenthumb/plugins/CSSPlugin.min.js"></script>
+    <script src="{{ URL::to('/') }}/js/greenthumb/easing/EasePack.min.js"></script>
     <script src="{{ URL::to('/') }}/js/greenthumb/TweenLite.min.js"></script>
+    <script src="{{ URL::to('/') }}/js/greenthumb/TimelineLite.min.js"></script>
     <script src="http://cdn.leafletjs.com/leaflet-0.6/leaflet.js"></script>
     <script src="{{ URL::to('/') }}/js/operations.js"></script>
     <script src="{{ URL::to('/') }}/js/Control.FullScreen.js"></script>
