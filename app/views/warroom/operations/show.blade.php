@@ -126,6 +126,8 @@
         // Leaflet setup
         // ------------------------------------------------------------
 
+        initialLoad = true;
+
         // on resize of window resize the map
         $(window).on("resize", function() {
             $("#map").height($(window).height()).width($(window).width());
@@ -203,6 +205,15 @@
 
     });
 
+    function dataFailed() {
+        if(cursor > 0){
+            cursor = cursor - itemsPerPage;
+            loadData(0);
+        }else{
+            $("#warroom_timeline_container").remove();
+        }
+    }
+
     /*
      * Load data set for timeline and map markers
      */
@@ -221,6 +232,7 @@
         $.getJSON("{{ URL::to('/') }}/api/oplivefeedpaged?name={{ $name }}&clan={{ $clan->tag }}&map={{ $ao->configName }}&limit="+itemsPerPage+"&skip="+cursor, function( data ) {
 
             if(data.error) {
+                console.log("DATA ERROR!!");
             }
 
             // setup the main timeline data structure
@@ -245,6 +257,12 @@
             });
 
             var eventCount = events.length;
+
+            // no data
+            if(eventCount == 0){
+                dataFailed();
+                return;
+            }
 
             // loop filtered event data create timeline objects
             $.each( events, function( key, val ) {
@@ -280,11 +298,6 @@
 
             });
 
-            // no data
-            if(data.rows.length == 0){
-                return;
-            }
-
             // create or recreate the timeline
             createTimeline(timelineData);
 
@@ -310,7 +323,7 @@
                 embed: true,
                 embed_id:	'warroom_timeline',
                 start_at_end: true,
-                start_zoom_adjust: 0,
+                start_zoom_adjust: '10',
                 debug:		false,
                 css: '{{ URL::to("/") }}/css/timeline.css',
                 js: '{{ URL::to("/") }}/js/timeline.js'
@@ -330,7 +343,7 @@
                 embed: true,
                 embed_id:	'warroom_timeline',
                 start_at_end: true,
-                start_zoom_adjust: 0,
+                start_zoom_adjust: '10',
                 debug:		false,
                 css: '{{ URL::to("/") }}/css/timeline.css',
                 js: '{{ URL::to("/") }}/js/timeline.js'
@@ -529,8 +542,6 @@
 
             case "ParaJump":
 
-                console.log(value);
-
                 var posx = value.unitGeoPos[0];
                 var posy = value.unitGeoPos[1];
                 var multiplier = size / {{$ao->size}};
@@ -695,8 +706,13 @@
         if(markers[index]){
             if(typeof(markers[index].openPopup) !== 'undefined' && typeof(markers[index].openPopup) === 'function'){
                 markers[index].openPopup();
-                map.setView(markers[index].getLatLng(), 8);
-                //map.panTo(markers[index].getLatLng());
+
+                if(initialLoad){
+                    map.setView(markers[index].getLatLng(),4);
+                    initialLoad = false;
+                }else{
+                    map.panTo(markers[index].getLatLng());
+                }
             }
         }
         timelineData = allData;
