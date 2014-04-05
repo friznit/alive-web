@@ -17,6 +17,7 @@
     <script src="http://cdn.leafletjs.com/leaflet-0.6/leaflet.js"></script>
     <script src="{{ URL::to('/') }}/js/operations.js"></script>
     <script src="{{ URL::to('/') }}/js/Control.FullScreen.js"></script>
+      <script src="{{ URL::to('/') }}/js/polylineDecorator.js"></script>
     <!-- TimelineJS -->
     <script type="text/javascript" src="{{ URL::to('/') }}/js/storyjs-embed.js"></script>
     <!--[if lt IE 9]>
