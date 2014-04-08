@@ -3,7 +3,6 @@
 <?php
  
 $url = URL::to('/');
-Log::info(dirname(__FILE__));
 
 $user = $data['user'];
 $playerdata = $data['playerdata'];
@@ -17,7 +16,7 @@ $playerVehicle = json_decode($playerdata['Vehicle']);
 $playerWeapon = json_decode($playerdata['Weapon']);
 $playerClass = json_decode($playerdata['Class']);
 
-$image = imagecreatefrompng($url.'/img/sig.png'); 
+$image = imagecreatefrompng(dirname(__FILE__).'/sig.png'); 
 
 $white = imagecolorallocate($image, 225, 225, 225);
 
@@ -34,10 +33,12 @@ ImageTTFText ($image, 10, 0, 367, 17, $white, $font, $playerDetails->date);
 ImageTTFText ($image, 10, 0, 367, 31, $white, $font, $playerWeapon[2]); 
 ImageTTFText ($image, 10, 0, 385, 45, $white, $font, $playerTotals->ShotsFired);
 
-$source = imagecreatefrompng(URL::to('/').$avatar);
+$public = public_path();
+
+$source = imagecreatefrompng($public.$avatar);
 imagecopymerge($image, $source, 2, 2, 0, 0, 92, 92, 80); 
 
-$source = imagecreatefrompng(URL::to('/').$clantar);
+$source = imagecreatefrompng($public.$clantar);
 imagecopymerge($image, $source, 467, 2, 0, 0, 92, 92, 80); 
 
 imagepng($image);
