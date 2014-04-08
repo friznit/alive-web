@@ -430,8 +430,8 @@
 
                 if (value.KilledSide == "WEST")
                 {
-                    var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(westkills);
-					var killdmarker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit})
+                    var markerlayer = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(westkills);
+					var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit})
 						if (value.KillerSide == "EAST")
 							{
 								var killermrkr = L.marker(map.unproject([killposx * multiplier,size - (killposy * multiplier)], map.getMaxZoom()), {icon: east_unit}).addTo(westkilled);
@@ -447,13 +447,13 @@
                     });
 					
 					killermrkrs[index] = killermrkr;
-                    markers[index] = killdmarker;
+                    markers[index] = marker;
 
                 }
                 if (value.KilledSide == "EAST")
                 {
-                    var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: east_unit}).addTo(eastkills);
-					var killdmarker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: east_unit})
+                    var markerlayer = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: east_unit}).addTo(eastkills);
+					var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: east_unit})
 					//added killer marker
 							if (value.KillerSide == "WEST")
 							{
@@ -469,13 +469,13 @@
                         offset: new L.Point(0, 0)
                     });
 					killermrkrs[index] = killermrkr;
-                    markers[index] = killdmarker;
+                    markers[index] = marker;
 
                 }
                 if (value.KilledSide == "GUER")
                 {
-                    var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: indy_unit}).addTo(indykills);
-					var killdmarker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: indy_unit});
+                    var markerlayer = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: indy_unit}).addTo(indykills);
+					var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: indy_unit});
 					
 											if (value.KillerSide == "WEST")
 							{
@@ -496,7 +496,7 @@
                 }
                 if (value.KilledSide == "CIV")
                 {
-                    var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: civ_unit}).addTo(civkills);
+                    var markerLayer = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: civ_unit}).addTo(civkills);
 					var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: civ_unit});
 					if (value.KillerSide == "WEST")
 							{
@@ -516,7 +516,7 @@
                         offset: new L.Point(0, 0)
                     });
 					killermrkrs[index] = killermrkr;
-                    markers[index] = killdmarker;
+                    markers[index] = marker;
                 }
 
                 break;
