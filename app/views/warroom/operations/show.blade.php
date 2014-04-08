@@ -447,7 +447,7 @@
                     });
 					
 					killermrkrs[index] = killermrkr;
-                    markers[index] = killd;
+                    markers[index] = killdmarker;
 
                 }
                 if (value.KilledSide == "EAST")
