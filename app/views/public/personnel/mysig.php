@@ -21,22 +21,23 @@ $image = imagecreatefrompng(dirname(__FILE__).'/sig.png');
 
 $white = imagecolorallocate($image, 225, 225, 225);
 
-$font = dirname(__FILE__).'/font_0.otf';
+$font = dirname(__FILE__).'/redalert.ttf';
 
-Log::info($font);
-if (file_exists($font)) {
-	Log::info("File exists");
+if (count ($playerWeapon) < 2) {
+	$playerWeap = "Rifle";
+} else {
+	$playerWeap = $playerWeapon[2];
 }
 
-ImageTTFText ($image, 14, 0, 100, 16, $white, $font, $playerDetails->PlayerName); 
-ImageTTFText ($image, 12, 0, 100, 32, $white, $font, $playerDetails->PlayerClass); 
-ImageTTFText ($image, 12, 0, 100, 48, $white, $font, '['.$clan->tag.'] '.$clan->name); 
+ImageTTFText ($image, 12, 0, 100, 16, $white, $font, $playerDetails->PlayerName); 
+ImageTTFText ($image, 10, 0, 100, 32, $white, $font, $playerDetails->PlayerClass); 
+ImageTTFText ($image, 10, 0, 100, 48, $white, $font, '['.$clan->tag.'] '.$clan->name); 
 ImageTTFText ($image, 10, 0, 255, 17, $white, $font, $playerTotals->CombatHours.' mins');
 ImageTTFText ($image, 10, 0, 255, 31, $white, $font, $playerTotals->Operations); 
 ImageTTFText ($image, 10, 0, 255, 45, $white, $font, $playerTotals->Kills); 
 ImageTTFText ($image, 10, 0, 267, 60, $white, $font, $playerDetails->Operation); 
-ImageTTFText ($image, 10, 0, 367, 17, $white, $font, $playerDetails->date); 
-ImageTTFText ($image, 10, 0, 367, 31, $white, $font, $playerWeapon[2]); 
+ImageTTFText ($image, 8, 0, 355, 17, $white, $font, $playerDetails->date); 
+ImageTTFText ($image, 10, 0, 367, 31, $white, $font, $playerWeap); 
 ImageTTFText ($image, 10, 0, 385, 45, $white, $font, $playerTotals->ShotsFired);
 
 $public = public_path();
