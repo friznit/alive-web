@@ -431,6 +431,7 @@
                 if (value.KilledSide == "WEST")
                 {
                     var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(westkills);
+					var killdmarker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit})
 						if (value.KillerSide == "EAST")
 							{
 								var killermrkr = L.marker(map.unproject([killposx * multiplier,size - (killposy * multiplier)], map.getMaxZoom()), {icon: east_unit}).addTo(westkilled);
@@ -446,12 +447,13 @@
                     });
 					
 					killermrkrs[index] = killermrkr;
-                    markers[index] = marker;
+                    markers[index] = killd;
 
                 }
                 if (value.KilledSide == "EAST")
                 {
                     var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: east_unit}).addTo(eastkills);
+					var killdmarker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: east_unit})
 					//added killer marker
 							if (value.KillerSide == "WEST")
 							{
@@ -467,12 +469,13 @@
                         offset: new L.Point(0, 0)
                     });
 					killermrkrs[index] = killermrkr;
-                    markers[index] = marker;
+                    markers[index] = killdmarker;
 
                 }
                 if (value.KilledSide == "GUER")
                 {
                     var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: indy_unit}).addTo(indykills);
+					var killdmarker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: indy_unit});
 					
 											if (value.KillerSide == "WEST")
 							{
@@ -489,12 +492,12 @@
                     });
 
                     killermrkrs[index] = killermrkr;
-                    markers[index] = marker;
+                    markers[index] = killdmarker;
                 }
                 if (value.KilledSide == "CIV")
                 {
                     var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: civ_unit}).addTo(civkills);
-					
+					var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: civ_unit});
 					if (value.KillerSide == "WEST")
 							{
 								var killermrkr = L.marker(map.unproject([killposx * multiplier,size - (killposy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(westkilled);
@@ -512,8 +515,8 @@
                         showOnMouseOver: true,
                         offset: new L.Point(0, 0)
                     });
-
-                    markers[index] = marker;
+					killermrkrs[index] = killermrkr;
+                    markers[index] = killdmarker;
                 }
 
                 break;
@@ -912,11 +915,11 @@
             <a class="btn btn-white btn-sm" title="Load next 100 events" href="javascript:void(0)" id="next"><i class="fa fa-fast-forward"></i></a>
         </div>
         <div class="btn-group" role="toolbar">
-            <a class="btn btn-white btn-sm" title="Play reverse" href="javascript:playReverse()"><i class="fa fa-backward"></i></a>
-            <a class="btn btn-white btn-sm" title="Step to previous event" href="javascript:gotoTimelinePrev()"><i class="fa fa-step-backward"></i></a>
-            <a class="btn btn-white btn-sm" title="Stop playing" href="javascript:stop()"><i class="fa fa-stop"></i></a>
-            <a class="btn btn-white btn-sm" title="Step to next event" href="javascript:gotoTimelineNext()"><i class="fa fa-step-forward"></i></a>
-            <a class="btn btn-white btn-sm" title="Play forward" href="javascript:playForward()"><i class="fa fa-forward"></i></a>
+            <a class="btn btn-white btn-sm" title="Play reverse" onclick="playReverse()"><i class="fa fa-backward"></i></a>
+            <a class="btn btn-white btn-sm" title="Step to previous event" onclick="gotoTimelinePrev()"><i class="fa fa-step-backward"></i></a>
+            <a class="btn btn-white btn-sm" title="Stop playing" onclick="stop()"><i class="fa fa-stop"></i></a>
+            <a class="btn btn-white btn-sm" title="Step to next event" onclick="gotoTimelineNext()"><i class="fa fa-step-forward"></i></a>
+            <a class="btn btn-white btn-sm" title="Play forward" onclick="playForward()"><i class="fa fa-forward"></i></a>
         </div>
         <div class="btn-group" role="toolbar">
             <a class="btn btn-white btn-sm clicked" title="Hide timeline" id="warroom_timeline_toggle"><i class="fa fa-arrow-up"></i></a>
