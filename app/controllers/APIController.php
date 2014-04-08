@@ -11,6 +11,48 @@ class APIController extends BaseController {
     {
         $this->couchAPI = new CouchAPI();
     }
+	public function getSig()
+	{
+		$armaid = Input::get('id');
+		try {
+            $profile = Profile::where('a3_id', '=', $armaid)->first();
+
+			
+			$data['player_id'] = $armaid;
+			
+			if(!is_null($profile)){
+				$user = $profile->user;
+				$data['user'] = $user;
+				$clan = $profile->clan;
+				$data['clan'] = $clan;
+				$data['avatar'] = $profile->avatar->url('thumb');
+				$data['clantar'] = $clan->avatar->url('thumb');
+			}
+
+            $couchAPI = new Alive\CouchAPI();
+            $playerTotals = $couchAPI->getPlayerTotals($armaid);
+			$playerDetails = $couchAPI->getPlayerDetails($armaid);
+			$playerWeapon = $couchAPI->getPlayerWeapon($armaid,false);
+			$playerVehicle = $couchAPI->getPlayerVehicle($armaid,false);
+			$playerClass = $couchAPI->getPlayerClass($armaid,false);
+
+			$playerdata = array(
+				"Totals" => $playerTotals,
+				"Details" => $playerDetails,
+				"Weapon" => $playerWeapon,
+				"Vehicle" => $playerVehicle,
+				"Class" => $playerClass
+
+			);
+			$data['playerdata'] = $playerdata;
+
+			$type = 'image/png';
+            return Response::view('public/personnel.mysig',compact('data'))->header('Content-Type', $type);
+
+        } catch (ModelNotFoundException $e) {
+            return Redirect::to('public/personnel.invalid');
+        }
+	}
 	public function getAuthorise()
     {
 		$ip = Input::get('ip');
