@@ -18,10 +18,13 @@
         }
     });
 
-    var WEST = new icon ({iconUrl: 'http://alivemod.com/img/icons/b_iconman_ca.png'});
+    var west_unit = new icon ({iconUrl: 'http://alivemod.com/img/icons/b_iconman_ca.png'});
     var east_unit = new icon ({iconUrl: 'http://alivemod.com/img/icons/o_iconman_ca.png'});
     var indy_unit = new icon ({iconUrl: 'http://alivemod.com/img/icons/i_iconman_ca.png'});
     var civ_unit = new icon ({iconUrl: 'http://alivemod.com/img/icons/c_iconman_ca.png'});
+	
+
+	
 
     L.Map = L.Map.extend({
         openPopup: function(popup) {
@@ -92,6 +95,7 @@
         "Get In": getIn,
         "Get Out": getOut,
         "Heals": heals,
+		"Kill Info": killdir
     };
 
     layerControl = L.control.layers(baseLayer, overlays,{position: 'topleft'});
@@ -427,10 +431,16 @@
 
                 if (value.KilledSide == "WEST")
                 {
-                    var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: WEST}).addTo(westkills);
-					//added killer marker
-					var killermrkr = L.marker(map.unproject([killposx * multiplier,size - (killposy * multiplier)], map.getMaxZoom())).addTo(westkilled);
+                    var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(westkills);
+						if (value.KillerSide == "EAST")
+							{
+								var killermrkr = L.marker(map.unproject([killposx * multiplier,size - (killposy * multiplier)], map.getMaxZoom()), {icon: east_unit}).addTo(westkilled);
+							}
 							
+							if (value.KillerSide == "GUER")
+							{
+								var killermrkr = L.marker(map.unproject([killposx * multiplier,size - (killposy * multiplier)], map.getMaxZoom()), {icon: indy_unit}).addTo(westkilled);
+							}
                     marker.bindPopup(popup, {
                         showOnMouseOver: true,
                         offset: new L.Point(0, 0)
@@ -444,8 +454,15 @@
                 {
                     var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: east_unit}).addTo(eastkills);
 					//added killer marker
-					var killermrkr = L.marker(map.unproject([killposx * multiplier,size - (killposy * multiplier)], map.getMaxZoom())).addTo(eastkilled);
+							if (value.KillerSide == "WEST")
+							{
+								var killermrkr = L.marker(map.unproject([killposx * multiplier,size - (killposy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(westkilled);
+							}
 							
+							if (value.KillerSide == "GUER")
+							{
+								var killermrkr = L.marker(map.unproject([killposx * multiplier,size - (killposy * multiplier)], map.getMaxZoom()), {icon: indy_unit}).addTo(westkilled);
+							}
                     marker.bindPopup(popup, {
                         showOnMouseOver: true,
                         offset: new L.Point(0, 0)
@@ -457,16 +474,41 @@
                 if (value.KilledSide == "GUER")
                 {
                     var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: indy_unit}).addTo(indykills);
+					
+											if (value.KillerSide == "WEST")
+							{
+								var killermrkr = L.marker(map.unproject([killposx * multiplier,size - (killposy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(westkilled);
+							}
+							
+							if (value.KillerSide == "EAST")
+							{
+								var killermrkr = L.marker(map.unproject([killposx * multiplier,size - (killposy * multiplier)], map.getMaxZoom()), {icon: east_unit}).addTo(westkilled);
+							}
                     marker.bindPopup(popup, {
                         showOnMouseOver: true,
                         offset: new L.Point(0, 0)
                     });
 
+                    killermrkrs[index] = killermrkr;
                     markers[index] = marker;
                 }
                 if (value.KilledSide == "CIV")
                 {
                     var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: civ_unit}).addTo(civkills);
+					
+					if (value.KillerSide == "WEST")
+							{
+								var killermrkr = L.marker(map.unproject([killposx * multiplier,size - (killposy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(westkilled);
+							}
+							
+							if (value.KillerSide == "EAST")
+							{
+								var killermrkr = L.marker(map.unproject([killposx * multiplier,size - (killposy * multiplier)], map.getMaxZoom()), {icon: east_unit}).addTo(westkilled);
+							}
+							if (value.KillerSide == "GUER")
+							{
+								var killermrkr = L.marker(map.unproject([killposx * multiplier,size - (killposy * multiplier)], map.getMaxZoom()), {icon: indy_unit}).addTo(westkilled);
+							}
                     marker.bindPopup(popup, {
                         showOnMouseOver: true,
                         offset: new L.Point(0, 0)
@@ -504,7 +546,7 @@
 
 
                 var popup = L.popup().setContent('<div class="admin-panel">' + output.description + '</div>');
-                var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: WEST}).addTo(getIn);
+                var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(getIn);
                 marker.bindPopup(popup, {
                     showOnMouseOver: true,
                     offset: new L.Point(0, 0)
@@ -527,7 +569,7 @@
                     ' got in a ' + value.vehicleType;
 
                 var popup = L.popup().setContent('<div class="admin-panel">' + output.description + '</div>');
-                var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: WEST}).addTo(getIn);
+                var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(getIn);
                 marker.bindPopup(popup, {
                     showOnMouseOver: true,
                     offset: new L.Point(0, 0)
@@ -550,7 +592,7 @@
                     ' got out of a ' + value.vehicleType;
 
                 var popup = L.popup().setContent('<div class="admin-panel">' + output.description + '</div>');
-                var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: WEST}).addTo(getOut);
+                var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(getOut);
                 marker.bindPopup(popup, {
                     showOnMouseOver: true,
                     offset: new L.Point(0, 0)
@@ -573,7 +615,7 @@
                     ' parajumped from a ' + value.vehicleType + ' at height ' + value.jumpHeight;
 
                 var popup = L.popup().setContent('<div class="admin-panel">' + output.description + '</div>');
-                var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: WEST}).addTo(getOut);
+                var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(getOut);
                 marker.bindPopup(popup, {
                     showOnMouseOver: true,
                     offset: new L.Point(0, 0)
@@ -596,7 +638,7 @@
                     ' landed a ' + value.vehicleType;
 
                 var popup = L.popup().setContent('<div class="admin-panel">' + output.description + '</div>');
-                var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: WEST}).addTo(getOut);
+                var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(getOut);
                 marker.bindPopup(popup, {
                     showOnMouseOver: true,
                     offset: new L.Point(0, 0)
@@ -619,7 +661,7 @@
                         ' took a combat dive for ' + value.diveTime + ' minutes';
 
                 var popup = L.popup().setContent('<div class="admin-panel">' + output.description + '</div>');
-                var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: WEST}).addTo(getOut);
+                var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(getOut);
                 marker.bindPopup(popup, {
                     showOnMouseOver: true,
                     offset: new L.Point(0, 0)
@@ -695,15 +737,19 @@
                 map.removeLayer(markers[key]);
             }
         }
+		 for (key in killermrkrs) {
+            if (String(parseInt(key, 10)) === key && killermrkrs.hasOwnProperty(key)) {
+                map.removeLayer(killermrkrs[key]);
+            }
+        }
         markers = [];
+		killermrkrs = [];
     }
 
     /*
      * Close all leaflet popups
      */
     function closeAllPopups() {
-map.removeLayer(map);
-map.removeLayer(eastkills);		
         if(markers.length > 0){
             for (key in markers) {
                 if (String(parseInt(key, 10)) === key && markers.hasOwnProperty(key)) {
@@ -732,23 +778,26 @@ map.removeLayer(eastkills);
                 markers[index].openPopup();
 				latlngs = [];
 					  if(killermrkrs[index]){
+						  if (!map.hasLayer(killdir)){
+								map.addLayer(killdir);
+										}
 						killermrkrs[index].addTo(map);
 						latlngs.push(killermrkrs[index].getLatLng());
 						latlngs.push(markers[index].getLatLng());
 						
 						console.log(latlngs)
-					    var arrow = L.polyline(latlngs, {color: 'black',opacity: 1}).addTo(map);
-    var arrowHead = L.polylineDecorator(arrow).addTo(map);
-    
-    var arrowOffset = 0;
-    var anim = window.setInterval(function() {
-        arrowHead.setPatterns([
-            {offset: arrowOffset+'%', repeat: 0, symbol: L.Symbol.arrowHead({pixelSize: 15, polygon: false, pathOptions: {stroke: true,color: '#000'}})}
-        ])
-        if(++arrowOffset > 100)
-            arrowOffset = 0;
-    }, 100);
-						  }
+					    var arrow = L.polyline(latlngs, {color: 'black',opacity: 1,weight: 2}).addTo(killdir);
+						var arrowHead = L.polylineDecorator(arrow).addTo(killdir);
+						
+						var arrowOffset = 0;
+						var anim = window.setInterval(function() {
+							arrowHead.setPatterns([
+								{offset: arrowOffset+'%', repeat: 0, symbol: L.Symbol.arrowHead({pixelSize: 13, polygon: false, pathOptions: {stroke: true,color: '#000',opacity: 1,weight: 2}})}
+							])
+							if(++arrowOffset > 100)
+								arrowOffset = 0;
+						}, 100);
+											  }
 
                 if(initialLoad){
                     map.setView(markers[index].getLatLng(),4);
