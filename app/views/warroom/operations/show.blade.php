@@ -802,8 +802,6 @@
 								arrowOffset = 0;
 						}, 100);
 											  }
-				killdir.push(killlayer);
-				console.log(killdir);
 				
 				
                 if(initialLoad){
