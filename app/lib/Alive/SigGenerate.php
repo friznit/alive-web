@@ -1,0 +1,177 @@
+<?php
+
+namespace Alive;
+
+use Tempo\TempoDebug;
+use Imagine\Gd\Imagine;
+use Imagine\Image\Box;
+use Imagine\Image\Point;
+use Imagine\Image\Color;
+use Imagine\Gd\Font;
+
+
+class SigGenerate {
+
+    protected $imagine;
+
+    public function create($data)
+    {
+        $this->imagine = new Imagine();
+
+        $user = $data['user'];
+        $playerdata = $data['playerdata'];
+        $clan = json_decode($data['clan']);
+        $avatar = $data['avatar'];
+        $clantar = $data['clantar'];
+        $a3_id = $data['a3_id'];
+
+        $playerDetails = json_decode($playerdata['Details']);
+        $playerTotals = json_decode($playerdata['Totals']);
+        $playerVehicle = json_decode($playerdata['Vehicle']);
+        $playerWeapon = json_decode($playerdata['Weapon']);
+        $playerClass = json_decode($playerdata['Class']);
+
+        $public = public_path();
+
+        $avatar = $public.$avatar;
+        $clantar = $public.$clantar;
+
+        $sig = $this->imagine->create(new Box(620, 104));
+
+        $avatar = $this->resizeAuto($avatar, 104, 104);
+        $clantar = $this->resizeAuto($clantar, 100, 100);
+
+        $background = $this->imagine->open($public.'/sigs/assets/background.png');
+
+        $sig->paste($background, new Point(0, 0));
+        $sig->paste($avatar, new Point(0, 0));
+        $sig->paste($clantar, new Point(475, 2));
+
+        $colorWhite = new Color('#ffffff');
+        $colorYellow = new Color('#ffa900');
+        $colorDarkYellow = new Color('#a6771a');
+
+        $titleFont = new Font($public.'/sigs/assets/font_0.otf',12,$colorYellow);
+        $detailFont = new Font($public.'/sigs/assets/pixelmix.ttf',6,$colorDarkYellow);
+        $boldFont = new Font($public.'/sigs/assets/pixelmix.ttf',6,$colorYellow);
+
+        $mainTitle = '['.$clan->tag.'] ' . $playerDetails->PlayerName . ' - ' .$clan->name;
+
+        $sig->draw()->text($mainTitle, $titleFont, new Point(109, 5), 0);
+
+        //$sig->draw()->text($playerDetails->PlayerClass, $titleFont, new Point(110, 26), 0);
+        //$sig->draw()->text('['.$clan->tag.'] '.$clan->name, $titleFont, new Point(110, 39), 0);
+
+        $sig->draw()->text('FAV CLASS:', $detailFont, new Point(111, 27), 0);
+        $sig->draw()->text('OPS:', $detailFont, new Point(111, 39), 0);
+        $sig->draw()->text('EXP:', $detailFont, new Point(111, 52), 0);
+        $sig->draw()->text('KILLS:', $detailFont, new Point(111, 64), 0);
+        $sig->draw()->text('AMMO:', $detailFont, new Point(111, 76), 0);
+        $sig->draw()->text('LAST OP:', $detailFont, new Point(111, 89), 0);
+
+        $sig->draw()->text($playerDetails->PlayerClass, $boldFont, new Point(180, 27), 0);
+        $sig->draw()->text($playerTotals->Operations, $boldFont, new Point(180, 39), 0);
+        $sig->draw()->text($playerTotals->CombatHours.' mins', $boldFont, new Point(180, 52), 0);
+        $sig->draw()->text($playerTotals->Kills, $boldFont, new Point(180, 64), 0);
+        $sig->draw()->text($playerTotals->ShotsFired, $boldFont, new Point(180, 76), 0);
+        $sig->draw()->text($playerDetails->Operation, $boldFont, new Point(180, 89), 0);
+
+        /*
+        $sig->draw()->text('OPS: '.$playerTotals->Operations, $detailFont, new Point(210, 40), 0);
+        $sig->draw()->text('EXP: '.$playerTotals->CombatHours.' mins', $detailFont, new Point(210, 50), 0);
+        $sig->draw()->text('KILLS: '.$playerTotals->Kills, $detailFont, new Point(210, 60), 0);
+        $sig->draw()->text('AMMO: '.$playerTotals->ShotsFired, $detailFont, new Point(210, 70), 0);
+        $sig->draw()->text('LAST ACTIVE: '.$playerDetails->date, $detailFont, new Point(210, 80), 0);
+        $sig->draw()->text('LAST OP: '.$playerDetails->Operation, $detailFont, new Point(210, 90), 0);
+        */
+
+        $options = array(
+            'quality' => 100,
+        );
+
+        $sig->save($public . '/sigs/'.$a3_id.'.jpg', $options);
+
+    }
+
+    protected function resizeCrop($file, $width, $height)
+    {
+        $image = $this->imagine->open($file);
+        list($optimalWidth, $optimalHeight) = $this->getOptimalCrop($image->getSize(), $width, $height);
+
+        // Find center - this will be used for the crop
+        $centerX = ($optimalWidth / 2) - ($width / 2);
+        $centerY = ($optimalHeight / 2) - ($height / 2);
+
+        return $image->resize(new Box($optimalWidth, $optimalHeight))
+            ->crop(new Point($centerX, $centerY), new Box($width, $height));
+    }
+
+    protected function resizeLandscape($file, $width, $height)
+    {
+        $image = $this->imagine
+            ->open($file);
+
+        $dimensions = $image->getSize()
+            ->widen($width);
+
+        $image = $image->resize($dimensions);
+
+        return $image;
+    }
+
+    protected function resizePortrait($file, $width, $height)
+    {
+        $image = $this->imagine
+            ->open($file);
+
+        $dimensions = $image->getSize()
+            ->heighten($height);
+
+        $image = $image->resize($dimensions);
+
+        return $image;
+    }
+
+    protected function resizeExact($file, $width, $height)
+    {
+        return $this->imagine
+            ->open($file)
+            ->resize(new Box($width, $height));
+    }
+
+    protected function resizeAuto($file, $width, $height)
+    {
+        // Image to be resized is wider (landscape)
+        if ($height < $width) {
+            return $this->resizeLandscape($file, $width, $height);
+
+        }
+
+        // Image to be resized is taller (portrait)
+        if ($height > $width){
+            return $this->resizePortrait($file, $width, $height);
+        }
+
+        // Image to be resizerd is a square
+        return $this->resizeExact($file, $width, $height);
+    }
+
+    protected function getOptimalCrop($size, $width, $height)
+    {
+        $heightRatio = $size->getHeight() / $height;
+        $widthRatio  = $size->getWidth() / $width;
+
+        if ($heightRatio < $widthRatio) {
+            $optimalRatio = $heightRatio;
+        }
+        else {
+            $optimalRatio = $widthRatio;
+        }
+
+        $optimalHeight = round($size->getHeight() / $optimalRatio, 2);
+        $optimalWidth  = round($size->getWidth() / $optimalRatio, 2);
+
+        return [$optimalWidth, $optimalHeight];
+    }
+
+}
