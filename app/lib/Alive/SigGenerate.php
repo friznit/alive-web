@@ -36,16 +36,16 @@ class SigGenerate {
         $avatar = $public.$avatar;
         $clantar = $public.$clantar;
 
-        $sig = $this->imagine->create(new Box(620, 104));
+        $sig = $this->imagine->create(new Box(601, 100));
 
-        $avatar = $this->resizeAuto($avatar, 104, 104);
-        $clantar = $this->resizeAuto($clantar, 100, 100);
+        $avatar = $this->resizeAuto($avatar, 100, 100);
+        $clantar = $this->resizeAuto($clantar, 95, 95);
 
         $background = $this->imagine->open($public.'/sigs/assets/background.png');
 
         $sig->paste($background, new Point(0, 0));
         $sig->paste($avatar, new Point(0, 0));
-        $sig->paste($clantar, new Point(475, 2));
+        $sig->paste($clantar, new Point(468, 2));
 
         $colorWhite = new Color('#ffffff');
         $colorYellow = new Color('#ffa900');
