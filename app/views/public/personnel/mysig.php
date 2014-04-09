@@ -22,7 +22,7 @@ $image = imagecreatefrompng(dirname(__FILE__).'/'.$choice.'.png');
 $logo = imagecreatefrompng(dirname(__FILE__).'/logo.png');
 imagealphablending($image, true);
 imagesavealpha($image, true);
-imagecopy($image, $logo, 0, 0, 0, 0, 620, 104); 
+imagecopy($image, $logo, 5, 0, 0, 0, 620, 104); 
 
 $color = imagecolorallocate($image, 252, 175, 23);
 $white = imagecolorallocate($image, 255, 255, 255);
@@ -35,15 +35,15 @@ if (count ($playerWeapon) < 2) {
 	$playerWeap = $playerWeapon[2];
 }
 
-ImageTTFText ($image, 28, 0, 170, 28, $color, $font, $playerDetails->PlayerName); 
-ImageTTFText ($image, 10, 0, 170, 40, $white, $font, $playerDetails->PlayerClass); 
-ImageTTFText ($image, 10, 0, 170, 52, $white, $font, '['.$clan->tag.'] '.$clan->name); 
-ImageTTFText ($image, 10, 0, 170, 64, $color, $font, 'OPS: '.$playerTotals->Operations); 
-ImageTTFText ($image, 10, 0, 228, 64, $color, $font, 'EXP: '.$playerTotals->CombatHours.' mins');
-ImageTTFText ($image, 10, 0, 170, 76, $color, $font, 'KILLS: '.$playerTotals->Kills); 
-ImageTTFText ($image, 10, 0, 228, 76, $color, $font, 'AMMO: '.$playerTotals->ShotsFired);
-ImageTTFText ($image, 10, 0, 170, 88, $color, $font, 'LAST ACTIVE: '.$playerDetails->date); 
-ImageTTFText ($image, 10, 0, 170, 100, $color, $font, 'LAST OP: '.$playerDetails->Operation); 
+ImageTTFText ($image, 28, 0, 160, 28, $color, $font, $playerDetails->PlayerName); 
+ImageTTFText ($image, 10, 0, 160, 40, $white, $font, $playerDetails->PlayerClass); 
+ImageTTFText ($image, 10, 0, 160, 52, $white, $font, '['.$clan->tag.'] '.$clan->name); 
+ImageTTFText ($image, 10, 0, 160, 64, $color, $font, 'OPS: '.$playerTotals->Operations); 
+ImageTTFText ($image, 10, 0, 220, 64, $color, $font, 'EXP: '.$playerTotals->CombatHours.' mins');
+ImageTTFText ($image, 10, 0, 160, 76, $color, $font, 'KILLS: '.$playerTotals->Kills); 
+ImageTTFText ($image, 10, 0, 220, 76, $color, $font, 'AMMO: '.$playerTotals->ShotsFired);
+ImageTTFText ($image, 10, 0, 160, 88, $color, $font, 'LAST ACTIVE: '.$playerDetails->date); 
+ImageTTFText ($image, 10, 0, 160, 100, $color, $font, 'LAST OP: '.$playerDetails->Operation); 
 
 $public = public_path();
 
@@ -61,18 +61,19 @@ switch (pathinfo($src, PATHINFO_EXTENSION)) {
 
 $width = imagesx($source);
 $height = imagesy($source);
+Log::info('Size: '.$width.'x'.$height);
 
 if ($width > 150) {
-	imagescale ($source, 150);
+	imagescale($source, 150);
 	$nwidth = 150;
 } else {
 	$nwidth = $width;
 }
 
-$xmid = (150 - $width) / 2;
+$xmid = 2 + (150 - $width) / 2;
 	
 if ($height > 100) {
-	imagescale ($source, 100);
+	imagescale($source, 100);
 	$nheight = 100;
 } else {
 	$nheight = $height;
@@ -94,8 +95,10 @@ switch (pathinfo($src, PATHINFO_EXTENSION)) {
     default :
         $source = imagecreatefrompng($src);
 }
+
 $width = imagesx($source);
 $height = imagesy($source);
+Log::info('Size: '.$width.'x'.$height);
 
 if ($width > 150) {
 	imagescale ($source, 150);
@@ -104,7 +107,7 @@ if ($width > 150) {
 	$nwidth = $width;
 }
 
-$xmid = 380+(150 - $width) / 2;
+$xmid = 380 + (150 - $width) / 2;
 	
 if ($height > 100) {
 	imagescale ($source, 100);
