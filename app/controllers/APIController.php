@@ -58,6 +58,7 @@ class APIController extends BaseController {
                 $data['user'] = $user;
                 $clan = $profile->clan;
                 $data['clan'] = $clan;
+				$data['country'] = $profile->country;
                 $data['avatar'] = $profile->avatar->url('thumb');
                 $data['clantar'] = $clan->avatar->url('thumb');
                 $data['a3_id'] = $profile->a3_id;

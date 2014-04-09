@@ -24,6 +24,7 @@ class SigGenerate {
         $avatar = $data['avatar'];
         $clantar = $data['clantar'];
         $a3_id = $data['a3_id'];
+		$country = $data['country'];
 
         $playerDetails = json_decode($playerdata['Details']);
         $playerTotals = json_decode($playerdata['Totals']);
@@ -43,6 +44,7 @@ class SigGenerate {
 
         $avatar = $public.$avatar;
         $clantar = $public.$clantar;
+		$flag = $this->imagine->open($public.'/img/flags_iso/24/'.strtolower($country).'.png');
 
         $sig = $this->imagine->create(new Box(601, 100));
 
@@ -54,6 +56,7 @@ class SigGenerate {
         $sig->paste($background, new Point(0, 0));
         $sig->paste($avatar, new Point(0, 0));
         $sig->paste($clantar, new Point(468, 2));
+		$sig->paste($flag, new Point(109,0));
 
         $colorWhite = new Color('#ffffff');
         $colorYellow = new Color('#ffa900');
@@ -65,7 +68,7 @@ class SigGenerate {
 
         $mainTitle = '['.$clan->tag.'] ' . $playerDetails->PlayerName . ' - ' .$clan->name;
 
-        $sig->draw()->text($mainTitle, $titleFont, new Point(109, 5), 0);
+        $sig->draw()->text($mainTitle, $titleFont, new Point(135, 5), 0);
 
         //$sig->draw()->text($playerDetails->PlayerClass, $titleFont, new Point(110, 26), 0);
         //$sig->draw()->text('['.$clan->tag.'] '.$clan->name, $titleFont, new Point(110, 39), 0);
@@ -76,7 +79,7 @@ class SigGenerate {
         $sig->draw()->text('KILLS:', $detailFont, new Point(111, 64), 0);
         $sig->draw()->text('AMMO:', $detailFont, new Point(111, 76), 0);
 		$sig->draw()->text('VEH EXP:', $detailFont, new Point(231, 39), 0);
-        $sig->draw()->text('VEH KILLS:', $detailFont, new Point(231, 52), 0);
+        $sig->draw()->text('GUNNER:', $detailFont, new Point(231, 52), 0);
         $sig->draw()->text('PILOT:', $detailFont, new Point(231, 64), 0);
         $sig->draw()->text('MEDIC:', $detailFont, new Point(231, 76), 0);
         $sig->draw()->text('LAST OP:', $detailFont, new Point(111, 89), 0);
