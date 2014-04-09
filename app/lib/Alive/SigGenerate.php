@@ -30,6 +30,14 @@ class SigGenerate {
         $playerVehicle = json_decode($playerdata['Vehicle']);
         $playerWeapon = json_decode($playerdata['Weapon']);
         $playerClass = json_decode($playerdata['Class']);
+		
+		if (count ($playerWeapon) < 2) {
+			$playerWeap = "Rifle";
+		} else {
+			$playerWeap = $playerWeapon[2];
+		}
+		
+		$opdate = $this->showDate(date(strtotime($playerDetails->date)));
 
         $public = public_path();
 
@@ -62,19 +70,27 @@ class SigGenerate {
         //$sig->draw()->text($playerDetails->PlayerClass, $titleFont, new Point(110, 26), 0);
         //$sig->draw()->text('['.$clan->tag.'] '.$clan->name, $titleFont, new Point(110, 39), 0);
 
-        $sig->draw()->text('FAV CLASS:', $detailFont, new Point(111, 27), 0);
+        $sig->draw()->text('FAV:', $detailFont, new Point(111, 27), 0);
         $sig->draw()->text('OPS:', $detailFont, new Point(111, 39), 0);
         $sig->draw()->text('EXP:', $detailFont, new Point(111, 52), 0);
         $sig->draw()->text('KILLS:', $detailFont, new Point(111, 64), 0);
         $sig->draw()->text('AMMO:', $detailFont, new Point(111, 76), 0);
+		$sig->draw()->text('VEH EXP:', $detailFont, new Point(231, 39), 0);
+        $sig->draw()->text('VEH KILLS:', $detailFont, new Point(231, 52), 0);
+        $sig->draw()->text('PILOT:', $detailFont, new Point(231, 64), 0);
+        $sig->draw()->text('MEDIC:', $detailFont, new Point(231, 76), 0);
         $sig->draw()->text('LAST OP:', $detailFont, new Point(111, 89), 0);
 
-        $sig->draw()->text($playerDetails->PlayerClass, $boldFont, new Point(180, 27), 0);
-        $sig->draw()->text($playerTotals->Operations, $boldFont, new Point(180, 39), 0);
-        $sig->draw()->text($playerTotals->CombatHours.' mins', $boldFont, new Point(180, 52), 0);
-        $sig->draw()->text($playerTotals->Kills, $boldFont, new Point(180, 64), 0);
-        $sig->draw()->text($playerTotals->ShotsFired, $boldFont, new Point(180, 76), 0);
-        $sig->draw()->text($playerDetails->Operation, $boldFont, new Point(180, 89), 0);
+        $sig->draw()->text($playerDetails->PlayerClass.', '.$playerWeap, $boldFont, new Point(165, 27), 0);
+        $sig->draw()->text($playerTotals->Operations, $boldFont, new Point(165, 39), 0);
+        $sig->draw()->text($playerTotals->CombatHours.' mins', $boldFont, new Point(165, 52), 0);
+        $sig->draw()->text($playerTotals->Kills, $boldFont, new Point(165, 64), 0);
+        $sig->draw()->text($playerTotals->ShotsFired, $boldFont, new Point(165, 76), 0);
+		$sig->draw()->text($playerTotals->VehicleTime.' mins', $boldFont, new Point(295, 39), 0);
+        $sig->draw()->text($playerTotals->VehicleKills, $boldFont, new Point(295, 52), 0);
+        $sig->draw()->text($playerTotals->PilotTime.' mins', $boldFont, new Point(295, 64), 0);
+        $sig->draw()->text($playerTotals->Heals, $boldFont, new Point(295, 76), 0);
+        $sig->draw()->text($playerDetails->Operation.', '.$opdate, $boldFont, new Point(165, 89), 0);
 
         /*
         $sig->draw()->text('OPS: '.$playerTotals->Operations, $detailFont, new Point(210, 40), 0);
@@ -173,5 +189,18 @@ class SigGenerate {
 
         return [$optimalWidth, $optimalHeight];
     }
+	
+	protected function showDate($timestamp)
+	{
+		$stf = 0;
+		$cur_time = time();
+		$diff = $cur_time - $timestamp;
+		$phrase = array('second','minute','hour','day','week','month','year','decade');
+		$length = array(1,60,3600,86400,604800,2630880,31570560,315705600);
+		for($i =sizeof($length)-1; ($i >=0)&&(($no = $diff/$length[$i])<=1); $i--); if($i < 0) $i=0; $_time = $cur_time -($diff%$length[$i]);
+		$no = floor($no); if($no <> 1) $phrase[$i] .='s'; $value=sprintf("%d %s ",$no,$phrase[$i]);
+		if(($stf == 1)&&($i >= 1)&&(($cur_tm-$_time) > 0)) $value .= time_ago($_time);
+		return $value.'ago';
+	}
 
 }
