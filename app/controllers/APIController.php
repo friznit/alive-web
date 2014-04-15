@@ -1,6 +1,7 @@
 <?php
 
 use Alive\CouchAPI;
+use Alive\SigGenerate;
 use Tempo\TempoDebug;
 
 class APIController extends BaseController {
@@ -11,43 +12,82 @@ class APIController extends BaseController {
     {
         $this->couchAPI = new CouchAPI();
     }
+
+    function stripNonNumeric( $string ) {
+        return preg_replace( "/[^0-9]/", "", $string );
+    }
+
 	public function getSig()
 	{
 		$armaid = Input::get('id');
-		try {
+
+        $armaid = $this->stripNonNumeric($armaid);
+
+        $public = public_path();
+        $url = url();
+
+        $sigPath = $public . '/sigs/'.$armaid.'.jpg';
+        $sigURL = $url . '/sigs/'.$armaid.'.jpg';
+
+        // the sig already exists
+        if (file_exists($sigPath)) {
+
+            // the sig is more than 1 day old
+            // regenerate it
+
+            //if (filemtime($sigPath) < time() - 86400) {
+
+            if (filemtime($sigPath) < time() - 30) {
+
+            }else{
+                // the sig is less than 1 day old
+                // output it
+
+                header('Location: ' . $sigURL);
+                exit;
+            }
+        }
+
+        try {
             $profile = Profile::where('a3_id', '=', $armaid)->first();
 
-			
-			$data['player_id'] = $armaid;
-			
-			if(!is_null($profile)){
-				$user = $profile->user;
-				$data['user'] = $user;
-				$clan = $profile->clan;
-				$data['clan'] = $clan;
-				$data['avatar'] = $profile->avatar->url('thumb');
-				$data['clantar'] = $clan->avatar->url('thumb');
-			}
+            $data['player_id'] = $armaid;
+
+            if(!is_null($profile)){
+                $user = $profile->user;
+                $data['user'] = $user;
+                $clan = $profile->clan;
+                $data['clan'] = $clan;
+				$data['country'] = $profile->country;
+                $data['avatar'] = $profile->avatar->url('thumb');
+                $data['clantar'] = $clan->avatar->url('thumb');
+                $data['a3_id'] = $profile->a3_id;
+            }
 
             $couchAPI = new Alive\CouchAPI();
             $playerTotals = $couchAPI->getPlayerTotals($armaid);
-			$playerDetails = $couchAPI->getPlayerDetails($armaid);
-			$playerWeapon = $couchAPI->getPlayerWeapon($armaid,false);
-			$playerVehicle = $couchAPI->getPlayerVehicle($armaid,false);
-			$playerClass = $couchAPI->getPlayerClass($armaid,false);
+            $playerDetails = $couchAPI->getPlayerDetails($armaid);
+            $playerWeapon = $couchAPI->getPlayerWeapon($armaid,false);
+            $playerVehicle = $couchAPI->getPlayerVehicle($armaid,false);
+            $playerClass = $couchAPI->getPlayerClass($armaid,false);
 
-			$playerdata = array(
-				"Totals" => $playerTotals,
-				"Details" => $playerDetails,
-				"Weapon" => $playerWeapon,
-				"Vehicle" => $playerVehicle,
-				"Class" => $playerClass
+            $playerdata = array(
+                "Totals" => $playerTotals,
+                "Details" => $playerDetails,
+                "Weapon" => $playerWeapon,
+                "Vehicle" => $playerVehicle,
+                "Class" => $playerClass
 
-			);
-			$data['playerdata'] = $playerdata;
+            );
+            $data['playerdata'] = $playerdata;
 
-			$type = 'image/png';
-            return Response::view('public/personnel.mysig',compact('data'))->header('Content-Type', $type);
+            $sigGenerator = new SigGenerate();
+            $sigGenerator->create($data);
+
+            if (file_exists($sigPath)) {
+                header('Location: ' . $sigURL);
+                exit;
+            }
 
         } catch (ModelNotFoundException $e) {
             return Redirect::to('public/personnel.invalid');
