@@ -129,6 +129,7 @@
     });
 
 
+
     // document has loaded
 
     $(document).ready(function() {
@@ -492,7 +493,7 @@
                     });
 
                     killermrkrs[index] = killermrkr;
-                    markers[index] = killdmarker;
+                    markers[index] = marker;
                 }
                 if (value.KilledSide == "CIV")
                 {
