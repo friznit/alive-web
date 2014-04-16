@@ -17,6 +17,7 @@
                 <li><a href="#Download">Download</a></li>
                 <li><a href="#Media">Media</a></li>
                 <li><a href="#Editors">Editors</a></li>
+                <li><a href="#Servers">Servers</a></li>
                 <li><a href="#FAQ">FAQ's</a></li>
                 <li><a href="#INFO">More Info</a></li>
                 <li><a href="{{ URL::to('/') }}/wiki">Wiki</a></li>
