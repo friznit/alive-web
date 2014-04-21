@@ -316,6 +316,7 @@ class CouchAPI {
 	public function getOpLiveFeed($map, $clan, $name)
     {
 		$name = urlencode($name);
+		$clan = urlencode($clan);
         $path = 'events/_design/operationPage/_list/sort_no_callback/operation_events?startkey=["' . $map . '","' . $clan . '","' . $name . '",{}]&endkey=["' . $map . '","' . $clan . '","' . $name . '"]&descending=true';
 
         $data = $this->call($path);
@@ -340,6 +341,7 @@ class CouchAPI {
     public function getOpLiveFeedPaged($map, $clan, $name, $limit, $skip)
     {
         $name = urlencode($name);
+		$clan = urlencode($clan);
         $path = 'events/_design/operationPage/_list/sort_no_callback/operation_events?startkey=["' . $map . '","' . $clan . '","' . $name . '",{}]&endkey=["' . $map . '","' . $clan . '","' . $name . '"]&descending=true&limit=' . $limit . "&skip=" . $skip;
 
         $data = $this->call($path);
