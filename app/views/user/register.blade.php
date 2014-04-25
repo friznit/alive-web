@@ -46,6 +46,14 @@
                                     ?>
                                 </div>
 
+                                <?php
+
+                                    include(app_path().'/lib/reCaptcha/recaptchalib.php');
+                                    $publickey = "6LejYfISAAAAACTYQDRMGTUWufySaQzS63yXbyOM";
+                                    echo recaptcha_get_html($publickey);
+
+                                ?>
+
                                 @include('alerts/alerts')
 
                         </div>

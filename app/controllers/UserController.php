@@ -23,6 +23,17 @@ class UserController extends BaseController {
 
     public function postRegister()
     {
+
+        require_once(app_path().'/lib/reCaptcha/recaptchalib.php');
+
+        $privatekey = "6LejYfISAAAAAPD3vW4aZQoTv2ot7ZIuyCSda9s4";
+        $resp = recaptcha_check_answer ($privatekey,$_SERVER["REMOTE_ADDR"],$_POST["recaptcha_challenge_field"],$_POST["recaptcha_response_field"]);
+
+        if (!$resp->is_valid) {
+            Alert::error('Captcha incorrect')->flash();
+            return Redirect::to('user/register')->withInput();
+        }
+
         $input = array(
             'email' => Input::get('email'),
             'password' => Input::get('password'),
