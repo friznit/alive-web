@@ -155,6 +155,18 @@
                     </tbody>
                 </table>
 
+                @else
+
+                <h2>Forum Signature</h2>
+
+                <p>Apply the following code to your BI forums or other forums signature to display your WarRoom stats!</p>
+
+                <pre><code>[IMG]http://www.alivemod.com/api/sig?id={{{$profile->a3_id}}}[/IMG]</code></pre>
+
+                <p>If you would like to display your signature via HTML apply this HTML code</p>
+
+                <pre><code><?php echo htmlspecialchars('<img src="http://www.alivemod.com/api/sig?id='. $profile->a3_id.'" width="601" height="100"/>');?></pre></code>
+
                 @endif
 
 

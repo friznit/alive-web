@@ -1460,6 +1460,84 @@ class AdminClanController extends BaseController {
         }
     }
 
+    public function getConnectdebug($id)
+    {
+
+        $data = get_default_data();
+        $auth = $data['auth'];
+
+        try {
+
+            if ($auth['isAdmin']) {
+
+                $clan = Clan::find($id);
+
+                TempoDebug::dump($clan->toArray());
+
+                TempoDebug::message('Connection test for group : ' . $clan->name . ' [' .  $clan->tag . ']');
+
+                if(!is_null($clan->remote_id)){
+                    TempoDebug::message('Group remote_id is set rev id: ' . $clan->remote_id);
+                    TempoDebug::message('Get group couch profile..');
+
+                    $couchAPI = new Alive\CouchAPI();
+                    $result = $couchAPI->getClanUser($clan->key, $clan->password);
+
+                    if(isset($result['response'])){
+                        $response = $result['response'];
+                        if(isset($response->error)){
+                            TempoDebug::dump($response);
+                        }else{
+                            TempoDebug::dump($response);
+                        }
+                    }
+                }
+
+                $couchAPI = new Alive\CouchAPI();
+                $couchAPI->debug = true;
+                $couchAPI->cache = false;
+                $result = $couchAPI->getClanUser($clan->key, $clan->password);
+
+                if(isset($result['response'])){
+                    $response = $result['response'];
+                    if(isset($response->error)){
+
+                        TempoDebug::message('Attempt to create couch group user..');
+                        TempoDebug::dump($response);
+
+                        $result = $couchAPI->createClanUser($clan->key, $clan->password, $clan->tag);
+
+                        if(isset($result['response'])){
+                            if(isset($result['response']->rev)){
+                                $remoteId = $result['response']->rev;
+                                $clan->remote_id = $remoteId;
+                                $clan->save();
+
+                                TempoDebug::message('Couch group user created!');
+                            }
+                        }
+                    }
+                }
+
+                $result = $couchAPI->getOrbatRecentOperations($clan->tag);
+
+                TempoDebug::message('Attempt to get orbat data..');
+                TempoDebug::dump($result);
+
+            } else {
+                Alert::error('Sorry.')->flash();
+                return Redirect::to('admin/user/show/'.$auth['userId']);
+            }
+
+        } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
+            Alert::error('User was not found.')->flash();
+            return Redirect::to('admin/user/edit/' . $id);
+        } catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
+            Alert::error('Trying to access unidentified Groups.')->flash();
+            return Redirect::to('admin/user/edit/' . $id);
+        }
+    }
+
     // Password Generate -----------------------------------------------------------------------------------------------
 
     private function _generatePassword($length=9, $strength=4) {

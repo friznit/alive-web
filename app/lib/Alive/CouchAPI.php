@@ -170,6 +170,8 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
+        $name = rawurlencode($name);
+
         $path = 'events/_design/operationsTable/_view/operationTotals?group_level=1&startkey=["' . $name . '"]&limit=1';
 
         $data = $this->call($path);
@@ -229,6 +231,10 @@ class CouchAPI {
         $cacheKey = 'OpActiveUnits' . $name . $map . $clan;
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
+
+        $map = rawurlencode($map);
+        $name = rawurlencode($name);
+        $clan = rawurlencode($clan);
 
         $path = 'events/_design/operationPage/_view/players_list?group_level=3';
 
@@ -315,8 +321,9 @@ class CouchAPI {
 	
 	public function getOpLiveFeed($map, $clan, $name)
     {
-		$name = urlencode($name);
-		$clan = urlencode($clan);
+        $map = rawurlencode($map);
+        $name = rawurlencode($name);
+        $clan = rawurlencode($clan);
         $path = 'events/_design/operationPage/_list/sort_no_callback/operation_events?startkey=["' . $map . '","' . $clan . '","' . $name . '",{}]&endkey=["' . $map . '","' . $clan . '","' . $name . '"]&descending=true';
 
         $data = $this->call($path);
@@ -340,8 +347,10 @@ class CouchAPI {
 
     public function getOpLiveFeedPaged($map, $clan, $name, $limit, $skip)
     {
-        $name = urlencode($name);
-		$clan = urlencode($clan);
+        $map = rawurlencode($map);
+        $name = rawurlencode($name);
+		$clan = rawurlencode($clan);
+
         $path = 'events/_design/operationPage/_list/sort_no_callback/operation_events?startkey=["' . $map . '","' . $clan . '","' . $name . '",{}]&endkey=["' . $map . '","' . $clan . '","' . $name . '"]&descending=true&limit=' . $limit . "&skip=" . $skip;
 
         $data = $this->call($path);
@@ -1154,6 +1163,8 @@ class CouchAPI {
         $cacheKey = 'GroupTotals' . $id;
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
+
+        $id = rawurlencode($id);
 		
         $path = 'events/_design/groupTable/_view/groupTotals?group_level=1&startkey=["' . $id . '"]&endkey=["' . $id . '",{}]';
 
@@ -1184,6 +1195,8 @@ class CouchAPI {
         $cacheKey = 'GroupClasses' . $id;
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
+
+        $id = rawurlencode($id);
 		
         $path = 'events/_design/groupPage/_view/group_classes?group_level=3&startkey=["' . $id . '"]&endkey=["' . $id . '",{}]';
 
@@ -1214,6 +1227,8 @@ class CouchAPI {
         $cacheKey = 'GroupLastOp' . $id;
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
+
+        $id = rawurlencode($id);
 
         $path = 'events/_design/groupPage/_list/sort_no_callback/group_finish?key=%22' . $id . '%22';
 
@@ -1485,6 +1500,8 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
+        $id = rawurlencode($id);
+
         $path = 'events/_design/groupPage/_list/sort_no_callback/group_recent_ops?startkey=%22' . $id . '%22&endkey=%22' . $id . '%22&descending=true&limit=10';
 
         $data = $this->call($path);
@@ -1514,6 +1531,8 @@ class CouchAPI {
         $cacheKey = 'OrbatT1'. $id;
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
+
+        $id = rawurlencode($id);
 
         $path = 'events/_design/groupPage/_view/player_kills_count?group_level=3&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
 
@@ -1545,6 +1564,8 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
+        $id = rawurlencode($id);
+
         $path = 'events/_design/groupPage/_view/player_in_aircraft_kills_count?group_level=5&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
 
         $data = $this->call($path);
@@ -1574,6 +1595,8 @@ class CouchAPI {
         $cacheKey = 'OrbatMedics'. $id;
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
+
+        $id = rawurlencode($id);
 
         $path = 'events/_design/groupPage/_view/player_heals_count?group_level=3&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
 
@@ -1605,6 +1628,8 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
+        $id = rawurlencode($id);
+
         $path = 'events/_design/groupPage/_view/group_killsByWeapon?group_level=3&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
 
         $data = $this->call($path);
@@ -1634,6 +1659,8 @@ class CouchAPI {
         $cacheKey = 'OrbatWeapons' . $id;
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
+
+        $id = rawurlencode($id);
 
         $path = 'events/_design/groupPage/_view/group_weapons?group_level=3&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
 
@@ -1665,6 +1692,8 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
+        $id = rawurlencode($id);
+
         $path = 'events/_design/groupPage/_view/group_veh?group_level=3&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
 
         $data = $this->call($path);
@@ -1694,6 +1723,8 @@ class CouchAPI {
         $cacheKey = 'OrbatPlayerKills' . $id;
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
+
+        $id = rawurlencode($id);
 
         $path = 'events/_design/groupPage/_view/player_kills_count_bygroup?&group_level=5&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
 
@@ -1725,6 +1756,8 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
+        $id = rawurlencode($id);
+
         $path = 'events/_design/groupPage/_view/group_mwk?group_level=3&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
 
         $data = $this->call($path);
@@ -1754,6 +1787,8 @@ class CouchAPI {
         $cacheKey = 'OrbatClasses' . $id;
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
+
+        $id = rawurlencode($id);
 
         $path = 'events/_design/groupPage/_view/group_classes?&group_level=3&startkey=[%22' . $id . '%22]&endkey=[%22' . $id . '%22,{}]';
 
@@ -1841,6 +1876,10 @@ class CouchAPI {
 	public function getServerPerf($id,$type,$servername)
     {
 
+        $id = rawurlencode($id);
+        $id = rawurlencode($type);
+        $id = rawurlencode($servername);
+
         $path = 'sys_perf/_design/sys_perf/_view/'. $type .'?startkey=%22' . $id . '%22&endkey=%22' . $id . '%22';
 
         $data = $this->call($path);
@@ -1879,6 +1918,8 @@ class CouchAPI {
 	
 	public function getClanFeed($id)
     {
+
+        $id = rawurlencode($id);
 
         $path = 'events/_design/groupPage/_list/sort_no_callback/group_events?startkey=[%22' . $id . '%22,{}]&endkey=[%22' . $id . '%22]&descending=true&limit=50';
 
@@ -1953,6 +1994,7 @@ class CouchAPI {
         $payload = json_encode($data);
 
         $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0 );
         curl_setopt($ch, CURLOPT_URL, $this->url . $path);
         curl_setopt($ch, CURLOPT_USERPWD, $this->user . ':' . $this->pass);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $requestType);

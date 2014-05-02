@@ -296,6 +296,22 @@
 
                 @endif
 
+
+                @if ($auth['isAdmin'])
+
+                <h2>Admin Utils</h2>
+
+                <table class="table table-hover">
+                    <tbody>
+                    <tr>
+                        <td><button class="btn btn-yellow" onClick="location.href='{{ URL::to('admin/clan/connectdebug') }}/{{ $clan->id}}'">TEST CONNECTION</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                @endif
+
+
             </div>
 
         </div>
