@@ -99,16 +99,22 @@ class APIController extends BaseController {
 		$group = Input::get('group');
 		$result = "false";
 		// Get server based on IP
-		try {
-			$servers = Server::where('ip','=',$ip)->get();
-			// Get clan from server
-			$clan = $servers[0]->clan;
-			// Check clan tag = group 
-			if ($clan->tag == $group) {
+		try 
+		{
+			// Get the clan from the tag
+			$clan = Clan::where('tag','=',$group)->firstorFail();
+
+			try 
+			{
+				$clan = Clan::where('tag','=',$group)->get();
+				$server = $clan[0]->servers()->where('ip','=', $ip)->firstorFail();
+				
 				$result = "true";
-			} else {
+				
+			} catch (ModelNotFoundException $e) {
 				$result = "false";
 			}
+
 		} catch (ModelNotFoundException $e) {
             $result = "false";
         }
