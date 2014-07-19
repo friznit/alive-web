@@ -23,9 +23,9 @@
                     }
                 },{
                     "aTargets": [ 2 ],
-                    "mDataProp": "value.Operation",
+                    "mDataProp": "value",
                     "mRender": function ( data, type, row) {
-                        return data;
+                        return "<a href={{ URL::to('war-room') }}/showoperation?name=" + encodeURIComponent(data.Operation) +"&map=" + encodeURIComponent(data.Map) + "&clan={{{$clan->tag}}}>" +  data.Operation + "</a>";
                     }
                 }
             ]
