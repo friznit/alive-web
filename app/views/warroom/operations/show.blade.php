@@ -77,7 +77,7 @@
 
     map.fitWorld();
 
-    var AO = L.tileLayer("http://alivemod.com/maps/{{ strtolower($ao->configName) }}/{z}/{x}/{y}.png" , {
+    var AO = L.tileLayer("http://db.alivemod.com/maps/{{ strtolower($ao->configName) }}/{z}/{x}/{y}.png" , {
         attribution: 'ALiVE',
         tms: true	//means invert.
     }).addTo(map);
