@@ -6,8 +6,10 @@
                 <ul class="fa-ul dark-list">
                 	<li><i class="fa-li fa fa-arrow-right"></i>AJCStriker</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>ARJay</li>
+                    <li><i class="fa-li fa fa-arrow-right"></i>Cameroon</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Friznit</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Gunny</li>
+                    <li><i class="fa-li fa fa-arrow-right"></i>Haze</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Highhead</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Jman</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Naught</li>
