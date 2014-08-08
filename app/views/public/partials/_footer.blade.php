@@ -4,11 +4,13 @@
             <div class="col-md-4">
                 <h4><i class="fa fa-cogs"></i> ALiVE Dev Team</h4>
                 <ul class="fa-ul dark-list">
+                	<li><i class="fa-li fa fa-arrow-right"></i>AJCStriker</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>ARJay</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Friznit</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Gunny</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Highhead</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Jman</li>
+                    <li><i class="fa-li fa fa-arrow-right"></i>Naught</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Raptor</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Rye</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Tupolov</li>

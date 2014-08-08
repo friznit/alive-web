@@ -335,20 +335,6 @@
 </div>
 
 
-<div class="jumbotron dark-panel" id="Servers">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h2>Servers</h2>
-                <p>In association with the <a href="http://theironbrits.com/" target="_blank">Iron Brits</a> The first official ALiVE server open to the public!</p>
-                <p>Check out the <a href="http://theironbrits.com/alive" target="_blank">setup guide</a>, and come and join the fun!</p>
-                <a href="http://www.gametracker.com/server_info/31.186.251.195:2342/" target="_blank"><img src="http://cache.www.gametracker.com/server_info/31.186.251.195:2342/b_560_95_1.png" border="0" width="560" height="95" alt=""></a>
-            </div>
-        </div>
-
-    </div>
-</div>
-
 
 <div class="jumbotron white-panel" id="FAQ">
     <div class="container">
