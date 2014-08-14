@@ -115,7 +115,20 @@
         @foreach ($clans as $clan)
 
             var data = {{$clan->couchData}};
-            var myIcon = new groupIcon({iconUrl: '{{ URL::to('/') }}/img/icons/b_{{$clan->icon}}.png'});
+			if (!(data.Operations)) {
+					var myIcon = new groupIcon({
+						iconUrl: '{{ URL::to('/') }}/img/icons/dot.png', 
+						shadowURL: '{{URL::to('/') }}/img/icons/dotshadow.png',
+						iconSize:     [10, 10], // size of the icon
+						shadowSize:   [10, 10], // size of the shadow
+						shadowAnchor: [5, 5]  // the same for the shadow
+					});		
+			} else {
+           		 var myIcon = new groupIcon({
+					 	shadowUrl: '{{ URL::to('/') }}/img/icons/w_group_0.png',
+						iconUrl: '{{ URL::to('/') }}/img/icons/b_{{$clan->icon}}.png'
+					});
+			}
             var marker = new MyCustomMarker(map.unproject([{{$clan->lon}},{{$clan->lat}}], map.getMaxZoom()), {
                 icon: myIcon
             });
@@ -165,7 +178,6 @@
 	
 	var groupIcon = L.Icon.extend({ 
 		options: {
-			shadowUrl: '{{ URL::to('/') }}/img/icons/w_group_0.png',
 			iconSize:     [30, 30], // size of the icon
 			shadowSize:   [30, 30], // size of the shadow
 			iconAnchor:   [15, 15], // point of the icon which will correspond to markers location
