@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-6">
                 <img id="welcome_logo" src="{{ URL::to('/') }}/img/home_logo.png" class="img-responsive"/>
-                <p id="welcome_text">ALIVE is the next generation dynamic persistent campaign for ArmA3. Developed by the Multi Session Operations team, the easy to use modular mission framework provides everything that players and mission makers need to set up and run realistic military operations in almost any scenario up to Company level, including command, combat support, service support and logistics.</p>
+                <p id="welcome_text">ALIVE is the next generation dynamic persistent mission addon for ArmA3. Developed by Arma community veterans, the easy to use modular mission framework provides everything that players and mission makers need to set up and run realistic military operations in almost any scenario up to Company level, including command, combat support, service support and logistics.</p>
             </div>
             <div id="welcome_image" class="col-md-5 col-md-offset-1">
                 <img src="{{ URL::to('/') }}/img/action3.jpg" class="img-responsive light-blue-border" />
@@ -109,9 +109,9 @@
                         <th></th>
                     </tr>
                     <tr class="success">
-                        <td>0.6.2</td>
-                        <td>Arma 3 Stable 1.16.123633</td>
-                        <td><a class="btn btn-primary btn-lg pull-right" href="http://dev.withsix.com/attachments/download/21835/@alive_0.6.2.1404101.7z"><i class="fa fa-download"></i> Download</a></td>
+                        <td>0.7.0.1408161</td>
+                        <td>Arma 3 Stable 1.24.125979</td>
+                        <td><a class="btn btn-primary btn-lg pull-right" href="http://alivemod.com/downloads/@ALiVE_0.7.0.1408161.7z"><i class="fa fa-download"></i> Download</a></td>
                     </tr>
                 </table>
                 <br/><h2>Installation</h2>
@@ -335,7 +335,6 @@
 </div>
 
 
-
 <div class="jumbotron white-panel" id="FAQ">
     <div class="container">
         <div class="row">
@@ -345,9 +344,12 @@
         </div>
         <div class="row">
             <div class="col-md-4">
+                <p><i class="fa fa-comment-o"></i> <b>Who's behind this?</b></p>
+                <p><i class="fa fa-comment"></i> The guys that spent 2 years developing the Multi-Session Operations persistent mission framework teamed up with other Arma community veterans to bring a new brand of addon to Arma 3. We have currently serving and ex-forces guys as well as long serving Arma modders and clan members. The addon is aimed squarely at the COOP community that want full map, realistic company level operations.</p>
+                <hr/>            
                 <p><i class="fa fa-comment-o"></i> <b>Is ALiVE for Arma2, Operation Arrowhead or Arma3?</b></p>
                 <p><i class="fa fa-comment"></i> It's for Arma 3. We technically could back-port most of it to Arma 2 OA, but we didn't think that supported our fresh start on a shiny new gaming platform.</p>
-                <hr/>
+                <hr/>              
                 <p><i class="fa fa-comment-o"></i> <b>Will ALiVE support Headless Client (HC)?</b></p>
                 <p><i class="fa fa-comment"></i> Server performance with Profiled Virtual AI is already sufficient, so there's been no driver to use HC yet. However, we will provide an option in Profile System to spawn on HC in the first release!</p>
                 <hr/>
