@@ -3,6 +3,8 @@
 
         $.getJSON('{{ URL::to('/') }}/api/livefeed', function(data) {
 
+            console.log(data)
+
             $.each(data.rows, function (index, row) {
 
                 if (row.value.Event == "Kill")

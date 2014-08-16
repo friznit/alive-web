@@ -3,6 +3,18 @@
 {{-- Content --}}
 @section('content')
 
+<div class="jumbotron black-panel" id="Trailer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                    <iframe width="420" height="500" src="//www.youtube.com/embed/5_UittAx5W8" autohide="3" frameborder="0" showinfo="0" modestbranding="1" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="jumbotron alive-background-panel" id="Welcome">
     <div class="container">
         <div class="row">
@@ -212,6 +224,47 @@
              <div class="col-md-6">
                 <br/><h4>Sample Missions</h4>
                  <p>Sample missions have moved <a href="{{ URL::to('missions/') }}">here.</p>
+            </div>
+        </div>
+        <div class="row top-margin">
+            <div class="col-md-6">
+                <br/><h4>0.7.0 Tutorials</h4><br/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <p>In this tutorial a look at the new Player Resupply module in the 0.70 release</p>
+            </div>
+            <div class="col-md-4">
+                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                    <iframe width="420" height="500" src="//www.youtube.com/embed/1AymQUfawP4" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <p>This tutorial runs through the new and improved military logistics module.</p>
+            </div>
+            <div class="col-md-4">
+                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                    <iframe width="420" height="500" src="//www.youtube.com/embed/MMwMqpUIr1o" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="row top-margin">
+            <div class="col-md-2">
+                <p>Tutorial for the new and much requested Custom Military Placement module.</p>
+            </div>
+            <div class="col-md-4">
+                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                    <iframe width="420" height="500" src="//www.youtube.com/embed/YKvVOCHS0D4" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <p>In this tutorial a look at the new player logistics system in the 0.70 release.</p>
+            </div>
+            <div class="col-md-4">
+                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                    <iframe width="420" height="500" src="//www.youtube.com/embed/2ntP6RLif6U" frameborder="0" allowfullscreen></iframe>
+                </div>
             </div>
         </div>
         <div class="row top-margin">

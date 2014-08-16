@@ -23,7 +23,7 @@ class UserController extends BaseController {
 
     public function postRegister()
     {
-
+        /*
         require_once(app_path().'/lib/reCaptcha/recaptchalib.php');
 
         $privatekey = "6LejYfISAAAAAPD3vW4aZQoTv2ot7ZIuyCSda9s4";
@@ -33,6 +33,7 @@ class UserController extends BaseController {
             Alert::error('Captcha incorrect')->flash();
             return Redirect::to('user/register')->withInput();
         }
+        */
 
         $input = array(
             'email' => Input::get('email'),

@@ -20,6 +20,7 @@
                 <li><a href="#FAQ">FAQ's</a></li>
                 <li><a href="#INFO">More Info</a></li>
                 <li><a href="{{ URL::to('/') }}/wiki">Wiki</a></li>
+                <li><a href="{{ URL::to('/') }}/forum">Forum</a></li>
                 <li><a href="{{ URL::to('/') }}/missions">Missions</a></li>
             </ul>
             <ul class="nav navbar-nav pull-right">
