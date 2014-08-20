@@ -253,7 +253,7 @@
             timelineData.timeline.headline = "TEST";
             timelineData.timeline.type = "default";
             timelineData.timeline.text = "CHEESE";
-            timelineData.timeline.startDate = "2014,03,30,11,00";
+            //timelineData.timeline.startDate = "2014,03,30,11,00";
             timelineData.timeline.date = [];
 
             var startDate = '';
