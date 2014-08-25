@@ -1,7 +1,13 @@
 <script>
-    $(document).ready(function() {
+  $(document).ready(function() {
+	  refresh()
+  });
+	
+	function refresh(){
+		
+	$('#live_feed').empty();
 
-        $.getJSON('{{ URL::to('/') }}/api/livefeed', function(data) {
+				        $.getJSON('{{ URL::to('/') }}/api/livefeed', function(data) {
 
             console.log(data)
 
@@ -94,7 +100,11 @@
 
             $("#live_feed_container").mCustomScrollbar("update");
         });
-    });
+		setTimeout(refresh,30000);
+	}
+
+  
+	
 </script>
 
 <div id="live_feed_container">
