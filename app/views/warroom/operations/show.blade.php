@@ -161,7 +161,7 @@
         // ------------------------------------------------------------
 
         cursor = 0;
-        itemsPerPage = 200;
+        itemsPerPage = 100;
 
         loadData(cursor);
 
