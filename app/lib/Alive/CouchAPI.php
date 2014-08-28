@@ -351,7 +351,7 @@ class CouchAPI {
         $name = rawurlencode($name);
 		$clan = rawurlencode($clan);
 
-        $path = 'events/_design/operationPage/_list/sort_no_callback/operation_events?startkey=["' . $map . '","' . $clan . '","' . $name . '",{}]&endkey=["' . $map . '","' . $clan . '","' . $name . '"]&descending=true&limit=' . $limit . "&skip=" . $skip;
+        $path = 'events/_design/operationPage/_list/sort_no_callback/operation_timeline_events?startkey=["' . $map . '","' . $clan . '","' . $name . '",{}]&endkey=["' . $map . '","' . $clan . '","' . $name . '"]&descending=true&limit=' . $limit . '&skip=' . $skip;
 
         $data = $this->call($path);
 

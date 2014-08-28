@@ -76,7 +76,7 @@
     map.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 
     map.fitWorld();
-
+	
     var AO = L.tileLayer("http://db.alivemod.com/maps/{{ strtolower($ao->configName) }}/{z}/{x}/{y}.png" , {
         attribution: 'ALiVE',
         tms: true	//means invert.
@@ -161,7 +161,7 @@
         // ------------------------------------------------------------
 
         cursor = 0;
-        itemsPerPage = 100;
+        itemsPerPage = 200;
 
         loadData(cursor);
 
@@ -238,7 +238,7 @@
         }
 
         // clear existing map markers
-        clearAllMarkers();
+        //clearAllMarkers();
 
         // get data from the cursor location onwards to limit
         $.getJSON("{{ URL::to('/') }}/api/oplivefeedpaged?name={{ $name }}&clan={{ $clan->tag }}&map={{ $ao->configName }}&limit="+itemsPerPage+"&skip="+cursor, function( data ) {
@@ -269,6 +269,7 @@
             });
 
             var eventCount = events.length;
+			//console.log(eventCount)
 
             // no data
             if(eventCount == 0){
