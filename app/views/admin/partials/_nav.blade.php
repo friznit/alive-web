@@ -12,6 +12,13 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav pull-right">
+				@if ($auth['profile']->clan_id)
+                	<li {{ (Request::is('war-room/showpersonnel*') ? 'class="active"' : '') }}><a href="{{ URL::to('war-room/showpersonnel') }}/{{ $auth['profile']->a3_id }}">Your Stats</a></li>                
+                	<li {{ (Request::is('war-room/showorbat*') ? 'class="active"' : '') }}><a href="{{ URL::to('war-room/showorbat') }}/{{ $auth['profile']->clan_id }}">Your Group</a></li>
+				@else
+                	<li {{ (Request::is('admin/clan/create*') ? 'class="active"' : '') }}><a href="{{ URL::to('admin/clan/create') }}">Create a Group</a></li>
+                    <li {{ (Request::is('admin/application*') ? 'class="active"' : '') }}><a href="{{ URL::to('admin/application') }}">Join a Group</a></li>
+                @endif
 
                 <li {{ (Request::is('admin/user/show/*') ? 'class="active"' : '') }}><a href="{{ URL::to('admin/user/show/') }}/{{ Sentry::getUser()->getId() }}">Profile</a></li>
 

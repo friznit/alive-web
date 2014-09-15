@@ -351,7 +351,7 @@ class CouchAPI {
         $name = rawurlencode($name);
 		$clan = rawurlencode($clan);
 
-        $path = 'events/_design/operationPage/_list/sort_no_callback/operation_events?startkey=["' . $map . '","' . $clan . '","' . $name . '",{}]&endkey=["' . $map . '","' . $clan . '","' . $name . '"]&descending=true&limit=' . $limit . "&skip=" . $skip;
+        $path = 'events/_design/operationPage/_list/sort_no_callback/operation_timeline_events?startkey=["' . $map . '","' . $clan . '","' . $name . '",{}]&endkey=["' . $map . '","' . $clan . '","' . $name . '"]&descending=true&limit=' . $limit . '&skip=' . $skip;
 
         $data = $this->call($path);
 
@@ -1134,7 +1134,7 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-        $path = 'events/_design/groupTable/_view/groupTotals?group_level=1';
+        $path = 'events/_design/groupTable/_view/groupTotals?group_level=1&stale=ok';
 
         $data = $this->call($path);
 
@@ -1260,7 +1260,7 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-        $path = 'events/_design/playerTable/_view/playerTotals?group_level=2';
+        $path = 'events/_design/playerTable/_view/playerTotals?group_level=2&stale=ok';
 
         $data = $this->call($path);
 
@@ -1290,7 +1290,7 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-        $path = 'events/_design/playerTable/_view/kills_by_distance?group_level=4';
+        $path = 'events/_design/playerTable/_view/kills_by_distance?group_level=4&stale=ok';
 
         $data = $this->call($path);
 
@@ -1320,7 +1320,7 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-        $path = 'events/_design/playerTable/_view/player_in_vehicle_kills_count?group_level=4';
+        $path = 'events/_design/playerTable/_view/player_in_vehicle_kills_count?group_level=4&stale=ok';
 
         $data = $this->call($path);
 
