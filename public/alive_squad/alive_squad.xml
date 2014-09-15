@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!DOCTYPE squad SYSTEM "alive_squad.dtd">
+<?xml-stylesheet href="alive_squad.xsl?" type="text/xsl"?>
+<squad nick="ALiVE">
+	<name>ALiVE Dev Team</name>
+	<email></email>
+	<web></web>
+	<picture>alive.paa</picture>
+	<title>ALiVE</title>
+	<member id="76561198021311392" nick="ARjay">
+		<name>ARjay</name>
+		<email></email>
+		<icq></icq>
+		<remark>Silent but deadly!</remark>
+	</member>
+    <member id="76561197982137286" nick="Tupolov">
+        <name>Tupolov</name>
+        <email></email>
+        <icq></icq>
+        <remark>The TUPLICATOR!</remark>
+    </member>
+    <member id="76561198085484047" nick="Highhead">
+        <name>Highhead</name>
+        <email></email>
+        <icq></icq>
+        <remark>The most high, his highness</remark>
+    </member>
+    <member id="76561197963441999" nick="Hazey">
+        <name>Hazey</name>
+        <email></email>
+        <icq></icq>
+        <remark>Purple haze</remark>
+    </member>
+    <member id="76561198005825455" nick="Friznit">
+        <name>Friznit</name>
+        <email></email>
+        <icq></icq>
+        <remark>Commander Friz</remark>
+    </member>
+    <member id="76561197971396413" nick="Raps">
+        <name>Raps</name>
+        <email></email>
+        <icq></icq>
+        <remark>The Raptor</remark>
+    </member>
+    <member id="76561197969384878" nick="JMan">
+        <name>JMan</name>
+        <email></email>
+        <icq></icq>
+        <remark>The king of the release</remark>
+    </member>
+    <member id="76561198033749382" nick="Gunny">
+        <name>Gunny</name>
+        <email></email>
+        <icq></icq>
+        <remark>The CS Bandit</remark>
+    </member>
+    <member id="76561198028247147" nick="Naught">
+        <name>Naught</name>
+        <email></email>
+        <icq></icq>
+        <remark>DATA</remark>
+    </member>
+</squad>
