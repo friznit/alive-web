@@ -6,6 +6,8 @@
 
 <div id="warroom_notice">
     <div class="strip"><span class="control-right" id="warroom_notice_close"><i class="fa fa-times"></i></span><span id="warroom_livefeed_label" class="control">Notice</span></div>
+	<h2>Hey! What happened to my stats?</h2>
+    <p>We've reset the statistics system as we get closer to a 1.0 Release for ALiVE. We collected over 1,000,000 events during our Alpha/Beta testing, so thank you for your help! Resetting will allow us to bug fix and smooth out the creases closer as we approach 1.0</p>    
     <h2>WarRoom forum footers</h2>
     <p>Display your stats in forums and on websites! We have added the code you need to use to player profile pages.</p>
     <h2>Group Tag Bugfix</h2>
