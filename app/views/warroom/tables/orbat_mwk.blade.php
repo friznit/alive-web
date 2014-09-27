@@ -14,7 +14,13 @@
 							"mRender" : function (data, type) {
 				  				return "<img src={{ URL::to('img/classes/thumbs/150px-Arma3_CfgWeapons_') }}" + data + ".png onerror=this.style.display='none'>";}
 						},
-						{ "mDataProp": "key.1",  "aTargets": [ 1 ]},
+						{ "mDataProp": "key.1",  "aTargets": [ 1 ],
+							"mRender" : function (data, type) {
+								if (data.indexOf("_") > -1) {
+									data = data.replace(/_/g," ");
+								}
+								return data;
+						}},
 						{ "mDataProp": "value", "aTargets": [ 2 ]}
 					]
 		} );
