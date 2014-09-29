@@ -3,6 +3,7 @@
 {{-- Content --}}
 @section('content')
 
+<!--
 <div class="jumbotron black-panel" id="Trailer">
     <div class="container">
         <div class="row">
@@ -14,6 +15,7 @@
         </div>
     </div>
 </div>
+-->
 
 <div class="jumbotron alive-background-panel" id="Welcome">
     <div class="container">
@@ -39,6 +41,24 @@
             </div>
             <div class="col-md-5 col-md-offset-1">
                 <img src="{{ URL::to('/') }}/img/action4.jpg" class="img-responsive dark-border" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="jumbotron dark-panel" id="MANW">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <h2>MANW is ALiVE!</h2>
+                <p id="welcome_text">ALiVE has been entered into the Make Arma Not War competition!</p>
+                <p><b>Help the ALiVE team out by supporting ALiVE in the competition</b></p>
+                <p><a class="btn btn-yellow btn-med"href="http://alivemod.com/wiki/index.php?title=Main_Page"><i class="fa fa-thumbs-o-up"></i> Support ALiVE in the MANW Comp</a><br/></p>
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-3">
+                <img src="{{ URL::to('/') }}/img/manwar_logo_hover.png" class="img-responsive" />
             </div>
         </div>
     </div>
@@ -121,9 +141,9 @@
                         <th></th>
                     </tr>
                     <tr class="success">
-                        <td>0.7.0.1408161</td>
-                        <td>Arma 3 Stable 1.24.125979</td>
-                        <td><a class="btn btn-primary btn-lg pull-right" href="http://alivemod.com/downloads/@ALiVE_0.7.0.1408161.7z"><i class="fa fa-download"></i> Download</a></td>
+                        <td>0.8.0.1409251</td>
+                        <td>Arma 3 Stable 1.28.127008</td>
+                        <td><a class="btn btn-primary btn-lg pull-right" href="http://alivemod.com/downloads/@ALiVE_0.8.0.1409251.7z"><i class="fa fa-download"></i> Download</a></td>
                     </tr>
                 </table>
                 <br/><h2>Installation</h2>
@@ -150,6 +170,24 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-md-2">
+                <p>The ALiVE 0.70 release trailer</p>
+            </div>
+            <div class="col-md-4">
+                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                    <iframe width="420" height="500" src="//www.youtube.com/embed/5_UittAx5W8" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <p>Various deaths, destruction and some vision of the improvements to the multispawn module (with respawn heli insert, among others) the new C2ISTAR module with Player Tasking, SITREP and PATROLREP functions.</p>
+            </div>
+            <div class="col-md-4">
+                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                    <iframe width="420" height="500" src="//www.youtube.com/embed/mZraXerMeO8" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="row top-margin">
             <div class="col-md-2">
                 <p>In this video a peaceful tour of Takistan with the new CAF Aggressors civilian middle east faction, and the almost ready for release civilian module for ALiVE.</p>
             </div>
@@ -224,6 +262,29 @@
              <div class="col-md-6">
                 <br/><h4>Sample Missions</h4>
                  <p>Sample missions have moved <a href="{{ URL::to('missions/') }}">here.</p>
+            </div>
+        </div>
+        <div class="row top-margin">
+            <div class="col-md-6">
+                <br/><h4>0.8.0 Tutorials</h4><br/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <p>In this tutorial a look at the new C2ISTAR module</p>
+            </div>
+            <div class="col-md-4">
+                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                    <iframe width="420" height="500" src="//www.youtube.com/embed/tMS6riykGfI" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <p>This tutorial runs through the improved multispawn module.</p>
+            </div>
+            <div class="col-md-4">
+                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                    <iframe width="420" height="500" src="//www.youtube.com/embed/R0NIBfDlyh0" frameborder="0" allowfullscreen></iframe>
+                </div>
             </div>
         </div>
         <div class="row top-margin">
