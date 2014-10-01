@@ -6,12 +6,12 @@
 
 <div id="warroom_notice">
     <div class="strip"><span class="control-right" id="warroom_notice_close"><i class="fa fa-times"></i></span><span id="warroom_livefeed_label" class="control">Notice</span></div>
+    <h2>MANW ALiVE!</h2>
+    <p><a href="http://makearmanotwar.com/entry/0MI2rqQ5aQ#.VCx96hawQ6U">Click here to support us</a> in the Make Arma Not War Contest</p>    
 	<h2>Hey! What happened to my stats?</h2>
-    <p>We've reset the statistics system as we get closer to a 1.0 Release for ALiVE. We collected over 1,000,000 events during our Alpha/Beta testing, so thank you for your help! Resetting will allow us to bug fix and smooth out the creases closer as we approach 1.0</p>    
+    <p>We've reset the statistics system to help us prepare for ALiVE 1.0. We collected over 1,000,000 events during our Alpha/Beta testing, so thank you for your help! </p>    
     <h2>WarRoom forum footers</h2>
     <p>Display your stats in forums and on websites! We have added the code you need to use to player profile pages.</p>
-    <h2>Group Tag Bugfix</h2>
-    <p>We identified an issue for group tags that contain spaces and some special characters, data should now be showing for these groups.</p>
     <h2>General Support Requests</h2>
     <p>For any support issues please join the skype public ALiVE group. If you can send a PM to a team member on the forums with your skype details we will add you in.</p>
 
