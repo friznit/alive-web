@@ -50,7 +50,7 @@
                 </div>
 
             </form>
-
+        	<button class="btn btn-yellow" onClick="location.href='{{ URL::to('admin/user/email') }}'">Email Users</button>
             <table class="table table-hover">
                 <thead>
                     <th>User ID</th>

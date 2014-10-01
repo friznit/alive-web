@@ -336,7 +336,7 @@ class AdminUserController extends BaseController {
 
         }
     }
-
+	
     // Avatar ----------------------------------------------------------------------------------------------------------
 
     public function postChangeavatar($id) {
@@ -899,4 +899,54 @@ class AdminUserController extends BaseController {
             return Redirect::to('admin/user/edit/' . $id);
         }
     }
+	
+	// Email
+
+	 public function getEmail()
+    {
+
+        $data = get_default_data();
+        $auth = $data['auth'];
+
+        return View::make('admin/user/email')->with($data);
+
+    }
+	
+
+	public function postEmail()
+    {
+ 		$data = get_default_data();
+        $auth = $data['auth'];
+
+        $input = array(
+            'msg' => Input::get('msg')
+        );
+
+        $rules = array (
+            'msg' => 'required'
+        );
+
+        $v = Validator::make($input, $rules);
+
+        if ($v->fails()) {
+            return Redirect::to('admin/user/email/'.$id)->withErrors($v)->withInput()->with($data);
+        } else {
+
+            $currentUser = $auth['user'];
+            $profile = $auth['profile'];
+
+            if (!$auth['isAdmin']) {
+                Alert::error('You don\'t have access to do that.')->flash();
+                return Redirect::to('admin/user/index');
+            }
+
+			// Send email code here
+			
+			Alert::success('You have successfully sent an email to all users.')->flash();
+			return Redirect::to('admin/user/index');
+
+        }
+    }	
+
 }
+
