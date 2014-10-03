@@ -3,19 +3,17 @@
 {{-- Content --}}
 @section('content')
 
-<!--
 <div class="jumbotron black-panel" id="Trailer">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
-                    <iframe width="420" height="500" src="//www.youtube.com/embed/5_UittAx5W8" autohide="3" frameborder="0" showinfo="0" modestbranding="1" allowfullscreen></iframe>
+                    <iframe width="420" height="500" src="//www.youtube.com/embed/lsztsBqNbFc" autohide="3" frameborder="0" showinfo="0" modestbranding="1" allowfullscreen></iframe>
                 </div>
             </div>
         </div>
     </div>
 </div>
--->
 
 <div class="jumbotron alive-background-panel" id="Welcome">
     <div class="container">
@@ -53,7 +51,7 @@
                 <h2>MANW is ALiVE!</h2>
                 <p id="welcome_text">ALiVE has been entered into the Make Arma Not War competition!</p>
                 <p><b>Help the ALiVE team out by supporting ALiVE in the competition</b></p>
-                <p><a class="btn btn-yellow btn-med"href="http://alivemod.com/wiki/index.php?title=Main_Page"><i class="fa fa-thumbs-o-up"></i> Support ALiVE in the MANW Comp</a><br/></p>
+                <p><a class="btn btn-yellow btn-med"href="http://makearmanotwar.com/entry/0MI2rqQ5aQ#.VCmCgfmSwnI"><i class="fa fa-thumbs-o-up"></i> Support ALiVE in the MANW Comp</a><br/></p>
             </div>
             <div class="col-md-2">
             </div>
