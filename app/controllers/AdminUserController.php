@@ -997,8 +997,8 @@ class AdminUserController extends BaseController {
                         $to_array = [
                             [
                                 //'email' => $email,
-                                'email' => 'arjaydev@gmail.com',
-                                //'email' => 'tupolov73@gmail.com',
+                                //'email' => 'arjaydev@gmail.com',
+                                'email' => 'tupolov73@gmail.com',
                                 'name' => 'ALiVE user',
                                 'type' => 'to'
                             ]
