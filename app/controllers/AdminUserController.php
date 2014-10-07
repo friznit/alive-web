@@ -918,6 +918,7 @@ class AdminUserController extends BaseController {
  		$data = get_default_data();
         $auth = $data['auth'];
 
+        /*
         $input = array(
             'msg' => Input::get('msg')
         );
@@ -931,6 +932,7 @@ class AdminUserController extends BaseController {
         if ($v->fails()) {
             return Redirect::to('admin/user/email/'.$id)->withErrors($v)->withInput()->with($data);
         } else {
+        */
 
             $currentUser = $auth['user'];
             $profile = $auth['profile'];
@@ -940,12 +942,137 @@ class AdminUserController extends BaseController {
                 return Redirect::to('admin/user/index');
             }
 
-			// Send email code here
-			
+            $date = new \DateTime;
+            $nowTime = time();
+
+            $content = View::make('emails/bulk/manw')->render();
+
+            $result = DB::select('select * from bulk_email where id =?', array(1));
+
+            echo '<a href="' . url('admin/user/index') . '">Go Back</a><br/><br/>';
+
+            if(count($result) == 0){
+                DB::table('bulk_email')->insert(array('count' => 0,'created_at' => $date,'updated_at' => $date));
+                $count = 0;
+            }else{
+                $count = (int) $result[0]->count;
+                $updated_at = strtotime($result[0]->updated_at);
+                $timeDiff = $nowTime-$updated_at;
+
+                /*
+                if($timeDiff < 3600) {
+                    $window = floor((3600 - $timeDiff) / 100);
+                    echo 'Last called less than one hour ago, next window opens in ' . $window . ' minutes.';
+                    exit;
+                }
+                */
+
+            }
+
+            $users = DB::table('users')
+                ->skip($count)
+                ->take(200)
+                ->get();
+
+            if(count($users)){
+
+                echo count($users) . " users found<br/><br/>";
+
+                $toSend = 0;
+
+                foreach($users as $user){
+
+                    $user = (array) $user;
+
+                    $user_id = $user['id'];
+                    $email = $user['email'];
+                    $isSystemAddress = strstr($email,'alivemod.com');
+
+                    if($isSystemAddress == false){
+
+                        echo 'sending to user id: ' . $user_id . ' ' . $email . '<br>';
+
+                        $toSend++;
+
+                        $to_array = [
+                            [
+                                //'email' => $email,
+                                'email' => 'arjaydev@gmail.com',
+                                //'email' => 'tupolov73@gmail.com',
+                                'name' => 'ALiVE user',
+                                'type' => 'to'
+                            ]
+                        ];
+
+                        var_dump($to_array);
+
+                        try {
+
+                            $mandrill = new Mandrill('9vhpxeW9tOS4PEtcPhtmyA');
+                            //$mandrill = new Mandrill('AkPMcwIKlP87oLU2aJaPsg'); // test key
+                            $message = array(
+                                'html' => $content,
+                                'text' => '',
+                                'subject' => 'ALiVE 0.8 release',
+                                'from_email' => 'noreply@alivemod.com',
+                                'from_name' => 'Arma 3 ALIVE mod team',
+                                'to' => $to_array,
+                                'headers' => array('Reply-To' => 'noreply@alivemod.com'),
+                                'important' => false,
+                                'track_opens' => null,
+                                'track_clicks' => null,
+                                'auto_text' => null,
+                                'auto_html' => null,
+                                'inline_css' => null,
+                                'url_strip_qs' => null,
+                                'preserve_recipients' => null,
+                                'view_content_link' => null,
+                                'tracking_domain' => null,
+                                'signing_domain' => null,
+                                'return_path_domain' => null
+                            );
+                            $async = false;
+
+                            $result = $mandrill->messages->send($message, $async);
+
+                            if($result[0]['status'] == 'sent') {
+                                echo 'sent to: ' . $email . '<br>';
+
+                            }else{
+                                var_dump($result);
+                            }
+
+                        } catch(Mandrill_Error $e) {
+                            echo 'A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage();
+                            throw $e;
+                        }
+
+                        exit;
+
+                    }
+                }
+
+                $count += 200;
+
+                DB::table('bulk_email')
+                    ->where('id', 1)
+                    ->update(array('count' => $count,'created_at' => $date,'updated_at' => $date));
+            }else{
+                echo "all emails sent!<br/>";
+
+                /*
+                DB::table('bulk_email')
+                    ->where('id', 1)
+                    ->update(array('count' => 0,'created_at' => $date,'updated_at' => $date));
+                */
+            }
+
+            /*
 			Alert::success('You have successfully sent an email to all users.')->flash();
 			return Redirect::to('admin/user/index');
+            */
 
-        }
+        //}
     }	
 
 }

@@ -7,12 +7,13 @@
 		"laravel/framework": "4.0.*",
 		"doctrine/couchdb": "1.0.0-alpha1",
 		"cartalyst/sentry": "2.0.*",
-		"prologue/alerts": "dev-master",
+        "prologue/alerts": "0.3.0",
 		"laravelbook/ardent": "2.1.0",
 		"way/generators": "~1.1",
-		"codesleeve/stapler": "dev-master",
+        "codesleeve/stapler": "1.0.0-Beta4",
 		"anlutro/curl": "0.1.1",
-		"webpatser/laravel-countries": "dev-master"
+		"webpatser/laravel-countries": "dev-master",
+        "mandrill/mandrill": "1.0.*"
 	},
 	"autoload": {
 		"classmap": [

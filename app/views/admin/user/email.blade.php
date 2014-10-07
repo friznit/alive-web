@@ -22,14 +22,25 @@
                     </div>
                     <div class="panel-body">
                     	
-					<form action="{{ URL::to('admin/users/email') }}" method="post">
+					<form action="{{ URL::to('admin/user/email') }}" method="post">
 
                         {{ Form::token() }}
 
+                        <!--
                         <div class="panel-body">
 
+                            <div class="form-group {{ ($errors->has('subject')) ? 'has-error' : '' }}" for="subject">
+                                <label class="control-label" for="subject">Subject</label>
+                                <input name="subject" value="{{ Request::old("subject") }}" type="textarea" class="form-control" placeholder="message">
+                                <?php
+                                if($errors->has('subject')){
+                                    echo '<span class="label label-danger">' . $errors->first('subject') . '</span>';
+                                }
+                                ?>
+                            </div>
+
                             <div class="form-group {{ ($errors->has('msg')) ? 'has-error' : '' }}" for="msg">
-                                <label class="control-label" for="msg">Text</label>
+                                <label class="control-label" for="msg">Message</label>
                                 <input name="msg" value="{{ Request::old("msg") }}" type="textarea" class="form-control" placeholder="message">
                                 <?php
                                 if($errors->has('msg')){
@@ -39,6 +50,8 @@
                             </div>
 
                         </div>
+                        -->
+
                         <div class="panel-footer clearfix">
                             <div class="btn-toolbar pull-right" role="toolbar">
                                 <input class="btn btn-yellow" type="submit" value="Send Email">
