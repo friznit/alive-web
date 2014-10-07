@@ -1015,7 +1015,7 @@ class AdminUserController extends BaseController {
                                 'text' => '',
                                 'subject' => 'ALiVE Mod Update: 0.8 release and please support us in the MANW!',
                                 'from_email' => 'noreply@alivemod.com',
-                                'from_name' => 'Arma 3 ALIVE mod team',
+                                'from_name' => 'Arma 3 ALIVE Mod Team',
                                 'to' => $to_array,
                                 'headers' => array('Reply-To' => 'noreply@alivemod.com'),
                                 'important' => false,
