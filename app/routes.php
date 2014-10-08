@@ -25,6 +25,10 @@ Route::get('/missions', function() {
     return View::make('public/missions/index');
 });
 
+Route::get('/unsubscribe', function() {
+    return View::make('public/unsubscribe/index');
+});
+
 Route::get('/thankyou', function() {
     return View::make('public/thankyou/index');
 });

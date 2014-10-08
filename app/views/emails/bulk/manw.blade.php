@@ -13,12 +13,14 @@
 		  <li>Simply click on the following link. It will take you to the Arma 3 Make War Not Arma contest entry for ALiVE.</li>
 		  <li><a href="http://makearmanotwar.com/entry/0MI2rqQ5aQ#.VDPBbvmSwnJ">Support ALiVE</a></li>
 		  <li>You can simply add your support by clicking on the yellow box with the + sign. You may need to login (either via Facebook, Twitter, Steam, BIS Profile or create a login).</li>
-	</ol>
+        </ol>
 		<h2>ALiVE 0.8 released! </h2>
-        <p>If you didn't know already, we recently released a new version of ALiVE. We highly recommend you update as soon as possible. More information can be found here on the <a href="http://forums.bistudio.com/showthread.php?169350-ALiVE-Advanced-Light-Infantry-Virtual-Environment&p=2785229&viewfull=1#post2785229" target="new">Bohemia Interactive Forum</a> or at our website <a href="http://alivemod.com        ">http://alivemod.com </a></p>
+        <p>If you didn't know already, we recently released a new version of ALiVE. We highly recommend you update as soon as possible. More information can be found here on the <a href="http://forums.bistudio.com/showthread.php?169350-ALiVE-Advanced-Light-Infantry-Virtual-Environment&p=2785229&viewfull=1#post2785229" target="new">Bohemia Interactive Forum</a> or at our website <a href="http://alivemod.com">http://alivemod.com </a></p>
         <h2>New Trailer</h2>
         <p>We've launched a <a href="https://www.youtube.com/watch?feature=player_embedded&v=lsztsBqNbFc" target="new">new trailer</a> and also a new set of <a href="http://alivemod.com/#Editors">tutorials</a></p>
         <p>Thank you, <br />
 		~The ALiVE dev team</p>
+
+        <a href="*|UNSUB:http://alivemod.com/unsubcribe|*">Click here to unsubscribe.</a>
 	</body>
 </html>

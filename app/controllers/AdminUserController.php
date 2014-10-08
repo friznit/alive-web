@@ -971,7 +971,7 @@ class AdminUserController extends BaseController {
 
             $users = DB::table('users')
                 ->skip($count)
-                ->take(200)
+                ->take(300)
                 ->get();
 
             if(count($users)){
@@ -997,14 +997,12 @@ class AdminUserController extends BaseController {
                         $to_array = [
                             [
                                 //'email' => $email,
-                                //'email' => 'arjaydev@gmail.com',
-                                'email' => 'tupolov73@gmail.com',
+                                'email' => 'unsub-test@testing.mandrillapp.com',
+                                //'email' => 'tupolov73@gmail.com',
                                 'name' => 'ALiVE user',
                                 'type' => 'to'
                             ]
                         ];
-
-                        var_dump($to_array);
 
                         try {
 
@@ -1052,7 +1050,7 @@ class AdminUserController extends BaseController {
                     }
                 }
 
-                $count += 200;
+                $count += 300;
 
                 DB::table('bulk_email')
                     ->where('id', 1)
