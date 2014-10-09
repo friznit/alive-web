@@ -371,6 +371,32 @@ class CouchAPI {
 
         return $encoded;
     }
+	
+	public function getOpLiveAARFeedPaged($map, $clan, $name, $start, $end)
+    {
+        $map = rawurlencode($map);
+        $name = rawurlencode($name);
+		$clan = rawurlencode($clan);
+
+        $path = 'sys_aar/_design/AAR/_list/sort_no_callback/operation_aar?startkey=["' . $map . '","' . $clan . '","' . $name . '","' . $start . '",{}]&endkey=["' . $map . '","' . $clan . '","' . $name . '","' . $end . '"]';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response'];
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+        }else{
+            $encoded = json_encode(["SHIT"]);
+        }
+        return $encoded;
+    }
 
     public function getLossesBLU()
     {

@@ -177,6 +177,17 @@ class APIController extends BaseController {
         $skip = Input::get('skip');
         return $this->couchAPI->getOpLiveFeedPaged($map,$clan,$name,$limit,$skip);
     }
+	
+	public function getOpliveaarfeedpaged()
+    {
+        $name = Input::get('name');
+        $map = Input::get('map');
+        $clan = Input::get('clan');
+        $start = Input::get('start');
+        $end = Input::get('end');
+        return $this->couchAPI->getOpLiveAARFeedPaged($map,$clan,$name,$start,$end);
+    }
+	
     public function getLossesblu()
     {
         return $this->couchAPI->getLossesBLU();
