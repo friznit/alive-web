@@ -23,9 +23,6 @@
     var indy_unit = new icon ({iconUrl: 'http://alivemod.com/img/icons/i_iconman_ca.png'});
     var civ_unit = new icon ({iconUrl: 'http://alivemod.com/img/icons/c_iconman_ca.png'});
 	
-
-	
-
     L.Map = L.Map.extend({
         openPopup: function(popup) {
             //this.closePopup();  // just comment this
@@ -311,8 +308,58 @@
 
             });
 
+			// Based on the timing of events, load the AAR data
+			// get the AAR data
+			var start = "09/10/2014 18:45:50";
+			var end = "09/10/2014 18:49:00";
+        	$.getJSON("{{ URL::to('/') }}/api/opliveaarfeedpaged?name={{ $name }}&clan={{ $clan->tag }}&map={{ $ao->configName }}&start="+start+"&end="+end, function( data ) {
+				if(data.error) {
+					console.log("DATA ERROR!!");
+				}	
+				// loop loaded row data and create aar map markers
+				
+				$.each( data.rows, function( key, value ) {
+					var aarData = value.value;
+					var dater = aarData.realTime;
+					// For each row, prepare information for marker
+					$.each( aarData.data, function(index, val) {
+						// loop through array
+							eventObj = val;
+
+							// parse dates into timeline friendly format
+							var parsedDateArray = dater.split(" ");
+							var parsedDayArray = parsedDateArray[0].split("/");
+							var parsedTimeArray = parsedDateArray[1].split(":");					
+			
+							startDate = parsedDayArray[2] + ',' + parsedDayArray[1] + ',' + parsedDayArray[0] + ',' + parsedTimeArray[0] + ',' + parsedTimeArray[1] + ',' + (parseInt(parsedTimeArray[2]));
+							endDate = parsedDayArray[2] + ',' + parsedDayArray[1] + ',' + parsedDayArray[0] + ',' + parsedTimeArray[0] + ',' + parsedTimeArray[1] + ',' + (parseInt(parsedTimeArray[2]));
+
+							var output = prepareAAR(eventCount, eventObj, value.gameTime);
+	
+							// create the timeline event object
+							var event = new Object();
+							event.startDate = startDate;
+							event.headline = 'AAR';
+                			event.text = output.description;
+							event.asset = new Object();
+							event.asset.media = '';
+							event.asset.credit = '';
+							event.asset.caption = '';
+			
+							// push the new event onto the stack
+							timelineData.timeline.date.push(event);
+
+							// increment counter
+							eventCount--;
+				
+					});
+
+				});					
+			});	
+			
             // create or recreate the timeline
             createTimeline(timelineData);
+			
 
             // hide the loading overlay
             $("#warroom_timeline_loading").fadeOut();
@@ -324,7 +371,7 @@
      * Create the timeline
      */
     function createTimeline(data) {
-
+			console.log(data);
         // first load of page
         // create the timeline
         if(typeof VMM == 'undefined') {
@@ -337,7 +384,7 @@
                 embed_id:	'warroom_timeline',
                 start_at_end: true,
                 start_zoom_adjust: '10',
-                debug:		false,
+                debug:		true,
                 css: '{{ URL::to("/") }}/css/timeline.css',
                 js: '{{ URL::to("/") }}/js/timeline.js'
             });
@@ -357,13 +404,56 @@
                 embed_id:	'warroom_timeline',
                 start_at_end: true,
                 start_zoom_adjust: '10',
-                debug:		false,
+                debug:		true,
                 css: '{{ URL::to("/") }}/css/timeline.css',
                 js: '{{ URL::to("/") }}/js/timeline.js'
             });
         }
     }
 
+	function prepareAAR(index, value, gameTime) {
+        var output = {};
+
+        output.shortDescription = '';
+		var posx = value.AAR_pos[0];
+		var posy = value.AAR_pos[1];	
+		var multiplier = size / {{$ao->size}};
+		
+		if (value.AAR_isPlayer == "true") {
+			output.description = gameTime + ' local<br><h2>' + value.AAR_fac + '<br><a href="http://alivemod.com/war-room/showpersonnel/' + value.AAR_playerUID +'" target="_blank"><span class="operation">' + value.AAR_name + '<br>' + value.AAR_class + '</span></h2><br/>' + value.AAR_group + '<br/><img src="{{ URL::to("img/classes/small/300px-Arma3_CfgWeapons_") }}' + value.AAR_weapon + '.png" onerror=this.style.display="none"></a><br/>Damage: ' + value.AAR_damage;
+		} else {
+			output.description = gameTime + ' local<br><h2>' + value.AAR_fac + '<br><span class="operation">' + value.AAR_name + '<br>' + value.AAR_class + '</span></h2><br/>' + value.AAR_group + '<br/><img src="{{ URL::to("img/classes/small/300px-Arma3_CfgWeapons_") }}' + value.AAR_weapon + '.png" onerror=this.style.display="none"></a><br/>Damage: ' + value.AAR_damage;
+		}
+
+        var popup = L.popup().setContent('<div class="admin-panel">' + output.description + '</div>');
+		
+		switch (value.AAR_side) {
+			
+			case "WEST": 
+				var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit});
+				break;
+			
+			case "EAST": 
+				var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: east_unit});
+				break;
+			
+			case "GUER": 
+				var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: indy_unit});
+				break;
+				
+			default: 
+				var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: civ_unit});				
+		}
+
+		marker.bindPopup(popup, {
+			showOnMouseOver: true,
+			offset: new L.Point(1, 1)
+		});		
+
+        markers[index] = marker;
+		return output;
+	}
+	
     /*
      * Setup map marker and prepare output for timeline and marker display
      */
