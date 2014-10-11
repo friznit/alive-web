@@ -101,7 +101,6 @@
     var markers = [];
 	var killermrkrs = [];
 	var aarmarkers = [];
-	var aarpopups = [];
 	var polylines = [];
 	var latlngs = Array();
 
@@ -156,7 +155,7 @@
         });
 
 
-        // Timeline setup
+ // Timeline setup
         // ------------------------------------------------------------
 
         cursor = 0;
@@ -240,11 +239,12 @@
         //clearAllMarkers();
 
         // get data from the cursor location onwards to limit
-        $.getJSON("{{ URL::to('/') }}/api/oplivefeedpaged?name={{ $name }}&clan={{ $clan->tag }}&map={{ $ao->configName }}&descending=true&limit="+itemsPerPage+"&skip="+cursor, function( data ) {
+        $.getJSON("{{ URL::to('/') }}/api/oplivefeedpaged?name={{ $name }}&clan={{ $clan->tag }}&map={{ $ao->configName }}&limit="+itemsPerPage+"&skip="+cursor, function( data ) {
 
             if(data.error) {
                 console.log("DATA ERROR!!");
             }
+
             // setup the main timeline data structure
             var timelineData = new Object();
             timelineData.timeline = new Object();
@@ -265,7 +265,10 @@
                     events.push(eventObj);
                 }
             });
+
             var eventCount = events.length;
+			//console.log(eventCount)
+
             // no data
             if(eventCount == 0){
                 dataFailed();
@@ -284,13 +287,14 @@
 
                 startDate = parsedDayArray[2] + ',' + parsedDayArray[1] + ',' + parsedDayArray[0] + ',' + parsedTimeArray[0] + ',' + parsedTimeArray[1] + ',' + parsedTimeArray[2];
                 endDate = parsedDayArray[2] + ',' + parsedDayArray[1] + ',' + parsedDayArray[0] + ',' + parsedTimeArray[0] + ',' + parsedTimeArray[1] + ',' + (parseInt(parsedTimeArray[2]) + 1);
+
                 var output = prepareEvent(eventCount, eventObj);
 
                 // create the timeline event object
                 var event = new Object();
                 event.startDate = startDate;
                 event.endDate = startDate;
-                event.headline = output.shortDescription + ', ' + eventObj.realTime;
+                event.headline = output.shortDescription;
                 event.text = output.description;
                 event.asset = new Object();
                 event.asset.media = '';
@@ -307,8 +311,11 @@
 
 			// Based on the timing of events, load the AAR data
 			// get the AAR data
-			var start = "01/10/2014 18:45:50";
-			var end = "20/10/2014 18:49:00";
+			console.log(events[events.length-1].realTime);				
+			console.log(events[0].realTime);
+		
+			var start = events[events.length-1].realTime;
+			var end = events[0].realTime;
         	$.getJSON("{{ URL::to('/') }}/api/opliveaarfeedpaged?name={{ $name }}&clan={{ $clan->tag }}&map={{ $ao->configName }}&start="+start+"&end="+end, function( data ) {
 				if(data.error) {
 					console.log("DATA ERROR!!");
@@ -355,8 +362,9 @@
 				// create or recreate the timeline
 				createTimeline(timelineData);								
 			});	
-			console.log(aarmarkers);
-			console.log(timelineData);				
+			//console.log(aarmarkers);
+			//console.log(timelineData);	
+			//console.log(markers);			
 
             // hide the loading overlay
             $("#warroom_timeline_loading").fadeOut();
@@ -864,10 +872,9 @@
 		 if (map.hasLayer(killlayer)){
 				killlayer.clearLayers();
 		 }
-
-				console.log(data);
-				console.log(markers);
-			
+		 
+	//	 console.log(index + ' ' + data.text);
+		
         if(markers[index]){
             if(typeof(markers[index].openPopup) !== 'undefined' && typeof(markers[index].openPopup) === 'function'){
 //add new layer to map
