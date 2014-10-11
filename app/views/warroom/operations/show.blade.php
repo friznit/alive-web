@@ -100,6 +100,8 @@
     var items = {};
     var markers = [];
 	var killermrkrs = [];
+	var aarmarkers = [];
+	var aarpopups = [];
 	var polylines = [];
 	var latlngs = Array();
 
@@ -238,12 +240,11 @@
         //clearAllMarkers();
 
         // get data from the cursor location onwards to limit
-        $.getJSON("{{ URL::to('/') }}/api/oplivefeedpaged?name={{ $name }}&clan={{ $clan->tag }}&map={{ $ao->configName }}&limit="+itemsPerPage+"&skip="+cursor, function( data ) {
+        $.getJSON("{{ URL::to('/') }}/api/oplivefeedpaged?name={{ $name }}&clan={{ $clan->tag }}&map={{ $ao->configName }}&descending=true&limit="+itemsPerPage+"&skip="+cursor, function( data ) {
 
             if(data.error) {
                 console.log("DATA ERROR!!");
             }
-			console.log(data)
             // setup the main timeline data structure
             var timelineData = new Object();
             timelineData.timeline = new Object();
@@ -312,50 +313,50 @@
 				if(data.error) {
 					console.log("DATA ERROR!!");
 				}
-				eventCount = events.length + 1;			
+				var aarcount = 0;			
 				// loop loaded row data and create aar map markers			
 				$.each( data.rows, function( key, value ) {
+					
 					var aarData = value.value;
-					var dater = aarData.realTime;		
-
+					var dater = aarData.realTime;
+					
+					// Place AAR record onto timeline
+					
+					// parse dates into timeline friendly format
+					var parsedDateArray = dater.split(" ");
+					var parsedDayArray = parsedDateArray[0].split("/");
+					var parsedTimeArray = parsedDateArray[1].split(":");					
+	
+					startDate = parsedDayArray[2] + ',' + parsedDayArray[1] + ',' + parsedDayArray[0] + ',' + parsedTimeArray[0] + ',' + parsedTimeArray[1] + ',' + (parseInt(parsedTimeArray[2]));							
+					// create the timeline event object
+					var aevent = new Object();
+					aevent.startDate = startDate;
+					aevent.headline = 'AAR ' + startDate;
+					aevent.text = '';
+					aevent.asset = new Object();
+					aevent.asset.media = '';
+					aevent.asset.credit = '';
+					aevent.asset.caption = '';
+					aevent.asset.markers = [];
+											
 					// For each row, prepare information for marker
 					$.each( aarData.data, function(index, val) {
 						// loop through array
 							aarObj = val;
-
-							// parse dates into timeline friendly format
-							var parsedDateArray = dater.split(" ");
-							var parsedDayArray = parsedDateArray[0].split("/");
-							var parsedTimeArray = parsedDateArray[1].split(":");					
-			
-							startDate = parsedDayArray[2] + ',' + parsedDayArray[1] + ',' + parsedDayArray[0] + ',' + parsedTimeArray[0] + ',' + parsedTimeArray[1] + ',' + (parseInt(parsedTimeArray[2]));
-							endDate = parsedDayArray[2] + ',' + parsedDayArray[1] + ',' + parsedDayArray[0] + ',' + parsedTimeArray[0] + ',' + parsedTimeArray[1] + ',' + (parseInt(parsedTimeArray[2]));
-
-							var output = prepareAAR(eventCount, aarObj, value.gameTime);
-	
-							// create the timeline event object
-							var aevent = new Object();
-							aevent.startDate = startDate;
-							aevent.headline = '';
-                			aevent.text = output.description;
-							aevent.asset = new Object();
-							aevent.asset.media = '';
-							aevent.asset.credit = '';
-							aevent.asset.caption = '';
-			
-							// push the new event onto the stack
-							timelineData.timeline.date.push(aevent);
-
-							// increment counter
-							eventCount++;
-				
+							aevent.asset.markers.push(aarcount);
+							prepareAAR(aarcount, aarObj, value.gameTime);
+							aarcount++;
 					});
+					
+					// push the new event onto the stack
+					timelineData.timeline.date.push(aevent);
 
 				});	
 				// create or recreate the timeline
 				createTimeline(timelineData);								
 			});	
-					
+			console.log(aarmarkers);
+			console.log(timelineData);				
 
             // hide the loading overlay
             $("#warroom_timeline_loading").fadeOut();
@@ -408,7 +409,6 @@
 
 	function prepareAAR(index, value, gameTime) {
         var output = {};
-        output.shortDescription = '';
 		var posx = value.AAR_pos[0];
 		var posy = value.AAR_pos[1];	
 		var multiplier = size / {{ $ao->size }};
@@ -444,14 +444,14 @@
 			offset: new L.Point(1, 1)
 		});		
 
-        markers[index] = marker;
-		return output;
+        aarmarkers[index] = marker;
 	}
 	
     /*
      * Setup map marker and prepare output for timeline and marker display
      */
     function prepareEvent(index, value) {
+
         var action = value.Event;
         var output = {};
         output.shortDescription = '';
@@ -861,9 +861,12 @@
         closeAllPopups();
 //GUNNY Added killer pos marker and polyline to timeline
 //If the layer was prevuously created clear it
-	 if (map.hasLayer(killlayer)){
-			killlayer.clearLayers();
-	 }
+		 if (map.hasLayer(killlayer)){
+				killlayer.clearLayers();
+		 }
+
+				console.log(data);
+				console.log(markers);
 			
         if(markers[index]){
             if(typeof(markers[index].openPopup) !== 'undefined' && typeof(markers[index].openPopup) === 'function'){
@@ -872,24 +875,24 @@
 				markers[index].addTo(killlayer);
                 markers[index].openPopup();
 				latlngs = [];
-					  if(killermrkrs[index]){
-
-						killermrkrs[index].addTo(killlayer);
-						latlngs.push(killermrkrs[index].getLatLng());
-						latlngs.push(markers[index].getLatLng());
-						
-					    var arrow = L.polyline(latlngs, {color: 'black',opacity: 1,weight: 2}).addTo(killlayer);
-						var arrowHead = L.polylineDecorator(arrow).addTo(killlayer);
-						
-						var arrowOffset = 0;
-						var anim = window.setInterval(function() {
-							arrowHead.setPatterns([
-								{offset: arrowOffset+'%', repeat: 0, symbol: L.Symbol.arrowHead({pixelSize: 13, polygon: false, pathOptions: {stroke: true,color: '#000',opacity: 1,weight: 2}})}
-							])
-							if(++arrowOffset > 100)
-								arrowOffset = 0;
-						}, 100);
-											  }
+				  if(killermrkrs[index]){
+	
+					killermrkrs[index].addTo(killlayer);
+					latlngs.push(killermrkrs[index].getLatLng());
+					latlngs.push(markers[index].getLatLng());
+					
+					var arrow = L.polyline(latlngs, {color: 'black',opacity: 1,weight: 2}).addTo(killlayer);
+					var arrowHead = L.polylineDecorator(arrow).addTo(killlayer);
+					
+					var arrowOffset = 0;
+					var anim = window.setInterval(function() {
+						arrowHead.setPatterns([
+							{offset: arrowOffset+'%', repeat: 0, symbol: L.Symbol.arrowHead({pixelSize: 13, polygon: false, pathOptions: {stroke: true,color: '#000',opacity: 1,weight: 2}})}
+						])
+						if(++arrowOffset > 100)
+							arrowOffset = 0;
+					}, 100);
+				}
 				
 				
                 if(initialLoad){
@@ -900,7 +903,15 @@
                 }
 				
             }
-        }
+        } else {			
+			if (index > markers.length) {
+				// Get AAR marker
+				map.addLayer(killlayer);
+				$.each(data.asset.markers, function( index, value ) {
+					aarmarkers[value].addTo(killlayer);
+				});
+			}
+		}
         timelineData = allData;
     }
 
