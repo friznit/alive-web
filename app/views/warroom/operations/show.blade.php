@@ -243,7 +243,7 @@
             if(data.error) {
                 console.log("DATA ERROR!!");
             }
-
+			console.log(data)
             // setup the main timeline data structure
             var timelineData = new Object();
             timelineData.timeline = new Object();
@@ -264,10 +264,7 @@
                     events.push(eventObj);
                 }
             });
-
             var eventCount = events.length;
-			//console.log(eventCount)
-
             // no data
             if(eventCount == 0){
                 dataFailed();
@@ -286,14 +283,13 @@
 
                 startDate = parsedDayArray[2] + ',' + parsedDayArray[1] + ',' + parsedDayArray[0] + ',' + parsedTimeArray[0] + ',' + parsedTimeArray[1] + ',' + parsedTimeArray[2];
                 endDate = parsedDayArray[2] + ',' + parsedDayArray[1] + ',' + parsedDayArray[0] + ',' + parsedTimeArray[0] + ',' + parsedTimeArray[1] + ',' + (parseInt(parsedTimeArray[2]) + 1);
-
                 var output = prepareEvent(eventCount, eventObj);
 
                 // create the timeline event object
                 var event = new Object();
                 event.startDate = startDate;
                 event.endDate = startDate;
-                event.headline = output.shortDescription;
+                event.headline = output.shortDescription + ', ' + eventObj.realTime;
                 event.text = output.description;
                 event.asset = new Object();
                 event.asset.media = '';
@@ -310,21 +306,22 @@
 
 			// Based on the timing of events, load the AAR data
 			// get the AAR data
-			var start = "09/10/2014 18:45:50";
-			var end = "09/10/2014 18:49:00";
+			var start = "01/10/2014 18:45:50";
+			var end = "20/10/2014 18:49:00";
         	$.getJSON("{{ URL::to('/') }}/api/opliveaarfeedpaged?name={{ $name }}&clan={{ $clan->tag }}&map={{ $ao->configName }}&start="+start+"&end="+end, function( data ) {
 				if(data.error) {
 					console.log("DATA ERROR!!");
-				}	
-				// loop loaded row data and create aar map markers
-				
+				}
+				eventCount = events.length + 1;			
+				// loop loaded row data and create aar map markers			
 				$.each( data.rows, function( key, value ) {
 					var aarData = value.value;
-					var dater = aarData.realTime;
+					var dater = aarData.realTime;		
+
 					// For each row, prepare information for marker
 					$.each( aarData.data, function(index, val) {
 						// loop through array
-							eventObj = val;
+							aarObj = val;
 
 							// parse dates into timeline friendly format
 							var parsedDateArray = dater.split(" ");
@@ -334,32 +331,31 @@
 							startDate = parsedDayArray[2] + ',' + parsedDayArray[1] + ',' + parsedDayArray[0] + ',' + parsedTimeArray[0] + ',' + parsedTimeArray[1] + ',' + (parseInt(parsedTimeArray[2]));
 							endDate = parsedDayArray[2] + ',' + parsedDayArray[1] + ',' + parsedDayArray[0] + ',' + parsedTimeArray[0] + ',' + parsedTimeArray[1] + ',' + (parseInt(parsedTimeArray[2]));
 
-							var output = prepareAAR(eventCount, eventObj, value.gameTime);
+							var output = prepareAAR(eventCount, aarObj, value.gameTime);
 	
 							// create the timeline event object
-							var event = new Object();
-							event.startDate = startDate;
-							event.headline = 'AAR';
-                			event.text = output.description;
-							event.asset = new Object();
-							event.asset.media = '';
-							event.asset.credit = '';
-							event.asset.caption = '';
+							var aevent = new Object();
+							aevent.startDate = startDate;
+							aevent.headline = '';
+                			aevent.text = output.description;
+							aevent.asset = new Object();
+							aevent.asset.media = '';
+							aevent.asset.credit = '';
+							aevent.asset.caption = '';
 			
 							// push the new event onto the stack
-							timelineData.timeline.date.push(event);
+							timelineData.timeline.date.push(aevent);
 
 							// increment counter
-							eventCount--;
+							eventCount++;
 				
 					});
 
-				});					
+				});	
+				// create or recreate the timeline
+				createTimeline(timelineData);								
 			});	
-			
-            // create or recreate the timeline
-            createTimeline(timelineData);
-			
+					
 
             // hide the loading overlay
             $("#warroom_timeline_loading").fadeOut();
@@ -371,7 +367,6 @@
      * Create the timeline
      */
     function createTimeline(data) {
-			console.log(data);
         // first load of page
         // create the timeline
         if(typeof VMM == 'undefined') {
@@ -383,8 +378,8 @@
                 embed: true,
                 embed_id:	'warroom_timeline',
                 start_at_end: true,
-                start_zoom_adjust: '10',
-                debug:		true,
+                start_zoom_adjust: '9',
+                debug:		false,
                 css: '{{ URL::to("/") }}/css/timeline.css',
                 js: '{{ URL::to("/") }}/js/timeline.js'
             });
@@ -403,8 +398,8 @@
                 embed: true,
                 embed_id:	'warroom_timeline',
                 start_at_end: true,
-                start_zoom_adjust: '10',
-                debug:		true,
+                start_zoom_adjust: '9',
+                debug:		false,
                 css: '{{ URL::to("/") }}/css/timeline.css',
                 js: '{{ URL::to("/") }}/js/timeline.js'
             });
@@ -413,11 +408,10 @@
 
 	function prepareAAR(index, value, gameTime) {
         var output = {};
-
         output.shortDescription = '';
 		var posx = value.AAR_pos[0];
 		var posy = value.AAR_pos[1];	
-		var multiplier = size / {{$ao->size}};
+		var multiplier = size / {{ $ao->size }};
 		
 		if (value.AAR_isPlayer == "true") {
 			output.description = gameTime + ' local<br><h2>' + value.AAR_fac + '<br><a href="http://alivemod.com/war-room/showpersonnel/' + value.AAR_playerUID +'" target="_blank"><span class="operation">' + value.AAR_name + '<br>' + value.AAR_class + '</span></h2><br/>' + value.AAR_group + '<br/><img src="{{ URL::to("img/classes/small/300px-Arma3_CfgWeapons_") }}' + value.AAR_weapon + '.png" onerror=this.style.display="none"></a><br/>Damage: ' + value.AAR_damage;
@@ -458,7 +452,6 @@
      * Setup map marker and prepare output for timeline and marker display
      */
     function prepareEvent(index, value) {
-
         var action = value.Event;
         var output = {};
         output.shortDescription = '';
@@ -869,8 +862,8 @@
 //GUNNY Added killer pos marker and polyline to timeline
 //If the layer was prevuously created clear it
 	 if (map.hasLayer(killlayer)){
-					killlayer.clearLayers();
-								}
+			killlayer.clearLayers();
+	 }
 			
         if(markers[index]){
             if(typeof(markers[index].openPopup) !== 'undefined' && typeof(markers[index].openPopup) === 'function'){
