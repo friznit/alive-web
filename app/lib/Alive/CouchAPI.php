@@ -377,11 +377,9 @@ class CouchAPI {
         $map = rawurlencode($map);
         $name = rawurlencode($name);
 		$clan = rawurlencode($clan);
-		$start = rawurlencode($start);
-		$end = rawurlencode($end);
 				
         $path = 'sys_aar/_design/AAR/_list/sort_no_callback/operation_aar?startkey=["' . $map . '","' . $clan . '","' . $name . '","' . $start . '",{}]&endkey=["' . $map . '","' . $clan . '","' . $name . '","' . $end . '"]';
-
+		
         $data = $this->call($path);
 
         if(isset($data['response'])) {
@@ -395,7 +393,7 @@ class CouchAPI {
             $encoded = json_encode($data);
 
         }else{
-            $encoded = json_encode(["SHIT"]);
+            $encoded = json_encode([$path]);
         }
         return $encoded;
     }

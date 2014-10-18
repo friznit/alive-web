@@ -80,7 +80,7 @@
     }).addTo(map);
 
 
-    var baseLayer = {
+    var baseLayer = {7
         "AO": AO
     };
 
@@ -311,15 +311,26 @@
 
 			// Based on the timing of events, load the AAR data
 			// get the AAR data
-			console.log(events[events.length-1].realTime);				
-			console.log(events[0].realTime);
-		
-			var start = events[events.length-1].realTime;
-			var end = events[0].realTime;
+			var parts = events[events.length-1].realTime.match(/(\d+)/g);		
+			var start = new Date(parseInt(parts[2]), parseInt(parts[1],10)-1, parseInt(parts[0],10)+1);
+			start.setUTCHours(parseInt(parts[3],10));
+			start.setUTCMinutes(parseInt(parts[4],10));
+			start.setUTCSeconds(parseInt(parts[5],10));  	
+				
+			parts = events[0].realTime.match(/(\d+)/g);			
+			var end = new Date(parseInt(parts[2]), parseInt(parts[1],10)-1, parseInt(parts[0],10)+1);
+			end.setUTCHours(parseInt(parts[3],10));
+			end.setUTCMinutes(parseInt(parts[4],10));
+			end.setUTCSeconds(parseInt(parts[5],10));  	
+
+			start = start.toISOString();
+			end = end.toISOString();				
+			
         	$.getJSON("{{ URL::to('/') }}/api/opliveaarfeedpaged?name={{ $name }}&clan={{ $clan->tag }}&map={{ $ao->configName }}&start="+start+"&end="+end, function( data ) {
 				if(data.error) {
 					console.log("DATA ERROR!!");
 				}
+				//console.log(data);
 				var aarcount = 0;			
 				// loop loaded row data and create aar map markers			
 				$.each( data.rows, function( key, value ) {
@@ -359,12 +370,13 @@
 					timelineData.timeline.date.push(aevent);
 
 				});	
+				
 				// create or recreate the timeline
 				createTimeline(timelineData);								
 			});	
-			//console.log(aarmarkers);
-			//console.log(timelineData);	
-			//console.log(markers);			
+//			console.log(aarmarkers);
+			console.log(timelineData);	
+//			console.log(markers);			
 
             // hide the loading overlay
             $("#warroom_timeline_loading").fadeOut();
@@ -873,9 +885,9 @@
 				killlayer.clearLayers();
 		 }
 		 
-	//	 console.log(index + ' ' + data.text);
+		 console.log(index + ' ' + data.asset.markers);
 		
-        if(markers[index]){
+        if(typeof(data.asset.markers) == 'undefined'){
             if(typeof(markers[index].openPopup) !== 'undefined' && typeof(markers[index].openPopup) === 'function'){
 //add new layer to map
 				map.addLayer(killlayer);
@@ -911,13 +923,11 @@
 				
             }
         } else {			
-			if (index > markers.length) {
 				// Get AAR marker
 				map.addLayer(killlayer);
 				$.each(data.asset.markers, function( index, value ) {
 					aarmarkers[value].addTo(killlayer);
 				});
-			}
 		}
         timelineData = allData;
     }
