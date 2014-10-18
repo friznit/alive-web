@@ -80,7 +80,7 @@
     }).addTo(map);
 
 
-    var baseLayer = {7
+    var baseLayer = {
         "AO": AO
     };
 
@@ -287,7 +287,7 @@
 
                 startDate = parsedDayArray[2] + ',' + parsedDayArray[1] + ',' + parsedDayArray[0] + ',' + parsedTimeArray[0] + ',' + parsedTimeArray[1] + ',' + parsedTimeArray[2];
                 endDate = parsedDayArray[2] + ',' + parsedDayArray[1] + ',' + parsedDayArray[0] + ',' + parsedTimeArray[0] + ',' + parsedTimeArray[1] + ',' + (parseInt(parsedTimeArray[2]) + 1);
-
+				//console.log(eventCount);
                 var output = prepareEvent(eventCount, eventObj);
 
                 // create the timeline event object
@@ -300,6 +300,7 @@
                 event.asset.media = '';
                 event.asset.credit = '';
                 event.asset.caption = '';
+				event.asset.pointer = eventCount;
 
                 // push the new event onto the stack
                 timelineData.timeline.date.push(event);
@@ -375,7 +376,7 @@
 				createTimeline(timelineData);								
 			});	
 //			console.log(aarmarkers);
-			console.log(timelineData);	
+//			console.log(timelineData);	
 //			console.log(markers);			
 
             // hide the loading overlay
@@ -398,7 +399,7 @@
                 source:		data,
                 embed: true,
                 embed_id:	'warroom_timeline',
-                start_at_end: true,
+                start_at_end: false,
                 start_zoom_adjust: '9',
                 debug:		false,
                 css: '{{ URL::to("/") }}/css/timeline.css',
@@ -418,7 +419,7 @@
                 source:		data,
                 embed: true,
                 embed_id:	'warroom_timeline',
-                start_at_end: true,
+                start_at_end: false,
                 start_zoom_adjust: '9',
                 debug:		false,
                 css: '{{ URL::to("/") }}/css/timeline.css',
@@ -885,9 +886,10 @@
 				killlayer.clearLayers();
 		 }
 		 
-		 console.log(index + ' ' + data.asset.markers);
+		// console.log(index + ' ' + data.asset.markers + ' ' + data.asset.pointer);
 		
-        if(typeof(data.asset.markers) == 'undefined'){
+        if(markers[data.asset.pointer]){
+			index = data.asset.pointer;
             if(typeof(markers[index].openPopup) !== 'undefined' && typeof(markers[index].openPopup) === 'function'){
 //add new layer to map
 				map.addLayer(killlayer);
