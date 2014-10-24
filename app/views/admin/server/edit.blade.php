@@ -175,16 +175,16 @@
                             </tr>                    
                             <tr>
                                 <td>Step 3</td>
-                                <td>Download the @Arma2Net addon and extract the folder into the Dedicated Server Arma 3 root folder. Add @Arma2Net to your mod line on your dedicated server.<br/><br/>
+                                <td>Download the @ALiVEServer addon and extract the folder into the Dedicated Server Arma 3 root folder. Add @ALiVEServer to your mod line on your dedicated server.<br/><br/>
                                     <div class="strip">
                                         <p>NOTE: Prior to extracting the addon from the 7zip archive, make sure that the archive isn't blocked.<br/><br/><span class="btn btn-yellow" data-toggle="modal" data-target="#blockedModal"><i class="fa fa-eye"></i> See Example</span></p>
                                     </div>
                                 </td>
-                                <td><a class="btn btn-yellow" href="{{ URL::to('/') }}/downloads/@Arma2NET.7z"><i class="fa fa-download"></i> Download</a></td>
+                                <td><a class="btn btn-yellow" href="{{ URL::to('/') }}/downloads/@AliveServer.7z"><i class="fa fa-download"></i> Download</a></td>
                             </tr>
                             <tr>
                                 <td>Step 4</td>
-                                <td>Download and save the alive.cfg file to <i>C:\Users\USERNAME\AppData\Local\ALiVE</i>.<br />You may need to create the directory yourself, if it's not there.</td>
+                                <td>Download and save the alive.cfg file to <i>C:\Users\USERNAME\AppData\Local\ALiVE</i> or your Arma 3 root directory.<br />If using AppData, you may need to create the directory yourself, if it's not there.</td>
                                 <td><a class="btn btn-yellow" href="{{ URL::to('admin/server/config') }}/{{ $clan->id }}"><i class="fa fa-download"></i> Download</a></td>
                             </tr>
                             <tr>
@@ -216,12 +216,12 @@
                             </tr>
                             <tr>
                                 <td>Step 2</td>
-                                <td>Launch Arma3server.exe with the @ALiVE and @Arma2Net in the mod line on your dedicated server. Ensure the Arma2Net addon has been downloaded into the Arma root folder</td>
+                                <td>Launch Arma3server.exe with the @ALiVE and @ALiveServer in the mod line on your dedicated server. Ensure the ALiVEServer addon has been downloaded into the Arma root folder</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>Step 3</td>
-                                <td>Launch your arma3.exe as normal (with @ALiVE but no need for @Arma2Net on your client)</td>
+                                <td>Launch your arma3.exe as normal (with @ALiVE but no need for @ALiVEServer on your client)</td>
                                 <td></td>
                             </tr>
                             <tr>
@@ -231,7 +231,7 @@
                             </tr>
                             <tr>
                                 <td>Step 5</td>
-                                <td>In baretail open users/username/appdata/local/arma2net/arma2net.log</td>
+                                <td>In baretail open users/username/appdata/local/ALiVE/AliveServer.log and alive.log</td>
                                 <td></td>
                             </tr>
                             <tr>
