@@ -248,7 +248,7 @@
             // setup the main timeline data structure
             var timelineData = new Object();
             timelineData.timeline = new Object();
-            timelineData.timeline.headline = "TEST";
+            timelineData.timeline.headline = "START";
             timelineData.timeline.type = "default";
             timelineData.timeline.text = "CHEESE";
             //timelineData.timeline.startDate = "2014,03,30,11,00";
@@ -399,7 +399,7 @@
                 source:		data,
                 embed: true,
                 embed_id:	'warroom_timeline',
-                start_at_end: false,
+                start_at_end: true,
                 start_zoom_adjust: '9',
                 debug:		false,
                 css: '{{ URL::to("/") }}/css/timeline.css',
@@ -419,7 +419,7 @@
                 source:		data,
                 embed: true,
                 embed_id:	'warroom_timeline',
-                start_at_end: false,
+                start_at_end: true,
                 start_zoom_adjust: '9',
                 debug:		false,
                 css: '{{ URL::to("/") }}/css/timeline.css',
