@@ -996,8 +996,8 @@ class AdminUserController extends BaseController {
 
                         $to_array = [
                             [
-                                //'email' => $email,
-                                'email' => 'unsub-test@testing.mandrillapp.com',
+                                'email' => $email,
+                                //'email' => 'unsub-test@testing.mandrillapp.com',
                                 //'email' => 'tupolov73@gmail.com',
                                 'name' => 'ALiVE user',
                                 'type' => 'to'
@@ -1011,7 +1011,7 @@ class AdminUserController extends BaseController {
                             $message = array(
                                 'html' => $content,
                                 'text' => '',
-                                'subject' => 'ALiVE Mod Update: 0.8 release and please support us in the MANW!',
+                                'subject' => 'ALiVE Mod Update: 0.9 Released!',
                                 'from_email' => 'noreply@alivemod.com',
                                 'from_name' => 'Arma 3 ALIVE Mod Team',
                                 'to' => $to_array,

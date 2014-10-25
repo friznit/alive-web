@@ -4,6 +4,8 @@
 		<meta charset="utf-8">
 	</head>
 		<h2 align="center"><img src="http://makearmanotwar.com/entry_uploads/12752/yhr29rH55dXHwJgxdzpKzjwHCN5JluGXJupmmPaFnr5K3lCrUE.jpg" alt="ALiVE" longdesc="http://alivemod.com"></h2>
+        <h2>ALiVE 0.9 released! </h2>
+        <p>If you didn't know already, we recently released a new version of ALiVE. We highly recommend you update as soon as possible. More information can be found here on the <a href="http://forums.bistudio.com/showthread.php?169350-ALiVE-Advanced-Light-Infantry-Virtual-Environment&p=2802870&viewfull=1#post2802870" target="new">Bohemia Interactive Forum</a> or at our website <a href="http://alivemod.com">http://alivemod.com </a></p>        
 		<h2 align="center"><a href="http://makearmanotwar.com/entry/0MI2rqQ5aQ#.VDPBbvmSwnJ">Support ALiVE in the Make Arma Not War Contest</a></h2>
 		<h2>Thank you!</h2>
 		<p>Our beta testing is coming to an end and after 6 months, 5000 players and over 1,000,000 in game events logged to ALiVE, we wanted to thank you!</p>
@@ -14,8 +16,7 @@
 		  <li><a href="http://makearmanotwar.com/entry/0MI2rqQ5aQ#.VDPBbvmSwnJ">Support ALiVE</a></li>
 		  <li>You can simply add your support by clicking on the yellow box with the + sign. You may need to login (either via Facebook, Twitter, Steam, BIS Profile or create a login).</li>
         </ol>
-		<h2>ALiVE 0.8 released! </h2>
-        <p>If you didn't know already, we recently released a new version of ALiVE. We highly recommend you update as soon as possible. More information can be found here on the <a href="http://forums.bistudio.com/showthread.php?169350-ALiVE-Advanced-Light-Infantry-Virtual-Environment&p=2785229&viewfull=1#post2785229" target="new">Bohemia Interactive Forum</a> or at our website <a href="http://alivemod.com">http://alivemod.com </a></p>
+		
         <h2>New Trailer</h2>
         <p>We've launched a <a href="https://www.youtube.com/watch?feature=player_embedded&v=lsztsBqNbFc" target="new">new trailer</a> and also a new set of <a href="http://alivemod.com/#Editors">tutorials</a></p>
         <p>Thank you, <br />
