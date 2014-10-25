@@ -971,7 +971,7 @@ class AdminUserController extends BaseController {
 
             $users = DB::table('users')
                 ->skip($count)
-                ->take(300)
+                ->take(1000)
                 ->get();
 
             if(count($users)){
@@ -1050,7 +1050,7 @@ class AdminUserController extends BaseController {
                     }
                 }
 
-                $count += 300;
+                $count += 1000;
 
                 DB::table('bulk_email')
                     ->where('id', 1)
