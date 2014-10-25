@@ -1045,7 +1045,7 @@ class AdminUserController extends BaseController {
                             throw $e;
                         }
 
-                        exit;
+                        //exit;
 
                     }
                 }
