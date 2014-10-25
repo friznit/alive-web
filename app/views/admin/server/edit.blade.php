@@ -231,12 +231,12 @@
                             </tr>
                             <tr>
                                 <td>Step 5</td>
-                                <td>In baretail open users/username/appdata/local/ALiVE/AliveServer.log and alive.log</td>
+                                <td>In baretail open users/username/appdata/local/Arma 3/AliveServer.log and alive.log</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>Step 6</td>
-                                <td>In baretail open Arma3Server RPT usually users/username/appdata/local/Arma3/</td>
+                                <td>In baretail open Arma3Server RPT usually users/username/appdata/local/Arma 3/</td>
                                 <td></td>
                             </tr>
                             <tr>
