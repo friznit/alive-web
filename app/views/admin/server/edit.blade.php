@@ -184,7 +184,7 @@
                             </tr>
                             <tr>
                                 <td>Step 4</td>
-                                <td>Download and save the alive.cfg file to <i>C:\Users\USERNAME\AppData\Local\ALiVE</i> or your Arma 3 root directory.<br />If using AppData, you may need to create the directory yourself, if it's not there.</td>
+                                <td>Download and save the alive.cfg file to C:\Users\USERNAME\AppData\Local\ALiVE OR your Arma 3 root directory. If using AppData, you may need to create the directory yourself if it's not there. Do NOT use your root arma 3 directory AND the AppData\Local\ALiVE directory.</td>
                                 <td><a class="btn btn-yellow" href="{{ URL::to('admin/server/config') }}/{{ $clan->id }}"><i class="fa fa-download"></i> Download</a></td>
                             </tr>
                             <tr>
@@ -231,22 +231,27 @@
                             </tr>
                             <tr>
                                 <td>Step 5</td>
-                                <td>In baretail open users/username/appdata/local/Arma 3/AliveServer.log and alive.log</td>
+                                <td>(on your dedicated server) In baretail open users/username/appdata/local/Arma 3/AliveServer.log</td>
                                 <td></td>
                             </tr>
-                            <tr>
+                             <tr>
                                 <td>Step 6</td>
-                                <td>In baretail open Arma3Server RPT usually users/username/appdata/local/Arma 3/</td>
+                                <td> (on your dedicated server) In baretail open the alive.log file in your Arma 3 root directory (it may be in the users/username/appdata/local/ALiVE folder if you set that up).</td>
                                 <td></td>
-                            </tr>
+                            </tr>                           
                             <tr>
                                 <td>Step 7</td>
-                                <td>Check for the log CONNECTED TO DATABASE OK</td>
+                                <td>(on your dedicated server) In baretail open Arma3Server RPT usually users/username/appdata/local/Arma3/ </td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>Step 8</td>
-                                <td>Go to alivemod.com War Room, under Recent Operations or Live Data Feed you should see a message stating your mission was launched.</td>
+                                <td>Check for the arma3server.rpt for CONNECTED TO DATABASE OK </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Step 9</td>
+                                <td>Go to alivemod.com War Room, under Live Data Feed you should see a message stating your mission was launched. If not, check Your Group page.</td>
                                 <td></td>
                             </tr>
                         </table>
