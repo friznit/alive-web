@@ -282,7 +282,13 @@
 
                 // parse dates into timeline friendly format
                 var parsedDateArray = eventObj.realTime.split(" ");
-                var parsedDayArray = parsedDateArray[0].split("/");
+				if (parsedDateArray[0].indexOf("/") > -1) {
+                	var parsedDayArray = parsedDateArray[0].split("/");
+				} else {
+					if (parsedDateArray[0].indexOf(".") > -1) {
+						var parsedDayArray = parsedDateArray[0].split(".");
+					}
+				}
                 var parsedTimeArray = parsedDateArray[1].split(":");
 
                 startDate = parsedDayArray[2] + ',' + parsedDayArray[1] + ',' + parsedDayArray[0] + ',' + parsedTimeArray[0] + ',' + parsedTimeArray[1] + ',' + parsedTimeArray[2];
@@ -343,7 +349,13 @@
 					
 					// parse dates into timeline friendly format
 					var parsedDateArray = dater.split(" ");
-					var parsedDayArray = parsedDateArray[0].split("/");
+					if (parsedDateArray[0].indexOf("/") > -1) {
+						var parsedDayArray = parsedDateArray[0].split("/");
+					} else {
+						if (parsedDateArray[0].indexOf(".") > -1) {
+							var parsedDayArray = parsedDateArray[0].split(".");
+						}
+					}
 					var parsedTimeArray = parsedDateArray[1].split(":");					
 	
 					startDate = parsedDayArray[2] + ',' + parsedDayArray[1] + ',' + parsedDayArray[0] + ',' + parsedTimeArray[0] + ',' + parsedTimeArray[1] + ',' + (parseInt(parsedTimeArray[2]));							
