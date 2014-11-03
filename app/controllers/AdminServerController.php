@@ -145,7 +145,7 @@ class AdminServerController extends BaseController {
             $server = new Server;
             $server->name = $input['name'];
             $server->hostname = $input['hostname'];
-            $server->ip = $input['ip'];
+            $server->ip = trim($input['ip']);
             $server->note = $input['note'];
             $server->clan_id = $id;
             $server->key = $this->_generatePassword(32);
@@ -259,7 +259,7 @@ class AdminServerController extends BaseController {
 
             $server->name = $input['name'];
             $server->hostname = $input['hostname'];
-            $server->ip = $input['ip'];
+            $server->ip = trim($input['ip']);
             $server->note = $input['note'];
 
             if($server->save()){
