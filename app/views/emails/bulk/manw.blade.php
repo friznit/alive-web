@@ -4,18 +4,16 @@
 		<meta charset="utf-8">
 	</head>
 		<h2 align="center"><img src="http://makearmanotwar.com/entry_uploads/12752/yhr29rH55dXHwJgxdzpKzjwHCN5JluGXJupmmPaFnr5K3lCrUE.jpg" alt="ALiVE" longdesc="http://alivemod.com"></h2>
-        <h2 align="center">ALiVE 0.9 released! </h2>
-        <p>If you didn't know already, we recently released a new version of ALiVE. We highly recommend you update as soon as possible. More information can be found here on the <a href="http://forums.bistudio.com/showthread.php?169350-ALiVE-Advanced-Light-Infantry-Virtual-Environment&p=2802870&viewfull=1#post2802870" target="new">Bohemia Interactive Forum</a> or at our website <a href="http://alivemod.com">http://alivemod.com</a></p>   
-        <h3 align="center">Consolidate, Simplify, Stabilise, Enhance</h3>
-        <p>Our goal for this sprint was to review the current state of our code!</p>
-        <p>We fixed and stabilised where necessary and ensured that ALiVE remains aligned with our aim to provide an intuitive modular mission framework.
-        Feedback from users suggested ALiVE wasn’t as easy to use as we would like, so we have made some changes to how the modules are structured.
-        We have renamed and combined several, added guidance to the module “Show Info” tabs as well as the in game Field Manual. Full details are on the wiki.</p>
-        <h2 align="center"><img src="http://alivemod.com/img/tour2.jpg"></h2>
+        <h2 align="center">ALiVE 0.9.4 released! </h2>
+        <p>If you didn't know already, we recently released a new version of ALiVE. We highly recommend you update as soon as possible. More information can be found here on the <a href="http://forums.bistudio.com/showthread.php?169350-ALiVE-Advanced-Light-Infantry-Virtual-Environment&p=2833798&viewfull=1#post2833798" target="new">Bohemia Interactive Forum</a> or at our website <a href="http://alivemod.com">http://alivemod.com</a></p>   
+        <h3 align="center">Compatibility & Enhance</h3>
+        <p>This release is a minor update release to ensure continued compatibility with Arma 3 Stable updates, popular mods (CUP, RHS, etc) and to start to introduce insurgency like features. This release includes support for the very popular Bornholm 1.2 map and IceBreakr's Panthera for A3. We have add an IED module to provide ambient IED and VB-IED as well as adding Roadblocks to Civilian Placement module and strategic camps to Military Placement to allow missions makers to offer insurgency like missions. </p>
+        <p>This is the first step towards a fully integrated insurgency system which ultimately will allow OPCOM commanders to execute insurgent style tactics and strategy. Of course as usual you'll find a bunch of bug fixes and improvements too along with a new ALIVEServer plugin! We were also working hard on code optimisation, using newly introduced (and quicker) array commands like pushback!</p>
+        <h2 align="center"><img src="http://i.imgur.com/EZIzq7Q.jpg"></h2>
         <p>Please note, in case you have an issue loading a mission done with a previous version of ALiVE, update the modules in that mission.
         We have left the old modules hidden in the background to give you time to transition over but please update your missions as soon as possible.
         The legacy modules will be removed in an upcoming release!</p>
-<h2 align="center"><img src="http://alivemod.com/img/tour.jpg"></h2>
+<h2 align="center"><img src="http://i.imgur.com/Se0GX9d.jpg"></h2>
         <h3>ALiVE War Room</h3>
         <p>The team has been working hard on preparing the Operations Centre! It will enable commanders to track and manage campaigns from the War Room.
         This plans to include near real time tracking of players, live intel feeds and an After Action Review feature as well as web based Command & Control tools
