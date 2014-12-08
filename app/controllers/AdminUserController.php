@@ -1011,7 +1011,7 @@ class AdminUserController extends BaseController {
                             $message = array(
                                 'html' => $content,
                                 'text' => '',
-                                'subject' => 'ALiVE Mod Update: 0.9 Released!',
+                                'subject' => 'ALiVE Mod Update: 0.9.4 Released!',
                                 'from_email' => 'noreply@alivemod.com',
                                 'from_name' => 'Arma 3 ALIVE Mod Team',
                                 'to' => $to_array,
