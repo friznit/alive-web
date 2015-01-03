@@ -113,7 +113,7 @@
                         @if (!is_null($clan->teamspeak) && !$clan->teamspeak=='')
                         <tr>
                             <td width="40%">TeamSpeak</td>
-                            <td width="60%"><a target="_blank" href="t3server://{{{ $clan->teamspeak }}}">{{{ $clan->teamspeak }}}</a></td>
+                            <td width="60%"><a target="_blank" href="ts3server://{{{ $clan->teamspeak }}}">{{{ $clan->teamspeak }}}</a></td>
                         </tr>
                         @endif
                     </table>
