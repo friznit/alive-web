@@ -168,8 +168,7 @@
                 <pre><code><?php echo htmlspecialchars('<img src="http://www.alivemod.com/api/sig?id='. $profile->a3_id.'" width="601" height="100"/>');?></pre></code>
 
                 @endif
-                
-				/*
+     <!--           
                 @if ($userIsLeader || $userisOfficer || $auth['isAdmin'] )
 
                     <h2>Mod Utilities</h2>
@@ -183,8 +182,7 @@
                     </table>
 
                 @endif
-				*/
-                
+     -->          
                 @if ($auth['isAdmin'] && $profile->clan_id > 0)
 
                 <h2>Admin Utils</h2>
