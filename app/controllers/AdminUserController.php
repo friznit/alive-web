@@ -1,5 +1,5 @@
 <?php
-
+use Alive\UploadHandler;
 use Alive\CouchAPI;
 use Tempo\TempoDebug;
 
@@ -701,6 +701,26 @@ class AdminUserController extends BaseController {
         }
     }
 
+	// Upload Mod Images -----------------------------------------------------------------------------------------------
+	public function getUploadimages()
+	{
+		$data = get_default_data();
+        $auth = $data['auth'];
+
+        return View::make('admin/user.uploadimages')->with($data);
+	}
+	/*
+	public function postFiles()
+	{
+		$data = get_default_data();
+        $auth = $data['auth'];
+		
+		error_reporting(E_ALL | E_STRICT);
+		
+		$upload_handler = new UploadHandler();	
+
+        return View::make('admin/user.uploadimages')->with($data);		
+	}*/
     // Cloud connect ---------------------------------------------------------------------------------------------------
 
     public function getConnect($id)

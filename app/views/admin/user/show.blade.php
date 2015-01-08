@@ -168,8 +168,23 @@
                 <pre><code><?php echo htmlspecialchars('<img src="http://www.alivemod.com/api/sig?id='. $profile->a3_id.'" width="601" height="100"/>');?></pre></code>
 
                 @endif
+                
+				/*
+                @if ($userIsLeader || $userisOfficer || $auth['isAdmin'] )
 
+                    <h2>Mod Utilities</h2>
+                    <p>Use the following utilities to add information about or images for the mods you are using.</p>  
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr>
+                            <td><button class="btn btn-yellow" onClick="location.href='{{ URL::to('admin/user/uploadimages') }}'">Upload Mod Images</button></td>
+                        </tr>
+                        </tbody>
+                    </table>
 
+                @endif
+				*/
+                
                 @if ($auth['isAdmin'] && $profile->clan_id > 0)
 
                 <h2>Admin Utils</h2>
