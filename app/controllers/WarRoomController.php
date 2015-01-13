@@ -130,7 +130,7 @@ class WarRoomController extends BaseController {
 
         $header = View::make('warroom/layouts/home_header')->render();
         $nav = View::make('warroom/layouts/nav')->with($data)->render();
-        $footer = View::make('warroom/layouts/home_footer')->render();
+        $footer = View::make('warroom/layouts/home_footer')->with($data)->render();
 
         return $header . $nav . $content . $footer;
     }
