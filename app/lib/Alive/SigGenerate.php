@@ -90,7 +90,7 @@ class SigGenerate {
         $sig->draw()->text($playerTotals->Kills, $boldFont, new Point(165, 64), 0);
         $sig->draw()->text($playerTotals->ShotsFired, $boldFont, new Point(165, 76), 0);
 		$sig->draw()->text($playerTotals->VehicleTime.' mins', $boldFont, new Point(295, 39), 0);
-        $sig->draw()->text($playerTotals->VehicleKills, $boldFont, new Point(295, 52), 0);
+        $sig->draw()->text($playerTotals->VehicleKills.' kills', $boldFont, new Point(295, 52), 0);
         $sig->draw()->text($playerTotals->PilotTime.' mins', $boldFont, new Point(295, 64), 0);
         $sig->draw()->text($playerTotals->Heals, $boldFont, new Point(295, 76), 0);
         $sig->draw()->text($playerDetails->Operation.', '.$opdate, $boldFont, new Point(165, 89), 0);
