@@ -55,7 +55,7 @@
 
             </div>
 
-            <div class="col-md-4 col-md-offset-1">
+            <div class="col-md-6">
 
                 @if (!$clan)
 
@@ -158,6 +158,8 @@
                 @else
 
                 <h2>Forum Signature</h2>
+                
+                <img src="http://www.alivemod.com/api/sig?id={{$profile->a3_id}}" width="601" height="100"/>
 
                 <p>Apply the following code to your BI forums or other forums signature to display your WarRoom stats!</p>
 
