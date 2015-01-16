@@ -14,7 +14,12 @@
 						return "<a href={{ URL::to('war-room/showpersonnel') }}/" + data[1] + ">" +  data[2] + "</a>";
 					}  
 				},
-                { "mDataProp": "key.3", "aTargets": [ 1 ],
+				{ "mDataProp": "key.4", "aTargets": [ 1 ],
+					"mRender" : function (data, type) {
+						return "<img src={{ URL::to('img/classes/thumbs/150px-Arma3_CfgVehicles_') }}" + data + ".png onerror=this.style.display='none'>";
+					}
+			    },				
+                { "mDataProp": "key.3", "aTargets": [ 2 ],
 					"mRender" : function (data, type) {
 						if (data.indexOf("_") > -1) {
 							data = data.replace(/_/g," ");
@@ -22,11 +27,6 @@
 						return data;
 					}
 				 },
-				{ "mDataProp": "key.4", "aTargets": [ 2 ],
-					"mRender" : function (data, type) {
-						return "<img src={{ URL::to('img/classes/thumbs/150px-Arma3_CfgVehicles_') }}" + data + ".png onerror=this.style.display='none'>";
-					}
-			    },
                 { "mDataProp": "value", "aTargets": [ 3 ]  }
             ]
         } );
@@ -38,8 +38,8 @@
     <thead>
     <tr>
         <th>Unit</th>
-        <th>Vehicle</th>
         <th>Image</th>
+        <th>Vehicle</th>
         <th>EKIA</th>
     </tr>
     </thead>
