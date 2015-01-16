@@ -57,7 +57,12 @@ $(function() {
                     backgroundColor: null,
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
-                    plotShadow: false
+                    plotShadow: false,
+					events: {
+						load: function(){
+								this.showLoading();
+						}
+					}										
 		    },
             exporting: {
                 enabled: false
@@ -140,4 +145,4 @@ $(function() {
 		
 </script>
 
-<div id="container"><div class="alert alert-info" style="text-align:center">Loading Server Performance Data</div></div>
+<div id="container"><div class="alert alert-info" style="text-align:center">Loading...</div></div>
