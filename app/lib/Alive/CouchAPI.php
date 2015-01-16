@@ -1903,8 +1903,8 @@ class CouchAPI {
     {
 
         $id = rawurlencode($id);
-        $id = rawurlencode($type);
-        $id = rawurlencode($servername);
+        $type = rawurlencode($type);
+        $server = rawurlencode($servername);
 
         $path = 'sys_perf/_design/sys_perf/_view/'. $type .'?startkey=%22' . $id . '%22&endkey=%22' . $id . '%22';
 
@@ -1920,23 +1920,9 @@ class CouchAPI {
 
             $encoded = json_encode($data);
 
-        }else{
-		     $path = 'sys_perf/_design/sys_perf/_view/'. $type .'?startkey=%22' . $servername . '%22&endkey=%22' . $servername . '%22';
-
-       		 $data = $this->call($path);
-			 if(isset($data['response'])) {
-
-           		$data = $data['response'];
-
-				if($this->debug){
-					TempoDebug::dump($data);
-				}
-	
-				$encoded = json_encode($data);
-				
-			 }else{
-           		 $encoded = json_encode([]);
-			 }
+		}else{
+                TempoDebug::dump($data);			
+	   		 $encoded = json_encode([]);
         }
 
         return $encoded;
