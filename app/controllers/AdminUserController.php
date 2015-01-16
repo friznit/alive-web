@@ -709,7 +709,7 @@ class AdminUserController extends BaseController {
 
         return View::make('admin/user.uploadimages')->with($data);
 	}
-	/*
+/*
 	public function postFiles()
 	{
 		$data = get_default_data();
@@ -720,7 +720,9 @@ class AdminUserController extends BaseController {
 		$upload_handler = new UploadHandler();	
 
         return View::make('admin/user.uploadimages')->with($data);		
-	}*/
+	}
+*/
+	
     // Cloud connect ---------------------------------------------------------------------------------------------------
 
     public function getConnect($id)
