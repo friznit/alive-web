@@ -537,11 +537,11 @@
 
                         <div class="panel-body avatars">
                             <p>Large (300px x 300px)</p>
-                            <img src="<?= $clan->avatar->url('medium') ?>" ><br/><br/>
+                            <img src="<?= $clan->avatar->url('medium') ?>" onerror="this.src='{{ URL::to('/') }}/avatars/medium/clan.png';"><br/><br/>
                             <p>Medium (100px x 100px)</p>
-                            <img src="<?= $clan->avatar->url('thumb') ?>" ><br/><br/>
+                            <img src="<?= $clan->avatar->url('thumb') ?>" onerror="this.src='{{ URL::to('/') }}/avatars/thumb/clan.png';"><br/><br/>
                             <p>Small (40px x 40px)</p>
-                            <img src="<?= $clan->avatar->url('tiny') ?>" ><br/><br/>
+                            <img src="<?= $clan->avatar->url('tiny') ?>" onerror="this.src='{{ URL::to('/') }}/avatars/tiny/clan.png';"><br/><br/>
                             <input type="file" id="avatar_upload" name="avatar" />
                         </div>
                         <div class="panel-footer clearfix">

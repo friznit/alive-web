@@ -119,6 +119,7 @@ return array(
         'Codesleeve\Stapler\StaplerServiceProvider',
         'anlutro\cURL\Laravel\cURLServiceProvider',
         'Webpatser\Countries\CountriesServiceProvider',
+		'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider'
 	),
 
 	/*
@@ -161,7 +162,7 @@ return array(
 		'Eloquent'        => 'Illuminate\Database\Eloquent\Model',
 		'Event'           => 'Illuminate\Support\Facades\Event',
 		'File'            => 'Illuminate\Support\Facades\File',
-		'Form'            => 'Illuminate\Support\Facades\Form',
+		'Form'            => 'Illuminate\Support\Facades\Form',	
 		'Hash'            => 'Illuminate\Support\Facades\Hash',
 		'HTML'            => 'Illuminate\Support\Facades\HTML',
 		'Input'           => 'Illuminate\Support\Facades\Input',
@@ -187,7 +188,7 @@ return array(
         'Alert'           => 'Prologue\Alerts\Facades\Alert',
         'cURL'            => 'anlutro\cURL\Laravel\cURL',
         'Countries'       => 'Webpatser\Countries\CountriesFacade',
-
+		'Gravatar' => 'Thomaswelton\LaravelGravatar\Facades\Gravatar'		
 	),
 
 );

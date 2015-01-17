@@ -22,7 +22,7 @@
                 <p><em>Group created: {{ $clan->created_at }}</em></p>
                 <p><em>Last Updated: {{ $clan->updated_at }}</em></p>
 
-                <img src="{{ $clan->avatar->url('medium') }}" ><br/><br/>
+                <img src="{{ $clan->avatar->url('medium') }}" onerror="this.src='{{ URL::to('/') }}/avatars/medium/clan.png';"><br/><br/>
 
                 <h4>Squad XML Import Results</h4>
 

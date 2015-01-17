@@ -312,11 +312,11 @@
 
                         <div class="panel-body avatars">
                             <p>Large (300px x 300px)</p>
-                            <img src="<?= $profile->avatar->url('medium') ?>" ><br/><br/>
+                            <img src="<?= $profile->avatar->url('medium') ?>"  onerror="this.src='{{Gravatar::src($user->email, 300)}}';" ><br/><br/>
                             <p>Medium (100px x 100px)</p>
-                            <img src="<?= $profile->avatar->url('thumb') ?>" ><br/><br/>
+                            <img src="<?= $profile->avatar->url('thumb') ?>"  onerror="this.src='{{Gravatar::src($user->email, 100)}}';" ><br/><br/>
                             <p>Small (40px x 40px)</p>
-                            <img src="<?= $profile->avatar->url('tiny') ?>" ><br/><br/>
+                            <img src="<?= $profile->avatar->url('tiny') ?>"  onerror="this.src='{{Gravatar::src($user->email)}}';" ><br/><br/>
                             <input type="file" id="avatar_upload" name="avatar" />
                         </div>
                         <div class="panel-footer clearfix">

@@ -54,7 +54,7 @@
                     </h4>
 
                     <div class="black-panel">
-                        <img src="{{ $clan->avatar->url('medium') }}" >
+                        <img src="{{ $clan->avatar->url('medium') }}" onerror="this.src='{{ URL::to('/') }}/avatars/medium/clan.png';">
                     </div>
                     <h1>Overview</h1>
 				<hr/>
@@ -130,7 +130,7 @@
 				<table class="table">
                     <tbody>
                     <tr>
-                        <td><img src="{{ $leader->avatar->url('tiny') }}" ></td>
+                        <td><img src="{{ $leader->avatar->url('tiny') }}" onerror="this.src='{{Gravatar::src($leader->email)}}';" ></td>
                         <td><a href={{ URL::to('war-room/showpersonnel') }}/{{ $leader->a3_id }}>{{{ $leader->username }}}</a></td>
                         <td>Leader</td>
                         <td>{{{ $leader->remark }}}</td>
@@ -143,7 +143,7 @@
                     <tbody>
                     @foreach ($officers as $member)
                     <tr>
-                        <td><img src="{{ $member->avatar->url('tiny') }}" ></td>
+                        <td><img src="{{ $member->avatar->url('tiny') }}" onerror="this.src='{{Gravatar::src($member->email)}}';" ></td>
                         <td><a href={{ URL::to('war-room/showpersonnel') }}/{{ $member->a3_id }}>{{{ $member->username }}}</a></td>
                         <td>Officer</td>                      
                         <td>{{{ $member->remark }}}</td>
@@ -164,7 +164,7 @@
                         ?>
                         @if ($memberIsGrunt)
                         <tr>
-                            <td><img src="{{ $member->avatar->url('tiny') }}" ></td>
+                            <td><img src="{{ $member->avatar->url('tiny') }}" onerror="this.src='{{Gravatar::src($user->email)}}';" ></td>
                             <td><a href={{ URL::to('war-room/showpersonnel') }}/{{ $member->a3_id }}>{{{ $member->username }}}</a></td>
                             <td>Soldier</td>                      
                             <td>{{{ $member->remark }}}</td>

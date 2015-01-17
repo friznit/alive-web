@@ -24,7 +24,7 @@
                     {{{ $clan->name }}}
                 </h2>
 
-                <img src="{{ $clan->avatar->url('medium') }}" ><br/><br/>
+                <img src="{{ $clan->avatar->url('medium') }}" onerror="this.src='{{ URL::to('/') }}/avatars/medium/clan.png';"><br/><br/>
 
                 <table class="table">
                     @if (!is_null($clan->country))
@@ -123,7 +123,7 @@
                         @if ($auth['isAdmin'])
                         <td><a href="http://alivemod.com/admin/user/show/{{ $member->user_id }}">{{ $member->user_id }}</a></td>
                         @endif
-                        <td><img src="{{ $member->avatar->url('tiny') }}" ></td>
+                        <td><img src="{{ $member->avatar->url('tiny') }}" onerror="this.src='{{Gravatar::src($user->email)}}';" ></td>
                         <td>{{{ $member->username }}}</td>
                         @if ($memberIsLeader)
                         <td>Leader</td>

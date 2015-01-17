@@ -24,7 +24,7 @@
                     {{{ $profile->username }}}
                 </h2>
 
-                <img src="{{ $profile->avatar->url('medium') }}" ><br/><br/>
+                <img src="{{ $profile->avatar->url('medium') }}"  onerror="this.src='{{Gravatar::src($user->email, 300)}}';" ><br/><br/>
 
                 <table class="table">
                     @if (!is_null($profile->country))
@@ -109,7 +109,7 @@
                 @elseif ($profile->clan_id > 0)
 
                     <h2>{{{ $clan->name }}}</h2>
-                    <img src="{{ $clan->avatar->url('thumb') }}" ><br/><br/>
+                    <img src="{{ $clan->avatar->url('thumb') }}" onerror="this.src='{{ URL::to('/') }}/avatars/thumb/clan.png';"><br/><br/>
 
                     <?php
 
@@ -159,7 +159,7 @@
 
                 <h2>Forum Signature</h2>
                 
-                <img src="http://www.alivemod.com/api/sig?id={{$profile->a3_id}}" width="601" height="100"/>
+                <img src="http://www.alivemod.com/api/sig?id={{$profile->a3_id}}" width="601" height="100" onerror="this.src='{{ URL::to('/') }}/sigs/missing.png';"/>
 
                 <p>Apply the following code to your BI forums or other forums signature to display your WarRoom stats!</p>
 

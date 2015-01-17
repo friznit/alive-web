@@ -114,7 +114,7 @@
                     @endif
 
                         <div class="black-panel">
-                            <img src="{{ $profile->avatar->url('medium') }}" >
+                            <img src="{{ $profile->avatar->url('medium') }}" onerror="this.src='{{Gravatar::src($user->email, 300)}}';" >
                         </div>
 				@endif
                     
