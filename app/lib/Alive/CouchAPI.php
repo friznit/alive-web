@@ -87,6 +87,21 @@ class CouchAPI {
 
         return $this->call($path, array(), $requestType);
     }
+	
+    public function updateClanMember($a3Id, $username, $group, $rev)
+    {
+        $path = 'players/' . $a3Id . '?rev=' . $rev;
+		
+		$data = array(
+            'username' => $username,
+            'ServerGroup' => $group,
+            'A3PUID' => $a3Id,
+        );
+
+        $requestType = 'PUT';
+
+        return $this->call($path, $data, $requestType);
+    }	
 
     public function getClanMember($a3Id)
     {

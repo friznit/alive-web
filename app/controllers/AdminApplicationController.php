@@ -382,6 +382,19 @@ class AdminApplicationController extends BaseController {
             $applicant->addGroup($auth['gruntGroup']);
         }
 
+		// Update CouchDB ServerGroup
+		if(!is_null($applicantProfile->remote_id)){
+			$couchAPI = new Alive\CouchAPI();
+			$result = $couchAPI->updateClanMember($applicantProfile->a3_id, $applicantProfile->username, $clan->tag, $applicantProfile->remote_id);
+			
+			if(isset($result['response'])){
+				if(isset($result['response']->rev)){
+					$remoteId = $result['response']->rev;
+					$applicantProfile->remote_id = $remoteId;
+				}
+			}				
+		}		
+
         $applicantProfile->clan_id = $clan->id;
         $applicantProfile->save();
 

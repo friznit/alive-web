@@ -571,9 +571,23 @@ class AdminClanController extends BaseController {
             if(!$user->inGroup($auth['adminGroup'])){
                 $user->addGroup($auth['userGroup']);
             }
-
-            $memberProfile->clan_id = 0;
-            $memberProfile->save();
+	
+			// Remove player ServerGroup from CouchDB
+            if(!is_null($memberProfile->remote_id)){
+				$group = "";
+                $couchAPI = new Alive\CouchAPI();
+                $result = $couchAPI->updateClanMember($memberProfile->a3_id, $memberProfile->username, $group, $memberProfile->remote_id);
+				
+				if(isset($result['response'])){
+					if(isset($result['response']->rev)){
+						$remoteId = $result['response']->rev;
+						$memberProfile->remote_id = $remoteId;
+					}
+				}				
+            }	
+			
+			$memberProfile->clan_id = 0;
+            $memberProfile->save();		
 
             Alert::success('Member removed.')->flash();
             return Redirect::to('admin/clan/show/' . $clan_id);
@@ -622,7 +636,21 @@ class AdminClanController extends BaseController {
             if(!$currentUser->inGroup($auth['adminGroup'])){
                 $currentUser->addGroup($auth['userGroup']);
             }
-
+			
+			// Remove player ServerGroup from CouchDB
+            if(!is_null($profile->remote_id)){
+				$group = "";
+                $couchAPI = new Alive\CouchAPI();
+                $result = $couchAPI->updateClanMember($profile->a3_id, $profile->username, $group, $profile->remote_id);
+				
+				if(isset($result['response'])){
+					if(isset($result['response']->rev)){
+						$remoteId = $result['response']->rev;
+						$profile->remote_id = $remoteId;
+					}
+				}				
+            }
+				
             $profile->clan_id = 0;
             $profile->save();
 
@@ -812,6 +840,8 @@ class AdminClanController extends BaseController {
 
                 $profile->save();
 
+				// should there be a connect user to couch call here?
+				
                 if(isset($result['response'])){
                     if(isset($result['response']->rev)){
                         $remoteId = $result['response']->rev;
