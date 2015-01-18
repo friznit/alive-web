@@ -142,9 +142,15 @@
 				data.VehicleTime = 0.01;
 				data.PilotTime = 0.01;
 			}
-
+			
+			function onErrFunction(source){
+				source.src = "http://alivemod.com/avatars/thumb/clan.png";
+				source.onerror = "";
+				return true;
+			}
+			
             var popup = L.popup()
-                .setContent("<table><tr><td colspan='2'><div class='strip'>Unit</div></td></tr><tr><td><img width='100' src='{{ $clan->avatar->url('thumb') }}' onerror='this.src=''{{ URL::to('/') }}/avatars/thumb/clan.png'';'></td><td>" +
+                .setContent("<table><tr><td colspan='2'><div class='strip'>Unit</div></td></tr><tr><td><img width='100' src='{{ $clan->avatar->url('thumb') }}' onerror='this.src=\"http://alivemod.com/avatars/thumb/clan.png\"'></td><td>" +
                     "<div class='unit-popup'>" +
                     "<p>" +
                     "<a href={{ URL::to('war-room/showorbat') }}/{{$clan->id}}><span class='title'>{{$clan->name}} [{{$clan->tag}}]</span></a></br>" +
