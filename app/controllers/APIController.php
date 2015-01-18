@@ -56,11 +56,17 @@ class APIController extends BaseController {
             if(!is_null($profile)){
                 $user = $profile->user;
                 $data['user'] = $user;
-                $clan = $profile->clan;
-                $data['clan'] = $clan;
+				if ($profile->clan_id > 0) {
+					$clan = $profile->clan;
+					$data['clan'] = $clan;
+                	$data['clantar'] = $clan->avatar->url('thumb');	
+				}else{
+					$data['clantar'] = "/avatars/thumb/clan.png";
+				}
 				$data['country'] = $profile->country;
                 $data['avatar'] = $profile->avatar->url('thumb');
-                $data['clantar'] = $clan->avatar->url('thumb');
+				$data['username'] = $profile->username;
+				$data['email'] = $profile->email;				
                 $data['a3_id'] = $profile->a3_id;
             }
 

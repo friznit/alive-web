@@ -8,6 +8,8 @@ use Imagine\Image\Box;
 use Imagine\Image\Point;
 use Imagine\Image\Color;
 use Imagine\Gd\Font;
+use Gravatar;
+use Config;
 
 
 class SigGenerate {
@@ -18,9 +20,12 @@ class SigGenerate {
     {
         $this->imagine = new Imagine();
 
-        $user = $data['user'];
+        $username = $data['username'];
+		$useremail = $data['email'];
         $playerdata = $data['playerdata'];
-        $clan = json_decode($data['clan']);
+		if ($data['clan']) {
+       	 $clan = json_decode($data['clan']);
+		}
         $avatar = $data['avatar'];
         $clantar = $data['clantar'];
         $a3_id = $data['a3_id'];
@@ -38,14 +43,32 @@ class SigGenerate {
 			$playerWeap = $playerWeapon[2];
 		}
 		
-		$opdate = $this->showDate(date(strtotime($playerDetails->date)));
-
+		if ($playerDetails) {
+			$opdate = $this->showDate(date(strtotime($playerDetails->date)));
+		}
+		
         $public = public_path();
 
         $avatar = $public.$avatar;
         $clantar = $public.$clantar;
-		$flag = $this->imagine->open($public.'/img/flags_iso/24/'.strtolower($country).'.png');
 
+		if (!file_exists($avatar)) {
+			$avatar = Gravatar::src($useremail, 100);
+			if ($avatar == "https://secure.gravatar.com/avatar/00000000000000000000000000000000?s=100&amp;r=r&amp;d=mm&amp;f=y") {
+				$avatar = $public."/avatars/thumb/clan.png";
+			}
+		}
+				
+		if (!file_exists($clantar)) {
+			$clantar = $public."/avatars/thumb/clan.png";
+		}
+		
+		if ($country) {
+			$flag = $this->imagine->open($public.'/img/flags_iso/24/'.strtolower($country).'.png');
+		}else{
+			$flag = $this->imagine->open($public.'/img/flags_iso/24/_United Nations.png');
+		}
+				
         $sig = $this->imagine->create(new Box(601, 100));
 
         $avatar = $this->resizeAuto($avatar, 100, 100);
@@ -65,8 +88,14 @@ class SigGenerate {
         $titleFont = new Font($public.'/sigs/assets/font_0.otf',12,$colorYellow);
         $detailFont = new Font($public.'/sigs/assets/pixelmix.ttf',6,$colorDarkYellow);
         $boldFont = new Font($public.'/sigs/assets/pixelmix.ttf',6,$colorYellow);
+		
+		if ($playerDetails) {
+			$name = $playerDetails->PlayerName;
+		}else{
+			$name = $username;
+		}
 
-        $mainTitle = '['.$clan->tag.'] ' . $playerDetails->PlayerName . ' - ' .$clan->name;
+        $mainTitle = '['.$clan->tag.'] ' . $name . ' - ' .$clan->name;
 
         $sig->draw()->text($mainTitle, $titleFont, new Point(135, 5), 0);
 
@@ -83,18 +112,21 @@ class SigGenerate {
         $sig->draw()->text('PILOT:', $detailFont, new Point(231, 64), 0);
         $sig->draw()->text('MEDIC:', $detailFont, new Point(231, 76), 0);
         $sig->draw()->text('LAST OP:', $detailFont, new Point(111, 89), 0);
+		
+		if ($playerDetails && $playerTotals) {
 
-        $sig->draw()->text($playerDetails->PlayerClass.', '.$playerWeap, $boldFont, new Point(165, 27), 0);
-        $sig->draw()->text($playerTotals->Operations, $boldFont, new Point(165, 39), 0);
-        $sig->draw()->text($playerTotals->CombatHours.' mins', $boldFont, new Point(165, 52), 0);
-        $sig->draw()->text($playerTotals->Kills, $boldFont, new Point(165, 64), 0);
-        $sig->draw()->text($playerTotals->ShotsFired, $boldFont, new Point(165, 76), 0);
-		$sig->draw()->text($playerTotals->VehicleTime.' mins', $boldFont, new Point(295, 39), 0);
-        $sig->draw()->text($playerTotals->VehicleKills.' kills', $boldFont, new Point(295, 52), 0);
-        $sig->draw()->text($playerTotals->PilotTime.' mins', $boldFont, new Point(295, 64), 0);
-        $sig->draw()->text($playerTotals->Heals, $boldFont, new Point(295, 76), 0);
-        $sig->draw()->text($playerDetails->Operation.', '.$opdate, $boldFont, new Point(165, 89), 0);
-
+			$sig->draw()->text($playerDetails->PlayerClass.', '.$playerWeap, $boldFont, new Point(165, 27), 0);
+			$sig->draw()->text($playerTotals->Operations, $boldFont, new Point(165, 39), 0);
+			$sig->draw()->text($playerTotals->CombatHours.' mins', $boldFont, new Point(165, 52), 0);
+			$sig->draw()->text($playerTotals->Kills, $boldFont, new Point(165, 64), 0);
+			$sig->draw()->text($playerTotals->ShotsFired, $boldFont, new Point(165, 76), 0);
+			$sig->draw()->text($playerTotals->VehicleTime.' mins', $boldFont, new Point(295, 39), 0);
+			$sig->draw()->text($playerTotals->VehicleKills.' kills', $boldFont, new Point(295, 52), 0);
+			$sig->draw()->text($playerTotals->PilotTime.' mins', $boldFont, new Point(295, 64), 0);
+			$sig->draw()->text($playerTotals->Heals, $boldFont, new Point(295, 76), 0);
+			$sig->draw()->text($playerDetails->Operation.', '.$opdate, $boldFont, new Point(165, 89), 0);
+		}
+		
         /*
         $sig->draw()->text('OPS: '.$playerTotals->Operations, $detailFont, new Point(210, 40), 0);
         $sig->draw()->text('EXP: '.$playerTotals->CombatHours.' mins', $detailFont, new Point(210, 50), 0);
