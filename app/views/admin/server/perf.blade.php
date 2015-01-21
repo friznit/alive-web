@@ -1,5 +1,5 @@
 @extends('admin.layouts.default')
-
+ 
 <div class="admin-panel">
     <div class="container">
         <div class="row">
@@ -8,9 +8,8 @@
             {{-- Content --}}
             @section('content')
 
-            <h2>Servers</h2>
-
-            <form class="light" action="{{ URL::to('admin/server/search') }}" method="post">
+            <h2>Server Performance</h2>
+            <form class="light" action="{{ URL::to('admin/server/perfsearch') }}" method="post">
 
                 {{ Form::token() }}
 
@@ -42,29 +41,22 @@
                 </div>
 
             </form>
-            <button class="btn btn-yellow" onClick="location.href='{{ URL::to('admin/server/perf') }}'">See Server Performance List</button>
+            <button class="btn btn-yellow" onClick="location.href='{{ URL::to('admin/server/index') }}'">See Server List</button>
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Clan</th>
-                        <th>Hostname</th>
-                        <th>IP</th>
-                        <th>Options</th>
+                        <th>Performance</th>
                     </tr>
                 </thead>
                 <tbody>
                 @foreach ($allServers as $server)
-                <tr>
-                    <td><a href="{{ URL::to('admin/server/show') }}/{{ $server->id }}">{{{ $server->name }}}</a></td>
-                    <td>{{{ $server->clan->name }}}</td>
-                    <td>{{{ $server->hostname }}}</td>
-                    <td>{{{ $server->ip }}}</td>
-                    <td>
-                        <button class="btn btn-default" onClick="location.href='{{ URL::to('admin/server/edit') }}/{{ $server->id}}'">Edit</button>
-                        <button class="btn btn-default action_confirm" href="{{ URL::to('admin/server/delete') }}/{{ $server->id}}" data-token="{{ Session::getToken() }}" data-method="post">Delete</button>
-                    </td>
-                </tr>
+                        <tr>
+                            <td><a href="{{ URL::to('admin/server/show') }}/{{ $server->id }}">{{{ $server->name }}}</a></td>
+                            <td>{{{ $server->clan->name }}}</td>
+                            <td>@include('warroom/charts/smallserverperf')</td>
+                        </tr>
                 @endforeach
                 </tbody>
             </table>

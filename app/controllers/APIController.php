@@ -402,6 +402,10 @@ class APIController extends BaseController {
 		$type = Input::get('type');
         return $this->couchAPI->getServerPerf($id,$type,$servername);
     }
+	public function getServerperfcheck()
+    {
+        return $this->couchAPI->getServerPerfCheck();
+    }	
 	public function getClanfeed()
     {
 		$id = Input::get('id');

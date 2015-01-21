@@ -8,7 +8,7 @@ $(function() {
 	var seriesOptions = [],
 		yAxisOptions = [],
 		seriesCounter = 0,
-		names = ['CPS', 'Objects', 'FPS', 'Players','REMAI','LOCAI','ActiveProf','InactiveProf','UnitsProf','VehProf'],
+		names = ['CPS', 'FPS', 'Players'],
 		colors = Highcharts.getOptions().colors;
 
 	$.each(names, function(i, name) {
@@ -49,15 +49,15 @@ $(function() {
 	// create the chart when all data is loaded
 	function createChart() {
 
-		$('#container').highcharts('StockChart', {
+		$('#server{{$server->id}}').highcharts('StockChart', {
 		    chart: {
-                renderTo: 'container',
-                    height: 480,
-                    width: 900,
+                renderTo: 'server{{$server->id}}',
+                    height: 320,
+                    width: 600,
                     backgroundColor: null,
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
-                    plotShadow: false								
+                    plotShadow: false,									
 		    },
             exporting: {
                 enabled: false
@@ -140,4 +140,4 @@ $(function() {
 		
 </script>
 
-<div id="container"><div class="alert alert-info" style="text-align:center">Loading...</div></div>
+<div id="server{{$server->id}}"><div class="alert alert-info" style="text-align:center">Loading...</div></div>

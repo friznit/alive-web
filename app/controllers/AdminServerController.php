@@ -1,4 +1,5 @@
 <?php
+use Alive\CouchAPI;
 
 class AdminServerController extends BaseController {
 
@@ -29,6 +30,34 @@ class AdminServerController extends BaseController {
         }
     }
 
+    public function getPerf()
+    {
+
+        $data = get_default_data();
+        $auth = $data['auth'];
+
+        if ($auth['isAdmin']) {
+			$couchAPI = new Alive\CouchAPI();
+			$serversPerf = $couchAPI->getServerPerfCheck();
+			$serversPerf = json_decode($serversPerf);
+			$serversPerf = (array) $serversPerf->rows;
+			$result = array();
+			$i = 0;
+			foreach ($serversPerf as $value)
+			{
+				$result[$i] = $value->key;
+				$i++;
+			}
+			$data['serversPerf'] = $result;
+            $data['allServers'] = Server::whereIn('ip',$result)->paginate(10);
+
+            return View::make('admin/server.perf')->with($data);
+        } else {
+            Alert::error('Sorry.')->flash();
+            return Redirect::to('admin/user/show/'.$auth['userId']);
+        }
+    }
+	
     public function postSearch()
     {
 
@@ -75,6 +104,73 @@ class AdminServerController extends BaseController {
                 $data['query'] = $query;
 
                 return View::make('admin/server.search')->with($data);
+
+            } else {
+                Alert::error('Sorry.')->flash();
+                return Redirect::to('admin/user/show/'.$auth['userId']);
+            }
+        }
+    }
+	
+	public function postPerfsearch()
+    {
+
+        $data = get_default_data();
+        $auth = $data['auth'];
+
+        $input = array(
+            'query' => Input::get('query'),
+            'type' => Input::get('type')
+        );
+
+        $rules = array (
+            'query' => 'required',
+            'type' => 'required|alpha',
+        );
+
+        $v = Validator::make($input, $rules);
+
+        if ($v->fails()) {
+            return Redirect::to('admin/server/')->withErrors($v)->withInput()->with($data);
+        } else {
+
+            if ($auth['isAdmin']) {
+
+                $query = $input['query'];
+                $type = $input['type'];
+				
+				$couchAPI = new Alive\CouchAPI();
+				$serversPerf = $couchAPI->getServerPerfCheck();
+				$serversPerf = json_decode($serversPerf);
+				$serversPerf = (array) $serversPerf->rows;
+				$result = array();
+				$i = 0;
+				foreach ($serversPerf as $value)
+				{
+					$result[$i] = $value->key;
+					$i++;
+				}
+				$data['serversPerf'] = $result;
+				
+                switch($type){
+                    case 'name':
+                        $servers = Server::where('servers.name', 'LIKE', '%'.$query.'%')->whereIn('ip',$result);
+                        break;
+                    case 'hostname':
+                        $servers = Server::where('servers.hostname', 'LIKE', '%'.$query.'%')->whereIn('ip',$result);
+                        break;
+                    case 'ip':
+                        $servers = Server::where('servers.ip', 'LIKE', '%'.$query.'%')->whereIn('ip',$result);
+                        break;
+                }
+
+                $servers = $servers->paginate(10);
+	
+                $data['links'] = $servers->links();
+                $data['allServers'] = $servers;
+                $data['query'] = $query;
+
+                return View::make('admin/server.perfsearch')->with($data);
 
             } else {
                 Alert::error('Sorry.')->flash();

@@ -46,7 +46,7 @@
                 </div>
 
             </form>
-
+            <button class="btn btn-yellow" onClick="location.href='{{ URL::to('admin/ao/create') }}'">Create a New Area of Operation</button>
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -75,8 +75,6 @@
             </table>
 
             <?php echo $allAOs->links(); ?>
-            
-            <button class="btn btn-yellow" onClick="location.href='{{ URL::to('admin/ao/create') }}'">Create a New Area of Operation</button>
             
         <br/><br/>
 

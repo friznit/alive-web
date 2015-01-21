@@ -1942,6 +1942,31 @@ class CouchAPI {
 
         return $encoded;
     }
+
+	public function getServerPerfCheck()
+    {
+
+        $path = 'sys_perf/_design/sys_perf/_view/server_count_data?group=true';
+
+        $data = $this->call($path);
+
+        if(isset($data['response'])) {
+
+            $data = $data['response'];
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+		}else{
+                TempoDebug::dump($data);			
+	   		 $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }	
 	
 	public function getClanFeed($id)
     {

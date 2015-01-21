@@ -8,9 +8,9 @@
             {{-- Content --}}
             @section('content')
 
-            <h2>Servers</h2>
+            <h2>Search Results for "{{{ $query }}}"</h2>
 
-            <form class="light" action="{{ URL::to('admin/server/search') }}" method="post">
+            <form class="light" action="{{ URL::to('admin/server/perfsearch') }}" method="post">
 
                 {{ Form::token() }}
 
@@ -18,9 +18,9 @@
                     <div class="col-lg-4">
                         <div class="input-group">
                             <input type="text" name="query" class="form-control">
-                            <span class="input-group-btn">
+                        <span class="input-group-btn">
                             <input class="btn btn-default" type="submit" value="Search">
-                            </span>
+                        </span>
                         </div>
                         <?php
                         if($errors->has('query')){
@@ -42,29 +42,24 @@
                 </div>
 
             </form>
-            <button class="btn btn-yellow" onClick="location.href='{{ URL::to('admin/server/perf') }}'">See Server Performance List</button>
+
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Clan</th>
-                        <th>Hostname</th>
-                        <th>IP</th>
-                        <th>Options</th>
+                        <th>Performance</th>
                     </tr>
                 </thead>
                 <tbody>
                 @foreach ($allServers as $server)
-                <tr>
-                    <td><a href="{{ URL::to('admin/server/show') }}/{{ $server->id }}">{{{ $server->name }}}</a></td>
-                    <td>{{{ $server->clan->name }}}</td>
-                    <td>{{{ $server->hostname }}}</td>
-                    <td>{{{ $server->ip }}}</td>
-                    <td>
-                        <button class="btn btn-default" onClick="location.href='{{ URL::to('admin/server/edit') }}/{{ $server->id}}'">Edit</button>
-                        <button class="btn btn-default action_confirm" href="{{ URL::to('admin/server/delete') }}/{{ $server->id}}" data-token="{{ Session::getToken() }}" data-method="post">Delete</button>
-                    </td>
-                </tr>
+
+                        <tr>
+                            <td><a href="{{ URL::to('admin/server/show') }}/{{ $server->id }}">{{{ $server->name }}}</a></td>
+                            <td>{{{ $server->clan->name }}}</td>
+                            <td>@include('warroom/charts/smallserverperf')</td>
+                        </tr>
+
                 @endforeach
                 </tbody>
             </table>
