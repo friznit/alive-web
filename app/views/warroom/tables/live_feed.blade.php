@@ -3,16 +3,14 @@
 	  refresh()
   });
 	
-	function refresh(){
+  function refresh(){
 		
 	$('#live_feed').empty();
 
-				        $.getJSON('{{ URL::to('/') }}/api/livefeed', function(data) {
-
-            console.log(data)
+	$.getJSON('http://alivemod.com/api/livefeed', function(data) {
 
             $.each(data.rows, function (index, row) {
-
+				
                 if (row.value.Event == "Kill")
                 {
                     if (row.value.Death == "true")
@@ -106,3 +104,5 @@
   
 	
 </script>
+
+<div id="live_feed_container"><div id="live_feed"></div></div>

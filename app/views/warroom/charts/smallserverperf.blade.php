@@ -52,8 +52,8 @@ $(function() {
 		$('#server{{$server->id}}').highcharts('StockChart', {
 		    chart: {
                 renderTo: 'server{{$server->id}}',
-                    height: 320,
-                    width: 600,
+                    height: 240,
+                    width: 480,
                     backgroundColor: null,
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
@@ -68,6 +68,12 @@ $(function() {
                     color: 'silver'
                 }
             },
+			navigator : {
+                enabled : false
+            },
+            scrollbar : {
+                enabled : false
+            },			
 		    rangeSelector: {
 		        selected: 4,
                 inputEnabled: false,
