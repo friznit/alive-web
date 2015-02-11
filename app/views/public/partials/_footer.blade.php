@@ -8,12 +8,13 @@
                     <li><i class="fa-li fa fa-arrow-right"></i>Cameroon</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Friznit</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Gunny</li>
-                    <li><i class="fa-li fa fa-arrow-right"></i>Haze</li>
+                    <li><i class="fa-li fa fa-arrow-right"></i>Hazey</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Highhead</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Jman</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Naught</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Raptor</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Rye</li>
+                    <li><i class="fa-li fa fa-arrow-right"></i>Sacha L</li>                    
                     <li><i class="fa-li fa fa-arrow-right"></i>Tupolov</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>WobblyHeadedBob</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Wolffy.au</li>
