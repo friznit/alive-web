@@ -229,8 +229,9 @@ img {
 #recent_ops_container {
     font-family: 'Roboto Condensed', san-serif;
     font-size:12px;
-    line-height: 10px;
+    line-height: 14px;
     max-height:300px;
+	color: #a8a8a8;
 }
 
 #warroom_t1operators {
@@ -307,15 +308,20 @@ img {
     line-height: 13px;
     color: #a8a8a8;
 }
+#recent_ops hr,
 #live_feed_container hr {
     border: none;
     height: 1px;
     margin:10px 0 10px 0;
     background-color: #926c20;
 }
+
+#recent_ops .operation,
 #live_feed_container .operation {
     color: #fcaf17;
 }
+
+#recent_ops .highlight,
 #live_feed_container .highlight {
     color: #926c20;
 }

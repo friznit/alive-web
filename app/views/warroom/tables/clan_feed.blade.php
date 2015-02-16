@@ -37,22 +37,22 @@
 
                 }
 
-                if (row.value.Event == "PlayerStart")
+                if (row.value.Event == "OperationStart")
                 {
-                    $('#clan_feed')
+                    $('#live_feed')
                         .append(row.value.Map + ' - ')
-                        .append(row.value.gameTime + ' local<br>')
-                        .append('<a href={{ URL::to("war-room/showpersonnel") }}/' + row.value.Player +'><span class="highlight"> ' + row.value.PlayerName + '</span></a> is participating in Operation <span class="highlight2">' + row.value.Operation + '</span>.')
-                        .append('<br>' + parseArmaDate(row.key[1]) + ' - <span class="operation"><a href={{ URL::to("war-room/showoperation?name=") }}' + encodeURIComponent(row.value.Operation) +'&map=' + encodeURIComponent(row.value.Map) +'&clan={{{$clan->tag}}}>Operation ' + row.value.Operation +'</span><hr>')
+                        .append(row.value.gameTime + ' local - ' + row.value.Group +'<br>')
+                        .append('Operation <span class="highlight2">' + row.value.Operation + '</span> has been launched.')
+.append('<br>' + parseArmaDate(row.key) + ' - <a href={{ URL::to("war-room") }}/showoperation?name=' + encodeURIComponent(row.value.Operation) + '&map=' + encodeURIComponent(row.value.Map) + '&clan=' + encodeURIComponent(row.value.Group) +'><span class="highlight">Operation ' + row.value.Operation +'</a></span><hr>')
                 }
 
-                if (row.value.Event == "PlayerFinish")
+                if (row.value.Event == "OperationFinish")
                 {
-                    $('#clan_feed')
+                    $('#live_feed')
                         .append(row.value.Map + ' - ')
-                        .append(row.value.gameTime + ' local<br>')
-                        .append('<a href={{ URL::to("war-room/showpersonnel") }}/' + row.value.Player +'><span class="highlight"> ' + row.value.PlayerName + '</span></a> has left Operation <span class="highlight2">' + row.value.Operation + '</span> after ' + row.value.timePlayed + ' minutes.')
-                        .append('<br>' + parseArmaDate(row.key[1]) + ' - <span class="operation"><a href={{ URL::to("war-room/showoperation?name=") }}' + encodeURIComponent(row.value.Operation) +'&map=' + encodeURIComponent(row.value.Map) +'&clan={{{$clan->tag}}}>Operation ' + row.value.Operation +'</span><hr>')
+                        .append(row.value.gameTime + ' local - ' + row.value.Group +'<br>')
+                        .append('Operation <span class="highlight2">' + row.value.Operation + '</span> has ended after ' + row.value.timePlayed + ' minutes.')
+.append('<br>' + parseArmaDate(row.key) + ' - <a href={{ URL::to("war-room") }}/showoperation?name=' + encodeURIComponent(row.value.Operation) + '&map=' + encodeURIComponent(row.value.Map) + '&clan=' + encodeURIComponent(row.value.Group) +'><span class="highlight">Operation ' + row.value.Operation +'</a></span><hr>')
                 }
 
                 if (row.value.Event == "Hit" && !(row.value.PlayerHit))

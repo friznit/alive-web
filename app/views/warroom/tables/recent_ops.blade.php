@@ -1,51 +1,29 @@
 <script>
-    $(document).ready(function(){
-        $('#recent_ops').dataTable({
-            "bJQueryUI": true,
-            "sAjaxSource": '{{ URL::to('/') }}/api/recentoperations',
-            "sAjaxDataProp": "rows",
-            "bPaginate": false,
-            "bFilter": false,
-            "bInfo": false,
-			"aaSorting":[],
-            "aoColumnDefs": [
-                {
-                    "aTargets": [ 0 ],
-                    "mDataProp": "key",
-                    "mRender": function ( data, type, row ) {
-                        return parseArmaDate(data);
-                    }
-                },{
-                    "aTargets": [ 1 ],
-                    "mDataProp": "value",
-                    "mRender": function ( data, type, row) {
-                        return data[1];
-                    }
-                },{
-                    "aTargets": [ 2 ],
-                    "mDataProp": "value",
-                    "mRender": function ( data, type, row) {
-						return "<a href={{ URL::to('war-room') }}/showoperation?name=" + encodeURIComponent(data[2]) +"&map=" + encodeURIComponent(data[1]) + "&clan=" + encodeURIComponent(data[3]) + ">" +  data[2] + " (" + data[3] +")</a>";
-                    }
-                }
-            ]
-        } );
-    });
+  $(document).ready(function() {
+	  updateOps()
+  });
+	
+  function updateOps(){
+		
+	$('#recent_ops').empty();
 
+	$.getJSON('http://alivemod.com/api/recentoperations', function(opsdata) {
+
+            $.each(opsdata.rows, function (index, row) {
+				
+                $('#recent_ops')
+				.append('<hr>' + (row.value[1].charAt(0).toUpperCase() + row.value[1].slice(1) )+ '<br><a href={{ URL::to("war-room") }}/showoperation?name=' + encodeURIComponent(row.value[2]) + '&map=' + encodeURIComponent(row.value[1]) + '&clan=' + encodeURIComponent(row.value[3]) +'><span class="highlight">Operation ' + row.value[2] + '</a> (')
+                  .append(row.value[3] + ')<br>' + parseArmaDate(row.key))
+
+             });
+
+            $("#recent_ops_container").mCustomScrollbar("update");
+     });
+	 setTimeout(updateOps,240000);
+ }
 </script>
 
 <div id="recent_ops_container">
-
-    <table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="recent_ops">
-        <thead>
-        <tr>
-            <th width="30%">Date</th>
-            <th width="10%">Map</th>
-            <th width="60%">Operation</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
+	<div id="recent_ops">
+    </div>
 </div>
