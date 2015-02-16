@@ -207,7 +207,7 @@ class AdminServerController extends BaseController {
         );
 
         $rules = array (
-            'name' => 'required',
+            'name' => 'required|alpha_num',
             'hostname' => 'required',
             'ip' => 'required',
         );

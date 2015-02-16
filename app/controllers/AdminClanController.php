@@ -105,7 +105,7 @@ class AdminClanController extends BaseController {
         );
 
         $rules = array (
-            'newGroup' => 'required',
+            'newGroup' => 'required|alpha_num',
             'tag' => 'required',
         );
 
