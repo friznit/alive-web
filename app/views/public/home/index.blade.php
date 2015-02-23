@@ -49,8 +49,8 @@
         <div class="row">
             <div class="col-md-5">
                 <h2>MANW is ALiVE!</h2>
-                <p id="welcome_text">ALiVE has been entered into the Make Arma Not War competition!</p>
-                <p><b>Help the ALiVE team out by supporting ALiVE in the competition</b></p>
+                <p id="welcome_text">We are finalists! Thank you for your support!</p>
+                <p><b>Your continued support is welcome!</b></p>
                 <p><a class="btn btn-yellow btn-med"href="http://makearmanotwar.com/entry/0MI2rqQ5aQ#.VCmCgfmSwnI"><i class="fa fa-thumbs-o-up"></i> Support ALiVE in the MANW Comp</a><br/></p>
             </div>
             <div class="col-md-2">
@@ -61,6 +61,8 @@
         </div>
     </div>
 </div>
+
+
 
 <div class="jumbotron white-panel" id="Donate">
     <div class="container">
@@ -99,6 +101,60 @@
     </div>
 </div>
 
+<div class="jumbotron dark-panel" id="Johari">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>New! ALiVE Soundtrack</h2>
+                <p id="welcome_text">We are pleased to present a collaboration with the band Johari.</p>
+                <img src="http://static.wixstatic.com/media/99a3d7_15a6e8f6bb9d4484ada5eb5401668c0a.png_srz_620_544_85_22_0.50_1.20_0.00_png_srz" width="300" height="300" class="img-responsive" />
+                <p><b>ALiVE will soon include the awesome 'This is War' (Metal cover) by Johari, in game! </b></p>
+
+            </div>
+            <div class="col-md-5 col-md-offset-1">
+                    <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                        <iframe width="420" height="500" src="//www.youtube.com/embed/Fx70rXFRxfQ?controls=0" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <br />
+                    <p><a class="btn btn-yellow btn-med"href="http://www.johariofficial.com"><i class="fa fa-thumbs-o-up"></i> Visit the Official Johari website</a><br/></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="jumbotron white-panel" id="Download">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <h2>Download</h2>
+                <table class="table">
+                    <tr>
+                        <th>Version</th>
+                        <th>Compatible With</th>
+                        <th></th>
+                    </tr>
+                    <tr class="success">
+                        <td>0.9.5.1502221</td>
+                        <td>Arma 3 Stable 1.38.128937</td>
+                        <td><a class="btn btn-primary btn-lg pull-right" href="http://alivemod.com/downloads/@ALiVE_0.9.5.1502221.7z"><i class="fa fa-download"></i> Download</a></td>
+                    </tr>                   
+                </table>
+                <br/><h2>Installation</h2>
+                <p>Dependencies:  ALiVE Requires <b>CBA_A3</b><br/><br/>
+                As with any other mod, extract @ALiVE into Steamapps/Common/ArmA 3 or My Documents/ArmA3.<br/><br/>
+                Then either add @ALiVE to your shortcut -mod line, or enable it using the in game Expansions menu or use a launcher like Play with Six or ArmA3Sync.<br/><br/>
+                Further instructions for installing mods are in this handy guide on <a target="_blank" href="http://www.armaholic.com/forums.php?m=posts&q=20866]ArmAholic">Armaholic</a>
+                </p>
+            </div>
+             <div class="col-md-1">
+            </div>
+            <div class="col-md-4">
+                <img src="{{ URL::to('/') }}/img/alive_box.jpg" class="img-responsive" />
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="jumbotron dark-panel" id="ALiVEWarRoom">
     <div class="container">
         <div class="row">
@@ -127,40 +183,7 @@
     </div>
 </div>
 
-<div class="jumbotron white-panel" id="Download">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-7">
-                <h2>Download</h2>
-                <table class="table">
-                    <tr>
-                        <th>Version</th>
-                        <th>Compatible With</th>
-                        <th></th>
-                    </tr>
-                    <tr class="success">
-                        <td>0.9.4.1412061</td>
-                        <td>Arma 3 Stable 1.36.128579</td>
-                        <td><a class="btn btn-primary btn-lg pull-right" href="http://alivemod.com/downloads/@ALiVE_0.9.4.1412061.7z"><i class="fa fa-download"></i> Download</a></td>
-                    </tr>
-                </table>
-                <br/><h2>Installation</h2>
-                <p>Dependencies:  ALiVE Requires <b>CBA_A3</b><br/><br/>
-                As with any other mod, extract @ALiVE into Steamapps/Common/ArmA 3 or My Documents/ArmA3.<br/><br/>
-                Then either add @ALiVE to your shortcut -mod line, or enable it using the in game Expansions menu or use a launcher like Play with Six or ArmA3Sync.<br/><br/>
-                Further instructions for installing mods are in this handy guide on <a target="_blank" href="http://www.armaholic.com/forums.php?m=posts&q=20866]ArmAholic">Armaholic</a>
-                </p>
-            </div>
-             <div class="col-md-1">
-            </div>
-            <div class="col-md-4">
-                <img src="{{ URL::to('/') }}/img/alive_box.jpg" class="img-responsive" />
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="jumbotron dark-panel" id="Media">
+<div class="jumbotron white-panel" id="Media">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -242,7 +265,7 @@
     </div>
 </div>
 
-<div class="jumbotron white-panel" id="Editors">
+<div class="jumbotron dark-panel" id="Editors">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
