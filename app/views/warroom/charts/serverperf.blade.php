@@ -2,45 +2,47 @@
 $(function() {
     
     Highcharts.setOptions({
-        colors: ['#660066', '#E60000', '#008A2E', '#0000CC']
+        colors: ['#003366','#000000','#FF0000','#339933','#660066', '#660000', '#660066', '#FF66FF','#33CC33','#CC9900','#800000']
     });
     
 	var seriesOptions = [],
 		yAxisOptions = [],
 		seriesCounter = 0,
-		names = ['CPS', 'Objects', 'FPS', 'Players','REMAI','LOCAI','ActiveProf','InactiveProf','UnitsProf','VehProf'],
+		names = ['CPS', 'Objects', 'FPS', 'Players','REMAI','LOCAI','ActiveProf','InactiveProf','UnitsProf','VehProf','FPSMIN','Mem','CPU','IORead','IOWrite','DiskQueue'],
 		colors = Highcharts.getOptions().colors;
 
 	$.each(names, function(i, name) {
 
-		$.getJSON('{{ URL::to('/') }}/api/serverperf?id={{{$server->ip}}}&servername={{{$server->hostname}}}&type=' + name, function(data) {
+		$.getJSON('http://alivemod.com/api/serverperf?id={{{$server->ip}}}&servername={{{$server->hostname}}}&type=' + name, function(data) {
             
             var seriesData = [];
             
-            for (var r = 0; r < data.rows.length; r++) {
-                if (data.rows[r].value.value > 0) {
-                    if (data.rows[r].key != null) {
-                        seriesData.push([data.rows[r].value.time, data.rows[r].value.value]);
-                    }
-                }
-            }
-			
-			seriesData.sort( function(a,b) {
-					return a[0]-b[0]
-			});
-
-			seriesOptions[i] = {
-				name: name,
-				data: seriesData
-			};
-
+			if (data.rows) {
+				for (var r = 0; r < data.rows.length; r++) {
+					if (data.rows[r].value.value > 0) {
+						if (data.rows[r].key != null) {
+							seriesData.push([data.rows[r].value.time, data.rows[r].value.value]);
+						}
+					}
+				}
+				
+				seriesData.sort( function(a,b) {
+						return a[0]-b[0]
+				});
+	
+				seriesOptions[i] = {
+					name: name,
+					data: seriesData
+				};
+			}
 			// As we're loading the data asynchronously, we don't know what order it will arrive. So
 			// we keep a counter and create the chart when all the data is loaded.
 			seriesCounter++;
 
 			if (seriesCounter == names.length) {
 				createChart();
-			}
+			}	
+			
 		});
 	});
 

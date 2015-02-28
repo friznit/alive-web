@@ -1936,13 +1936,73 @@ class CouchAPI {
             $encoded = json_encode($data);
 
 		}else{
-                TempoDebug::dump($data);			
+			if($this->debug){
+                TempoDebug::dump($data);
+			}
 	   		 $encoded = json_encode([]);
         }
 
         return $encoded;
     }
+	
+	public function getServerPerfAll($id)
+    {
 
+        $id = rawurlencode($id);
+		
+        $path = 'sys_perf/_design/sys_perf/_view/all_perf_server?startkey=%22' . $id . '%22&endkey=%22' . $id . '%22';
+
+        $data = $this->call($path);
+
+        if(isset($data['response']->rows[0]->key)) {
+
+            $data = $data['response'];
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+		}else{
+			 if($this->debug){
+                TempoDebug::dump($data);	
+			 }
+	   		 $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }	
+
+	public function getServerPerfDate($date)
+    {
+
+        $date = rawurlencode($date);
+		
+        $path = 'sys_perf/_design/sys_perf/_view/all_perf?startkey=%22' . $date . '%22';
+
+        $data = $this->call($path);
+
+        if(isset($data['response']->rows[0]->key)) {
+
+            $data = $data['response'];
+
+            if($this->debug){
+                TempoDebug::dump($data);
+            }
+
+            $encoded = json_encode($data);
+
+		}else{
+			 if($this->debug){
+                TempoDebug::dump($data);
+			 }
+	   		 $encoded = json_encode([]);
+        }
+
+        return $encoded;
+    }	
+	
 	public function getServerPerfCheck()
     {
 
