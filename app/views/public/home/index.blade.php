@@ -134,9 +134,9 @@
                         <th></th>
                     </tr>
                     <tr class="success">
-                        <td>0.9.5.1502221</td>
-                        <td>Arma 3 Stable 1.38.128937</td>
-                        <td><a class="btn btn-primary btn-lg pull-right" href="http://alivemod.com/downloads/@ALiVE_0.9.5.1502221.7z"><i class="fa fa-download"></i> Download</a></td>
+                        <td>0.9.6.1509031</td>
+                        <td>Arma 3 Stable 1.40.129533</td>
+                        <td><a class="btn btn-primary btn-lg pull-right" href="http://alivemod.com/downloads/@ALiVE_0.9.6.1509031.7z"><i class="fa fa-download"></i> Download</a></td>
                     </tr>                   
                 </table>
                 <br/><h2>Installation</h2>
