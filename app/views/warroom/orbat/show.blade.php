@@ -153,29 +153,31 @@
                 </table>
              	</div>
 
-                  <h2>Soldiers</h2>
-				<div id="soldiers_container" style="max-height:400px">
-                <table cellpadding="0" cellspacing="0" border="0" class="dataTable table">
-                    <tbody>
-                    @foreach ($soldiers as $member)
-						<?php
-                         $user = Sentry::findUserById($member->user_id);
-                         $memberIsGrunt = $user->inGroup($auth['gruntGroup']);
-                        ?>
-                        @if ($memberIsGrunt)
-                        <tr>
-                            <td><img src="{{ $member->avatar->url('tiny') }}" onerror="this.src='{{Gravatar::src($user->email)}}';" ></td>
-                            <td><a href={{ URL::to('war-room/showpersonnel') }}/{{ $member->a3_id }}>{{{ $member->username }}}</a></td>
-                            <td>Soldier</td>                      
-                            <td>{{{ $member->remark }}}</td>
-                        </tr>
-                        @endif
-                    @endforeach
-                    </tbody>
-                </table>
-                </div>
-				
-            
+                      <h2>Soldiers</h2>
+                    <div id="soldiers_container" style="max-height:400px">
+                        <table cellpadding="0" cellspacing="0" border="0" class="dataTable table">
+                            <tbody>
+                            @foreach ($soldiers as $member)
+                                <?php
+                                 $user = Sentry::findUserById($member->user_id);
+                                 $memberIsGrunt = $user->inGroup($auth['gruntGroup']);
+                                ?>
+                                @if ($memberIsGrunt)
+                                <tr>
+                                    <td><img src="{{ $member->avatar->url('tiny') }}" onerror="this.src='{{Gravatar::src($user->email)}}';" ></td>
+                                    <td><a href={{ URL::to('war-room/showpersonnel') }}/{{ $member->a3_id }}>{{{ $member->username }}}</a></td>
+                                    <td>Soldier</td>                      
+                                    <td>{{{ $member->remark }}}</td>
+                                </tr>
+                                @endif
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <h2>Most Recent Operations</h2>
+                    <div id="orbat_recent_ops_container" style="max-height:260px">
+                        @include('warroom/tables/orbat_recent_ops')
+                    </div>
                 </div>
 
             </div>
@@ -188,8 +190,7 @@
                     <div id="personnel_livefeed">
                         @include('warroom/tables/clan_feed')
                     </div>
- 				<h2>Most Recent Operations</h2>
-                	@include('warroom/tables/orbat_recent_ops')
+
                 </div>
             </div>
 

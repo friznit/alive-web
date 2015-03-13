@@ -30,12 +30,12 @@
                 }
             ]
         } );
-
+		$("#recent_ops_container").mCustomScrollbar("update");
     });
 
 </script>
 
-<div id="#orbat_recent_ops_container">
+<div id="recent_ops_container" style="max-height:260px">
 
     <table cellpadding="0" cellspacing="0" border="0" class="dataTable table" id="orecent_ops">
         <thead>

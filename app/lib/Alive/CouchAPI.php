@@ -1543,7 +1543,7 @@ class CouchAPI {
 
         $id = rawurlencode($id);
 
-        $path = 'events/_design/groupPage/_list/sort_no_callback/group_recent_ops?startkey=%22' . $id . '%22&endkey=%22' . $id . '%22&descending=true&limit=10';
+        $path = 'events/_design/groupPage/_list/sort_no_callback/group_recent_ops?startkey=%22' . $id . '%22&endkey=%22' . $id . '%22&descending=true&limit=50';
 
         $data = $this->call($path);
 

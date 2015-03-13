@@ -88,12 +88,12 @@
 
             });
 
-            $("#clan_feed_container").mCustomScrollbar("update");
+            $("#live_feed_container").mCustomScrollbar("update");
         });
     });
 </script>
 
-<div id="live_feed_container" style="max-height:380px">
+<div id="live_feed_container" style="max-height:1080px">
     <div id="clan_feed">
 
     </div>
