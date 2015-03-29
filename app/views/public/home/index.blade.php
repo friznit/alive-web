@@ -44,25 +44,33 @@
     </div>
 </div>
 
-<div class="jumbotron dark-panel" id="MANW">
+<div class="jumbotron dark-panel" id="ALiVEWarRoom">
     <div class="container">
         <div class="row">
-            <div class="col-md-5">
-                <h2>MANW is ALiVE!</h2>
-                <p id="welcome_text">We are finalists! Thank you for your support!</p>
-                <p><b>Your continued support is welcome!</b></p>
-                <p><a class="btn btn-yellow btn-med"href="http://makearmanotwar.com/entry/0MI2rqQ5aQ#.VCmCgfmSwnI"><i class="fa fa-thumbs-o-up"></i> Support ALiVE in the MANW Comp</a><br/></p>
+            <div class="col-md-6">
+                <h2><img src="{{ URL::to('/') }}/img/alive_warroom_sm.png" class="img-responsive" /></h2>
+
+                <p>ALiVE mod introduces revolutionary web services integration by streaming Arma 3 in game data to our ALiVE War Room web platform. War Room allows players and groups to review current and past operations as well keep track of individual and group performance statistics.</p>
+                <p>War Room offers groups membership to a "virtual" task force operating across the various AO's offered by the Arma 3 engine. War Room exposes task force wins, losses and leaderboards for performance. The platform will provide live streaming capabilities for BLUFOR tracking in a web browser as well as Twitch integration for live helmet cam views and the much awaited ALiVE xStream functionality.</p>
+                <p>Beside events, statistics and streaming, War Room provides the platform for persisting Multiplayer Campaigns. This allows groups to run "multi-session operations" by storing game state to a cloud based database. Group admins can update campaign data via the War Room, such as adding map markers, objectives, editing loadouts or adding vehicles and units to the campaign - all via the web platform.</p>
+                <p>We believe ALiVE War Room is a revolutionary step in Arma gaming - sign up today!</p>
             </div>
-            <div class="col-md-2">
-            </div>
-            <div class="col-md-3">
-                <img src="{{ URL::to('/') }}/img/manwar_logo_hover.png" class="img-responsive" />
+            <div class="col-md-5 col-md-offset-1">
+                    <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                        <iframe width="420" height="500" src="//www.youtube.com/embed/StKbdxL6LnA" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                <div class="panel panel-dark">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Join the ALiVE War Room</h3>
+                    </div>
+                    <div class="panel-body">
+                        <a href="{{ URL::to('user/register') }}" class="btn btn-yellow">Sign Up Now!</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-
 
 <div class="jumbotron white-panel" id="Donate">
     <div class="container">
@@ -108,7 +116,7 @@
                 <h2>New! ALiVE Soundtrack</h2>
                 <p id="welcome_text">We are pleased to present a collaboration with the band Johari.</p>
                 <img src="http://static.wixstatic.com/media/99a3d7_15a6e8f6bb9d4484ada5eb5401668c0a.png_srz_620_544_85_22_0.50_1.20_0.00_png_srz" width="300" height="300" class="img-responsive" />
-                <p><b>ALiVE will soon include the awesome 'This is War' (Metal cover) by Johari, in game! </b></p>
+                <p><b>ALiVE now includes the awesome 'This is War' (Metal cover) by Johari, in game! </b></p>
 
             </div>
             <div class="col-md-5 col-md-offset-1">
@@ -131,20 +139,22 @@
                     <tr>
                         <th>Version</th>
                         <th>Compatible With</th>
-                        <th></th>
+                        <th>Download</th>
+                        <th>Donate</th>
                     </tr>
                     <tr class="success">
                         <td>0.9.6.1509031</td>
                         <td>Arma 3 Stable 1.40.129533</td>
                         <td><a class="btn btn-primary btn-lg pull-right" href="http://alivemod.com/downloads/@ALiVE_0.9.6.1509031.7z"><i class="fa fa-download"></i> Download</a></td>
+ 						<td><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                                <input type="image" class="btn btn-yellow btn-med" name="submit" alt="Voluntary $1 Donation">
+                                <input type="hidden" name="cmd" value="_s-xclick">
+                                <input type="hidden" name="hosted_button_id" value="YEX976YKH796L">                                
+                            </form>
+                            Donate to our server costs.
+                        </td>                        
                     </tr>                   
                 </table>
-                <br/><h2>Installation</h2>
-                <p>Dependencies:  ALiVE Requires <b>CBA_A3</b><br/><br/>
-                As with any other mod, extract @ALiVE into Steamapps/Common/ArmA 3 or My Documents/ArmA3.<br/><br/>
-                Then either add @ALiVE to your shortcut -mod line, or enable it using the in game Expansions menu or use a launcher like Play with Six or ArmA3Sync.<br/><br/>
-                Further instructions for installing mods are in this handy guide on <a target="_blank" href="http://www.armaholic.com/forums.php?m=posts&q=20866]ArmAholic">Armaholic</a>
-                </p>
             </div>
              <div class="col-md-1">
             </div>
@@ -155,30 +165,17 @@
     </div>
 </div>
 
-<div class="jumbotron dark-panel" id="ALiVEWarRoom">
+<div class="jumbotron dark-panel" id="Installation">
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
-                <h2><img src="{{ URL::to('/') }}/img/alive_warroom_sm.png" class="img-responsive" /></h2>
-
-                <p>ALiVE mod introduces revolutionary web services integration by streaming Arma 3 in game data to our ALiVE War Room web platform. War Room allows players and groups to review current and past operations as well keep track of individual and group performance statistics.</p>
-                <p>War Room offers groups membership to a "virtual" task force operating across the various AO's offered by the Arma 3 engine. War Room exposes task force wins, losses and leaderboards for performance. The platform will provide live streaming capabilities for BLUFOR tracking in a web browser as well as Twitch integration for live helmet cam views and the much awaited ALiVE xStream functionality.</p>
-                <p>Beside events, statistics and streaming, War Room provides the platform for persisting Multiplayer Campaigns. This allows groups to run "multi-session operations" by storing game state to a cloud based database. Group admins can update campaign data via the War Room, such as adding map markers, objectives, editing loadouts or adding vehicles and units to the campaign - all via the web platform.</p>
-                <p>We believe ALiVE War Room is a revolutionary step in Arma gaming - sign up today!</p>
-            </div>
-            <div class="col-md-5 col-md-offset-1">
-                    <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
-                        <iframe width="420" height="500" src="//www.youtube.com/embed/StKbdxL6LnA" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                <div class="panel panel-dark">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Join the ALiVE War Room</h3>
-                    </div>
-                    <div class="panel-body">
-                        <a href="{{ URL::to('user/register') }}" class="btn btn-yellow">Sign Up Now!</a>
-                    </div>
-                </div>
-            </div>
+            <div class="col-md-7">        
+                <h2>Installation</h2>
+                <p>Dependencies:  ALiVE Requires <b>CBA_A3</b><br/><br/>
+                As with any other mod, extract @ALiVE into Steamapps/Common/ArmA 3 or My Documents/ArmA3.<br/><br/>
+                Then either add @ALiVE to your shortcut -mod line, or enable it using the in game Expansions menu or use a launcher like Play with Six or ArmA3Sync.<br/><br/>
+                Further instructions for installing mods are in this handy guide on <a target="_blank" href="http://www.armaholic.com/forums.php?m=posts&q=20866]ArmAholic">Armaholic</a>
+                </p>  
+            </div>    
         </div>
     </div>
 </div>
