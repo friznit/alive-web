@@ -34,7 +34,7 @@
         <div class="row">
             <div class="col-md-6">
                 <h2>Gameplay</h2>
-                <p>ALiVE is a dynamic campaign mission framework. The editor placed modules are designed to be intuitive but highly flexible so you can create a huge range of different scenarios by simply placing a few modules and markers. The AI Commanders have an overall mission and a prioritised list of objectives that they will work through autonomously.  Players can choose to tag along with the AI and join the fight, take your own squad of AI or other players and tackle your own objectives or just sit back and watch it all unfold.</p>
+                <p>ALiVE is a dynamic campaign mission framework. The editor placed modules are designed to be intuitive but highly flexible so you can create a huge range of different scenarios by simply placing a few modules and markers. The AI Commanders, including an option for insurgency style tactics, have an overall mission and a prioritised list of objectives that they will work through autonomously.  Players can choose to tag along with the AI and join the fight, take your own squad of AI or other players and tackle your own objectives or just sit back and watch it all unfold.</p>
                 <p>Mission makers may wish to experiment by synchronizing different modules to each other, or  using standalone ALiVE modules as a backdrop for dynamic missions and campaigns, enhancing scenarios created with traditional editing techniques.  ALiVE can significantly reduce the effort required to make a complex mission by adding ambience, support and persistence at the drop of a module.</p>
             </div>
             <div class="col-md-5 col-md-offset-1">
@@ -143,9 +143,9 @@
                         <th>Donate</th>
                     </tr>
                     <tr class="success">
-                        <td>0.9.6.1509031</td>
-                        <td>Arma 3 Stable 1.40.129533</td>
-                        <td><a class="btn btn-primary btn-lg pull-right" href="http://alivemod.com/downloads/@ALiVE_0.9.6.1509031.7z"><i class="fa fa-download"></i> Download</a></td>
+                        <td>0.9.7.1504081</td>
+                        <td>Arma 3 Stable 1.42.130244</td>
+                        <td><a class="btn btn-primary btn-lg pull-right" href="http://alivemod.com/downloads/@ALiVE_0.9.7.1504081.7z"><i class="fa fa-download"></i> Download</a></td>
  						<td><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                                 <input type="image" class="btn btn-yellow btn-lg" name="submit" alt="Voluntary Donation" style="margin-top: -10px;">
                                 <input type="hidden" name="cmd" value="_s-xclick">
