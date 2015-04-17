@@ -143,9 +143,9 @@
                         <th>Donate</th>
                     </tr>
                     <tr class="success">
-                        <td>0.9.7.1504081</td>
-                        <td>Arma 3 Stable 1.42.130244</td>
-                        <td><a class="btn btn-primary btn-lg pull-right" href="http://alivemod.com/downloads/@ALiVE_0.9.7.1504081.7z"><i class="fa fa-download"></i> Download</a></td>
+                        <td>0.9.7.1504161</td>
+                        <td>Arma 3 Stable 1.42.130340 </td>
+                        <td><a class="btn btn-primary btn-lg pull-right" href="http://alivemod.com/downloads/@ALiVE_0.9.7.1504161.7z"><i class="fa fa-download"></i> Download</a></td>
  						<td><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                                 <input type="image" class="btn btn-yellow btn-lg" name="submit" alt="Voluntary Donation" style="margin-top: -10px;">
                                 <input type="hidden" name="cmd" value="_s-xclick">
