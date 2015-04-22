@@ -974,6 +974,18 @@ img {
 .dark-list li i {
     padding-top:4px;
 }
+
+.white-list {
+	color:#000;
+    font-size:14px;
+    font-weight:400;	
+}
+.white-list li {
+}
+.white-list li i {
+    padding-top:4px;
+}
+
 .top-margin { 
     margin-top:10px; 
 }

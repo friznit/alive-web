@@ -3,18 +3,6 @@
 {{-- Content --}}
 @section('content')
 
-<div class="jumbotron black-panel" id="Trailer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
-                    <iframe width="420" height="500" src="//www.youtube.com/embed/lsztsBqNbFc" autohide="3" frameborder="0" showinfo="0" modestbranding="1" allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="jumbotron alive-background-panel" id="Welcome">
     <div class="container">
         <div class="row">
@@ -39,6 +27,55 @@
             </div>
             <div class="col-md-5 col-md-offset-1">
                 <img src="{{ URL::to('/') }}/img/action4.jpg" class="img-responsive dark-border" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="jumbotron black-panel" id="Trailer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                    <iframe width="420" height="500" src="//www.youtube.com/embed/lsztsBqNbFc" autohide="3" frameborder="0" showinfo="0" modestbranding="1" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="jumbotron white-panel" id="Features">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Features</h2>
+                <ul class="fa-ul white-list">                
+                    <li><i class="fa-li fa fa-caret-right"></i>Easy to use Arma 3 editor modules for rapid scenario generation</li>
+                    <li><i class="fa-li fa fa-caret-right"></i>Automatic map-wide strategic placement of enemy AI for large scale scenarios</li>
+                    <li><i class="fa-li fa fa-caret-right"></i>Virtual AI system allowing for simulation of thousands of AI for large scale scenarios</li>                    
+                    <li><i class="fa-li fa fa-caret-right"></i>AI commanders that use different strategies to occupy/invade/terrorize objectives</li>
+                    <li><i class="fa-li fa fa-caret-right"></i>Military logistics system allowing AI commanders to reinforce and resupply</li>
+                    <li><i class="fa-li fa fa-caret-right"></i>Complete insurgency simulation based on civilian interaction, recruitment and asymmetric warfare</li>
+                    <li><i class="fa-li fa fa-caret-right"></i>Combat air support, transport, artillery and logistics systems allowing for company level combined arms operations</li>
+                    <li><i class="fa-li fa fa-caret-right"></i>C2ISTAR system for task/mission generation and management, intel via map overlays and SITREP systems</li>
+                    <li><i class="fa-li fa fa-caret-right"></i>Player logistics system for lift/shift of objects, towing and more</li>                    
+                    <li><i class="fa-li fa fa-caret-right"></i>Advanced persistent map markers and tools with SITREP integration</li>                    
+                     <li><i class="fa-li fa fa-caret-right"></i>Ambient urban combat simulation for close quarters battle</li>
+                    <li><i class="fa-li fa fa-caret-right"></i>Ambient IED, VBIED and suicide bomber threat</li>                   
+                    <li><i class="fa-li fa fa-caret-right"></i>MP player support systems such as admin actions, player tags, view distance control, player gear persistence, multi-respawn, crew info and more</li>          
+ 				</ul>
+            </div>
+            <div class="col-md-5 col-md-offset-1">
+            <br />
+                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+                        <iframe width="420" height="500" src="//www.youtube.com/embed/mJXdgyTej3I?controls=0" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                <h2>Server Features</h2>                    
+                  <ul class="fa-ul white-list">  
+                    <li><i class="fa-li fa fa-caret-right"></i>Complete mission persistence for multi-session operations - without the need for a DB</li>                     
+                    <li><i class="fa-li fa fa-caret-right"></i>Web based War Room to track player, group and operations statistics including a web based AAR system</li>
+                    <li><i class="fa-li fa fa-caret-right"></i>Web based performance monitoring solution (based on ASM) for Arma 3 dedicated servers.</li>                    
+ 				</ul>
             </div>
         </div>
     </div>
@@ -272,19 +309,19 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <br/><h4>ALiVE User Manual</h4>
-                <a class="btn btn-yellow btn-lg"href="http://alivemod.com/wiki/index.php?title=Main_Page"><i class="fa fa-eye"></i> View the Wiki now...</a><br/>
+                <h4>ALiVE User Manual</h4>
+                <p>You can access the wiki based user manual <a href="{{ URL::to('wiki/index.php?title=Main_Page') }}">here.</a></p>
             </div>
         </div>
         <div class="row top-margin">
              <div class="col-md-6">
-                <br/><h4>Sample Missions</h4>
-                 <p>Sample missions have moved <a href="{{ URL::to('missions/') }}">here.</p>
+                <h4>Sample Missions</h4>
+                 <p>Sample missions have moved <a href="{{ URL::to('missions/') }}">here.</a></p>
             </div>
         </div>
         <div class="row top-margin">
             <div class="col-md-6">
-                <br/><h4>0.8.0 Tutorials</h4><br/>
+                <h4>0.8.0 Tutorials</h4>
             </div>
         </div>
         <div class="row">
@@ -307,7 +344,7 @@
         </div>
         <div class="row top-margin">
             <div class="col-md-6">
-                <br/><h4>0.7.0 Tutorials</h4><br/>
+                <br/><h4>0.7.0 Tutorials</h4>
             </div>
         </div>
         <div class="row">
@@ -348,7 +385,7 @@
         </div>
         <div class="row top-margin">
             <div class="col-md-6">
-                <br/><h4>0.6.0 Tutorials</h4><br/>
+                <br/><h4>0.6.0 Tutorials</h4>
             </div>
         </div>
         <div class="row">
@@ -371,7 +408,7 @@
         </div>
         <div class="row top-margin">
             <div class="col-md-6">
-                <br/><h4>Simple Mission Tutorials</h4><br/>
+                <h4>Simple Mission Tutorials</h4>
             </div>
         </div>
         <div class="row">
