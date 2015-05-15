@@ -23,6 +23,8 @@ class CouchAPI {
     public $reset = false;
     public $debug = false;
     public $cache = true;
+    
+    public $timeout = 60;
 
     public function createClanUser($name, $password, $group)
     {
@@ -2113,8 +2115,8 @@ class CouchAPI {
         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT ,30);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout in seconds
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout); //timeout in seconds
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-type: application/json',
             'Accept: application/json'
