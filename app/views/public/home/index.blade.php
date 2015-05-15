@@ -180,9 +180,9 @@
                         <th>Donate</th>
                     </tr>
                     <tr class="success">
-                        <td>0.9.7.1504161</td>
-                        <td>Arma 3 Stable 1.42.130340 </td>
-                        <td><a class="btn btn-primary btn-lg pull-right" href="http://alivemod.com/downloads/@ALiVE_0.9.7.1504161.7z"><i class="fa fa-download"></i> Download</a></td>
+                        <td>0.9.8.1505111</td>
+                        <td>Arma 3 Stable 1.44.130654 </td>
+                        <td><a class="btn btn-primary btn-lg pull-right" href="http://alivemod.com/downloads/@ALiVE_0.9.8.1505111.7z"><i class="fa fa-download"></i> Download</a></td>
  						<td><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                                 <input type="image" class="btn btn-yellow btn-lg" name="submit" alt="Voluntary Donation" style="margin-top: -10px;">
                                 <input type="hidden" name="cmd" value="_s-xclick">
@@ -381,123 +381,6 @@
                 <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
                     <iframe width="420" height="500" src="//www.youtube.com/embed/2ntP6RLif6U" frameborder="0" allowfullscreen></iframe>
                 </div>
-            </div>
-        </div>
-        <div class="row top-margin">
-            <div class="col-md-6">
-                <br/><h4>0.6.0 Tutorials</h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2">
-                <p>An in depth look at the civilian modules</p>
-            </div>
-            <div class="col-md-4">
-                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
-                    <iframe width="420" height="500" src="//www.youtube.com/embed/lIL-m5PAcrA" frameborder="0" allowfullscreen></iframe>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <p>An in depth look at the convoy module</p>
-            </div>
-            <div class="col-md-4">
-                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
-                    <iframe width="420" height="500" src="//www.youtube.com/embed/6byV6qxWuh4" frameborder="0" allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
-        <div class="row top-margin">
-            <div class="col-md-6">
-                <h4>Simple Mission Tutorials</h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2">
-                <p>The first episode in a series of videos showing you how to use the ALiVE modules to create a simple mission. In this episode: The Profile System module.</p>
-            </div>
-            <div class="col-md-4">
-                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
-                    <iframe width="420" height="500" src="//www.youtube.com/embed/g-8qwL61an4" frameborder="0" allowfullscreen></iframe>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <p>The second episode in a series of videos showing you how to use the ALiVE modules to create a simple mission. In this episode: The Profile System module continued and the Military Placement module.</p>
-            </div>
-            <div class="col-md-4">
-                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
-                    <iframe width="420" height="500" src="//www.youtube.com/embed/gDcG0srHW8A" frameborder="0" allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
-        <div class="row top-margin">
-            <div class="col-md-2">
-                <p>The third episode in a series of videos showing you how to use the ALiVE modules to create a simple mission. In this episode: The Military placement module continued.</p>
-            </div>
-            <div class="col-md-4">
-                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
-                    <iframe width="420" height="500" src="//www.youtube.com/embed/rYI94Q80VCw" frameborder="0" allowfullscreen></iframe>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <p>The forth episode in a series of videos showing you how to use the ALiVE modules to create a simple mission. In this episode: The OPCOM module.</p>
-            </div>
-            <div class="col-md-4">
-                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
-                    <iframe width="420" height="500" src="//www.youtube.com/embed/LIJLy54k9CU" frameborder="0" allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
-        <div class="row top-margin">
-            <div class="col-md-2">
-                <p>The fifth episode in a series of videos showing you how to use the ALiVE modules to create a simple mission. In this episode: The Civilian Placement module.</p>
-            </div>
-            <div class="col-md-4">
-                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
-                    <iframe width="420" height="500" src="//www.youtube.com/embed/KKAAO_rNH_Y" frameborder="0" allowfullscreen></iframe>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <p>The sixth episode in a series of videos showing you how to use the ALiVE modules to create a simple mission. In this episode: The CQB module.</p>
-            </div>
-            <div class="col-md-4">
-                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
-                    <iframe width="420" height="500" src="//www.youtube.com/embed/pP11I43-E10" frameborder="0" allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
-        <div class="row top-margin">
-            <div class="col-md-2">
-                <p>The seventh episode in a series of videos showing you how to use the ALiVE modules to create a simple mission. In this episode: The Combat Support modules</p>
-            </div>
-            <div class="col-md-4">
-                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
-                    <iframe width="420" height="500" src="//www.youtube.com/embed/LysKvQw0W7I" frameborder="0" allowfullscreen></iframe>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <p>The eighth episode in a series of videos showing you how to use the ALiVE modules to create a simple mission. In this episode: The Military Intelligence, Military Sector Display, and Player Sector Display modules</p>
-            </div>
-            <div class="col-md-4">
-                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
-                    <iframe width="420" height="500" src="//www.youtube.com/embed/IO8gRLuAE4k" frameborder="0" allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
-        <div class="row top-margin">
-            <div class="col-md-2">
-                <p>The ninth episode in a series of videos showing you how to use the ALiVE modules to create a simple mission. In this episode: AI Skill, Crew Info, Dynamic Weather, Garbage collector, Player Tags and the View Settings modules.</p>
-            </div>
-            <div class="col-md-4">
-                <div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
-                    <iframe width="420" height="500" src="//www.youtube.com/embed/VwdHmXwBKD0" frameborder="0" allowfullscreen></iframe>
-                </div>
-            </div>
-            <div class="col-md-2">
-
-            </div>
-            <div class="col-md-4">
-                <p><br/>Download the tutorial missions and follow along with the videos.</p>
-                <a class="btn btn-yellow btn-lg pull-right"href="downloads/ALiVE_tutorial_missions.zip"><i class="fa fa-download"></i> Download Tutorial missions</a>
             </div>
         </div>
     </div>
