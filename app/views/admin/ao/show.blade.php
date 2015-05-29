@@ -66,7 +66,7 @@
             <div class="col-md-6">
                 @if ($exists)
                      <img src="http://db.alivemod.com/maps/{{ $ao->configName }}.png" /><br/><br/>
-                @elseif           
+                @else           
             		<img src="{{ $ao->pic->url('mediumPic') }}" ><br/><br/>
                 @endif
             </div>
