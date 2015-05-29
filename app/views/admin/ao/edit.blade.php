@@ -193,21 +193,41 @@
                         {{ Form::token() }}
 
                         <div class="strip">
-                            <p>We recommend using the Arma 3 Map Picture here</p>
+                        <?php
+							$file = 'http://db.alivemod.com/maps/'.$ao->configName.'.png';
+							$file_headers = @get_headers($file);
+							if($file_headers[0] == 'HTTP/1.1 404 Not Found') {
+								$exists = false;
+							}
+							else {
+								$exists = true;
+							}
+							if ($exists) {
+								echo '<p>A picture has already been uploaded to War Room</p>';
+							} else {
+								echo '<p>We recommend using the ALiVE_fnc_exportMapWarRoom in game to get the map picture</p>';								
+							}
+						?>
                         </div>
 
                         <div class="panel-body avatars">
-                            <p>Small (512px x 512px)</p>
-                            <img src="<?= $ao->pic->url('smallPic') ?>" ><br/><br/>
-                            <p>Thumbnail (256px x 256px)</p>
-                            <img src="<?= $ao->pic->url('thumbPic') ?>" ><br/><br/>
-                            <input type="file" id="pic_upload" name="pic" />
+							@if ($exists)
+                        		<img src="http://db.alivemod.com/maps/{{ $ao->configName }}.png" /><br/><br/>
+                        	@else                  
+                                <p>Small (512px x 512px)</p>
+                                <img src="<?= $ao->pic->url('smallPic') ?>" ><br/><br/>
+                                <p>Thumbnail (256px x 256px)</p>
+                                <img src="<?= $ao->pic->url('thumbPic') ?>" ><br/><br/>
+                         	 	<input type="file" id="pic_upload" name="pic" />  
+                                 <div class="panel-footer clearfix">
+                                    <div class="btn-toolbar pull-right" role="toolbar">
+                                        <input class="btn btn-yellow" type="submit" value="Change Picture">
+                                    </div>
+                                </div>                                                            
+                       		@endif    
                         </div>
-                        <div class="panel-footer clearfix">
-                            <div class="btn-toolbar pull-right" role="toolbar">
-                                <input class="btn btn-yellow" type="submit" value="Change Picture">
-                            </div>
-                        </div>
+                        
+
                     </form>
                 </div>
 

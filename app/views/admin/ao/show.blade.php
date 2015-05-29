@@ -20,9 +20,19 @@
                 <h2>
                     {{{ $ao->name }}}
                 </h2>
+				 <?php
+						$file = 'http://db.alivemod.com/maps/'.$ao->configName.'.png';
+						$file_headers = @get_headers($file);
+						if($file_headers[0] == 'HTTP/1.1 404 Not Found') {
+							$exists = false;
+						}
+						else {
+							$exists = true;
+						}
+				?>
 
-                <img src="{{ $ao->image->url('mediumAO') }}" ><br/><br/>
-                
+               	<img src="{{ $ao->image->url('mediumAO') }}" ><br/><br/>
+
                 <p>Lat:{{{ $ao->latitude }}} <br /> Long:{{{ $ao->longitude }}}</p>
 
                 <table class="table">
@@ -54,7 +64,11 @@
 
             </div>
             <div class="col-md-6">
-            	<img src="{{ $ao->pic->url('mediumPic') }}" ><br/><br/>
+                @if ($exists)
+                     <img src="http://db.alivemod.com/maps/{{ $ao->configName }}.png" /><br/><br/>
+                @elseif           
+            		<img src="{{ $ao->pic->url('mediumPic') }}" ><br/><br/>
+                @endif
             </div>
         </div>
     </div>
