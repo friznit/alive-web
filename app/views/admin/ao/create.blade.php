@@ -149,8 +149,9 @@
 
                         </div>
                         <div class="panel-footer clearfix">
+                        	<p>The map creation process could take a few minutes while map tiles are created</p>
                             <div class="btn-toolbar pull-right" role="toolbar">
-                                <input class="btn btn-yellow" type="submit" value="Create New Area of Operation">
+                                <input class="btn btn-yellow" type="submit" value="Create">
                             </div>
                         </div>
                     </form>

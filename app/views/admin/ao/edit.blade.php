@@ -185,23 +185,36 @@
                 </div>
 
                 <div class="panel panel-dark">
+					<?php               
+						$file = 'http://db.alivemod.com/maps/'.$ao->configName.'.png';
+						$folder = 'http://db.alivemod.com/maps/'.$ao->configName.'/';
+						$file_headers = @get_headers($file);
+						$folder_headers = @get_headers($folder);
+						if($file_headers[0] == 'HTTP/1.1 404 Not Found') {
+							$exists = false;
+						}
+						else {
+							$exists = true;
+						}
+						if($folder_headers[0] == 'HTTP/1.1 404 Not Found') {
+							$fexists = false;
+						}
+						else {
+							$fexists = true;
+						}
+                    ?>	              
                     <div class="panel-heading">
                         <h3 class="panel-title">Change Picture</h3>
                     </div>
-
-                    <form action="{{ URL::to('admin/ao/changepic') }}/{{ $ao->id }}" method="post" enctype="multipart/form-data">
+					@if ($exists)
+                     	<form action="{{ URL::to('admin/ao/createtiles') }}/{{ $ao->id }}" method="post">
+                        {{ Form::token() }}                   
+                    @else
+                    	<form action="{{ URL::to('admin/ao/changepic') }}/{{ $ao->id }}" method="post" enctype="multipart/form-data">
                         {{ Form::token() }}
-
+					@endif
                         <div class="strip">
-                        <?php
-							$file = 'http://db.alivemod.com/maps/'.$ao->configName.'.png';
-							$file_headers = @get_headers($file);
-							if($file_headers[0] == 'HTTP/1.1 404 Not Found') {
-								$exists = false;
-							}
-							else {
-								$exists = true;
-							}
+                        <?php						
 							if ($exists) {
 								echo '<p>A picture has already been uploaded to War Room</p>';
 							} else {
@@ -213,6 +226,14 @@
                         <div class="panel-body avatars">
 							@if ($exists)
                         		<img src="http://db.alivemod.com/maps/{{ $ao->configName }}.png" /><br/><br/>
+                                @if (!$fexists) 
+                                <div class="panel-footer clearfix">
+                                 	<p>Although a map image has been uploaded, no map tiles exist. This may take a few minutes to create.</p>
+                                    <div class="btn-toolbar pull-right" role="toolbar">
+                                        <input class="btn btn-yellow" type="submit" value="Create Tiles">
+                                    </div>
+                                </div>                                     
+                                @endif
                         	@else                  
                                 <p>Small (512px x 512px)</p>
                                 <img src="<?= $ao->pic->url('smallPic') ?>" ><br/><br/>
