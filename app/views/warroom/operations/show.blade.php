@@ -375,7 +375,7 @@
 						// loop through array
 							aarObj = val;
 							aevent.asset.markers.push(aarcount);
-							prepareAAR(aarcount, aarObj, value.gameTime);
+							prepareAAR(aarcount, aarObj, aarData.gameTime);
 							aarcount++;
 					});
 					
