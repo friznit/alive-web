@@ -10,18 +10,47 @@
     // Leaflet setup
     // ------------------------------------------------------------
 
+	/*extend leadlet - you should include the polli*/
+	  L.RotatedMarker = L.Marker.extend({
+		options: {
+			angle: 0
+		},
+		_setPos: function (pos) {
+			L.Marker.prototype._setPos.call(this, pos);
+			if (L.DomUtil.TRANSFORM) {
+				// use the CSS transform rule if available
+				console.log(this.options.angle);
+				this._icon.style[L.DomUtil.TRANSFORM] += ' rotate(' + this.options.angle + 'deg)';
+			} else if(L.Browser.ie) {
+				// fallback for IE6, IE7, IE8
+				var rad = this.options.angle * (Math.PI / 180),
+				costheta = Math.cos(rad),
+				sintheta = Math.sin(rad);
+				this._icon.style.filter += ' progid:DXImageTransform.Microsoft.Matrix(sizingMethod=\'auto expand\', M11=' +
+				costheta + ', M12=' + (-sintheta) + ', M21=' + sintheta + ', M22=' + costheta + ')';
+			}
+		}
+	  });
+	  L.rotatedMarker = function (pos, options) {
+		return new L.RotatedMarker(pos, options);
+	  };
+	/*end leaflet extension*/
+
     var icon = L.Icon.extend({
         options: {
             iconSize: [32, 32],
             iconAnchor: [16, 16],
-            labelAnchor: [8, 0]
+            labelAnchor: [8, 0],
+	//		shadowAnchor: [13, 13], 
+     //       shadowSize: [32, 32],			
+		//	shadowUrl: '{{ URL::to('/') }}/img/icons/shadow_iconman_ca.png'
         }
     });
 
-    var west_unit = new icon ({iconUrl: 'http://alivemod.com/img/icons/b_iconman_ca.png'});
-    var east_unit = new icon ({iconUrl: 'http://alivemod.com/img/icons/o_iconman_ca.png'});
-    var indy_unit = new icon ({iconUrl: 'http://alivemod.com/img/icons/i_iconman_ca.png'});
-    var civ_unit = new icon ({iconUrl: 'http://alivemod.com/img/icons/c_iconman_ca.png'});
+    var west_unit = new icon ({iconUrl: 'http://alivemod.com/img/icons/b_iconman_ca.png', className: 'RotatedMarker'});
+    var east_unit = new icon ({iconUrl: 'http://alivemod.com/img/icons/o_iconman_ca.png', className: 'RotatedMarker'});
+    var indy_unit = new icon ({iconUrl: 'http://alivemod.com/img/icons/i_iconman_ca.png', className: 'RotatedMarker'});
+    var civ_unit = new icon ({iconUrl: 'http://alivemod.com/img/icons/c_iconman_ca.png', className: 'RotatedMarker'});
 	
     L.Map = L.Map.extend({
         openPopup: function(popup) {
@@ -457,19 +486,19 @@
 		switch (value.AAR_side) {
 			
 			case "WEST": 
-				var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit});
+				var marker = L.rotatedMarker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit, angle:value.AAR_dir});
 				break;
 			
 			case "EAST": 
-				var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: east_unit});
+				var marker = L.rotatedMarker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: east_unit, angle:value.AAR_dir});
 				break;
 			
 			case "GUER": 
-				var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: indy_unit});
+				var marker = L.rotatedMarker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: indy_unit, angle:value.AAR_dir});
 				break;
 				
 			default: 
-				var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: civ_unit});				
+				var marker = L.rotatedMarker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: civ_unit, angle:value.AAR_dir});				
 		}
 
 		marker.bindPopup(popup, {
