@@ -15,11 +15,12 @@
                     <li><i class="fa-li fa fa-arrow-right"></i>Wolffy.au</li>
                 </ul>
                 <h4><i class="fa fa-cogs"></i> ALiVE Contributors</h4>
-                <ul class="fa-ul dark-list">
+                <ul class="fa-ul dark-list">            
                     <li><i class="fa-li fa fa-arrow-right"></i>Cameroon</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Naught</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Rye</li>
-                    <li><i class="fa-li fa fa-arrow-right"></i>Sacha L</li>                    
+                    <li><i class="fa-li fa fa-arrow-right"></i>Sacha L</li>
+                    <li><i class="fa-li fa fa-arrow-right"></i>SpyderBlack723</li>                                          
                     <li><i class="fa-li fa fa-arrow-right"></i>WobblyHeadedBob</li>
                 </ul>                
             </div>
