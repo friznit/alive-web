@@ -5,11 +5,64 @@
 
 <div class="jumbotron white-panel">
     <div class="container">
-        <div class="row">
+        <div class="row top-margin">
              <div class="col-md-6">
-                <br/><h2>Sample Missions</h2><br/>
+                <h2>Sample Missions</h2>
+                <a class="btn btn-yellow" href="downloads/ALiVE_Demo_Missions.rar"><i class="fa fa-download"></i> Download</a><br/>
             </div>
         </div>
+        <div class="row top-margin">
+            <div class="col-md-6">
+                <h4>Operation Landlord</h4>
+                <p><small><b>by SpyderBlack723</b></small><br/>A whole-map battle over Altis where two factions fight head to head in a highly strategic war.</p>
+                <p><b>Requirements</b><br/>
+                    @CBA, @ALiVE
+                </p>
+            </div>
+            <div class="col-md-4">
+                <img src="{{ URL::to('/') }}/img/mountain_war.jpg" class="img-responsive" />
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Armoured Fury</h4>
+                <p><small><b>by SpyderBlack723</b></small><br/>Conduct and support an armored assault on CSAT defences.</p>
+                <p><b>Requirements</b><br/>
+                    @CBA, @ALiVE
+                </p>
+            </div>
+            <div class="col-md-4">
+                <img src="{{ URL::to('/') }}/img/blackneedle.jpg" class="img-responsive" />
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Triple Threat</h4>
+                <p><small><b>by SpyderBlack723</b></small><br/>NATO, CSAT and AAF forces clash in a deadly conflict.</p>
+                <p><b>Requirements</b><br/>
+                    @CBA, @ALiVE
+                </p>
+            </div>
+            <div class="col-md-4">
+                <img src="{{ URL::to('/') }}/img/blackneedle.jpg" class="img-responsive" />
+            </div>
+        </div>        
+        <br/>
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Insurgency</h4>
+                <p><small><b>by SpyderBlack723</b></small><br/>A rebel uprising has broken out on the southwestern end of Altis, put an end to it. Beware of the rebel's attempting to recruit civilians, lay IED's, and ambush you.</p>
+                <p><b>Requirements</b><br/>
+                    @CBA, @ALiVE
+                </p>
+            </div>
+            <div class="col-md-4">
+                <img src="{{ URL::to('/') }}/img/insurgency.jpg" class="img-responsive" />
+            </div>
+        </div>        
+        <br/>        
         <div class="row">
             <div class="col-md-6">
                 <h4>Pyrgos Assault</h4>
@@ -17,7 +70,7 @@
                 <p><b>Requirements</b><br/>
                     @CBA, @ALiVE
                 </p>
-                <a class="btn btn-yellow" href="downloads/CO10_ALiVE_Pyrgos_Assault_v1_11.Altis.7z"><i class="fa fa-download"></i> Download</a><br/>
+
             </div>
             <div class="col-md-4">
                 <img src="{{ URL::to('/') }}/img/pyrgos.jpg" class="img-responsive" />
@@ -31,17 +84,21 @@
                 <p><b>Requirements</b><br/>
                     @CBA, @ALiVE
                 </p>
-                <a class="btn btn-yellow" href="downloads/ALiVE_ValleyOfJPD.Altis.zip"><i class="fa fa-download"></i> Download</a><br/>
             </div>
             <div class="col-md-4">
                <img src="{{ URL::to('/') }}/img/jpd.jpg" class="img-responsive" />
             </div>
         </div>
         <br/>
+ 		<div class="row top-margin">
+             <div class="col-md-6">
+                <br/><h2>Old Sample Missions</h2><br/>
+            </div>
+        </div>       
         <div class="row top-margin">
             <div class="col-md-6">
                 <h4>The Grind</h4>
-                <p><small><b>by ARJay</b></small><br/>You occupy a small base close to the front lines, the Russians are approaching!</p>
+                <p><small><b>by ARJay</b></small><br/>This mission requires you to update the ALiVE mission modules via the mission editor. You occupy a small base close to the front lines, the Russians are approaching!</p>
                 <p><b>Requirements</b><br/>
                     @CBA, @ALiVE, <a href="http://www.armaholic.com/page.php?id=20106" target="_blank">@AiA</a>, <a href="http://forums.bistudio.com/showthread.php?170687-Iron-Front-as-mod-in-Arma-3" target="_blank">@IronFront</a>
                 </p>
@@ -49,34 +106,6 @@
             </div>
             <div class="col-md-4">
                 <img src="{{ URL::to('/') }}/img/the_grind.jpg" class="img-responsive" />
-            </div>
-        </div>
-        <br/>
-        <div class="row top-margin">
-            <div class="col-md-6">
-                <h4>Hell of Zargabad</h4>
-                <p><small><b>by [KH]Jman</b></small><br/>Rebel insurgents have taken over Zargabad. Take it back!</p>
-                <p><b>Requirements</b><br/>
-                    @CBA, @ALiVE, <a href="http://www.armaholic.com/page.php?id=20106" target="_blank">@AiA</a> / <a href="http://www.armaholic.com/page.php?id=23863" target="_blank">@A3MP</a>
-                </p>
-                <a class="btn btn-yellow" href="downloads/CO10_HellofZargabad_v1_5.Zargabad.7z"><i class="fa fa-download"></i> Download</a><br/>
-            </div>
-            <div class="col-md-4">
-                <img src="{{ URL::to('/') }}/img/hellzarg.jpg" class="img-responsive" />
-            </div>
-        </div>
-        <br/>
-        <div class="row top-margin">
-            <div class="col-md-6">
-                <h4>Black Needle</h4>
-                <p><small><b>by [KH]Jman</b></small><br/>Clear the fuelstation buildings and secure the crossroads. Make contact with UN troops and escort them to safety.</p>
-                <p><b>Requirements</b><br/>
-                    @CBA, @ALiVE, <a href="http://www.armaholic.com/page.php?id=20106" target="_blank">@AiA</a> / <a href="http://www.armaholic.com/page.php?id=23863" target="_blank">@A3MP</a>
-                </p>
-                <a class="btn btn-yellow" href="downloads/CO10_ALiVE_BNeedle_1_4.ProvingGrounds_PMC.7z"><i class="fa fa-download"></i> Download</a><br/>
-            </div>
-            <div class="col-md-4">
-                <img src="{{ URL::to('/') }}/img/blackneedle.jpg" class="img-responsive" />
             </div>
         </div>
         <br/>
