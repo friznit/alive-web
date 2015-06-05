@@ -20,7 +20,7 @@
                 </p>
             </div>
             <div class="col-md-4">
-                <img src="{{ URL::to('/') }}/img/mountain_war.jpg" class="img-responsive" />
+                <img src="{{ URL::to('/') }}/img/Operation_Landlord.jpg" class="img-responsive" />
             </div>
         </div>
         <br/>
@@ -33,7 +33,7 @@
                 </p>
             </div>
             <div class="col-md-4">
-                <img src="{{ URL::to('/') }}/img/blackneedle.jpg" class="img-responsive" />
+                <img src="{{ URL::to('/') }}/img/Armored_Fury.jpg" class="img-responsive" />
             </div>
         </div>
         <br/>
@@ -46,7 +46,7 @@
                 </p>
             </div>
             <div class="col-md-4">
-                <img src="{{ URL::to('/') }}/img/blackneedle.jpg" class="img-responsive" />
+                <img src="{{ URL::to('/') }}/img/Triple_Threat.jpg" class="img-responsive" />
             </div>
         </div>        
         <br/>
@@ -59,7 +59,7 @@
                 </p>
             </div>
             <div class="col-md-4">
-                <img src="{{ URL::to('/') }}/img/insurgency.jpg" class="img-responsive" />
+                <img src="{{ URL::to('/') }}/img/Insurgency_SPY.jpg" class="img-responsive" />
             </div>
         </div>        
         <br/>        
@@ -92,13 +92,14 @@
         <br/>
  		<div class="row top-margin">
              <div class="col-md-6">
-                <br/><h2>Old Sample Missions</h2><br/>
+                <br/><h2>Old Sample Missions</h2>
+                <p>These missions require you to update the ALiVE editor modules in the missions via the scenario editor before using them.</p>
             </div>
         </div>       
         <div class="row top-margin">
             <div class="col-md-6">
                 <h4>The Grind</h4>
-                <p><small><b>by ARJay</b></small><br/>This mission requires you to update the ALiVE mission modules via the mission editor. You occupy a small base close to the front lines, the Russians are approaching!</p>
+                <p><small><b>by ARJay</b></small><br/>You occupy a small base close to the front lines, the Russians are approaching!</p>
                 <p><b>Requirements</b><br/>
                     @CBA, @ALiVE, <a href="http://www.armaholic.com/page.php?id=20106" target="_blank">@AiA</a>, <a href="http://forums.bistudio.com/showthread.php?170687-Iron-Front-as-mod-in-Arma-3" target="_blank">@IronFront</a>
                 </p>
