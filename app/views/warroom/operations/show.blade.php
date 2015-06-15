@@ -536,16 +536,19 @@
                         output.shortDescription = value.PlayerName + ' has been KIA';
 
                         output.description =
+							'<table><tr><td><img src="{{ URL::to("img/classes/thumbs/150px-Arma3_CfgVehicles_") }}' + value.KillerConfig + '.png" onerror=this.style.display="none"></td><td>' +
                             value.gameTime + ' local<br><h2><i class="fa fa-ban"></i> <a href="http://alivemod.com/war-room/showpersonnel/' + value.Player +'" target="_blank"><span class="operation">' + value.PlayerName + '</span></h2><br/></a>' +
-                            value.Killedfaction + ' ' + value.KilledType + ' has been KIA';
+                            value.Killedfaction + ' ' + value.KilledType + ' has been KIA</td></tr></table>';
                     }else{
 
                         output.shortDescription = value.Killedfaction + ' ' + value.KilledType + ' kills ' + value.PlayerName;
 
                         output.description =
+							'<table><tr><td><img src="{{ URL::to("img/classes/thumbs/150px-Arma3_CfgVehicles_") }}' + value.KillerConfig + '.png" onerror=this.style.display="none"></td><td>' +					
                             value.gameTime + ' local<br><h2><i class="fa fa-ban"></i> <a href="http://alivemod.com/war-room/showpersonnel/' + value.Player +'" target="_blank"><span class="operation">' + value.PlayerName + '</span></h2><br/></a>' +
                             value.Killedfaction + ' ' + value.KilledType +
-                            ' killed by ' + value.Killerfaction + '<span class="highlight"> ' + value.KillerType + '</span> with an <br/>' + value.Weapon + ' from ' + value.Distance + 'm';
+                            ' killed by ' + value.Killerfaction + '<span class="highlight"> ' + value.KillerType + '</span> with an <br/>' + value.Weapon + ' from ' + value.Distance + 'm</td>' +
+							'<td><img src="{{ URL::to("img/classes/thumbs/150px-Arma3_CfgVehicles_") }}' + value.KilledConfig + '.png" onerror=this.style.display="none"></td></tr></table>';
                     }
 
 
@@ -557,17 +560,21 @@
                         output.shortDescription = value.Killedfaction + ' ' + value.KilledType + ' has been destroyed';
 
                         output.description =
+							'<table><tr><td><img src="{{ URL::to("img/classes/thumbs/150px-Arma3_CfgVehicles_") }}' + value.KillerConfig + '.png" onerror=this.style.display="none"></td><td>' +					
                             value.gameTime + ' local<br><h2><i class="fa fa-exclamation-triangle"></i> </h2><br/>' +
-                            value.Killedfaction + ' <span class="highlight">' + value.KilledType + '</span> has been destroyed';
+                            value.Killedfaction + ' <span class="highlight">' + value.KilledType + '</span> has been destroyed</td>' +
+							'<td><img src="{{ URL::to("img/classes/thumbs/150px-Arma3_CfgVehicles_") }}' + value.KilledConfig + '.png" onerror=this.style.display="none"></td></tr></table>';
 
                     } else {
 
                         output.shortDescription = '<i class="fa fa-dot-circle-o"></i>' + value.PlayerName + ' kills ' + value.Killedfaction + ' ' + value.KilledType;
 
                         output.description =
+							'<table><tr><td><img src="{{ URL::to("img/classes/thumbs/150px-Arma3_CfgVehicles_") }}' + value.KillerConfig + '.png" onerror=this.style.display="none"></td><td>' +					
                             value.gameTime + ' local<br><h2><i class="fa fa-dot-circle-o"></i> <a href="http://alivemod.com/war-room/showpersonnel/' + value.Player +'" target="_blank"><span class="operation">' + value.PlayerName + '</span></h2><br/></a>' +
                             value.Killerfaction + ' ' + value.KillerType +
-                            ' kills ' + value.Killedfaction + '<span class="highlight"> ' + value.KilledType + '</span> with an <br/>' + value.Weapon + ' from ' + value.Distance + 'm';
+                            ' kills ' + value.Killedfaction + '<span class="highlight"> ' + value.KilledType + '</span> with an <br/>' + value.Weapon + ' from ' + value.Distance + 'm</td>' +
+							'<td><img src="{{ URL::to("img/classes/thumbs/150px-Arma3_CfgVehicles_") }}' + value.KilledConfig + '.png" onerror=this.style.display="none"></td></tr></table>';
 
                     }
                 }
@@ -714,8 +721,10 @@
                 output.shortDescription = '<a href="http://alivemod.com/war-room/showpersonnel/' + value.Player +'" target="_blank"><span class="highlight"> ' + value.PlayerName + '</span></a> got in a ' + value.vehicleType;
 
                 output.description =
+					'<table><tr><td><img src="{{ URL::to("img/classes/thumbs/150px-Arma3_CfgVehicles_") }}' + value.unitConfig + '.png" onerror=this.style.display="none"></td><td>' +					
                     value.gameTime + ' local<br><h2><i class="fa fa-external-link-square"></i> <a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></h2><br/></a>' +
-                    ' got in a ' + value.vehicleType;
+                    ' got in a ' + value.vehicleType + '</td>' +
+					'<td><img src="{{ URL::to("img/classes/thumbs/150px-Arma3_CfgVehicles_") }}' + value.vehicleConfig + '.png" onerror=this.style.display="none"></td></tr></table>';
 
                 var popup = L.popup().setContent('<div class="admin-panel">' + output.description + '</div>');
                 var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(getIn);
@@ -737,8 +746,10 @@
                 output.shortDescription = '<a href="http://alivemod.com/war-room/showpersonnel/' + value.Player +'" target="_blank"><span class="highlight"> ' + value.PlayerName + '</span></a> got out of a ' + value.vehicleType;
 
                 output.description =
+					'<table><tr><td><img src="{{ URL::to("img/classes/thumbs/150px-Arma3_CfgVehicles_") }}' + value.unitConfig + '.png" onerror=this.style.display="none"></td><td>' +					
                     value.gameTime + ' local<br><h2><i class="fa fa-external-link"></i> <a href=http://alivemod.com/war-room/showpersonnel/' + value.Player +'><span class="operation">' + value.PlayerName + '</span></h2><br/></a>' +
-                    ' got out of a ' + value.vehicleType;
+                    ' got out of a ' + value.vehicleType + '</td>' +
+					'<td><img src="{{ URL::to("img/classes/thumbs/150px-Arma3_CfgVehicles_") }}' + value.vehicleConfig + '.png" onerror=this.style.display="none"></td></tr></table>';
 
                 var popup = L.popup().setContent('<div class="admin-panel">' + output.description + '</div>');
                 var marker = L.marker(map.unproject([posx * multiplier,size - (posy * multiplier)], map.getMaxZoom()), {icon: west_unit}).addTo(getOut);
