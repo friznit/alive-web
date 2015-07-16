@@ -3,6 +3,7 @@
 use Alive\CouchAPI;
 use Alive\SigGenerate;
 use Tempo\TempoDebug;
+use Request;
 
 class APIController extends BaseController {
 
@@ -101,7 +102,13 @@ class APIController extends BaseController {
 	}
 	public function getAuthorise()
     {
-		$ip = Input::get('ip');
+		if (Input::has('ip')) {
+			$ip = Input::get('ip');
+		} else {;
+			$request = Request::instance();
+			//TempoDebug::dump($request);
+			$ip = $request->getClientIp();
+		}
 		$group = Input::get('group');
 
 		$result = "false";
@@ -402,6 +409,16 @@ class APIController extends BaseController {
 		$type = Input::get('type');
         return $this->couchAPI->getServerPerf($id,$type,$servername);
     }
+	public function getServerperfall()
+    {
+		$id = Input::get('id');
+        return $this->couchAPI->getServerPerfAll($id);
+    }	
+	public function getServerperfdate()
+    {
+		$date = Input::get('date');
+        return $this->couchAPI->getServerPerfDate($date);
+    }		
 	public function getServerperfcheck()
     {
         return $this->couchAPI->getServerPerfCheck();
