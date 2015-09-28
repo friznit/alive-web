@@ -1,11 +1,10 @@
 {
-  "name": "laravel/laravel",
+  "name": "alive",
   "description": "The Alive Mod Website & War Room",
   "keywords": [
     "ALiVE",
     "ARMA3"
   ],
-  "license": "MIT",
   "require": {
     "laravel/framework": "4.0.*",
     "doctrine/couchdb": "1.0.0-alpha1",
