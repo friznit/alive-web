@@ -3,7 +3,6 @@
 use Alive\CouchAPI;
 use Alive\SigGenerate;
 use Tempo\TempoDebug;
-use Request;
 
 class APIController extends BaseController {
 
