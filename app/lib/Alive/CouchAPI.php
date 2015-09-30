@@ -6,6 +6,8 @@ use Tempo\TempoDebug;
 
 ini_set('max_execution_time', 400);
 
+// TODO: Format with PSR and PHPDoc
+
 class CouchAPI {
 
     ///*
