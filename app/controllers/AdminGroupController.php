@@ -1,6 +1,7 @@
 <?php
 
-class AdminGroupController extends BaseController {
+class AdminGroupController extends BaseController
+{
 
     public function __construct()
     {
@@ -12,8 +13,11 @@ class AdminGroupController extends BaseController {
 
     }
 
-    // Lists -----------------------------------------------------------------------------------------------------------
-
+    /**
+     * Get a list of groups
+     *
+     * @return mixed
+     */
     public function index()
     {
         $data = get_default_data();
@@ -22,14 +26,17 @@ class AdminGroupController extends BaseController {
         if ($auth['isAdmin']) {
             $data['allGroups'] = Sentry::getGroupProvider()->findAll();
             return View::make('admin/group.index', $data);
-        }else{
+        } else {
             Alert::error('Sorry.')->flash();
-            return Redirect::to('admin/user/show/'.$auth['userId']);
+            return Redirect::to('admin/user/show/' . $auth['userId']);
         }
     }
 
-    // Create ----------------------------------------------------------------------------------------------------------
-
+    /**
+     * Form to create a new group
+     *
+     * @return mixed
+     */
     public function create()
     {
         $data = get_default_data();
@@ -37,12 +44,17 @@ class AdminGroupController extends BaseController {
 
         if ($auth['isAdmin']) {
             return View::make('admin/group.create', $data);
-        }else{
+        } else {
             Alert::error('Sorry.')->flash();
-            return Redirect::to('admin/user/show/'.$auth['userId']);
+            return Redirect::to('admin/user/show/' . $auth['userId']);
         }
     }
 
+    /**
+     * Store the group in the database
+     *
+     * @return mixed
+     */
     public function store()
     {
 
@@ -53,7 +65,7 @@ class AdminGroupController extends BaseController {
             'newGroup' => Input::get('newGroup')
         );
 
-        $rules = array (
+        $rules = array(
             'newGroup' => 'required|min:4'
         );
 
@@ -68,7 +80,7 @@ class AdminGroupController extends BaseController {
                 try {
                     $group = Sentry::getGroupProvider()->create(array(
 
-                        'name'        => $input['newGroup'],
+                        'name' => $input['newGroup'],
                         'permissions' => array(
                             'admin' => Input::get('adminPermissions', 0),
                             'users' => Input::get('userPermissions', 0),
@@ -92,15 +104,19 @@ class AdminGroupController extends BaseController {
                     Session::flash('error', 'Group already exists');
                     return Redirect::to('admin/group/create')->withErrors($v)->withInput();
                 }
-            }else{
+            } else {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/user/show/'.$auth['userId']);
+                return Redirect::to('admin/user/show/' . $auth['userId']);
             }
         }
     }
 
-    // Show ------------------------------------------------------------------------------------------------------------
-
+    /**
+     * Show a group
+     *
+     * @param int $id The ID of the group to show
+     * @return mixed
+     */
     public function show($id)
     {
 
@@ -120,14 +136,18 @@ class AdminGroupController extends BaseController {
                 return Redirect::to('groups');
             }
 
-        }else{
+        } else {
             Alert::error('Sorry.')->flash();
-            return Redirect::to('admin/user/show/'.$auth['userId']);
+            return Redirect::to('admin/user/show/' . $auth['userId']);
         }
     }
 
-    // Edit ------------------------------------------------------------------------------------------------------------
-
+    /**
+     * Form to edit a group
+     *
+     * @param int $id The ID of the group to edit
+     * @return mixed
+     */
     public function edit($id)
     {
 
@@ -145,12 +165,20 @@ class AdminGroupController extends BaseController {
                 Session::flash('error', 'Group does not exist.');
                 return Redirect::to('groups');
             }
-        }else{
+        } else {
             Alert::error('Sorry.')->flash();
-            return Redirect::to('admin/user/show/'.$auth['userId']);
+            return Redirect::to('admin/user/show/' . $auth['userId']);
         }
     }
 
+    /**
+     * Update a group
+     *
+     * TODO: How is this different to edit()?
+     *
+     * @param int $id The ID of the group to update
+     * @return mixed
+     */
     public function update($id)
     {
 
@@ -161,14 +189,14 @@ class AdminGroupController extends BaseController {
             'name' => Input::get('name')
         );
 
-        $rules = array (
+        $rules = array(
             'name' => 'required|min:4'
         );
 
         $v = Validator::make($input, $rules);
 
         if ($v->fails()) {
-            return Redirect::to('admin/group/'. $id . '/edit')->withErrors($v)->withInput()->with($data);
+            return Redirect::to('admin/group/' . $id . '/edit')->withErrors($v)->withInput()->with($data);
         } else {
 
             if ($auth['isAdmin']) {
@@ -190,24 +218,28 @@ class AdminGroupController extends BaseController {
                         return Redirect::to('admin/group');
                     } else {
                         Session::flash('error', 'There was a problem updating the group.');
-                        return Redirect::to('admin/group/'. $id . '/edit')->withErrors($v)->withInput();
+                        return Redirect::to('admin/group/' . $id . '/edit')->withErrors($v)->withInput();
                     }
                 } catch (Cartalyst\Sentry\Groups\GroupExistsException $e) {
                     Session::flash('error', 'Group already exists.');
-                    return Redirect::to('admin/group/'. $id . '/edit')->withErrors($v)->withInput();
+                    return Redirect::to('admin/group/' . $id . '/edit')->withErrors($v)->withInput();
                 } catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
                     Session::flash('error', 'Group was not found.');
-                    return Redirect::to('admin/group/'. $id . '/edit')->withErrors($v)->withInput();
+                    return Redirect::to('admin/group/' . $id . '/edit')->withErrors($v)->withInput();
                 }
-            }else{
+            } else {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/user/show/'.$auth['userId']);
+                return Redirect::to('admin/user/show/' . $auth['userId']);
             }
         }
     }
 
-    // Delete ----------------------------------------------------------------------------------------------------------
-
+    /**
+     * Destroy a group
+     *
+     * @param int $id The ID of the group to destroy
+     * @return mixed
+     */
     public function destroy($id)
     {
 
@@ -230,9 +262,9 @@ class AdminGroupController extends BaseController {
                 Session::flash('error', 'Group was not found.');
                 return Redirect::to('admin/group/');
             }
-        }else{
+        } else {
             Alert::error('Sorry.')->flash();
-            return Redirect::to('admin/user/show/'.$auth['userId']);
+            return Redirect::to('admin/user/show/' . $auth['userId']);
         }
     }
 

@@ -2,11 +2,12 @@
 
 use Tempo\TempoDebug;
 
-class AdminClanController extends BaseController {
+class AdminClanController extends BaseController
+{
 
     public function __construct()
     {
-        //Check CSRF token on POST
+        // Check CSRF token on POST
         $this->beforeFilter('csrf', array('on' => 'post'));
 
         // Authenticated access only
@@ -14,8 +15,11 @@ class AdminClanController extends BaseController {
 
     }
 
-    // List ------------------------------------------------------------------------------------------------------------
-
+    /**
+     * Get a list of clans
+     *
+     * @return mixed
+     */
     public function getIndex()
     {
 
@@ -27,10 +31,15 @@ class AdminClanController extends BaseController {
             return View::make('admin/clan.index')->with($data);
         } else {
             Alert::error('Sorry.')->flash();
-            return Redirect::to('admin/user/show/'.$auth['userId']);
+            return Redirect::to('admin/user/show/' . $auth['userId']);
         }
     }
 
+    /**
+     * Search by POST
+     *
+     * @return mixed
+     */
     public function postSearch()
     {
 
@@ -42,7 +51,7 @@ class AdminClanController extends BaseController {
             'type' => Input::get('type')
         );
 
-        $rules = array (
+        $rules = array(
             'query' => 'required',
             'type' => 'required|alpha',
         );
@@ -58,9 +67,9 @@ class AdminClanController extends BaseController {
                 $query = $input['query'];
                 $type = $input['type'];
 
-                switch($type){
+                switch ($type) {
                     case 'name':
-                        $clans = Clan::where('clans.name', 'LIKE', '%'.$query.'%');
+                        $clans = Clan::where('clans.name', 'LIKE', '%' . $query . '%');
                         break;
                 }
 
@@ -74,13 +83,16 @@ class AdminClanController extends BaseController {
 
             } else {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/user/show/'.$auth['userId']);
+                return Redirect::to('admin/user/show/' . $auth['userId']);
             }
         }
     }
 
-    // Create ----------------------------------------------------------------------------------------------------------
-
+    /**
+     * Form to create a clan
+     *
+     * @return mixed
+     */
     public function getCreate()
     {
 
@@ -93,6 +105,11 @@ class AdminClanController extends BaseController {
 
     }
 
+    /**
+     * Create a clan by POST
+     *
+     * @return mixed
+     */
     public function postCreate()
     {
 
@@ -104,7 +121,7 @@ class AdminClanController extends BaseController {
             'tag' => Input::get('tag'),
         );
 
-        $rules = array (
+        $rules = array(
             'newGroup' => 'required|alpha_num',
             'tag' => 'required',
         );
@@ -119,12 +136,12 @@ class AdminClanController extends BaseController {
                 $currentUser = $auth['user'];
                 $profile = $auth['profile'];
 
-                if($auth['isGrunt'] || $auth['isOfficer'] || $auth['isLeader']){
+                if ($auth['isGrunt'] || $auth['isOfficer'] || $auth['isLeader']) {
                     Alert::error('You already belong to an active group, you will need to leave this group to create a new one.')->flash();
-                    return Redirect::to('admin/clan/show/'. $profile->clan_id);
+                    return Redirect::to('admin/clan/show/' . $profile->clan_id);
                 }
 
-                if(!is_null($profile->clan_id)){
+                if (!is_null($profile->clan_id)) {
                     $clan = new Clan;
 
                     $tag = str_replace("[", "", $input['tag']);
@@ -134,72 +151,73 @@ class AdminClanController extends BaseController {
                     $clan->tag = $tag;
                     $clan->key = $this->_generatePassword(32);
                     $clan->password = $this->_generatePassword(32);
-					$clan->type = "Infantry";
-					$clan->size = "Squad";
-					$clan->lat = rand(3300,4200);
-					$clan->lon = rand(2000,6000);
-					
-                    $clanExists = Clan::where('name', $clan->name)->count();
-					$tagExists = Clan::where('tag', $clan->tag)->count();
+                    $clan->type = "Infantry";
+                    $clan->size = "Squad";
+                    $clan->lat = rand(3300, 4200);
+                    $clan->lon = rand(2000, 6000);
 
-                    if(!$clanExists){
-						if(!$tagExists) {
-							if ($clan->save()) {
-	
-								$profile = $currentUser->profile;
-	
-								$profile->clan_id = $clan->id;
-	
-								if ($profile->save()) {
-	
-									if($auth['isUser']){
-										$currentUser->removeGroup($auth['userGroup']);
-										$currentUser->addGroup($auth['leaderGroup']);
-									}
-	
-									if($auth['isAdmin']){
-										$currentUser->addGroup($auth['leaderGroup']);
-									}
-	
-									$couchAPI = new Alive\CouchAPI();
-									$result = $couchAPI->createClanUser($clan->key, $clan->password, $clan->tag);
-	
-									if(isset($result['response'])){
-										if(isset($result['response']->rev)){
-											$remoteId = $result['response']->rev;
-											$clan->remote_id = $remoteId;
-											$clan->save();
-										}
-									}
-	
-									if(is_null($profile->remote_id)){
-										$couchAPI = new Alive\CouchAPI();
-										$result = $couchAPI->createClanMember($profile->a3_id, $profile->username, $clan->tag);
-	
-										if(isset($result['response'])){
-											if(isset($result['response']->rev)){
-												$remoteId = $result['response']->rev;
-												$profile->remote_id = $remoteId;
-												$profile->save();
-											}
-										}
-									}
-	
-									Alert::success('Group created. You are now the leader of this group')->flash();
-									return Redirect::to('admin/clan/show/'. $clan->id);
-								}
-							} 
-						}else{
-							Alert::error('A group with this tag already exists.')->flash();
-							return Redirect::to('admin/clan/create/');
-                    	}
-                    }else{
+                    $clanExists = Clan::where('name', $clan->name)->count();
+                    $tagExists = Clan::where('tag', $clan->tag)->count();
+
+                    if (!$clanExists) {
+                        if (!$tagExists) {
+                            if ($clan->save()) {
+
+                                $profile = $currentUser->profile;
+
+                                $profile->clan_id = $clan->id;
+
+                                if ($profile->save()) {
+
+                                    if ($auth['isUser']) {
+                                        $currentUser->removeGroup($auth['userGroup']);
+                                        $currentUser->addGroup($auth['leaderGroup']);
+                                    }
+
+                                    if ($auth['isAdmin']) {
+                                        $currentUser->addGroup($auth['leaderGroup']);
+                                    }
+
+                                    $couchAPI = new Alive\CouchAPI();
+                                    $result = $couchAPI->createClanUser($clan->key, $clan->password, $clan->tag);
+
+                                    if (isset($result['response'])) {
+                                        if (isset($result['response']->rev)) {
+                                            $remoteId = $result['response']->rev;
+                                            $clan->remote_id = $remoteId;
+                                            $clan->save();
+                                        }
+                                    }
+
+                                    if (is_null($profile->remote_id)) {
+                                        $couchAPI = new Alive\CouchAPI();
+                                        $result = $couchAPI->createClanMember($profile->a3_id, $profile->username,
+                                            $clan->tag);
+
+                                        if (isset($result['response'])) {
+                                            if (isset($result['response']->rev)) {
+                                                $remoteId = $result['response']->rev;
+                                                $profile->remote_id = $remoteId;
+                                                $profile->save();
+                                            }
+                                        }
+                                    }
+
+                                    Alert::success('Group created. You are now the leader of this group')->flash();
+                                    return Redirect::to('admin/clan/show/' . $clan->id);
+                                }
+                            }
+                        } else {
+                            Alert::error('A group with this tag already exists.')->flash();
+                            return Redirect::to('admin/clan/create/');
+                        }
+                    } else {
                         Alert::error('A group with this name already exists.')->flash();
                         return Redirect::to('admin/clan/create/');
                     }
-                }else{
+                } else {
                     Alert::success('You already belong to an active group, you will need to leave this group to create a new one.')->flash();
-                    return Redirect::to('admin/clan/show/'. $profile->clan_id);
+                    return Redirect::to('admin/clan/show/' . $profile->clan_id);
                 }
             } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
                 Alert::error('There was a problem accessing this account.')->flash();
@@ -208,8 +226,12 @@ class AdminClanController extends BaseController {
         }
     }
 
-    // Show ------------------------------------------------------------------------------------------------------------
-
+    /**
+     * Show a clan by ID
+     *
+     * @param $id
+     * @return mixed
+     */
     public function getShow($id)
     {
 
@@ -221,12 +243,12 @@ class AdminClanController extends BaseController {
             $data['clan'] = $clan;
 
             $applicationCount = $clan->applications->count();
-            if($applicationCount > 0){
+            if ($applicationCount > 0) {
                 $data['applications'] = $clan->applications->all();
             }
 
             $serverCount = $clan->servers->count();
-            if($serverCount > 0){
+            if ($serverCount > 0) {
                 $data['servers'] = $clan->servers->all();
             }
 
@@ -241,8 +263,12 @@ class AdminClanController extends BaseController {
 
     }
 
-    // Edit ------------------------------------------------------------------------------------------------------------
-
+    /**
+     * Form to edit a clan
+     *
+     * @param int $id The ID of the clan to edit
+     * @return mixed
+     */
     public function getEdit($id)
     {
 
@@ -255,35 +281,35 @@ class AdminClanController extends BaseController {
             $profile = $auth['profile'];
 
             $clan = Clan::find($id);
-			$orbat = $clan->orbat();
-			
-			$clans = Clan::all();
-			$data['clans'] = $clans;
+            $orbat = $clan->orbat();
 
-            $data['countries'] = DB::table('countries')->lists('name','iso_3166_2');
-			$data['groupTypes'] = DB::table('orbattypes')->lists('name','type');
-			if ($auth['isAdmin']) {
-				$data['groupSizes'] = DB::table('orbatsizes')->get();
-			} else {
-				$data['groupSizes'] = DB::table('orbatsizes')->take(9)->get();
-			}
-			
-			$data['orbat'] = $orbat;
-			
+            $clans = Clan::all();
+            $data['clans'] = $clans;
+
+            $data['countries'] = DB::table('countries')->lists('name', 'iso_3166_2');
+            $data['groupTypes'] = DB::table('orbattypes')->lists('name', 'type');
+            if ($auth['isAdmin']) {
+                $data['groupSizes'] = DB::table('orbatsizes')->get();
+            } else {
+                $data['groupSizes'] = DB::table('orbatsizes')->take(9)->get();
+            }
+
+            $data['orbat'] = $orbat;
+
             if ($auth['isAdmin']) {
                 $data['clan'] = $clan;
                 return View::make('admin/clan.edit')->with($data);
             } elseif ($auth['isLeader']) {
-                if($profile->clan_id == $clan->id){
+                if ($profile->clan_id == $clan->id) {
                     $data['clan'] = $clan;
                     return View::make('admin/clan.edit')->with($data);
-                }else{
+                } else {
                     Alert::error('You don\'t have access to that group.')->flash();
-                    return Redirect::to('admin/clan/show/'.$id);
+                    return Redirect::to('admin/clan/show/' . $id);
                 }
             } else {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
         } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
@@ -292,6 +318,12 @@ class AdminClanController extends BaseController {
         }
     }
 
+    /**
+     * Edit a form by POST
+     *
+     * @param int $id The ID of the clan to edit
+     * @return mixed
+     */
     public function postEdit($id)
     {
 
@@ -306,16 +338,16 @@ class AdminClanController extends BaseController {
             'twitchStream' => Input::get('twitchStream'),
             'teamspeak' => Input::get('teamspeak'),
             'country' => Input::get('country'),
-			'type' => Input::get('type'),
-			'size' => Input::get('size'),
+            'type' => Input::get('type'),
+            'size' => Input::get('size'),
             'description' => Input::get('description'),
             'allowApplicants' => Input::get('allowApplicants', 0),
             'applicationText' => Input::get('applicationText', 0),
-			'lat' => Input::get('lat'),
-			'lon' => Input::get('lon'),
+            'lat' => Input::get('lat'),
+            'lon' => Input::get('lon'),
         );
 
-        $rules = array (
+        $rules = array(
             'name' => 'required',
             'website' => 'url',
             'twitchStream' => 'url',
@@ -335,23 +367,23 @@ class AdminClanController extends BaseController {
 
                 if (!$auth['isAdmin'] && !$auth['isLeader']) {
                     Alert::error('You don\'t have access to that group.')->flash();
-                    return Redirect::to('admin/clan/show/'.$id);
+                    return Redirect::to('admin/clan/show/' . $id);
                 }
 
-                if(!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id){
+                if (!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id) {
                     Alert::error('You don\'t have access to that group.')->flash();
-                    return Redirect::to('admin/clan/show/'.$id);
+                    return Redirect::to('admin/clan/show/' . $id);
                 }
 
                 $allowApplicants = false;
-                if(isset($input['allowApplicants'])){
-                    if($input['allowApplicants'] === 'on'){
+                if (isset($input['allowApplicants'])) {
+                    if ($input['allowApplicants'] === 'on') {
                         $allowApplicants = true;
                     }
                 }
 
-                if($input['country'] != ''){
-                    $countries = DB::table('countries')->lists('name','iso_3166_2');
+                if ($input['country'] != '') {
+                    $countries = DB::table('countries')->lists('name', 'iso_3166_2');
                     $countryName = $countries[$input['country']];
                     $clan->country = $input['country'];
                     $clan->country_name = $countryName;
@@ -366,16 +398,16 @@ class AdminClanController extends BaseController {
                 $clan->description = $input['description'];
                 $clan->allow_applicants = $allowApplicants;
                 $clan->application_text = $input['applicationText'];
-				
-				$clan->type = $input['type'];
-				$clan->size = $input['size'];
-				
-				$clan->lat = $input['lat'];
-				$clan->lon = $input['lon'];
+
+                $clan->type = $input['type'];
+                $clan->size = $input['size'];
+
+                $clan->lat = $input['lat'];
+                $clan->lon = $input['lon'];
 
                 if ($clan->save()) {
                     Alert::success('Group updated.')->flash();
-                    return Redirect::to('admin/clan/show/'. $id);
+                    return Redirect::to('admin/clan/show/' . $id);
                 } else {
                     Alert::error('Group could not be updated.')->flash();
                     return Redirect::to('admin/clan/edit/' . $id);
@@ -388,8 +420,12 @@ class AdminClanController extends BaseController {
         }
     }
 
-    // Change Avatar ---------------------------------------------------------------------------------------------------
-
+    /**
+     * Change an avatar by ID
+     *
+     * @param int $id The ID of the clan to change the avatar for
+     * @return mixed
+     */
     public function postChangeavatar($id)
     {
 
@@ -400,7 +436,7 @@ class AdminClanController extends BaseController {
             'avatar' => Input::file('avatar'),
         );
 
-        $rules = array (
+        $rules = array(
             'avatar' => 'mimes:jpeg,bmp,png',
         );
 
@@ -419,12 +455,12 @@ class AdminClanController extends BaseController {
 
                 if (!$auth['isAdmin'] && !$auth['isLeader']) {
                     Alert::error('You don\'t have access to that group.')->flash();
-                    return Redirect::to('admin/clan/show/'.$id);
+                    return Redirect::to('admin/clan/show/' . $id);
                 }
 
-                if(!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id){
+                if (!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id) {
                     Alert::error('You don\'t have access to that group.')->flash();
-                    return Redirect::to('admin/clan/show/'.$id);
+                    return Redirect::to('admin/clan/show/' . $id);
                 }
 
                 $clan->avatar->clear();
@@ -432,7 +468,7 @@ class AdminClanController extends BaseController {
 
                 if ($clan->save()) {
                     Alert::success('Group updated.')->flash();
-                    return Redirect::to('admin/clan/show/'. $id);
+                    return Redirect::to('admin/clan/show/' . $id);
                 } else {
                     Alert::error('Group could not be updated.')->flash();
                     return Redirect::to('admin/clan/edit/' . $id);
@@ -445,8 +481,12 @@ class AdminClanController extends BaseController {
         }
     }
 
-    // Delete ----------------------------------------------------------------------------------------------------------
-
+    /**
+     * Delete a clan by POST
+     *
+     * @param int $id The ID of the clan to delete
+     * @return mixed
+     */
     public function postDelete($id)
     {
 
@@ -462,12 +502,12 @@ class AdminClanController extends BaseController {
 
             if (!$auth['isAdmin'] && !$auth['isLeader']) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
-            if(!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id){
+            if (!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
             $userGroup = Sentry::findGroupByName('Users');
@@ -478,22 +518,22 @@ class AdminClanController extends BaseController {
 
             $members = $clan->members->all();
 
-            foreach($members as $member){
+            foreach ($members as $member) {
 
                 $user = Sentry::findUserById($member->user_id);
                 $profile = $user->profile;
 
-                if($user->inGroup($auth['gruntGroup'])){
+                if ($user->inGroup($auth['gruntGroup'])) {
                     $user->removeGroup($auth['gruntGroup']);
                 }
-                if($user->inGroup($auth['officerGroup'])){
+                if ($user->inGroup($auth['officerGroup'])) {
                     $user->removeGroup($auth['officerGroup']);
                 }
-                if($user->inGroup($auth['leaderGroup'])){
+                if ($user->inGroup($auth['leaderGroup'])) {
                     $user->removeGroup($auth['leaderGroup']);
                 }
 
-                if(!$user->inGroup($auth['adminGroup'])){
+                if (!$user->inGroup($auth['adminGroup'])) {
                     $user->addGroup($auth['userGroup']);
                 }
 
@@ -503,17 +543,17 @@ class AdminClanController extends BaseController {
 
             $servers = $clan->servers->all();
 
-            foreach($servers as $server){
+            foreach ($servers as $server) {
                 $server->delete();
             }
 
             $applications = $clan->applications->all();
 
-            foreach($applications as $application){
+            foreach ($applications as $application) {
                 $application->delete();
             }
 
-            if(!is_null($clan->remote_id)){
+            if (!is_null($clan->remote_id)) {
                 $couchAPI = new Alive\CouchAPI();
                 $result = $couchAPI->deleteClanUser($clan->key, $clan->remote_id);
             }
@@ -528,8 +568,12 @@ class AdminClanController extends BaseController {
         }
     }
 
-    // Remove Member ---------------------------------------------------------------------------------------------------
-
+    /**
+     * Remove a member from a clan
+     *
+     * @param int $id The ID of the user to remove
+     * @return mixed
+     */
     public function postRemovemember($id)
     {
 
@@ -550,44 +594,45 @@ class AdminClanController extends BaseController {
 
             if (!$auth['isAdmin'] && !$auth['isLeader'] && !$auth['isOfficer']) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
-            if(!$auth['isAdmin'] && ($auth['isLeader'] || $auth['isOfficer']) && $profile->clan_id != $clan->id){
+            if (!$auth['isAdmin'] && ($auth['isLeader'] || $auth['isOfficer']) && $profile->clan_id != $clan->id) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
-            if($user->inGroup($auth['gruntGroup'])){
+            if ($user->inGroup($auth['gruntGroup'])) {
                 $user->removeGroup($auth['gruntGroup']);
             }
-            if($user->inGroup($auth['officerGroup'])){
+            if ($user->inGroup($auth['officerGroup'])) {
                 $user->removeGroup($auth['officerGroup']);
             }
-            if($user->inGroup($auth['leaderGroup'])){
+            if ($user->inGroup($auth['leaderGroup'])) {
                 $user->removeGroup($auth['leaderGroup']);
             }
 
-            if(!$user->inGroup($auth['adminGroup'])){
+            if (!$user->inGroup($auth['adminGroup'])) {
                 $user->addGroup($auth['userGroup']);
             }
-	
-			// Remove player ServerGroup from CouchDB
-            if(!is_null($memberProfile->remote_id)){
-				$group = "";
+
+            // Remove player ServerGroup from CouchDB
+            if (!is_null($memberProfile->remote_id)) {
+                $group = "";
                 $couchAPI = new Alive\CouchAPI();
-                $result = $couchAPI->updateClanMember($memberProfile->a3_id, $memberProfile->username, $group, $memberProfile->remote_id);
-				
-				if(isset($result['response'])){
-					if(isset($result['response']->rev)){
-						$remoteId = $result['response']->rev;
-						$memberProfile->remote_id = $remoteId;
-					}
-				}				
-            }	
-			
-			$memberProfile->clan_id = 0;
-            $memberProfile->save();		
+                $result = $couchAPI->updateClanMember($memberProfile->a3_id, $memberProfile->username, $group,
+                    $memberProfile->remote_id);
+
+                if (isset($result['response'])) {
+                    if (isset($result['response']->rev)) {
+                        $remoteId = $result['response']->rev;
+                        $memberProfile->remote_id = $remoteId;
+                    }
+                }
+            }
+
+            $memberProfile->clan_id = 0;
+            $memberProfile->save();
 
             Alert::success('Member removed.')->flash();
             return Redirect::to('admin/clan/show/' . $clan_id);
@@ -598,6 +643,12 @@ class AdminClanController extends BaseController {
         }
     }
 
+    /**
+     * Remove the logged in user from a clan
+     *
+     * @param int $id The ID of the clan to leave
+     * @return mixed
+     */
     public function postLeave($id)
     {
 
@@ -615,42 +666,42 @@ class AdminClanController extends BaseController {
 
             if (!$auth['isGrunt'] && !$auth['isOfficer'] && !$auth['isOfficer']) {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
-            if(!$auth['isAdmin'] && ($auth['isGrunt'] || $auth['isOfficer']) && $id != $clan_id){
+            if (!$auth['isAdmin'] && ($auth['isGrunt'] || $auth['isOfficer']) && $id != $clan_id) {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
-            if($currentUser->inGroup($auth['gruntGroup'])){
+            if ($currentUser->inGroup($auth['gruntGroup'])) {
                 $currentUser->removeGroup($auth['gruntGroup']);
             }
-            if($currentUser->inGroup($auth['officerGroup'])){
+            if ($currentUser->inGroup($auth['officerGroup'])) {
                 $currentUser->removeGroup($auth['officerGroup']);
             }
-            if($currentUser->inGroup($auth['leaderGroup'])){
+            if ($currentUser->inGroup($auth['leaderGroup'])) {
                 $currentUser->removeGroup($auth['leaderGroup']);
             }
 
-            if(!$currentUser->inGroup($auth['adminGroup'])){
+            if (!$currentUser->inGroup($auth['adminGroup'])) {
                 $currentUser->addGroup($auth['userGroup']);
             }
-			
-			// Remove player ServerGroup from CouchDB
-            if(!is_null($profile->remote_id)){
-				$group = "";
+
+            // Remove player ServerGroup from CouchDB
+            if (!is_null($profile->remote_id)) {
+                $group = "";
                 $couchAPI = new Alive\CouchAPI();
                 $result = $couchAPI->updateClanMember($profile->a3_id, $profile->username, $group, $profile->remote_id);
-				
-				if(isset($result['response'])){
-					if(isset($result['response']->rev)){
-						$remoteId = $result['response']->rev;
-						$profile->remote_id = $remoteId;
-					}
-				}				
+
+                if (isset($result['response'])) {
+                    if (isset($result['response']->rev)) {
+                        $remoteId = $result['response']->rev;
+                        $profile->remote_id = $remoteId;
+                    }
+                }
             }
-				
+
             $profile->clan_id = 0;
             $profile->save();
 
@@ -663,8 +714,12 @@ class AdminClanController extends BaseController {
         }
     }
 
-    // Edit Member -----------------------------------------------------------------------------------------------------
-
+    /**
+     * Form to edit a clan member
+     *
+     * @param int $id The ID of the user to edit
+     * @return mixed
+     */
     public function getMemberedit($id)
     {
 
@@ -684,12 +739,12 @@ class AdminClanController extends BaseController {
 
             if (!$auth['isAdmin'] && !$auth['isLeader'] && !$auth['isOfficer']) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
-            if(!$auth['isAdmin'] && ($auth['isLeader'] || $auth['isOfficer']) && $profile->clan_id != $clan->id){
+            if (!$auth['isAdmin'] && ($auth['isLeader'] || $auth['isOfficer']) && $profile->clan_id != $clan->id) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
             $data['member'] = $memberProfile;
@@ -703,6 +758,12 @@ class AdminClanController extends BaseController {
         }
     }
 
+    /**
+     * Update a member by POST
+     *
+     * @param int $id The ID of the user you are editing
+     * @return mixed
+     */
     public function postMemberedit($id)
     {
 
@@ -717,8 +778,7 @@ class AdminClanController extends BaseController {
             'remark' => Input::get('remark'),
         );
 
-        $rules = array (
-            //'a3ID' => 'required',
+        $rules = array(//'a3ID' => 'required',
         );
 
         $v = Validator::make($input, $rules);
@@ -741,12 +801,12 @@ class AdminClanController extends BaseController {
 
                 if (!$auth['isAdmin'] && !$auth['isLeader'] && !$auth['isOfficer']) {
                     Alert::error('You don\'t have access to that group.')->flash();
-                    return Redirect::to('admin/clan/show/'.$id);
+                    return Redirect::to('admin/clan/show/' . $id);
                 }
 
-                if(!$auth['isAdmin'] && ($auth['isLeader'] || $auth['isOfficer']) && $profile->clan_id != $clan->id){
+                if (!$auth['isAdmin'] && ($auth['isLeader'] || $auth['isOfficer']) && $profile->clan_id != $clan->id) {
                     Alert::error('You don\'t have access to that group.')->flash();
-                    return Redirect::to('admin/clan/show/'.$id);
+                    return Redirect::to('admin/clan/show/' . $id);
                 }
 
                 /*
@@ -766,8 +826,12 @@ class AdminClanController extends BaseController {
         }
     }
 
-    // Add Member ------------------------------------------------------------------------------------------------------
-
+    /**
+     * Add a new member to a clan
+     *
+     * @param int $id The ID of the user to add
+     * @return mixed
+     */
     public function postMemberadd($id)
     {
 
@@ -782,7 +846,7 @@ class AdminClanController extends BaseController {
             'remark' => Input::get('remark'),
         );
 
-        $rules = array (
+        $rules = array(
             'email' => 'required|min:4|max:32|email',
             'password' => 'required|min:6|confirmed',
             'password_confirmation' => 'required'
@@ -803,23 +867,23 @@ class AdminClanController extends BaseController {
 
                 if (!$auth['isAdmin'] && !$auth['isLeader']) {
                     Alert::error('You don\'t have access to that group.')->flash();
-                    return Redirect::to('admin/clan/show/'.$id);
+                    return Redirect::to('admin/clan/show/' . $id);
                 }
 
-                if(!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id){
+                if (!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id) {
                     Alert::error('You don\'t have access to that group.')->flash();
-                    return Redirect::to('admin/clan/show/'.$id);
+                    return Redirect::to('admin/clan/show/' . $id);
                 }
 
                 $existingMember = User::where('email', $input['email'])->get();
 
-                if(count($existingMember) > 0){
+                if (count($existingMember) > 0) {
                     Alert::error('That member already exists')->flash();
                     return Redirect::to('admin/clan/edit/' . $id)->withInput();
                 }
 
                 $user = Sentry::register(array(
-                    'email'    => $input['email'],
+                    'email' => $input['email'],
                     'password' => $input['password'],
                 ), true);
 
@@ -840,10 +904,10 @@ class AdminClanController extends BaseController {
 
                 $profile->save();
 
-				// should there be a connect user to couch call here?
-				
-                if(isset($result['response'])){
-                    if(isset($result['response']->rev)){
+                // should there be a connect user to couch call here?
+
+                if (isset($result['response'])) {
+                    if (isset($result['response']->rev)) {
                         $remoteId = $result['response']->rev;
                         $clan->remote_id = $remoteId;
                         $clan->save();
@@ -860,8 +924,12 @@ class AdminClanController extends BaseController {
         }
     }
 
-    // Leader Stepdown -------------------------------------------------------------------------------------------------
-
+    /**
+     * Form to step down the leader of a clan
+     *
+     * @param int $id The ID of the clan
+     * @return mixed
+     */
     public function getLeaderstepdown($id)
     {
 
@@ -881,6 +949,12 @@ class AdminClanController extends BaseController {
         }
     }
 
+    /**
+     * Step down a leader of a clan by POST
+     *
+     * @param int $id The ID of the clan
+     * @return mixed
+     */
     public function postLeaderstepdown($id)
     {
 
@@ -891,7 +965,7 @@ class AdminClanController extends BaseController {
             'replacement' => Input::get('replacement'),
         );
 
-        $rules = array (
+        $rules = array(
             'replacement' => 'required',
         );
 
@@ -913,31 +987,31 @@ class AdminClanController extends BaseController {
 
                 if (!$auth['isAdmin'] && !$auth['isLeader']) {
                     Alert::error('You don\'t have access to that group.')->flash();
-                    return Redirect::to('admin/clan/show/'.$id);
+                    return Redirect::to('admin/clan/show/' . $id);
                 }
 
-                if(!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id){
+                if (!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id) {
                     Alert::error('You don\'t have access to that group.')->flash();
-                    return Redirect::to('admin/clan/show/'.$id);
+                    return Redirect::to('admin/clan/show/' . $id);
                 }
 
-                if($auth['isLeader']){
+                if ($auth['isLeader']) {
                     $currentUser->removeGroup($auth['leaderGroup']);
                     $currentUser->addGroup($auth['officerGroup']);
                 }
 
 
-                if($user->inGroup($auth['gruntGroup'])){
+                if ($user->inGroup($auth['gruntGroup'])) {
                     $user->removeGroup($auth['gruntGroup']);
                 }
-                if($user->inGroup($auth['officerGroup'])){
+                if ($user->inGroup($auth['officerGroup'])) {
                     $user->removeGroup($auth['officerGroup']);
                 }
-                if($user->inGroup($auth['leaderGroup'])){
+                if ($user->inGroup($auth['leaderGroup'])) {
                     $user->removeGroup($auth['leaderGroup']);
                 }
 
-                if(!$user->inGroup($auth['adminGroup'])){
+                if (!$user->inGroup($auth['adminGroup'])) {
                     $user->addGroup($auth['leaderGroup']);
                 }
 
@@ -951,8 +1025,12 @@ class AdminClanController extends BaseController {
         }
     }
 
-    // Officer Stepdown ------------------------------------------------------------------------------------------------
-
+    /**
+     * Step down the officer by POST
+     *
+     * @param int $id The ID of the clan
+     * @return mixed
+     */
     public function postOfficerstepdown($id)
     {
 
@@ -968,15 +1046,15 @@ class AdminClanController extends BaseController {
 
             if (!$auth['isAdmin'] && !$auth['isLeader']) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
-            if(!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id){
+            if (!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
-            if($currentUser->inGroup($auth['officerGroup'])){
+            if ($currentUser->inGroup($auth['officerGroup'])) {
                 $currentUser->removeGroup($auth['officerGroup']);
                 $currentUser->addGroup($auth['gruntGroup']);
             }
@@ -990,8 +1068,12 @@ class AdminClanController extends BaseController {
         }
     }
 
-    // Promote ---------------------------------------------------------------------------------------------------------
-
+    /**
+     * Promote a user by ID
+     *
+     * @param int $id The ID of the user to promote
+     * @return mixed
+     */
     public function postPromote($id)
     {
 
@@ -1012,25 +1094,25 @@ class AdminClanController extends BaseController {
 
             if (!$auth['isAdmin'] && !$auth['isLeader'] && !$auth['isOfficer']) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
-            if(!$auth['isAdmin'] && ($auth['isLeader'] || $auth['isOfficer']) && $profile->clan_id != $clan->id){
+            if (!$auth['isAdmin'] && ($auth['isLeader'] || $auth['isOfficer']) && $profile->clan_id != $clan->id) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
-            if($user->inGroup($auth['gruntGroup'])){
+            if ($user->inGroup($auth['gruntGroup'])) {
                 $user->removeGroup($auth['gruntGroup']);
             }
-            if($user->inGroup($auth['officerGroup'])){
+            if ($user->inGroup($auth['officerGroup'])) {
                 $user->removeGroup($auth['officerGroup']);
             }
-            if($user->inGroup($auth['leaderGroup'])){
+            if ($user->inGroup($auth['leaderGroup'])) {
                 $user->removeGroup($auth['leaderGroup']);
             }
 
-            if(!$user->inGroup($auth['adminGroup'])){
+            if (!$user->inGroup($auth['adminGroup'])) {
                 $user->addGroup($auth['officerGroup']);
             }
 
@@ -1044,8 +1126,12 @@ class AdminClanController extends BaseController {
 
     }
 
-    // Demote ----------------------------------------------------------------------------------------------------------
-
+    /**
+     * Demote a user
+     *
+     * @param int $id The ID of the user to demote
+     * @return mixed
+     */
     public function postDemote($id)
     {
 
@@ -1066,25 +1152,25 @@ class AdminClanController extends BaseController {
 
             if (!$auth['isAdmin'] && !$auth['isLeader']) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
-            if(!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id){
+            if (!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
-            if($user->inGroup($auth['gruntGroup'])){
+            if ($user->inGroup($auth['gruntGroup'])) {
                 $user->removeGroup($auth['gruntGroup']);
             }
-            if($user->inGroup($auth['officerGroup'])){
+            if ($user->inGroup($auth['officerGroup'])) {
                 $user->removeGroup($auth['officerGroup']);
             }
-            if($user->inGroup($auth['leaderGroup'])){
+            if ($user->inGroup($auth['leaderGroup'])) {
                 $user->removeGroup($auth['leaderGroup']);
             }
 
-            if(!$user->inGroup($auth['adminGroup'])){
+            if (!$user->inGroup($auth['adminGroup'])) {
                 $user->addGroup($auth['gruntGroup']);
             }
 
@@ -1097,8 +1183,12 @@ class AdminClanController extends BaseController {
         }
     }
 
-    // Squad XML -------------------------------------------------------------------------------------------------------
-
+    /**
+     * Import a squad through XML
+     *
+     * @param int $id The ID of the clan to import to
+     * @return mixed
+     */
     public function postImportsquad($id)
     {
 
@@ -1109,7 +1199,7 @@ class AdminClanController extends BaseController {
             'squadURL' => Input::get('squadURL'),
         );
 
-        $rules = array (
+        $rules = array(
             'squadURL' => 'required|url',
         );
 
@@ -1127,36 +1217,36 @@ class AdminClanController extends BaseController {
 
                 if (!$auth['isAdmin'] && !$auth['isLeader']) {
                     Alert::error('You don\'t have access to that group.')->flash();
-                    return Redirect::to('admin/clan/show/'.$id);
+                    return Redirect::to('admin/clan/show/' . $id);
                 }
 
-                if(!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id){
+                if (!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id) {
                     Alert::error('You don\'t have access to that group.')->flash();
-                    return Redirect::to('admin/clan/show/'.$id);
+                    return Redirect::to('admin/clan/show/' . $id);
                 }
 
                 $url = $input['squadURL'];
                 $curl = new anlutro\cURL\cURL;
                 $xml = $curl->get($url);
-                $xmldata = json_decode(json_encode(simplexml_load_string($xml)),TRUE);
+                $xmldata = json_decode(json_encode(simplexml_load_string($xml)), true);
 
-                if(isset($xmldata['name']) && !is_array($xmldata['name'])){
+                if (isset($xmldata['name']) && !is_array($xmldata['name'])) {
                     $clan->name = $xmldata['name'];
                 }
 
-                if(isset($xmldata['title']) && !is_array($xmldata['title'])){
+                if (isset($xmldata['title']) && !is_array($xmldata['title'])) {
                     $clan->title = $xmldata['title'];
                 }
 
-                if(isset($xmldata['web']) && !is_array($xmldata['web'])){
+                if (isset($xmldata['web']) && !is_array($xmldata['web'])) {
                     $clan->website = $xmldata['web'];
                 }
 
                 $consolidatedMembers = array();
 
-                foreach($xmldata['member'] as $member){
+                foreach ($xmldata['member'] as $member) {
 
-                    if(isset($member['@attributes']['nick'])){
+                    if (isset($member['@attributes']['nick'])) {
 
                         $newMember = new stdClass();
 
@@ -1165,76 +1255,76 @@ class AdminClanController extends BaseController {
 
                         $newMember->username = $member['@attributes']['nick'];
 
-                        if(isset($member['@attributes']['id'])){
+                        if (isset($member['@attributes']['id'])) {
                             $id = $member['@attributes']['id'];
-                            if(strlen($id) < 17){
+                            if (strlen($id) < 17) {
                                 $newMember->a2_id = $id;
-                            }else{
+                            } else {
                                 $newMember->a3_id = $id;
                             }
                         }
 
-                        if(isset($member['name'])){
+                        if (isset($member['name'])) {
                             $newMember->name = $member['name'];
                         }
 
-                        if(isset($member['email'])){
+                        if (isset($member['email'])) {
                             $newMember->email = $member['email'];
                         }
 
-                        if(isset($member['remark'])){
+                        if (isset($member['remark'])) {
                             $newMember->remark = $member['remark'];
                         }
 
-                        if(!isset($consolidatedMembers[$newMember->username])){
+                        if (!isset($consolidatedMembers[$newMember->username])) {
                             $consolidatedMembers[$newMember->username] = $newMember;
-                        }else{
-                            $consolidatedMembers[$newMember->username] = (object) array_merge((array) $consolidatedMembers[$newMember->username], (array) $newMember);
+                        } else {
+                            $consolidatedMembers[$newMember->username] = (object)array_merge((array)$consolidatedMembers[$newMember->username],
+                                (array)$newMember);
                         }
                     }
                 }
 
-                foreach($consolidatedMembers as $member){
-                    if(!isset($member->name)){
+                foreach ($consolidatedMembers as $member) {
+                    if (!isset($member->name)) {
                         $member->name = '';
                     }
-                    if(!isset($member->email) || (is_array($member->email))){
+                    if (!isset($member->email) || (is_array($member->email))) {
                         $member->email = $clan->tag . $member->username;
                         $member->email = preg_replace("/[^A-Za-z0-9 ]/", '', $member->email);
                         $member->email = str_replace(' ', '', $member->email);
                         $member->email = $member->email . '@alivemod.com';
                         $member->temporaryEmail = true;
-                    }else{
+                    } else {
                         $member->temporaryEmail = false;
                     }
-                    if(!isset($member->remark)){
+                    if (!isset($member->remark)) {
                         $member->remark = '';
                     }
-                    if(!isset($member->a2_id)){
+                    if (!isset($member->a2_id)) {
                         $member->a2_id = '';
                     }
-                    if(!isset($member->a3_id)){
+                    if (!isset($member->a3_id)) {
                         $member->a3_id = '';
                     }
                 }
 
-                foreach($consolidatedMembers as $member){
+                foreach ($consolidatedMembers as $member) {
 
                     $existingMember = User::where('email', $member->email)->get();
 
                     $existingID = 0;
-                    if($member->a3_id != ''){
+                    if ($member->a3_id != '') {
                         $existingID = Profile::where('a3_id', $member->a3_id)->get();
                     }
 
-                    if(count($existingMember) == 0 && count($existingID) == 0){
+                    if (count($existingMember) == 0 && count($existingID) == 0) {
 
                         $member->password = $this->_generatePassword();
 
-                        try
-                        {
+                        try {
                             $user = Sentry::register(array(
-                                'email'    => $member->email,
+                                'email' => $member->email,
                                 'password' => $member->password,
                             ), true);
 
@@ -1251,7 +1341,7 @@ class AdminClanController extends BaseController {
                             $profile->username = $member->username;
                             $profile->alias = $member->username;
 
-                            if(!is_array($member->remark)){
+                            if (!is_array($member->remark)) {
                                 $profile->remark = $member->remark;
                             }
 
@@ -1260,14 +1350,13 @@ class AdminClanController extends BaseController {
                             $profile->clan_id = $clan->id;
 
 
-
                             $profile->save();
 
                             $couchAPI = new Alive\CouchAPI();
                             $result = $couchAPI->createClanMember($member->a3_id, $member->username, $clan->tag);
 
-                            if(isset($result['response'])){
-                                if(isset($result['response']->rev)){
+                            if (isset($result['response'])) {
+                                if (isset($result['response']->rev)) {
                                     $remoteId = $result['response']->rev;
                                     $profile->remote_id = $remoteId;
                                     $profile->save();
@@ -1277,10 +1366,10 @@ class AdminClanController extends BaseController {
                             $member->created = true;
                             $member->reason = '';
 
-                        }catch (Cartalyst\Sentry\Users\UserExistsException $e) {
+                        } catch (Cartalyst\Sentry\Users\UserExistsException $e) {
                             echo 'User with this login already exists.';
                         }
-                    }else{
+                    } else {
                         $member->reason = 'User already exists';
                     }
                 }
@@ -1293,7 +1382,7 @@ class AdminClanController extends BaseController {
                 $data['clan'] = $clan;
                 $data['results'] = $consolidatedMembers;
 
-                Mail::send('emails.clan.import', $data, function($m) use($data) {
+                Mail::send('emails.clan.import', $data, function ($m) use ($data) {
                     $m->to($data['to'])->subject('ALiVE War Room - Squad import results');
                 });
 
@@ -1307,6 +1396,12 @@ class AdminClanController extends BaseController {
         }
     }
 
+    /**
+     * Export a squad to XML
+     *
+     * @param int $id The ID of the squad to export
+     * @return mixed
+     */
     public function postExportsquad($id)
     {
 
@@ -1321,12 +1416,12 @@ class AdminClanController extends BaseController {
 
             if (!$auth['isAdmin'] && !$auth['isLeader']) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
-            if(!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id){
+            if (!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
             $data['clan'] = $clan;
@@ -1338,7 +1433,7 @@ class AdminClanController extends BaseController {
                 'Content-Type' => 'application/x-tt',
                 'Content-Disposition' => 'inline;filename=squad.xml',
             );
-            return Response::make( $content, 200, $headers );
+            return Response::make($content, 200, $headers);
 
 
         } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
@@ -1348,8 +1443,12 @@ class AdminClanController extends BaseController {
 
     }
 
-    // Cloud connect ---------------------------------------------------------------------------------------------------
-
+    /**
+     * Connect to the cloud
+     *
+     * @param int $id The ID of the clan to connect with
+     * @return mixed
+     */
     public function getConnect($id)
     {
 
@@ -1365,35 +1464,35 @@ class AdminClanController extends BaseController {
 
             if (!$auth['isAdmin'] && !$auth['isLeader']) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
-            if(!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id){
+            if (!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
-            if(!is_null($clan->remote_id)){
+            if (!is_null($clan->remote_id)) {
                 Alert::error('Already connected to cloud data store.')->flash();
-                return Redirect::to('admin/clan/show/'.$id);
+                return Redirect::to('admin/clan/show/' . $id);
             }
 
             $couchAPI = new Alive\CouchAPI();
             $result = $couchAPI->createClanUser($clan->key, $clan->password, $clan->tag);
 
-            if(isset($result['response'])){
-                if(isset($result['response']->rev)){
+            if (isset($result['response'])) {
+                if (isset($result['response']->rev)) {
                     $remoteId = $result['response']->rev;
                     $clan->remote_id = $remoteId;
                     $clan->save();
 
                     Alert::success('You have connected to the cloud data store.')->flash();
                     return Redirect::to('admin/clan/show/' . $id);
-                }else{
+                } else {
                     Alert::error('There was an error connecting to the cloud data store, please try again later.')->flash();
                     return Redirect::to('admin/clan/show/' . $id);
                 }
-            }else{
+            } else {
                 Alert::error('There was an error connecting to the cloud data store, please try again later.')->flash();
                 return Redirect::to('admin/clan/show/' . $id);
             }
@@ -1404,6 +1503,14 @@ class AdminClanController extends BaseController {
         }
     }
 
+    /**
+     * ?
+     *
+     * TODO: What does this do
+     *
+     * @param int $id ?
+     * @return mixed
+     */
     public function getConnectmember($id)
     {
 
@@ -1424,52 +1531,52 @@ class AdminClanController extends BaseController {
 
             if (!$auth['isAdmin'] && !$auth['isLeader']) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/'.$clan_id);
+                return Redirect::to('admin/clan/show/' . $clan_id);
             }
 
-            if(!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id){
+            if (!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/'.$clan_id);
+                return Redirect::to('admin/clan/show/' . $clan_id);
             }
 
-            if(!is_null($memberProfile->remote_id)){
+            if (!is_null($memberProfile->remote_id)) {
                 Alert::error('Already connected to cloud data store.')->flash();
-                return Redirect::to('admin/clan/show/'.$clan_id);
+                return Redirect::to('admin/clan/show/' . $clan_id);
             }
 
-            if(is_null($memberProfile->a3_id) || ($memberProfile->a3_id === '')){
+            if (is_null($memberProfile->a3_id) || ($memberProfile->a3_id === '')) {
                 Alert::error('Member needs to add their Arma 3 player id to their profile to connect to the cloud.')->flash();
-                return Redirect::to('admin/clan/show/'.$clan_id);
+                return Redirect::to('admin/clan/show/' . $clan_id);
             }
 
             $couchAPI = new Alive\CouchAPI();
             $result = $couchAPI->getClanMember($memberProfile->a3_id);
 
-            if(isset($result['response'])){
+            if (isset($result['response'])) {
                 $response = $result['response'];
 
-                if(isset($response->error)){
+                if (isset($response->error)) {
 
                     $result = $couchAPI->createClanMember($memberProfile->a3_id, $memberProfile->username, $clan->tag);
 
-                    if(isset($result['response'])){
-                        if(isset($result['response']->rev)){
+                    if (isset($result['response'])) {
+                        if (isset($result['response']->rev)) {
                             $remoteId = $result['response']->rev;
                             $memberProfile->remote_id = $remoteId;
                             $memberProfile->save();
 
                             Alert::success('Member connected to the cloud data store.')->flash();
                             return Redirect::to('admin/clan/show/' . $clan_id);
-                        }else{
+                        } else {
                             Alert::error('There was an error connecting to the cloud data store, please try again later.')->flash();
                             return Redirect::to('admin/clan/show/' . $clan_id);
                         }
-                    }else{
+                    } else {
                         Alert::error('There was an error connecting to the cloud data store, please try again later.')->flash();
                         return Redirect::to('admin/clan/show/' . $clan_id);
                     }
 
-                }else{
+                } else {
 
                     $remoteId = $response->_rev;
                     $memberProfile->remote_id = $remoteId;
@@ -1479,9 +1586,9 @@ class AdminClanController extends BaseController {
                     return Redirect::to('admin/clan/show/' . $clan_id);
 
                 }
-            }else{
+            } else {
                 Alert::error('Members Arma 3 player id is probably faulty, have the player check their Arma 3 id.')->flash();
-                return Redirect::to('admin/clan/show/'.$clan_id);
+                return Redirect::to('admin/clan/show/' . $clan_id);
             }
 
         } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
@@ -1490,6 +1597,12 @@ class AdminClanController extends BaseController {
         }
     }
 
+    /**
+     * Connect to the cloud in debug mode
+     *
+     * @param int $id The ID of the clan to connect with
+     * @return mixed
+     */
     public function getConnectdebug($id)
     {
 
@@ -1504,20 +1617,20 @@ class AdminClanController extends BaseController {
 
                 TempoDebug::dump($clan->toArray());
 
-                TempoDebug::message('Connection test for group : ' . $clan->name . ' [' .  $clan->tag . ']');
+                TempoDebug::message('Connection test for group : ' . $clan->name . ' [' . $clan->tag . ']');
 
-                if(!is_null($clan->remote_id)){
+                if (!is_null($clan->remote_id)) {
                     TempoDebug::message('Group remote_id is set rev id: ' . $clan->remote_id);
                     TempoDebug::message('Get group couch profile..');
 
                     $couchAPI = new Alive\CouchAPI();
                     $result = $couchAPI->getClanUser($clan->key, $clan->password);
 
-                    if(isset($result['response'])){
+                    if (isset($result['response'])) {
                         $response = $result['response'];
-                        if(isset($response->error)){
+                        if (isset($response->error)) {
                             TempoDebug::dump($response);
-                        }else{
+                        } else {
                             TempoDebug::dump($response);
                         }
                     }
@@ -1528,17 +1641,17 @@ class AdminClanController extends BaseController {
                 $couchAPI->cache = false;
                 $result = $couchAPI->getClanUser($clan->key, $clan->password);
 
-                if(isset($result['response'])){
+                if (isset($result['response'])) {
                     $response = $result['response'];
-                    if(isset($response->error)){
+                    if (isset($response->error)) {
 
                         TempoDebug::message('Attempt to create couch group user..');
                         TempoDebug::dump($response);
 
                         $result = $couchAPI->createClanUser($clan->key, $clan->password, $clan->tag);
 
-                        if(isset($result['response'])){
-                            if(isset($result['response']->rev)){
+                        if (isset($result['response'])) {
+                            if (isset($result['response']->rev)) {
                                 $remoteId = $result['response']->rev;
                                 $clan->remote_id = $remoteId;
                                 $clan->save();
@@ -1556,7 +1669,7 @@ class AdminClanController extends BaseController {
 
             } else {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/user/show/'.$auth['userId']);
+                return Redirect::to('admin/user/show/' . $auth['userId']);
             }
 
         } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
@@ -1568,9 +1681,15 @@ class AdminClanController extends BaseController {
         }
     }
 
-    // Password Generate -----------------------------------------------------------------------------------------------
-
-    private function _generatePassword($length=9, $strength=4) {
+    /**
+     * Generate a strong password
+     *
+     * @param int $length
+     * @param int $strength
+     * @return string
+     */
+    private function _generatePassword($length = 9, $strength = 4)
+    {
         $vowels = 'aeiouy';
         $consonants = 'bcdfghjklmnpqrstvwxz';
         if ($strength & 1) {
@@ -1599,4 +1718,5 @@ class AdminClanController extends BaseController {
         }
         return $password;
     }
+
 }

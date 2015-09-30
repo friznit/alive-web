@@ -2,11 +2,12 @@
 
 use Tempo\TempoDebug;
 
-class AdminAOController extends BaseController {
+class AdminAOController extends BaseController
+{
 
     public function __construct()
     {
-        //Check CSRF token on POST
+        // Check CSRF token on POST
         $this->beforeFilter('csrf', array('on' => 'post'));
 
         // Authenticated access only
@@ -14,8 +15,11 @@ class AdminAOController extends BaseController {
 
     }
 
-    // List ------------------------------------------------------------------------------------------------------------
-
+    /**
+     * Get a list of AOs
+     *
+     * @return mixed
+     */
     public function getIndex()
     {
 
@@ -27,10 +31,15 @@ class AdminAOController extends BaseController {
             return View::make('admin/AO.index')->with($data);
         } else {
             Alert::error('Sorry.')->flash();
-            return Redirect::to('admin/user/show/'.$auth['userId']);
+            return Redirect::to('admin/user/show/' . $auth['userId']);
         }
     }
 
+    /**
+     * Search by POST
+     *
+     * @return mixed
+     */
     public function postSearch()
     {
 
@@ -42,7 +51,7 @@ class AdminAOController extends BaseController {
             'type' => Input::get('type')
         );
 
-        $rules = array (
+        $rules = array(
             'query' => 'required',
             'type' => 'required|alpha',
         );
@@ -58,12 +67,12 @@ class AdminAOController extends BaseController {
                 $query = $input['query'];
                 $type = $input['type'];
 
-                switch($type){
+                switch ($type) {
                     case 'name':
-                        $aos = AO::where('AO.name', 'LIKE', '%'.$query.'%');
+                        $aos = AO::where('AO.name', 'LIKE', '%' . $query . '%');
                         break;
                     case 'size':
-                        $aos = AO::where('AO.size', '=>', '%'.$query.'%');
+                        $aos = AO::where('AO.size', '=>', '%' . $query . '%');
                         break;
                 }
 
@@ -77,13 +86,16 @@ class AdminAOController extends BaseController {
 
             } else {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/user/show/'.$auth['userId']);
+                return Redirect::to('admin/user/show/' . $auth['userId']);
             }
         }
     }
 
-    // Create ----------------------------------------------------------------------------------------------------------
-
+    /**
+     * Create AO form
+     *
+     * @return mixed
+     */
     public function getCreate()
     {
 
@@ -94,6 +106,11 @@ class AdminAOController extends BaseController {
 
     }
 
+    /**
+     * Create an AO by POST
+     *
+     * @return mixed
+     */
     public function postCreate()
     {
 
@@ -105,22 +122,22 @@ class AdminAOController extends BaseController {
             'size' => Input::get('size'),
             'configName' => Input::get('configName'),
             'imageMapX' => Input::get('imageMapX'),
-			'imageMapY' => Input::get('imageMapY'),
-			'latitude' => Input::get('latitude'),
-			'longitude' => Input::get('longitude'),
+            'imageMapY' => Input::get('imageMapY'),
+            'latitude' => Input::get('latitude'),
+            'longitude' => Input::get('longitude'),
         );
 
-        $rules = array (
+        $rules = array(
             'name' => 'required',
             'configName' => 'required',
             'imageMapX' => 'required',
-			'imageMapY' => 'required',
+            'imageMapY' => 'required',
         );
 
         $v = Validator::make($input, $rules);
 
         if ($v->fails()) {
-            return Redirect::to('admin/AO/create/'.$id)->withErrors($v)->withInput()->with($data);
+            return Redirect::to('admin/AO/create/' . $id)->withErrors($v)->withInput()->with($data);
         } else {
 
             $currentUser = $auth['user'];
@@ -137,50 +154,54 @@ class AdminAOController extends BaseController {
             $ao->configName = $input['configName'];
             $ao->imageMapX = $input['imageMapX'];
             $ao->imageMapY = $input['imageMapY'];
-			$ao->latitude = $input['latitude'];
-			$ao->longitude = $input['longitude'];
+            $ao->latitude = $input['latitude'];
+            $ao->longitude = $input['longitude'];
 
-            if($ao->save()){
+            if ($ao->save()) {
 
-				ini_set('max_execution_time',600);
-				
-				// Create Tile request?
-				$url = 'http://db.alivemod.com/maps/tile?map=' . $ao->configName;
-				$ch = curl_init();
-				
-				curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0 );
-				curl_setopt($ch, CURLOPT_URL, $url);
-				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-				curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
-				curl_setopt($ch, CURLOPT_TIMEOUT, 600); //timeout in seconds
-		
-		        $response = curl_exec($ch);
-				
-				$result = array();
-				$result['info'] = curl_getinfo($ch);
-				$result['error'] = curl_error($ch);
-				$result['response'] = json_decode($response);	
-	
-				ini_set('max_execution_time',30);					
-				if (!$response) {
-               		Alert::success('You have successfully created an Area of Operation.')->flash();						
-					Alert::error('However, there was an error creating the map tiles.')->flash();
-					TempoDebug::dump($response);
-					TempoDebug::dump($result);					
-				} else {
-                	Alert::success('You have successfully created an Area of Operation. '.$response)->flash();
-					return Redirect::to('admin/ao/index');
-				}
+                ini_set('max_execution_time', 600);
+
+                // Create Tile request?
+                $url = 'http://db.alivemod.com/maps/tile?map=' . $ao->configName;
+                $ch = curl_init();
+
+                curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 600); //timeout in seconds
+
+                $response = curl_exec($ch);
+
+                $result = array();
+                $result['info'] = curl_getinfo($ch);
+                $result['error'] = curl_error($ch);
+                $result['response'] = json_decode($response);
+
+                ini_set('max_execution_time', 30);
+                if (!$response) {
+                    Alert::success('You have successfully created an Area of Operation.')->flash();
+                    Alert::error('However, there was an error creating the map tiles.')->flash();
+                    TempoDebug::dump($response);
+                    TempoDebug::dump($result);
+                } else {
+                    Alert::success('You have successfully created an Area of Operation. ' . $response)->flash();
+                    return Redirect::to('admin/ao/index');
+                }
 
             }
 
         }
     }
 
-    // Show ------------------------------------------------------------------------------------------------------------
-
+    /**
+     * Show an AO
+     *
+     * @param int $id The ID of the AO to show
+     * @return mixed
+     */
     public function getShow($id)
     {
 
@@ -199,8 +220,12 @@ class AdminAOController extends BaseController {
 
     }
 
-    // Edit ------------------------------------------------------------------------------------------------------------
-
+    /**
+     * Edit an AO
+     *
+     * @param int $id The ID of the AO to edit
+     * @return mixed
+     */
     public function getEdit($id)
     {
 
@@ -217,10 +242,16 @@ class AdminAOController extends BaseController {
             return View::make('admin/AO.edit')->with($data);
         } else {
             Alert::error('You don\'t have access to do that.')->flash();
-            return Redirect::to('admin/ao/show/'. $ao->id);
+            return Redirect::to('admin/ao/show/' . $ao->id);
         }
     }
 
+    /**
+     * Edit an AO by POST
+     *
+     * @param int $id The ID of the AO to edit
+     * @return mixed
+     */
     public function postEdit($id)
     {
 
@@ -232,22 +263,22 @@ class AdminAOController extends BaseController {
             'size' => Input::get('size'),
             'configName' => Input::get('configName'),
             'imageMapX' => Input::get('imageMapX'),
-			'imageMapY' => Input::get('imageMapY'),
-			'latitude' => Input::get('latitude'),
-			'longitude' => Input::get('longitude'),
+            'imageMapY' => Input::get('imageMapY'),
+            'latitude' => Input::get('latitude'),
+            'longitude' => Input::get('longitude'),
         );
 
-        $rules = array (
+        $rules = array(
             'name' => 'required',
             'configName' => 'required',
             'imageMapX' => 'required',
-			'imageMapY' => 'required',
+            'imageMapY' => 'required',
         );
 
         $v = Validator::make($input, $rules);
-		
-		 if ($v->fails()) {
-            return Redirect::to('admin/ao/edit/'.$id)->withErrors($v)->withInput()->with($data);
+
+        if ($v->fails()) {
+            return Redirect::to('admin/ao/edit/' . $id)->withErrors($v)->withInput()->with($data);
         } else {
 
             $currentUser = $auth['user'];
@@ -255,29 +286,33 @@ class AdminAOController extends BaseController {
 
             if (!$auth['isAdmin']) {
                 Alert::error('You don\'t have access to do that.')->flash();
-                return Redirect::to('admin/ao/show/'. $id);
+                return Redirect::to('admin/ao/show/' . $id);
             }
-            
-			$ao = AO::find($id);
-			$ao->name = $input['name'];
+
+            $ao = AO::find($id);
+            $ao->name = $input['name'];
             $ao->size = $input['size'];
             $ao->configName = $input['configName'];
             $ao->imageMapX = $input['imageMapX'];
             $ao->imageMapY = $input['imageMapY'];
-			$ao->latitude = $input['latitude'];
-			$ao->longitude = $input['longitude'];
-			
-            if($ao->save()){
+            $ao->latitude = $input['latitude'];
+            $ao->longitude = $input['longitude'];
+
+            if ($ao->save()) {
                 Alert::success('You have updated the Area of Operation.')->flash();
-                return Redirect::to('admin/ao/show/'. $id);
+                return Redirect::to('admin/ao/show/' . $id);
             }
 
         }
     }
-	
-	// Change Images ----------------------------------------------------------------------------------------------------
-	
-	public function postChangeimage($id)
+
+    /**
+     * Change an image by POST
+     *
+     * @param int $id The ID of the AO to edit the image for
+     * @return mixed
+     */
+    public function postChangeimage($id)
     {
 
         $data = get_default_data();
@@ -287,7 +322,7 @@ class AdminAOController extends BaseController {
             'image' => Input::file('image'),
         );
 
-        $rules = array (
+        $rules = array(
             'image' => 'mimes:jpeg,bmp,png',
         );
 
@@ -306,7 +341,7 @@ class AdminAOController extends BaseController {
 
                 if (!$auth['isAdmin']) {
                     Alert::error('You don\'t have access to that AO.')->flash();
-                    return Redirect::to('admin/ao/show/'.$id);
+                    return Redirect::to('admin/ao/show/' . $id);
                 }
 
                 $ao->image->clear();
@@ -314,7 +349,7 @@ class AdminAOController extends BaseController {
 
                 if ($ao->save()) {
                     Alert::success('Area of Operation updated.')->flash();
-                    return Redirect::to('admin/ao/show/'. $id);
+                    return Redirect::to('admin/ao/show/' . $id);
                 } else {
                     Alert::error('Area of Operation could not be updated.')->flash();
                     return Redirect::to('admin/ao/edit/' . $id);
@@ -327,7 +362,15 @@ class AdminAOController extends BaseController {
         }
     }
 
-	public function postChangepic($id)
+    /**
+     * Change pic (?)
+     *
+     * TODO: Better description
+     *
+     * @param int $id ?
+     * @return mixed
+     */
+    public function postChangepic($id)
     {
 
         $data = get_default_data();
@@ -337,7 +380,7 @@ class AdminAOController extends BaseController {
             'pic' => Input::file('pic'),
         );
 
-        $rules = array (
+        $rules = array(
             'pic' => 'mimes:jpeg,bmp,png',
         );
 
@@ -356,7 +399,7 @@ class AdminAOController extends BaseController {
 
                 if (!$auth['isAdmin']) {
                     Alert::error('You don\'t have access to that AO.')->flash();
-                    return Redirect::to('admin/ao/show/'.$id);
+                    return Redirect::to('admin/ao/show/' . $id);
                 }
 
                 $ao->pic->clear();
@@ -364,7 +407,7 @@ class AdminAOController extends BaseController {
 
                 if ($ao->save()) {
                     Alert::success('Area of Operation updated.')->flash();
-                    return Redirect::to('admin/ao/show/'. $id);
+                    return Redirect::to('admin/ao/show/' . $id);
                 } else {
                     Alert::error('Area of Operation could not be updated.')->flash();
                     return Redirect::to('admin/ao/edit/' . $id);
@@ -376,62 +419,75 @@ class AdminAOController extends BaseController {
             }
         }
     }
-	
-	public function postCreatetiles($id)
+
+    /**
+     * Create tiles
+     *
+     * TODO: Better description
+     *
+     * @param int $id ?
+     * @return mixed
+     */
+    public function postCreatetiles($id)
     {
 
         $data = get_default_data();
         $auth = $data['auth'];
 
         try {
-			$currentUser = $auth['user'];
-			$profile = $auth['profile'];
+            $currentUser = $auth['user'];
+            $profile = $auth['profile'];
 
-			$ao = AO::find($id);
+            $ao = AO::find($id);
 
-			if (!$auth['isAdmin']) {
-				Alert::error('You don\'t have access to that AO.')->flash();
-				return Redirect::to('admin/ao/show/'.$id);
-			}
+            if (!$auth['isAdmin']) {
+                Alert::error('You don\'t have access to that AO.')->flash();
+                return Redirect::to('admin/ao/show/' . $id);
+            }
 
-			ini_set('max_execution_time',600);
-				
-			// Create Tile request?
-			$url = 'http://db.alivemod.com/maps/tile?map=' . $ao->configName;
-			$ch = curl_init();
-			
-			curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0 );
-			curl_setopt($ch, CURLOPT_URL, $url);
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
-			curl_setopt($ch, CURLOPT_TIMEOUT, 600); //timeout in seconds
-	
-			$response = curl_exec($ch);
-			
-			$result = array();
-			$result['info'] = curl_getinfo($ch);
-			$result['error'] = curl_error($ch);
-			$result['response'] = json_decode($response);	
+            ini_set('max_execution_time', 600);
 
-			ini_set('max_execution_time',30);					
-			if (!$response) {					
-				Alert::error('There was an error creating the map tiles.')->flash();
-				TempoDebug::dump($response);
-				TempoDebug::dump($result);					
-			} else {
-				Alert::success($response)->flash();
-				return Redirect::to('admin/ao/index');
-			}
+            // Create Tile request?
+            $url = 'http://db.alivemod.com/maps/tile?map=' . $ao->configName;
+            $ch = curl_init();
 
-		} catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
-			Alert::error('User was not found.')->flash();
-			return Redirect::to('user/login' . $id);
-		}
-    }	
-    // Delete ----------------------------------------------------------------------------------------------------------
+            curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 600); //timeout in seconds
 
+            $response = curl_exec($ch);
+
+            $result = array();
+            $result['info'] = curl_getinfo($ch);
+            $result['error'] = curl_error($ch);
+            $result['response'] = json_decode($response);
+
+            ini_set('max_execution_time', 30);
+            if (!$response) {
+                Alert::error('There was an error creating the map tiles.')->flash();
+                TempoDebug::dump($response);
+                TempoDebug::dump($result);
+            } else {
+                Alert::success($response)->flash();
+                return Redirect::to('admin/ao/index');
+            }
+
+        } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
+            Alert::error('User was not found.')->flash();
+            return Redirect::to('user/login' . $id);
+        }
+    }
+
+    /**
+     * Delete an AO by POST
+     *
+     * @param int $id The ID of the AO to delete
+     * @return mixed
+     */
     public function postDelete($id)
     {
 
@@ -443,11 +499,11 @@ class AdminAOController extends BaseController {
 
         if (!$auth['isAdmin']) {
             Alert::error('You don\'t have access to that AO.')->flash();
-            return Redirect::to('admin/ao/show/'.$id);
+            return Redirect::to('admin/ao/show/' . $id);
         }
 
         $ao = AO::find($id);
-		$name = $ao->name;
+        $name = $ao->name;
         $ao->delete();
 
         Alert::success('Area of Operation deleted.')->flash();
