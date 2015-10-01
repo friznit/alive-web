@@ -11,6 +11,7 @@ use Imagine\Gd\Font;
 use Gravatar;
 use Config;
 
+// TODO: Format with PSR and PHPDoc
 
 class SigGenerate {
 

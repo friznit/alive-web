@@ -1,11 +1,12 @@
 <?php
 
-class Server extends Eloquent {
+class Server extends Eloquent
+{
+    protected $guarded = array();
+    public static $rules = array();
 
-	protected $guarded = array();
-	public static $rules = array();
-
-    public function __construct(array $attributes = array()) {
+    public function __construct(array $attributes = array())
+    {
         parent::__construct($attributes);
     }
 

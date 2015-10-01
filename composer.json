@@ -6,7 +6,7 @@
     "ARMA3"
   ],
   "require": {
-    "laravel/framework": "4.0.*",
+    "laravel/framework": "~4.0.0",
     "doctrine/couchdb": "1.0.0-alpha1",
     "cartalyst/sentry": "2.0.*",
     "prologue/alerts": "0.3.0",
