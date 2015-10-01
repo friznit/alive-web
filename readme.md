@@ -129,6 +129,23 @@ You should now be up and running.
 email: arjaydev@gmail.com
 password: cheese
 
+### Setting up Sass compilation
+
+1) Install Node.js
+
+2) Once installed open up the root directory that contains package.json and run the command 'npm install'
+
+3) Once this command is complete, you should now have access to the compilation commands, they are:
+
+gulp sass - This compiles the sass file into public/css/style.css
+
+Coming soon:
+
+gulp sass:watch - This will watch for changes in sass files and run the compilation
+gulp js - This will compile js files
+
+NOTE: There may be some issues initially in different environments, contact Andrew if you get stuck
+
 ## Site Map
 
 alivemod.com
