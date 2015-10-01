@@ -15,8 +15,11 @@ class WarRoomController extends BaseController {
 
     }
 
-    // Home ------------------------------------------------------------------------------------------------------------
-
+    /**
+     * Get the main war room page
+     *
+     * @return string
+     */
     public function getIndex()
     {
         $data = get_default_data();
