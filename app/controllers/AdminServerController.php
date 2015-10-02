@@ -235,15 +235,6 @@ class AdminServerController extends BaseController
             'note' => Input::get('note'),
         );
 
-        /**
-         * Create a validator for alpha numeric spaces.
-         * TODO: Whack this in a service provider (when I'm not at work..)
-         */
-        Validator::extend('alpha_spaces', function($attribute, $value)
-        {
-            return preg_match('/(^[A-Za-z0-9 ]+$)+/', $value);
-        });
-
         $rules = array(
             'name' => 'required|alpha_spaces',
             'hostname' => 'required',

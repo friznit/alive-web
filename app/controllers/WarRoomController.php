@@ -236,8 +236,8 @@ class WarRoomController extends BaseController
 
         // Get Map and Clan
         $data['name'] = urldecode($name);
-        $data['ao'] = AO::where('configName', '=', urldecode($map))->first();
-        $data['clan'] = Clan::where('tag', '=', urldecode($clan))->first();
+        $data['ao'] = AO::where('configName', '=', urldecode($map))->firstOrFail();
+        $data['clan'] = Clan::where('tag', '=', urldecode($clan))->firstOrFail();
 
         return View::make('warroom/operations.show')->with($data);
     }
