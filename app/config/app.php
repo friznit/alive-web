@@ -119,7 +119,8 @@ return array(
         'Codesleeve\Stapler\StaplerServiceProvider',
         'anlutro\cURL\Laravel\cURLServiceProvider',
         'Webpatser\Countries\CountriesServiceProvider',
-		'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider'
+		'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider',
+		'App\Providers\AppServiceProvider'
 	),
 
 	/*
