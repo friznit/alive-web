@@ -150,10 +150,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <h2>New! ALiVE Soundtrack</h2>
+                <h2>ALiVE Soundtrack</h2>
                 <p id="welcome_text">We are pleased to present a collaboration with the band Johari.</p>
                 <img src="http://static.wixstatic.com/media/99a3d7_15a6e8f6bb9d4484ada5eb5401668c0a.png_srz_620_544_85_22_0.50_1.20_0.00_png_srz" width="300" height="300" class="img-responsive" />
-                <p><b>ALiVE now includes the awesome 'This is War' (Metal cover) by Johari, in game! </b></p>
+                <p><b>ALiVE includes the awesome 'This is War' (Metal cover) and 'Everest' by Johari, in game! </b></p>
 
             </div>
             <div class="col-md-5 col-md-offset-1">
@@ -180,9 +180,9 @@
                         <th>Donate</th>
                     </tr>
                     <tr class="success">
-                        <td>0.9.9.1506221</td>
-                        <td>Arma 3 Stable 1.46.131175</td>
-                        <td><a class="btn btn-primary btn-lg pull-right" href="http://alivemod.com/downloads/@ALiVE_0.9.9.1506221.7z"><i class="fa fa-download"></i> Download</a></td>
+                        <td>1.0.1.1603151</td>
+                        <td>Arma 3 Stable 1.56.134787</td>
+                        <td><a class="btn btn-primary btn-lg pull-right" href="http://alivemod.com/downloads/@ALiVE_1.0.1.1603151.7z"><i class="fa fa-download"></i> Download</a></td>
  						<td><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                                 <input type="image" class="btn btn-yellow btn-lg" name="submit" alt="Voluntary Donation" style="margin-top: -10px;">
                                 <input type="hidden" name="cmd" value="_s-xclick">
