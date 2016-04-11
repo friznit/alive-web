@@ -32,7 +32,7 @@ echo $date
 <?php
 echo "Welcome ". $player. " to ALiVE Operations on ". $map. "<br />";
 echo '<br>';
-echo 'Latest ALiVE Version:<br> 1.0.1.1603151<br />';
+echo 'Latest ALiVE Version:<br> 1.0.2.1603251<br />';
 echo 'Compatible with:<br> Arma 3 Stable 1.56<br />';
 echo '<br />-<a href="http://www.alivemod.com/#Download"> Download ALiVE here!</a>';
 echo '<br />-<a href="http://www.alivemod.com/war-room"> Access War Room here!</a>';
