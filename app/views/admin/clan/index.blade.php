@@ -31,6 +31,9 @@
                             <label class="radio-inline">
                                 <input type="radio" name="type" value="name" checked> by Name
                             </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="type" value="tag" checked> by Tag
+                            </label>                              
                         </div>
                     </div>
                 </div>
