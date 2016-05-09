@@ -319,7 +319,7 @@ class AdminClanController extends BaseController {
         );
 
         $rules = array (
-            'name' => 'required',
+            'name' => 'required|alpha_num',
             'website' => 'url',
             'twitchStream' => 'url',
         );

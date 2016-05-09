@@ -69,7 +69,7 @@ class SigGenerate {
 			$flag = $this->imagine->open($public.'/img/flags_iso/24/_United Nations.png');
 		}
 				
-        $sig = $this->imagine->create(new Box(601, 100));
+        $sig = $this->imagine->create(new Box(600, 100));
 
         $avatar = $this->resizeAuto($avatar, 100, 100);
         $clantar = $this->resizeAuto($clantar, 95, 95);
