@@ -134,7 +134,7 @@
                 var luser_date = new Date();
                 var ldiff = Math.floor((luser_date - lsystem_date) / 1000);
 
-                var iconSizer = 40 - Math.round(ldiff / 622080);
+                var iconSizer = 30 - Math.round(ldiff / 777600);
 
                 if (ldiff < 15552000) {
            		 var myIcon = new groupIcon({

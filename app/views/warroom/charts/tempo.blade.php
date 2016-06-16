@@ -121,4 +121,4 @@
 
 </script>
 
-<div id="tempo_chart"></div>
+<div id="tempo_chart" style="width: 100%;"></div>

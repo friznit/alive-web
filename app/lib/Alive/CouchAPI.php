@@ -4,7 +4,7 @@ namespace Alive;
 
 use Tempo\TempoDebug;
 
-ini_set('max_execution_time', 400);
+ini_set('max_execution_time', 600);
 
 class CouchAPI {
 
@@ -115,6 +115,34 @@ class CouchAPI {
 
         return $this->call($path, $data, $requestType);
     }
+	
+	public function deleteOldEvents()
+	{
+		$path = 'events/_design/homePage/_view/old_events';
+		
+		$data = $this->call($path);
+	
+		if(isset($data['response']->rows[0])) {	
+
+			$data = $data['response']->rows;
+
+            $results = '';
+					
+            $i = 0;
+			foreach ($data as $item){
+                $i++;
+                $eventpath = 'events/' . $item->id . '?rev=' . $item->value->_rev;
+
+				$result = $this->call($eventpath, array(), 'DELETE');
+                $result = $i . '. ' . $item->id . ' : ' . $result['response']->ok . PHP_EOL;
+                $results = $results . $result;
+
+			}
+
+            return $results;
+		}
+		
+	}
 
     public function getTotals()
     {
@@ -189,7 +217,7 @@ class CouchAPI {
 
         $name = rawurlencode($name);
 
-        $path = 'events/_design/operationsTable/_view/operationTotals?group_level=1&startkey=["' . $name . '"]&limit=1';
+        $path = 'events/_design/operationsTable/_view/operationTotals?group_level=1&startkey=["' . $name . '"]&limit=1&stale=ok';
 
         $data = $this->call($path);
 
@@ -691,7 +719,7 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-        $path = 'events/_design/operationsTable/_view/operations_by_day?group_level=1';
+        $path = 'events/_design/operationsTable/_view/operations_by_day?group_level=1&stale=ok';
 
         $data = $this->call($path);
 
@@ -730,7 +758,7 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-        $path = 'events/_design/operationsTable/_view/players_by_day?group_level=1';
+        $path = 'events/_design/operationsTable/_view/players_by_day?group_level=1&stale=ok';
 
         $data = $this->call($path);
 
@@ -769,7 +797,7 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-        $path = 'events/_design/operationsTable/_view/kills_by_day?group_level=1';
+        $path = 'events/_design/operationsTable/_view/kills_by_day?group_level=1&stale=ok';
 
         $data = $this->call($path);
 
@@ -808,7 +836,7 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-        $path = 'events/_design/operationsTable/_view/deaths_by_day?group_level=1';
+        $path = 'events/_design/operationsTable/_view/deaths_by_day?group_level=1&stale=ok';
 
         $data = $this->call($path);
 
@@ -877,7 +905,7 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-        $path = 'credits/_design/warroom/_view/devcredits?key="' . $id . '"';
+        $path = 'credits/_design/warroom/_view/devcredits?key="' . $id . '"&stale=ok';
 
         $data = $this->call($path);
 
@@ -1209,7 +1237,7 @@ class CouchAPI {
 
         $id = rawurlencode($id);
 		
-        $path = 'events/_design/groupTable/_view/groupTotals?group_level=1&startkey=["' . $id . '"]&endkey=["' . $id . '",{}]';
+        $path = 'events/_design/groupTable/_view/groupTotals?group_level=1&startkey=["' . $id . '"]&endkey=["' . $id . '",{}]&stale=ok';
 
         $data = $this->call($path);
 
@@ -1303,9 +1331,11 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
+        $this->timeout = 360;
+
         $path = 'events/_design/playerTable/_view/playerTotals?group_level=2&stale=ok';
 
-        $data = $this->call($path);
+        $data = $this->call($path);    
 
         if(isset($data['response'])) {
 
@@ -1393,7 +1423,7 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-        $path = 'events/_design/playerTable/_view/player_in_aircraft_kills_count?group_level=4';
+        $path = 'events/_design/playerTable/_view/player_in_aircraft_kills_count?group_level=4&stale=ok';
 
         $data = $this->call($path);
 
@@ -1423,7 +1453,7 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-        $path = 'events/_design/playerTable/_view/player_heals_count?group_level=2';
+        $path = 'events/_design/playerTable/_view/player_heals_count?group_level=2&stale=ok';
 
         $data = $this->call($path);
 
@@ -1453,7 +1483,7 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-        $path = 'events/_design/playerTable/_view/scoreTotal?group_level=2';
+        $path = 'events/_design/playerTable/_view/scoreTotal?group_level=2&stale=ok';
 
         $data = $this->call($path);
 
@@ -1483,7 +1513,7 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-        $path = 'events/_design/playerTable/_view/AveRating?group_level=2';
+        $path = 'events/_design/playerTable/_view/AveRating?group_level=2&stale=ok';
 
         $data = $this->call($path);
 
@@ -1513,7 +1543,7 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-        $path = 'events/_design/playerTable/_view/AveScore?group_level=2';
+        $path = 'events/_design/playerTable/_view/AveScore?group_level=2&stale=ok';
 
         $data = $this->call($path);
 
@@ -1863,7 +1893,7 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-        $path = 'events/_design/operationsTable/_view/operationKillsByClass?group_level=3';
+        $path = 'events/_design/operationsTable/_view/operationKillsByClass?group_level=3&stale=ok';
 
         $data = $this->call($path);
 
@@ -1893,7 +1923,7 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-        $path = 'events/_design/operationsTable/_view/operationTotals?group_level=3';
+        $path = 'events/_design/operationsTable/_view/operationTotals?group_level=3&stale=ok';
 
         $data = $this->call($path);
 
