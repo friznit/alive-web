@@ -23,7 +23,7 @@ class SigGenerate {
         $username = $data['username'];
 		$useremail = $data['email'];
         $playerdata = $data['playerdata'];
-		if ($data['clan']) {
+		if (!empty($data['clan'])) {
        	 $clan = json_decode($data['clan']);
 		}
         $avatar = $data['avatar'];
@@ -95,7 +95,11 @@ class SigGenerate {
 			$name = $username;
 		}
 
-        $mainTitle = '['.$clan->tag.'] ' . $name . ' - ' .$clan->name;
+		if (!empty($data['clan'])) {
+        	$mainTitle = '['.$clan->tag.'] ' . $name . ' - ' .$clan->name;
+		} else{
+			$mainTitle = '[JTFHQ]' . $name . ' - Joint Task Force';
+		}
 
         $sig->draw()->text($mainTitle, $titleFont, new Point(135, 5), 0);
 
