@@ -12,8 +12,9 @@
 		"way/generators": "~1.1",
         "codesleeve/stapler": "1.0.0-Beta4",
 		"anlutro/curl": "0.1.1",
-		"webpatser/laravel-countries": "dev-master",
-        "mandrill/mandrill": "1.0.*"
+		"webpatser/laravel-countries": "1.3.7",
+        "mandrill/mandrill": "1.0.*",
+        "thomaswelton/laravel-gravatar": "~0.1.0"
 	},
 	"autoload": {
 		"classmap": [
