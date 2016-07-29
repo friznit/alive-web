@@ -145,7 +145,7 @@ class AdminAOController extends BaseController {
 				ini_set('max_execution_time',600);
 				
 				// Create Tile request?
-				$url = 'http://db.alivemod.com/maps/tile?map=' . $ao->configName;
+				$url = 'http://db.alivemod.com/maps/tile.php?map=' . $ao->configName;
 				$ch = curl_init();
 				
 				curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0 );
@@ -397,7 +397,7 @@ class AdminAOController extends BaseController {
 			ini_set('max_execution_time',600);
 				
 			// Create Tile request?
-			$url = 'http://db.alivemod.com/maps/tile?map=' . $ao->configName;
+			$url = 'http://db.alivemod.com/maps/tile.php?map=' . $ao->configName;
 			$ch = curl_init();
 			
 			curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0 );
