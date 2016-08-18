@@ -13,16 +13,16 @@ class ClanSeeder extends Seeder {
 		
 		$data = array();
 		// Developer groups for credits
-		$data['JTFHQ'] = array('tupolov73+sbw@gmail.com','Joint Task Force Headquarters','JTF','HQ','Brigade');
-		$data['NSG'] = array('tupolov73+mct@gmail.com','Naval Support Group','JTF','Maritime','Squadron');
-		$data['BSG'] = array('tupolov73+rsr@gmail.com','Brigade Support Group','JTF','Support','Battalion');
-		$data['JHTF'] = array('tupolov73+kgg@gmail.com','Joint Helicopter Task Force','JTF','Helicopter','Squadron');
-		$data['BRF'] = array('tupolov73+ddh@gmail.com','Brigade Reconnaisance Force','JTF','Recon','Battalion');
-		$data['1IBG'] = array('tupolov73+aja@gmail.com','1st Infantry Battle Group','JTF','Infantry','Battalion');
-		$data['2IBG'] = array('tupolov73+djj@gmail.com','2nd Infantry Battle Group','JTF','MotorizedInfantry','Battalion');
-		$data['3ABG'] = array('tupolov73+ahf@gmail.com','3rd Armoured Battle Group','JTF','Armored','Battalion');
-		$data['4IBG'] = array('tupolov73+vrcr@gmail.com','4th Infantry Battle Group','JTF','MechanizedInfantry','Battalion');
-		$data['JTFAG'] = array('tupolov73+whb@gmail.com','Joint Task Force Air Group','JTF','CombatAviation','Squadron');
+		$data['JTFHQ'] = array('tupolov73+sbw@gmail.com','Joint Task Force Headquarters','JTFHQ','HQ','Brigade');
+		$data['NSG'] = array('tupolov73+mct@gmail.com','Naval Support Group','JTFHQ','Maritime','Squadron');
+		$data['BSG'] = array('tupolov73+rsr@gmail.com','Brigade Support Group','JTFHQ','Support','Battalion');
+		$data['JHTF'] = array('tupolov73+kgg@gmail.com','Joint Helicopter Task Force','JTFHQ','Helicopter','Squadron');
+		$data['BRF'] = array('tupolov73+ddh@gmail.com','Brigade Reconnaisance Force','JTFHQ','Recon','Battalion');
+		$data['1IBG'] = array('tupolov73+aja@gmail.com','1st Infantry Battle Group','JTFHQ','Infantry','Battalion');
+		$data['2IBG'] = array('tupolov73+djj@gmail.com','2nd Infantry Battle Group','JTFHQ','MotorizedInfantry','Battalion');
+		$data['3ABG'] = array('tupolov73+ahf@gmail.com','3rd Armoured Battle Group','JTFHQ','Armored','Battalion');
+		$data['4IBG'] = array('tupolov73+vrcr@gmail.com','4th Infantry Battle Group','JTFHQ','MechanizedInfantry','Battalion');
+		$data['JTFAG'] = array('tupolov73+whb@gmail.com','Joint Task Force Air Group','JTFHQ','CombatAviation','Squadron');
 		
 		foreach ($data as $d => $v) {
 			$clan = array();

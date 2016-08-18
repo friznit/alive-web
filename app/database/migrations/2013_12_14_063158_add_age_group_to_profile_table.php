@@ -22,7 +22,7 @@ class AddAgeGroupToProfileTable extends Migration {
     {
         Schema::table('profiles', function(Blueprint $table)
         {
-            $table->dropColumn('age_group');
+            $table->string("age_group")->nullable();
         });
     }
 

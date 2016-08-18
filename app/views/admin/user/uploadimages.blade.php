@@ -21,60 +21,7 @@
                         <h3 class="panel-title">Upload Mod Images</h3>
                     </div>
                     <div class="panel-body">                   
-                      <!-- Button to select & upload files -->
-                      <span class="btn btn-success fileinput-button">
-                        <span>Select files...</span>
-                        <!-- The file input field used as target for the file upload widget -->
-                        <input id="fileupload" type="file" name="files[]" multiple>
-                      </span>
-                      <br><br>
-                      <!-- The global progress bar -->
-                      <p>Upload progress</p>
-                      <div id="progress" class="progress progress-success progress-striped">
-                        <div class="bar"></div>
-                      </div>
-                      
-                      <!-- The list of files uploaded -->
-                      <p>Files uploaded:</p>
-                      <ul id="files"></ul>
-                      
-                      <!-- Load jQuery and the necessary widget JS files to enable file upload -->
-                      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-                      <script src="{{ URL::to('/') }}/js/jquery.ui.widget.js"></script>
-                      <script src="{{ URL::to('/') }}/js/jquery.iframe-transport.js"></script>
-                      <script src="{{ URL::to('/') }}/js/jquery.fileupload.js"></script>
-                  
-                      <!-- JavaScript used to call the fileupload widget to upload files -->
-                      <script>
-                        // When the server is ready...
-                        $(function () {
-                            'use strict';
-                            
-                            // Define the url to send the image data to
-                            var url = 'files.php';
-                            
-                            // Call the fileupload widget and set some parameters
-                            $('#fileupload').fileupload({
-                                url: url,
-                                dataType: 'json',
-                                done: function (e, data) {
-                                    // Add each uploaded file name to the #files list
-                                    $.each(data.result.files, function (index, file) {
-                                        $('<li/>').text(file.name).appendTo('#files');
-                                    });
-                                },
-                                progressall: function (e, data) {
-                                    // Update the progress bar while files are being uploaded
-                                    var progress = parseInt(data.loaded / data.total * 100, 10);
-                                    $('#progress .bar').css(
-                                        'width',
-                                        progress + '%'
-                                    );
-                                }
-                            });
-                        });
-                        
-                      </script>
+						<p>Please contact the ALiVE development team via the ALiVEmod.com/forum to get your mod images uploaded</p>
                      </div>
                 </div>
             </div> 
@@ -93,7 +40,7 @@
                         <table class="table">
                              <tr>
                                 <td width="80">Step 1</td>
-                                <td>Create a folder called exportCfg in your Arma 3 directory</td>
+                                <td>Create a folder called exportCfg in your Arma 3 directory.<br/>Copy the ALiVE War Room Image Capture mission from @ALiVE/demo/SP to your missions folder.</td>
                                 <td></td>
                             </tr>
                              <tr>
@@ -138,7 +85,7 @@
                             </tr>
                               <tr>
                                 <td>Step 9</td>
-                                <td>Press Select Files button on this page and select all the images in your exportCfg folder. The images will be uploaded and converted to War Room format. The images will be available to see on War Room within 1 hour.</td>
+                                <td>Contact the ALiVE development team via the ALiVEmod.com/forum. The images will be uploaded and converted to War Room format.</td>
                                 <td></td>
                             </tr>                                                                                
                         </table>                 
