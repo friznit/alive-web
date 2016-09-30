@@ -62,6 +62,9 @@ class AdminClanController extends BaseController {
                     case 'name':
                         $clans = Clan::where('clans.name', 'LIKE', '%'.$query.'%');
                         break;
+					case 'tag':
+                        $clans = Clan::where('clans.tag', 'LIKE', '%'.$query.'%');
+                        break;	
                 }
 
                 $clans = $clans->paginate(10);
@@ -316,7 +319,7 @@ class AdminClanController extends BaseController {
         );
 
         $rules = array (
-            'name' => 'required',
+            'name' => 'required|alpha_num',
             'website' => 'url',
             'twitchStream' => 'url',
         );

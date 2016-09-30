@@ -24,9 +24,9 @@ class WarRoomController extends BaseController {
 
         $cacheKey = 'home';
 
-        if (Cache::has($cacheKey)) {
-            $content = Cache::get($cacheKey);
-        }else{
+       if (Cache::has($cacheKey)) {
+           $content = Cache::get($cacheKey);
+       }else{
 
             // AO data
 
@@ -82,6 +82,8 @@ class WarRoomController extends BaseController {
 
                 $clan->couchData = $couchAPI->getGroupTotalsByTag($clan->tag);
 
+                $clan->lastop = $couchAPI->getGroupLastOp($clan->tag);
+
                 $clanorbat = $clan->orbat();
                 $orbattype = $clanorbat['type'];
                 $orbatsize = $clanorbat['size'];
@@ -125,7 +127,7 @@ class WarRoomController extends BaseController {
 
             $content = View::make('warroom/home.index')->with($data)->render();
             Cache::add($cacheKey, $content, 60);
-        }
+       }
 
 
         $header = View::make('warroom/layouts/home_header')->render();

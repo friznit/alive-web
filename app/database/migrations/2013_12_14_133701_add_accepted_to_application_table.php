@@ -27,7 +27,7 @@ class AddAcceptedToApplicationTable extends Migration {
     {
         Schema::table('applications', function(Blueprint $table)
         {
-            $table->dropColumn('accepted');
+            $table->boolean("accepted");
         });
     }
 

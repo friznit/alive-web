@@ -24,7 +24,7 @@ class SigGenerate {
         $username = $data['username'];
 		$useremail = $data['email'];
         $playerdata = $data['playerdata'];
-		if ($data['clan']) {
+		if (!empty($data['clan'])) {
        	 $clan = json_decode($data['clan']);
 		}
         $avatar = $data['avatar'];
@@ -70,7 +70,7 @@ class SigGenerate {
 			$flag = $this->imagine->open($public.'/img/flags_iso/24/_United Nations.png');
 		}
 				
-        $sig = $this->imagine->create(new Box(601, 100));
+        $sig = $this->imagine->create(new Box(600, 100));
 
         $avatar = $this->resizeAuto($avatar, 100, 100);
         $clantar = $this->resizeAuto($clantar, 95, 95);
@@ -96,7 +96,11 @@ class SigGenerate {
 			$name = $username;
 		}
 
-        $mainTitle = '['.$clan->tag.'] ' . $name . ' - ' .$clan->name;
+		if (!empty($data['clan'])) {
+        	$mainTitle = '['.$clan->tag.'] ' . $name . ' - ' .$clan->name;
+		} else{
+			$mainTitle = '[JTFHQ]' . $name . ' - Joint Task Force';
+		}
 
         $sig->draw()->text($mainTitle, $titleFont, new Point(135, 5), 0);
 
