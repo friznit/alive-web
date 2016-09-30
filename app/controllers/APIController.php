@@ -4,8 +4,7 @@ use Alive\CouchAPI;
 use Alive\SigGenerate;
 use Tempo\TempoDebug;
 
-class APIController extends BaseController
-{
+class APIController extends BaseController {
 
     private $couchAPI;
 
@@ -14,31 +13,21 @@ class APIController extends BaseController
         $this->couchAPI = new CouchAPI();
     }
 
-    /**
-     * TODO: Should this be public or private?
-     *
-     * @param $string
-     * @return mixed
-     */
-    function stripNonNumeric($string)
-    {
-        return preg_replace("/[^0-9]/", "", $string);
+    function stripNonNumeric( $string ) {
+        return preg_replace( "/[^0-9]/", "", $string );
     }
 
-    /**
-     * @return mixed
-     */
-    public function getSig()
-    {
-        $armaid = Input::get('id');
+	public function getSig()
+	{
+		$armaid = Input::get('id');
 
         $armaid = $this->stripNonNumeric($armaid);
 
         $public = public_path();
         $url = url();
 
-        $sigPath = $public . '/sigs/' . $armaid . '.jpg';
-        $sigURL = $url . '/sigs/' . $armaid . '.jpg';
+        $sigPath = $public . '/sigs/'.$armaid.'.jpg';
+        $sigURL = $url . '/sigs/'.$armaid.'.jpg';
 
         // the sig already exists
         if (file_exists($sigPath)) {
@@ -50,7 +39,7 @@ class APIController extends BaseController
 
             if (filemtime($sigPath) < time() - 30) {
 
-            } else {
+            }else{
                 // the sig is less than 1 day old
                 // output it
 
@@ -64,29 +53,29 @@ class APIController extends BaseController
 
             $data['player_id'] = $armaid;
 
-            if (!is_null($profile)) {
+            if(!is_null($profile)){
                 $user = $profile->user;
                 $data['user'] = $user;
-                if ($profile->clan_id > 0) {
-                    $clan = $profile->clan;
-                    $data['clan'] = $clan;
-                    $data['clantar'] = $clan->avatar->url('thumb');
-                } else {
-                    $data['clantar'] = "/avatars/thumb/clan.png";
-                }
-                $data['country'] = $profile->country;
+				if ($profile->clan_id > 0) {
+					$clan = $profile->clan;
+					$data['clan'] = $clan;
+                	$data['clantar'] = $clan->avatar->url('thumb');	
+				}else{
+					$data['clantar'] = "/avatars/thumb/clan.png";
+				}
+				$data['country'] = $profile->country;
                 $data['avatar'] = $profile->avatar->url('thumb');
-                $data['username'] = $profile->username;
-                $data['email'] = $profile->email;
+				$data['username'] = $profile->username;
+				$data['email'] = $profile->email;				
                 $data['a3_id'] = $profile->a3_id;
             }
 
             $couchAPI = new Alive\CouchAPI();
             $playerTotals = $couchAPI->getPlayerTotals($armaid);
             $playerDetails = $couchAPI->getPlayerDetails($armaid);
-            $playerWeapon = $couchAPI->getPlayerWeapon($armaid, false);
-            $playerVehicle = $couchAPI->getPlayerVehicle($armaid, false);
-            $playerClass = $couchAPI->getPlayerClass($armaid, false);
+            $playerWeapon = $couchAPI->getPlayerWeapon($armaid,false);
+            $playerVehicle = $couchAPI->getPlayerVehicle($armaid,false);
+            $playerClass = $couchAPI->getPlayerClass($armaid,false);
 
             $playerdata = array(
                 "Totals" => $playerTotals,
@@ -109,127 +98,88 @@ class APIController extends BaseController
         } catch (ModelNotFoundException $e) {
             return Redirect::to('public/personnel.invalid');
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getAuthorise()
+	}
+	public function getAuthorise()
     {
-        if (Input::has('ip')) {
-            $ip = Input::get('ip');
-        } else {
-            ;
-            $request = Request::instance();
-            //TempoDebug::dump($request);
-            $ip = $request->getClientIp();
-        }
-        $group = Input::get('group');
+		if (Input::has('ip')) {
+			$ip = Input::get('ip');
+		} else {;
+			$request = Request::instance();
+			//TempoDebug::dump($request);
+			$ip = $request->getClientIp();
+		}
+		$group = Input::get('group');
 
-        $result = "false";
-        // Get server based on IP
-        try {
-            // Get the clan from the tag
-            $clan = Clan::where('tag', '=', $group)->firstorFail()->toArray();
+		$result = "false";
+		// Get server based on IP
+		try 
+		{
+			// Get the clan from the tag
+			$clan = Clan::where('tag','=',$group)->firstorFail()->toArray();
 
-            try {
-                $clan = Clan::where('tag', '=', $group)->get();
+			try
+			{
+				$clan = Clan::where('tag','=',$group)->get();
 
-                $server = $clan[0]->servers()->where('ip', '=', $ip)->get()->toArray();
+				$server = $clan[0]->servers()->where('ip','=', $ip)->get()->toArray();
 
-                if (count($server) > 0) {
+                if(count($server) > 0){
                     $result = "true";
-                } else {
+                }else{
                     $result = "false";
                 }
 
-            } catch (ModelNotFoundException $e) {
-                $result = "false";
-            }
+			} catch (ModelNotFoundException $e) {
+				$result = "false";
+			}
 
-        } catch (ModelNotFoundException $e) {
+		} catch (ModelNotFoundException $e) {
             $result = "false";
         }
         return json_encode($result);
     }
-
-    /**
-     * @return bool|string
-     */
     public function getTotals()
     {
         return $this->couchAPI->getTotals();
     }
-
-    /**
-     * @return string
-     */
-    public function getOptotals()
+	public function getOptotals()
     {
-        $name = Input::get('name');
-        $map = Input::get('map');
-        $clan = Input::get('clan');
-        return $this->couchAPI->getOpTotals($name, $map, $clan);
-    }
-
-    /**
-     * @return bool|string
-     */
-    public function getMaptotals()
+		$name = Input::get('name');
+		$map = Input::get('map');
+		$clan = Input::get('clan');
+        return $this->couchAPI->getOpTotals($name,$map,$clan);
+    }	
+	public function getMaptotals()
     {
-        $name = Input::get('name');
+		$name = Input::get('name');
         return $this->couchAPI->getMapTotals($name);
     }
-
-    /**
-     * @return bool|string
-     */
     public function getActiveunitcount()
     {
         return $this->couchAPI->getActiveUnitCount();
     }
-
-    /**
-     * @return string
-     */
-    public function getOpactiveunitcount()
+	public function getOpactiveunitcount()
     {
-        $name = Input::get('name');
-        $map = Input::get('map');
-        $clan = Input::get('clan');
-        return $this->couchAPI->getOpActiveunitcount($name, $map, $clan);
-    }
-
-    /**
-     * @return bool|string
-     */
+		$name = Input::get('name');
+		$map = Input::get('map');
+		$clan = Input::get('clan');
+        return $this->couchAPI->getOpActiveunitcount($name,$map,$clan);
+    }	
     public function getRecentoperations()
     {
         return $this->couchAPI->getRecentOperations();
     }
-
-    /**
-     * @return string
-     */
     public function getLivefeed()
     {
         return $this->couchAPI->getLiveFeed();
     }
-
-    /**
-     * @return string
-     */
-    public function getOplivefeed()
+	public function getOplivefeed()
     {
-        $name = Input::get('name');
-        $map = Input::get('map');
-        $clan = Input::get('clan');
-        return $this->couchAPI->getOpLiveFeed($map, $clan, $name);
+		$name = Input::get('name');
+		$map = Input::get('map');
+		$clan = Input::get('clan');
+        return $this->couchAPI->getOpLiveFeed($map,$clan,$name);
     }
-
-    /**
-     * @return string
-     */
     public function getOplivefeedpaged()
     {
         $name = Input::get('name');
@@ -237,453 +187,252 @@ class APIController extends BaseController
         $clan = Input::get('clan');
         $limit = Input::get('limit');
         $skip = Input::get('skip');
-        return $this->couchAPI->getOpLiveFeedPaged($map, $clan, $name, $limit, $skip);
+        return $this->couchAPI->getOpLiveFeedPaged($map,$clan,$name,$limit,$skip);
     }
-
-    /**
-     * @return string
-     */
-    public function getOpliveaarfeedpaged()
+	
+	public function getOpliveaarfeedpaged()
     {
         $name = Input::get('name');
         $map = Input::get('map');
         $clan = Input::get('clan');
         $start = Input::get('start');
         $end = Input::get('end');
-        return $this->couchAPI->getOpLiveAARFeedPaged($map, $clan, $name, $start, $end);
+        return $this->couchAPI->getOpLiveAARFeedPaged($map,$clan,$name,$start,$end);
     }
-
-    /**
-     * @return string
-     */
+	
     public function getLossesblu()
     {
         return $this->couchAPI->getLossesBLU();
     }
-
-    /**
-     * @return string
-     */
     public function getLossesopf()
     {
         return $this->couchAPI->getLossesOPF();
     }
-
-    /**
-     * @return string
-     */
     public function getCasualties()
     {
         return $this->couchAPI->getCasualties();
     }
-
-    /**
-     * @return string
-     */
     public function getOpcasualties()
     {
-        $name = Input::get('name');
-        $map = Input::get('map');
-        $clan = Input::get('clan');
-        return $this->couchAPI->getOpCasualties($name, $map, $clan);
+		$name = Input::get('name');
+		$map = Input::get('map');
+		$clan = Input::get('clan');
+        return $this->couchAPI->getOpCasualties($name,$map,$clan);
     }
-
-    /**
-     * @return string
-     */
-    public function getOplossesblu()
+	public function getOplossesblu()
     {
-        $name = Input::get('name');
-        $map = Input::get('map');
-        $clan = Input::get('clan');
-        return $this->couchAPI->getOpLossesBLU($name, $map, $clan);
+		$name = Input::get('name');
+		$map = Input::get('map');
+		$clan = Input::get('clan');
+        return $this->couchAPI->getOpLossesBLU($name,$map,$clan);
     }
-
-    /**
-     * @return string
-     */
     public function getOplossesopf()
     {
-        $name = Input::get('name');
-        $map = Input::get('map');
-        $clan = Input::get('clan');
-        return $this->couchAPI->getOpLossesOPF($name, $map, $clan);
+		$name = Input::get('name');
+		$map = Input::get('map');
+		$clan = Input::get('clan');
+        return $this->couchAPI->getOpLossesOPF($name,$map,$clan);
     }
-
-    /**
-     * @return string
-     */
     public function getOperationsbymap()
     {
         return $this->couchAPI->getOperationsByMap();
     }
-
-    /**
-     * @return string
-     */
     public function getOperationsbyday()
     {
         return $this->couchAPI->getOperationsByDay();
     }
-
-    /**
-     * @return string
-     */
     public function getPlayersbyday()
     {
         return $this->couchAPI->getPlayersByDay();
     }
-
-    /**
-     * @return string
-     */
     public function getKillsbyday()
     {
         return $this->couchAPI->getKillsByDay();
     }
-
-    /**
-     * @return string
-     */
     public function getDeathsbyday()
     {
         return $this->couchAPI->getDeathsByDay();
     }
-
-    /**
-     * @return bool|string
-     */
     public function getT1operators()
     {
         return $this->couchAPI->getT1Operators();
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getDevcredits()
+	public function getDevcredits()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getDevCredits($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getPlayerdetails()
+	public function getPlayerdetails()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getPlayerDetails($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getPlayerweapon()
+	public function getPlayerweapon()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getPlayerWeapon($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getPlayerweapons()
+	public function getPlayerweapons()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getPlayerWeapons($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getPlayervehicle()
+	public function getPlayervehicle()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getPlayerVehicle($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getPlayervehicles()
+	public function getPlayervehicles()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getPlayerVehicles($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getPlayerclasses()
+	public function getPlayerclasses()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getPlayerClasses($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getPlayeralias()
+	public function getPlayeralias()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getPlayerAlias($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getPersonneltotals()
+	public function getPersonneltotals()
     {
         return $this->couchAPI->getPersonnelTotals();
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getT1marksmen()
+	public function getT1marksmen()
     {
         return $this->couchAPI->getT1Marksmen();
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getVehiclecommanders()
+	public function getVehiclecommanders()
     {
         return $this->couchAPI->getVehicleCommanders();
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getPilots()
+	public function getPilots()
     {
         return $this->couchAPI->getPilots();
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getMedics()
+	public function getMedics()
     {
         return $this->couchAPI->getMedics();
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getScores()
+	public function getScores()
     {
         return $this->couchAPI->getScores();
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getAvescores()
+	public function getAvescores()
     {
         return $this->couchAPI->getAveScores();
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getRatings()
+	public function getRatings()
     {
         return $this->couchAPI->getRatings();
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getGrouptotals()
+	public function getGrouptotals()
     {
         return $this->couchAPI->getGroupTotals();
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getGrouptotalsbytag()
+	public function getGrouptotalsbytag()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getGroupTotalsByTag($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getGroupclasses()
+	public function getGroupclasses()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getGroupClasses($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getOrbatrecentoperations()
+	public function getOrbatrecentoperations()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getOrbatRecentOperations($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getOrbatt1()
+	public function getOrbatt1()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getOrbatT1($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getOrbatmedics()
+	public function getOrbatmedics()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getOrbatMedics($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getOrbatpilots()
+	public function getOrbatpilots()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getOrbatPilots($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getOrbatkillsbyweapon()
+	public function getOrbatkillsbyweapon()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getOrbatKillsByWeapon($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getOrbatweapons()
+	public function getOrbatweapons()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getOrbatWeapons($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getOrbatvehicles()
+	public function getOrbatvehicles()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getOrbatVehicles($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getOrbatplayerkills()
+	public function getOrbatplayerkills()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getOrbatPlayerKills($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getOrbatmountedkills()
+	public function getOrbatmountedkills()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getOrbatMountedKills($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getOrbatclasses()
+	public function getOrbatclasses()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getOrbatClasses($id);
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getOperations()
+	public function getOperations()
     {
         return $this->couchAPI->getOperations();
     }
-
-    /**
-     * @return bool|string
-     */
-    public function getOpsbreakdown()
+	public function getOpsbreakdown()
     {
         return $this->couchAPI->getOpsBreakdown();
     }
-
-    /**
-     * @return string
-     */
-    public function getServerperf()
+	public function getServerperf()
     {
-        $id = Input::get('id');
-        $servername = Input::get('servername');
-        $type = Input::get('type');
-        return $this->couchAPI->getServerPerf($id, $type, $servername);
+		$id = Input::get('id');
+		$servername = Input::get('servername');
+		$type = Input::get('type');
+        return $this->couchAPI->getServerPerf($id,$type,$servername);
     }
-
-    /**
-     * @return string
-     */
-    public function getServerperfall()
+	public function getServerperfall()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getServerPerfAll($id);
-    }
-
-    /**
-     * @return string
-     */
-    public function getServerperfdate()
+    }	
+	public function getServerperfdate()
     {
-        $date = Input::get('date');
+		$date = Input::get('date');
         return $this->couchAPI->getServerPerfDate($date);
-    }
-
-    /**
-     * @return string
-     */
-    public function getServerperfcheck()
+    }		
+	public function getServerperfcheck()
     {
         return $this->couchAPI->getServerPerfCheck();
-    }
-
-    /**
-     * @return string
-     */
-    public function getClanfeed()
+    }	
+	public function getClanfeed()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getClanFeed($id);
     }
-
-    /**
-     * @return string
-     */
-    public function getPlayerfeed()
+	public function getPlayerfeed()
     {
-        $id = Input::get('id');
+		$id = Input::get('id');
         return $this->couchAPI->getPlayerFeed($id);
     }
 
-    /**
-     *
-     */
     public function getTestcalls()
     {
 
@@ -794,6 +543,7 @@ class APIController extends BaseController
         $result = $this->getLivefeed();
         TempoDebug::stopProfile($profiler);
         */
+
 
 
         $profiler = TempoDebug::startProfile();

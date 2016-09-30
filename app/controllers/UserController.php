@@ -1,11 +1,10 @@
 <?php
 
-class UserController extends BaseController
-{
+class UserController extends BaseController {
 
     public function __construct()
     {
-        // Check CSRF token on POST
+        //Check CSRF token on POST
         $this->beforeFilter('csrf', array('on' => 'post'));
 
         // Get the Throttle Provider
@@ -15,21 +14,13 @@ class UserController extends BaseController
         $throttleProvider->enable();
     }
 
-    /**
-     * Get the registration form
-     *
-     * @return mixed
-     */
+    // Registration ----------------------------------------------------------------------------------------------------
+
     public function getRegister()
     {
         return View::make('user.register');
     }
 
-    /**
-     * Submit a new user registration
-     *
-     * @return mixed
-     */
     public function postRegister()
     {
         /*
@@ -50,7 +41,7 @@ class UserController extends BaseController
             'password_confirmation' => Input::get('password_confirmation')
         );
 
-        $rules = array(
+        $rules = array (
             'email' => 'required|min:4|max:32|email',
             'password' => 'required|min:6|confirmed',
             'password_confirmation' => 'required'
@@ -60,7 +51,9 @@ class UserController extends BaseController
 
         if ($v->fails()) {
             return Redirect::to('user/register')->withErrors($v)->withInput();
-        } else {
+        }
+        else
+        {
             try {
                 $user = Sentry::register(array('email' => $input['email'], 'password' => $input['password']));
 
@@ -68,7 +61,7 @@ class UserController extends BaseController
                 $data['email'] = $input['email'];
                 $data['userId'] = $user->getId();
 
-                Mail::send('emails.auth.welcome', $data, function ($m) use ($data) {
+                Mail::send('emails.auth.welcome', $data, function($m) use($data) {
                     $m->to($data['email'])->subject('Welcome to the ALiVE War Room - Activate your account');
                 });
 
@@ -87,13 +80,6 @@ class UserController extends BaseController
         }
     }
 
-    /**
-     * Attempt to activate a user
-     *
-     * @param int $userId The ID of the user to activate
-     * @param string $activationCode The activation code the user provides
-     * @return mixed
-     */
     public function getActivate($userId = null, $activationCode = null)
     {
         try {
@@ -118,21 +104,11 @@ class UserController extends BaseController
         }
     }
 
-    /**
-     * Resend activation form
-     *
-     * @return mixed
-     */
     public function getResend()
     {
         return View::make('user.resend');
     }
 
-    /**
-     * Request an activation resend by POST
-     *
-     * @return mixed
-     */
     public function postResend()
     {
 
@@ -140,7 +116,7 @@ class UserController extends BaseController
             'email' => Input::get('email')
         );
 
-        $rules = array(
+        $rules = array (
             'email' => 'required|min:4|max:32|email'
         );
 
@@ -156,7 +132,7 @@ class UserController extends BaseController
                 $data['email'] = $input['email'];
                 $data['userId'] = $user->getId();
 
-                Mail::send('emails.auth.welcome', $data, function ($m) use ($data) {
+                Mail::send('emails.auth.welcome', $data, function($m) use ($data) {
                     $m->to($data['email'])->subject('ALiVE War Room - Activate your account');
                 });
 
@@ -169,20 +145,16 @@ class UserController extends BaseController
         }
     }
 
-    /**
-     * Get a user's profile by ID
-     *
-     * @param int $id The ID of the user requested
-     * @return mixed
-     */
+    // Profile ----------------------------------------------------------------------------------------------------
+
     public function getProfile($id)
     {
         try {
             $data['user'] = Sentry::getUser();
-            $data['countries'] = DB::table('countries')->lists('name', 'iso_3166_2');
+            $data['countries'] = DB::table('countries')->lists('name','iso_3166_2');
             $data['ageGroup'] = get_age_group_data();
 
-            if ($data['user']->hasAccess('admin') || $data['user']->getId() == $id) {
+            if ( $data['user']->hasAccess('admin') || $data['user']->getId() == $id) {
                 $data['user'] = Sentry::getUserProvider()->findById($id);
                 return View::make('user.profile')->with($data);
             } else {
@@ -195,14 +167,6 @@ class UserController extends BaseController
         }
     }
 
-    /**
-     * ?
-     *
-     * TODO: What Does This Do
-     *
-     * @param $id
-     * @return mixed
-     */
     public function postProfile($id)
     {
         $input = array(
@@ -223,7 +187,7 @@ class UserController extends BaseController
             */
         );
 
-        $rules = array(
+        $rules = array (
             'username' => 'required',
         );
 
@@ -239,11 +203,11 @@ class UserController extends BaseController
                 if ($currentUser->getId() == $id) {
 
                     $user = Sentry::getUserProvider()->findById($id);
-                    if (is_null($user->profile)) {
+                    if(is_null($user->profile)){
                         $profile = new Profile;
 
-                        if ($input['country'] != '') {
-                            $countries = DB::table('countries')->lists('name', 'iso_3166_2');
+                        if($input['country'] != ''){
+                            $countries = DB::table('countries')->lists('name','iso_3166_2');
                             $countryName = $countries[$input['country']];
                             $profile->country = $input['country'];
                             $profile->country_name = $countryName;
@@ -270,7 +234,7 @@ class UserController extends BaseController
                             Alert::success('Profile updated.')->flash();
                             return Redirect::to('war-room')->with('welcome', true);
                         }
-                    } else {
+                    }else{
                         return Redirect::to('war-room')->with('welcome', true);
                     }
                 } else {
@@ -284,33 +248,18 @@ class UserController extends BaseController
         }
     }
 
-    /**
-     * Login form
-     *
-     * @return mixed
-     */
+    // Authentication --------------------------------------------------------------------------------------------------
+
     public function getLogin()
     {
         return View::make('user.login');
     }
 
-    /**
-     * ?
-     *
-     * TODO: What does this do
-     *
-     * @return mixed
-     */
     public function getLoginactivate()
     {
         return View::make('user.login_activate');
     }
 
-    /**
-     * Attempt to login a user by POST
-     *
-     * @return mixed
-     */
     public function postLogin()
     {
         $input = array(
@@ -319,7 +268,7 @@ class UserController extends BaseController
             'rememberMe' => Input::get('rememberMe')
         );
 
-        $rules = array(
+        $rules = array (
             'email' => 'required|min:4|max:32|email',
             'password' => 'required|min:6'
         );
@@ -335,11 +284,11 @@ class UserController extends BaseController
                 $throttle->check();
 
                 $credentials = array(
-                    'email' => $input['email'],
+                    'email'    => $input['email'],
                     'password' => $input['password']
                 );
 
-                $remember = (bool)$input['rememberMe'];
+                $remember = (bool) $input['rememberMe'];
                 $user = Sentry::authenticate($credentials, $remember);
 
             } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
@@ -347,7 +296,7 @@ class UserController extends BaseController
                 return Redirect::to('user/login')->withErrors($v)->withInput();
 
             } catch (Cartalyst\Sentry\Users\UserNotActivatedException $e) {
-                Alert::error('You have not yet activated this account. <a href="' . URL::to('user/resend') . '">Resend actiavtion?</a>')->flash();
+                Alert::error('You have not yet activated this account. <a href="'. URL::to('user/resend'). '">Resend actiavtion?</a>')->flash();
                 return Redirect::to('user/login')->withErrors($v)->withInput();
 
             } catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e) {
@@ -363,56 +312,43 @@ class UserController extends BaseController
 
             $activation = Input::get('activation');
 
-            if ($activation === 'true') {
+            if($activation === 'true'){
                 return Redirect::to('user/profile/' . $user->id);
             }
 
-            if (is_null($user->profile)) {
+            if(is_null($user->profile)){
                 return Redirect::to('user/profile/' . $user->id);
             }
 
             $email = $input['email'];
-            $domain = explode('@', $email);
-            if ($domain[1] === 'alivemod.com') {
+            $domain = explode('@',$email);
+            if($domain[1] === 'alivemod.com'){
                 Alert::error('<b>WARNING</b> Your account is using a generated email address, please update your profile with your correct email address so you will be able to reset your password etc in the future.')->flash();
             }
             return Redirect::to('war-room');
         }
     }
 
-    /**
-     * Logout the user and redirect them home
-     *
-     * @return mixed
-     */
     public function getLogout()
     {
         Sentry::logout();
         return Redirect::to('/');
     }
 
-    /**
-     * Get the reset password form
-     *
-     * @return mixed
-     */
+    // Help ------------------------------------------------------------------------------------------------------------
+
     public function getResetpassword()
     {
         return View::make('user.reset');
     }
 
-    /**
-     * Reset a user's password by POST
-     *
-     * @return mixed
-     */
-    public function postResetpassword()
+    public function postResetpassword ()
     {
         $input = array(
             'email' => Input::get('email')
         );
 
-        $rules = array(
+        $rules = array (
             'email' => 'required|min:4|max:32|email'
         );
 
@@ -427,7 +363,7 @@ class UserController extends BaseController
                 $data['userId'] = $user->getId();
                 $data['email'] = $input['email'];
 
-                Mail::send('emails.auth.reset', $data, function ($m) use ($data) {
+                Mail::send('emails.auth.reset', $data, function($m) use($data) {
                     $m->to($data['email'])->subject('ALiVE War Room - Password Reset Confirmation');
                 });
 
@@ -441,24 +377,17 @@ class UserController extends BaseController
         }
     }
 
-    /**
-     * Attempt to reset a password
-     *
-     * @param int $userId The userid to reset
-     * @param string $resetCode The reset code (?)
-     * @return mixed
-     */
-    public function getReset($userId = null, $resetCode = null)
-    {
-        try {
+    public function getReset($userId = null, $resetCode = null) {
+        try
+        {
             $user = Sentry::getUserProvider()->findById($userId);
-            $newPassword = $this->_generatePassword(8, 8);
+            $newPassword = $this->_generatePassword(8,8);
 
             if ($user->attemptResetPassword($resetCode, $newPassword)) {
                 $data['newPassword'] = $newPassword;
                 $data['email'] = $user->getLogin();
 
-                Mail::send('emails.auth.newpassword', $data, function ($m) use ($data) {
+                Mail::send('emails.auth.newpassword', $data, function($m) use($data) {
                     $m->to($data['email'])->subject('ALiVE War Room - New Password Information');
                 });
 
@@ -475,15 +404,7 @@ class UserController extends BaseController
         }
     }
 
-    /**
-     * Generate a strong password
-     *
-     * @param int $length
-     * @param int $strength
-     * @return string
-     */
-    private function _generatePassword($length = 9, $strength = 4)
-    {
+    private function _generatePassword($length=9, $strength=4) {
         $vowels = 'aeiouy';
         $consonants = 'bcdfghjklmnpqrstvwxz';
         if ($strength & 1) {

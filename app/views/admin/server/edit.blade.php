@@ -159,46 +159,41 @@
                     <div class="panel-body">
 
                         <div class="strip">
-                            <p>Getting your server up and running.<br/><b>NOTE: These steps must be performed on your dedicated server NOT your client machine</b></p>
+                            <p>Getting your Windows or Linux server up and running.<br/><b>NOTE: These steps must be performed on your dedicated server NOT your client machine</b></p>
                         </div>
 
                         <table class="table">
                              <tr>
                                 <td width="80">Step 1</td>
-                                <td>Microsoft .NET Framework 4 Client Profile must be installed on your dedicated server.</td>
-                                <td>Get it from <a href="http://www.microsoft.com/download/en/details.aspx?id=24872" target="new">http://www.microsoft.com/download/en/details.aspx?id=24872</a></td>
-                            </tr>
-                             <tr>
-                                <td>Step 2</td>
-                                <td>Microsoft Visual C++ 2010 redistributable must also be installed on your dedicated server. </td>
+                                <td>If using Microsoft Windows: Microsoft Visual C++ 2010 redistributable must also be installed on your dedicated server. </td>
                                 <td>Get it from <a href="http://www.microsoft.com/en-us/download/details.aspx?id=8328" target="new">http://www.microsoft.com/en-us/download/details.aspx?id=8328</a></td>
                             </tr>                    
                             <tr>
-                                <td>Step 3</td>
+                                <td>Step 2</td>
                                 <td>Download the @ALiVEServer addon and extract the folder into the Dedicated Server Arma 3 root folder. Add @ALiVEServer to your mod line on your dedicated server.<br/><br/>
                                     <div class="strip">
-                                        <p>NOTE: Prior to extracting the addon from the 7zip archive, make sure that the archive isn't blocked.<br/><br/><span class="btn btn-yellow" data-toggle="modal" data-target="#blockedModal"><i class="fa fa-eye"></i> See Example</span></p>
+                                        <p>NOTE: Windows users! Prior to extracting the addon from the zip archive, make sure that the archive isn't blocked.<br/><br/><span class="btn btn-yellow" data-toggle="modal" data-target="#blockedModal"><i class="fa fa-eye"></i> See Example</span></p>
                                     </div>
                                 </td>
-                                <td><a class="btn btn-yellow" href="{{ URL::to('/') }}/downloads/@AliveServer.7z"><i class="fa fa-download"></i> Download</a></td>
+                                <td><a class="btn btn-yellow" href="{{ URL::to('/') }}/downloads/@aliveserver.zip"><i class="fa fa-download"></i> Download</a></td>
                             </tr>
                             <tr>
-                                <td>Step 4</td>
-                                <td>Download and save the alive.cfg file to C:\Users\USERNAME\AppData\Local\ALiVE OR your Arma 3 root directory. If using AppData, you may need to create the directory yourself if it's not there. Do NOT use your root arma 3 directory AND the AppData\Local\ALiVE directory.</td>
+                                <td>Step 3</td>
+                                <td>Download and save the alive.cfg file to C:\Users\USERNAME\AppData\Local\ALiVE (~/.alive/ folder for Linux) OR your Arma 3 root directory. If using AppData, you may need to create the directory yourself if it's not there. Do NOT use your root arma 3 directory AND the AppData\Local\ALiVE directory. Windows: Do NOT forget to unblock this file.</td>
                                 <td><a class="btn btn-yellow" href="{{ URL::to('admin/server/config') }}/{{ $clan->id }}"><i class="fa fa-download"></i> Download</a></td>
                             </tr>
                             <tr>
-                                <td>Step 5</td>
+                                <td>Step 4</td>
                                 <td>Important: Your ALiVE mission needs the ALiVE System Database module (available in the Arma 3 Editor) placed for this feature to work!</td>
                                 <td><span class="btn btn-yellow" data-toggle="modal" data-target="#dataModal"><i class="fa fa-eye"></i> See Example</span></td>
                             </tr>
                             <tr>
-                                <td>Step 6</td>
+                                <td>Step 5</td>
                                 <td>Run your ALiVE MP mission on your dedicated server and connect with your client</td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Step 7</td>
+                                <td>Step 6</td>
                                 <td>Go to alivemod.com War Room, under Recent Operations or Live Data Feed on the home page and you should see a message stating your mission was launched.</td>
                                 <td></td>
                             </tr>
@@ -211,12 +206,12 @@
                         <table class="table">
                             <tr>
                                 <td width="80">Step 1</td>
-                                <td>Download and install BareTail (log monitor)</td>
+                                <td>Windows Users: Download and install BareTail (log monitor)</td>
                                 <td><a class="btn btn-yellow" target="_blank" href="http://www.baremetalsoft.com/baretail"><i class="fa fa-download"></i> Download</a></td>
                             </tr>
                             <tr>
                                 <td>Step 2</td>
-                                <td>Launch Arma3server.exe with the @ALiVE and @ALiveServer in the mod line on your dedicated server. Ensure the ALiVEServer addon has been downloaded into the Arma root folder</td>
+                                <td>Launch Arma3server.exe (or your Linux dedicated server) with the @ALiVE and @ALiVEServer in the mod line on your dedicated server. Ensure the ALiVEServer addon has been downloaded into the Arma root folder</td>
                                 <td></td>
                             </tr>
                             <tr>
@@ -231,26 +226,21 @@
                             </tr>
                             <tr>
                                 <td>Step 5</td>
-                                <td>(on your dedicated server) In baretail open users/username/appdata/local/Arma 3/AliveServer.log</td>
+                                <td>(on your dedicated server) In baretail (or Linux text editor) open ARMA3ROOT/@ALiVEServer/aliveplugin_DATESTAMP.log</td>
                                 <td></td>
                             </tr>
                              <tr>
                                 <td>Step 6</td>
-                                <td> (on your dedicated server) In baretail open the alive.log file in your Arma 3 root directory (it may be in the users/username/appdata/local/ALiVE folder if you set that up).</td>
-                                <td></td>
-                            </tr>                           
-                            <tr>
-                                <td>Step 7</td>
-                                <td>(on your dedicated server) In baretail open Arma3Server RPT usually users/username/appdata/local/Arma3/ </td>
+                                <td>(on your dedicated server) In baretail (or Linux text editor) open Arma3Server RPT usually users/username/appdata/local/Arma3/ </td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Step 8</td>
+                                <td>Step 7</td>
                                 <td>Check for the arma3server.rpt for CONNECTED TO DATABASE OK </td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Step 9</td>
+                                <td>Step 8</td>
                                 <td>Go to alivemod.com War Room, under Live Data Feed you should see a message stating your mission was launched. If not, check Your Group page.</td>
                                 <td></td>
                             </tr>

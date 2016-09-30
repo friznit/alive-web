@@ -27,7 +27,7 @@ class AddUrlsToClansTable extends Migration {
 	{
 		Schema::table('clans', function(Blueprint $table)
 		{
-            $table->dropColumn('teamspeak');
+            $table->string("teamspeak")->nullable();
 		});
 	}
 

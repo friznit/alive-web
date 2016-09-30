@@ -1,11 +1,10 @@
 <?php
 
-class AdminApplicationController extends BaseController
-{
+class AdminApplicationController extends BaseController {
 
     public function __construct()
     {
-        // Check CSRF token on POST
+        //Check CSRF token on POST
         $this->beforeFilter('csrf', array('on' => 'post'));
 
         // Authenticated access only
@@ -13,27 +12,19 @@ class AdminApplicationController extends BaseController
 
     }
 
-    /**
-     * Get a list of user applications
-     *
-     * @return mixed
-     */
+    // List ------------------------------------------------------------------------------------------------------------
+
     public function getIndex()
     {
         $data = get_default_data();
         $auth = $data['auth'];
 
-        $data['allClans'] = Clan::where('allow_applicants', 1)->paginate(10);
+        $data['allClans'] = Clan::where('allow_applicants',1)->paginate(10);
         $data['applications'] = $auth['user']->applications;
         return View::make('admin/application.index')->with($data);
 
     }
 
-    /**
-     * Search by POST
-     *
-     * @return mixed
-     */
     public function postSearch()
     {
 
@@ -45,7 +36,7 @@ class AdminApplicationController extends BaseController
             'type' => Input::get('type')
         );
 
-        $rules = array(
+        $rules = array (
             'query' => 'required',
             'type' => 'required|alpha',
         );
@@ -59,9 +50,9 @@ class AdminApplicationController extends BaseController
             $query = $input['query'];
             $type = $input['type'];
 
-            switch ($type) {
+            switch($type){
                 case 'name':
-                    $clans = Clan::where('clans.name', 'LIKE', '%' . $query . '%');
+                    $clans = Clan::where('clans.name', 'LIKE', '%'.$query.'%');
                     break;
             }
 
@@ -77,12 +68,8 @@ class AdminApplicationController extends BaseController
         }
     }
 
-    /**
-     * Show an applicant by ID
-     *
-     * @param int $id The ID of the applicant to show
-     * @return mixed
-     */
+    // Show ------------------------------------------------------------------------------------------------------------
+
     public function getShowapplicant($id)
     {
 
@@ -96,9 +83,9 @@ class AdminApplicationController extends BaseController
         $clan = $application->clan;
         $user_id = $currentUser->getId();
 
-        if (!$auth['isAdmin'] && $application->user_id != $user_id) {
+        if(!$auth['isAdmin'] && $application->user_id != $user_id){
             Alert::error('You don\'t have access to that application.')->flash();
-            return Redirect::to('admin/user/show/' . $user_id);
+            return Redirect::to('admin/user/show/'.$user_id);
         }
 
         $data['application'] = $application;
@@ -107,12 +94,6 @@ class AdminApplicationController extends BaseController
         return View::make('admin/application.show_applicant')->with($data);
     }
 
-    /**
-     * Show a recipient by ID
-     *
-     * @param int $id The ID of the recipient to show
-     * @return mixed
-     */
     public function getShowrecipient($id)
     {
 
@@ -127,7 +108,7 @@ class AdminApplicationController extends BaseController
 
         if (!$auth['isAdmin'] && $profile->clan_id != $clan->id) {
             Alert::error('You don\'t have access to that application.')->flash();
-            return Redirect::to('admin/clan/show/' . $clan->id);
+            return Redirect::to('admin/clan/show/'. $clan->id);
         }
 
         $data['application'] = $application;
@@ -135,12 +116,8 @@ class AdminApplicationController extends BaseController
         return View::make('admin/application.show_recipient')->with($data);
     }
 
-    /**
-     * Update an applicant by ID
-     *
-     * @param int $id The ID of the applicant
-     * @return mixed
-     */
+    // Update ----------------------------------------------------------------------------------------------------------
+
     public function postUpdateapplicant($id)
     {
 
@@ -151,7 +128,7 @@ class AdminApplicationController extends BaseController
             'note' => Input::get('note'),
         );
 
-        $rules = array(
+        $rules = array (
             'note' => 'required',
         );
 
@@ -168,9 +145,9 @@ class AdminApplicationController extends BaseController
             $clan = $application->clan;
             $user_id = $currentUser->getId();
 
-            if (!$auth['isAdmin'] && $application->user_id != $user_id) {
+            if(!$auth['isAdmin'] && $application->user_id != $user_id){
                 Alert::error('You don\'t have access to that application.')->flash();
-                return Redirect::to('admin/user/show/' . $user_id);
+                return Redirect::to('admin/user/show/'.$user_id);
             }
 
             $application->note = $input['note'];
@@ -184,12 +161,6 @@ class AdminApplicationController extends BaseController
         }
     }
 
-    /**
-     * Update a recipient by ID
-     *
-     * @param int $id Update a recipient by ID
-     * @return mixed
-     */
     public function postUpdaterecipient($id)
     {
 
@@ -200,7 +171,7 @@ class AdminApplicationController extends BaseController
             'response' => Input::get('response'),
         );
 
-        $rules = array(
+        $rules = array (
             'response' => 'required',
         );
 
@@ -218,7 +189,7 @@ class AdminApplicationController extends BaseController
 
             if (!$auth['isAdmin'] && $profile->clan_id != $clan->id) {
                 Alert::error('You don\'t have access to that application.')->flash();
-                return Redirect::to('admin/clan/show/' . $clan->id);
+                return Redirect::to('admin/clan/show/'. $clan->id);
             }
 
             $application->response = $input['response'];
@@ -232,14 +203,8 @@ class AdminApplicationController extends BaseController
         }
     }
 
-    /**
-     * ?
-     *
-     * TODO: What does this do
-     *
-     * @param int $id ?
-     * @return mixed
-     */
+    // Lodge -----------------------------------------------------------------------------------------------------------
+
     public function getLodge($id)
     {
 
@@ -250,32 +215,24 @@ class AdminApplicationController extends BaseController
         $profile = $auth['profile'];
         $applications = $currentUser->applications;
 
-        if ($auth['isGrunt'] || $auth['isOfficer'] || $auth['isLeader']) {
+        if($auth['isGrunt'] || $auth['isOfficer'] || $auth['isLeader']){
             Alert::success('You already belong to an active group, you will need to leave this group to join a new one.')->flash();
-            return Redirect::to('admin/clan/show/' . $profile->clan_id);
+            return Redirect::to('admin/clan/show/'. $profile->clan_id);
         }
 
-        if ($profile->clan_id == 0) {
-            $data['countries'] = DB::table('countries')->lists('name', 'iso_3166_2');
+        if($profile->clan_id == 0){
+            $data['countries'] = DB::table('countries')->lists('name','iso_3166_2');
             $data['user'] = $currentUser;
             $data['profile'] = $profile;
             $data['applications'] = $applications;
             $data['clan'] = Clan::find($id);
             return View::make('admin/application.lodge')->with($data);
-        } else {
+        }else{
             Alert::success('You already belong to an active group, you will need to leave this group to create a new one.')->flash();
-            return Redirect::to('admin/clan/show/' . $profile->clan_id);
+            return Redirect::to('admin/clan/show/'. $profile->clan_id);
         }
     }
 
-    /**
-     * ?
-     *
-     * TODO: What does this do
-     *
-     * @param int $id ?
-     * @return mixed
-     */
     public function postLodge($id)
     {
 
@@ -286,7 +243,7 @@ class AdminApplicationController extends BaseController
             'note' => Input::get('note'),
         );
 
-        $rules = array(
+        $rules = array (
             'note' => 'required'
         );
 
@@ -299,25 +256,25 @@ class AdminApplicationController extends BaseController
             $currentUser = $auth['user'];
             $profile = $auth['profile'];
 
-            if ($auth['isGrunt'] || $auth['isOfficer'] || $auth['isLeader']) {
+            if($auth['isGrunt'] || $auth['isOfficer'] || $auth['isLeader']){
                 Alert::success('You already belong to an active group, you will need to leave this group to join a new one.')->flash();
-                return Redirect::to('admin/clan/show/' . $profile->clan_id);
+                return Redirect::to('admin/clan/show/'. $profile->clan_id);
             }
 
             $user_id = $currentUser->getId();
             $applicationCount = $currentUser->applications->count();
 
-            if ($applicationCount > 2) {
+            if($applicationCount > 2){
                 Alert::success('You have reached your open application limit')->flash();
-                return Redirect::to('admin/user/show/' . $user_id);
+                return Redirect::to('admin/user/show/'. $user_id);
             }
 
-            if ($profile->clan_id == 0) {
+            if($profile->clan_id == 0){
 
                 $application = new Application;
 
-                if ($profile->country != '') {
-                    $countries = DB::table('countries')->lists('name', 'iso_3166_2');
+                if($profile->country != ''){
+                    $countries = DB::table('countries')->lists('name','iso_3166_2');
                     $countryName = $countries[$profile->country];
                     $application->country = $profile->country;
                     $application->country_name = $profile->country_name;
@@ -332,21 +289,17 @@ class AdminApplicationController extends BaseController
                 $application->save();
 
                 Alert::success('Application lodged.')->flash();
-                return Redirect::to('admin/user/show/' . $user_id);
+                return Redirect::to('admin/user/show/'. $user_id);
 
-            } else {
+            }else{
                 Alert::success('You already belong to an active group, you will need to leave this group to create a new one.')->flash();
-                return Redirect::to('admin/clan/show/' . $profile->clan_id);
+                return Redirect::to('admin/clan/show/'. $profile->clan_id);
             }
         }
     }
 
-    /**
-     * Delete an applicant by ID
-     *
-     * @param int $id The ID of the applicant to update
-     * @return mixed
-     */
+    // Delete ----------------------------------------------------------------------------------------------------------
+
     public function postDeleteapplicant($id)
     {
 
@@ -360,9 +313,9 @@ class AdminApplicationController extends BaseController
         $clan = $application->clan;
         $user_id = $currentUser->getId();
 
-        if (!$auth['isAdmin'] && $application->user_id != $user_id) {
+        if(!$auth['isAdmin'] && $application->user_id != $user_id){
             Alert::error('You don\'t have access to that application.')->flash();
-            return Redirect::to('admin/user/show/' . $user_id);
+            return Redirect::to('admin/user/show/'.$user_id);
         }
 
         $application->delete();
@@ -372,12 +325,6 @@ class AdminApplicationController extends BaseController
 
     }
 
-    /**
-     * Delete a recipient by ID
-     *
-     * @param int $id The ID of the recipient
-     * @return mixed
-     */
     public function postDeleterecipient($id)
     {
 
@@ -392,22 +339,18 @@ class AdminApplicationController extends BaseController
 
         if (!$auth['isAdmin'] && $profile->clan_id != $clan->id) {
             Alert::error('You don\'t have access to that application.')->flash();
-            return Redirect::to('admin/clan/show/' . $clan->id);
+            return Redirect::to('admin/clan/show/'. $clan->id);
         }
 
         $application->delete();
 
         Alert::success('Application deleted.')->flash();
-        return Redirect::to('admin/clan/show/' . $clan->id);
+        return Redirect::to('admin/clan/show/'. $clan->id);
 
     }
 
-    /**
-     * Accept a user application
-     *
-     * @param int $id The ID of the application to delete
-     * @return mixed
-     */
+    // Accept / Deny ---------------------------------------------------------------------------------------------------
+
     public function postAccept($id)
     {
 
@@ -422,55 +365,48 @@ class AdminApplicationController extends BaseController
 
         if (!$auth['isAdmin'] && $profile->clan_id != $clan->id) {
             Alert::error('You don\'t have access to that application.')->flash();
-            return Redirect::to('admin/clan/show/' . $clan->id);
+            return Redirect::to('admin/clan/show/'. $clan->id);
         }
 
         $applicant = Sentry::findUserById($application->user_id);
         $applicantProfile = $applicant->profile;
 
-        if ($applicant->inGroup($auth['officerGroup'])) {
+        if($applicant->inGroup($auth['officerGroup'])){
             $applicant->removeGroup($auth['officerGroup']);
         }
-        if ($applicant->inGroup($auth['leaderGroup'])) {
+        if($applicant->inGroup($auth['leaderGroup'])){
             $applicant->removeGroup($auth['leaderGroup']);
         }
 
-        if (!$applicant->inGroup($auth['adminGroup'])) {
+        if(!$applicant->inGroup($auth['adminGroup'])){
             $applicant->addGroup($auth['gruntGroup']);
         }
 
-        // Update CouchDB ServerGroup
-        if (!is_null($applicantProfile->remote_id)) {
-            $couchAPI = new Alive\CouchAPI();
-            $result = $couchAPI->updateClanMember($applicantProfile->a3_id, $applicantProfile->username, $clan->tag,
-                $applicantProfile->remote_id);
-
-            if (isset($result['response'])) {
-                if (isset($result['response']->rev)) {
-                    $remoteId = $result['response']->rev;
-                    $applicantProfile->remote_id = $remoteId;
-                }
-            }
-        }
+		// Update CouchDB ServerGroup
+		if(!is_null($applicantProfile->remote_id)){
+			$couchAPI = new Alive\CouchAPI();
+			$result = $couchAPI->updateClanMember($applicantProfile->a3_id, $applicantProfile->username, $clan->tag, $applicantProfile->remote_id);
+			
+			if(isset($result['response'])){
+				if(isset($result['response']->rev)){
+					$remoteId = $result['response']->rev;
+					$applicantProfile->remote_id = $remoteId;
+				}
+			}				
+		}		
 
         $applicantProfile->clan_id = $clan->id;
         $applicantProfile->save();
 
-        forEach ($applicant->applications as $application) {
+        forEach($applicant->applications as $application){
             $application->delete();
         }
 
         Alert::success('You have accepted the applicant into your group.')->flash();
-        return Redirect::to('admin/clan/show/' . $clan->id);
+        return Redirect::to('admin/clan/show/'. $clan->id);
 
     }
 
-    /**
-     * Deny an application
-     *
-     * @param int $id The ID of the application to deny
-     * @return mixed
-     */
     public function postDeny($id)
     {
 
@@ -485,7 +421,7 @@ class AdminApplicationController extends BaseController
 
         if (!$auth['isAdmin'] && $profile->clan_id != $clan->id) {
             Alert::error('You don\'t have access to that application.')->flash();
-            return Redirect::to('admin/clan/show/' . $clan->id);
+            return Redirect::to('admin/clan/show/'. $clan->id);
         }
 
         $application->denied = true;
@@ -493,8 +429,7 @@ class AdminApplicationController extends BaseController
         $application->save();
 
         Alert::success('Application denied.')->flash();
-        return Redirect::to('admin/clan/show/' . $clan->id);
+        return Redirect::to('admin/clan/show/'. $clan->id);
 
     }
-
 }

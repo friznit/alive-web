@@ -1,9 +1,7 @@
 <?php
-
 use Alive\CouchAPI;
 
-class AdminServerController extends BaseController
-{
+class AdminServerController extends BaseController {
 
     public function __construct()
     {
@@ -15,11 +13,8 @@ class AdminServerController extends BaseController
 
     }
 
-    /**
-     * List the servers
-     *
-     * @return mixed
-     */
+    // List ------------------------------------------------------------------------------------------------------------
+
     public function getIndex()
     {
 
@@ -31,15 +26,10 @@ class AdminServerController extends BaseController
             return View::make('admin/server.index')->with($data);
         } else {
             Alert::error('Sorry.')->flash();
-            return Redirect::to('admin/user/show/' . $auth['userId']);
+            return Redirect::to('admin/user/show/'.$auth['userId']);
         }
     }
 
-    /**
-     * Get the performance of a server
-     *
-     * @return mixed
-     */
     public function getPerf()
     {
 
@@ -47,31 +37,27 @@ class AdminServerController extends BaseController
         $auth = $data['auth'];
 
         if ($auth['isAdmin']) {
-            $couchAPI = new Alive\CouchAPI();
-            $serversPerf = $couchAPI->getServerPerfCheck();
-            $serversPerf = json_decode($serversPerf);
-            $serversPerf = (array)$serversPerf->rows;
-            $result = array();
-            $i = 0;
-            foreach ($serversPerf as $value) {
-                $result[$i] = $value->key;
-                $i++;
-            }
-            $data['serversPerf'] = $result;
-            $data['allServers'] = Server::whereIn('ip', $result)->paginate(10);
+			$couchAPI = new Alive\CouchAPI();
+			$serversPerf = $couchAPI->getServerPerfCheck();
+			$serversPerf = json_decode($serversPerf);
+			$serversPerf = (array) $serversPerf->rows;
+			$result = array();
+			$i = 0;
+			foreach ($serversPerf as $value)
+			{
+				$result[$i] = $value->key;
+				$i++;
+			}
+			$data['serversPerf'] = $result;
+            $data['allServers'] = Server::whereIn('ip',$result)->paginate(10);
 
             return View::make('admin/server.perf')->with($data);
         } else {
             Alert::error('Sorry.')->flash();
-            return Redirect::to('admin/user/show/' . $auth['userId']);
+            return Redirect::to('admin/user/show/'.$auth['userId']);
         }
     }
-
-    /**
-     * Search for servers
-     *
-     * @return mixed
-     */
+	
     public function postSearch()
     {
 
@@ -83,7 +69,7 @@ class AdminServerController extends BaseController
             'type' => Input::get('type')
         );
 
-        $rules = array(
+        $rules = array (
             'query' => 'required',
             'type' => 'required|alpha',
         );
@@ -99,15 +85,15 @@ class AdminServerController extends BaseController
                 $query = $input['query'];
                 $type = $input['type'];
 
-                switch ($type) {
+                switch($type){
                     case 'name':
-                        $servers = Server::where('servers.name', 'LIKE', '%' . $query . '%');
+                        $servers = Server::where('servers.name', 'LIKE', '%'.$query.'%');
                         break;
                     case 'hostname':
-                        $servers = Server::where('servers.hostname', 'LIKE', '%' . $query . '%');
+                        $servers = Server::where('servers.hostname', 'LIKE', '%'.$query.'%');
                         break;
                     case 'ip':
-                        $servers = Server::where('servers.ip', 'LIKE', '%' . $query . '%');
+                        $servers = Server::where('servers.ip', 'LIKE', '%'.$query.'%');
                         break;
                 }
 
@@ -121,17 +107,12 @@ class AdminServerController extends BaseController
 
             } else {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/user/show/' . $auth['userId']);
+                return Redirect::to('admin/user/show/'.$auth['userId']);
             }
         }
     }
-
-    /**
-     * Search performance
-     *
-     * @return mixed
-     */
-    public function postPerfsearch()
+	
+	public function postPerfsearch()
     {
 
         $data = get_default_data();
@@ -142,7 +123,7 @@ class AdminServerController extends BaseController
             'type' => Input::get('type')
         );
 
-        $rules = array(
+        $rules = array (
             'query' => 'required',
             'type' => 'required|alpha',
         );
@@ -157,34 +138,34 @@ class AdminServerController extends BaseController
 
                 $query = $input['query'];
                 $type = $input['type'];
-
-                $couchAPI = new Alive\CouchAPI();
-                $serversPerf = $couchAPI->getServerPerfCheck();
-                $serversPerf = json_decode($serversPerf);
-                $serversPerf = (array)$serversPerf->rows;
-                $result = array();
-                $i = 0;
-                foreach ($serversPerf as $value) {
-                    $result[$i] = $value->key;
-                    $i++;
-                }
-                $data['serversPerf'] = $result;
-
-                switch ($type) {
+				
+				$couchAPI = new Alive\CouchAPI();
+				$serversPerf = $couchAPI->getServerPerfCheck();
+				$serversPerf = json_decode($serversPerf);
+				$serversPerf = (array) $serversPerf->rows;
+				$result = array();
+				$i = 0;
+				foreach ($serversPerf as $value)
+				{
+					$result[$i] = $value->key;
+					$i++;
+				}
+				$data['serversPerf'] = $result;
+				
+                switch($type){
                     case 'name':
-                        $servers = Server::where('servers.name', 'LIKE', '%' . $query . '%')->whereIn('ip', $result);
+                        $servers = Server::where('servers.name', 'LIKE', '%'.$query.'%')->whereIn('ip',$result);
                         break;
                     case 'hostname':
-                        $servers = Server::where('servers.hostname', 'LIKE', '%' . $query . '%')->whereIn('ip',
-                            $result);
+                        $servers = Server::where('servers.hostname', 'LIKE', '%'.$query.'%')->whereIn('ip',$result);
                         break;
                     case 'ip':
-                        $servers = Server::where('servers.ip', 'LIKE', '%' . $query . '%')->whereIn('ip', $result);
+                        $servers = Server::where('servers.ip', 'LIKE', '%'.$query.'%')->whereIn('ip',$result);
                         break;
                 }
 
                 $servers = $servers->paginate(10);
-
+	
                 $data['links'] = $servers->links();
                 $data['allServers'] = $servers;
                 $data['query'] = $query;
@@ -193,17 +174,13 @@ class AdminServerController extends BaseController
 
             } else {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/user/show/' . $auth['userId']);
+                return Redirect::to('admin/user/show/'.$auth['userId']);
             }
         }
     }
 
-    /**
-     * Create a new server
-     *
-     * @param int $id The ID of the clan to create a server for
-     * @return mixed
-     */
+    // Create ----------------------------------------------------------------------------------------------------------
+
     public function getCreate($id)
     {
 
@@ -216,12 +193,6 @@ class AdminServerController extends BaseController
 
     }
 
-    /**
-     * Create a new server via POST for a clan
-     *
-     * @param int $id The ID Of the clan
-     * @return mixed
-     */
     public function postCreate($id)
     {
 
@@ -235,17 +206,8 @@ class AdminServerController extends BaseController
             'note' => Input::get('note'),
         );
 
-        /**
-         * Create a validator for alpha numeric spaces.
-         * TODO: Whack this in a service provider (when I'm not at work..)
-         */
-        Validator::extend('alpha_spaces', function($attribute, $value)
-        {
-            return preg_match('/(^[A-Za-z0-9 ]+$)+/', $value);
-        });
-
-        $rules = array(
-            'name' => 'required|alpha_spaces',
+        $rules = array (
+            'name' => 'required|alpha_num',
             'hostname' => 'required',
             'ip' => 'required',
         );
@@ -253,7 +215,7 @@ class AdminServerController extends BaseController
         $v = Validator::make($input, $rules);
 
         if ($v->fails()) {
-            return Redirect::to('admin/server/create/' . $id)->withErrors($v)->withInput()->with($data);
+            return Redirect::to('admin/server/create/'.$id)->withErrors($v)->withInput()->with($data);
         } else {
 
             $currentUser = $auth['user'];
@@ -263,17 +225,17 @@ class AdminServerController extends BaseController
 
             if (!$auth['isAdmin'] && !$auth['isLeader'] && !$auth['isOfficer']) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/' . $id);
+                return Redirect::to('admin/clan/show/'.$id);
             }
 
-            if (!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id) {
+            if(!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id){
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/clan/show/' . $id);
+                return Redirect::to('admin/clan/show/'.$id);
             }
 
-            if (!$auth['isAdmin'] && $auth['isOfficer'] && $profile->clan_id != $clan->id) {
+            if(!$auth['isAdmin'] && $auth['isOfficer'] && $profile->clan_id != $clan->id){
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/clan/show/' . $id);
+                return Redirect::to('admin/clan/show/'.$id);
             }
 
             $server = new Server;
@@ -284,19 +246,15 @@ class AdminServerController extends BaseController
             $server->clan_id = $id;
             $server->key = $this->_generatePassword(32);
 
-            if ($server->save()) {
-                return Redirect::to('admin/server/edit/' . $server->id);
+            if($server->save()){
+                return Redirect::to('admin/server/edit/'.$server->id);
             }
 
         }
     }
 
-    /**
-     * Show a server by ID
-     *
-     * @param int $id The ID of the server to show
-     * @return mixed
-     */
+    // Show ------------------------------------------------------------------------------------------------------------
+
     public function getShow($id)
     {
 
@@ -315,12 +273,8 @@ class AdminServerController extends BaseController
 
     }
 
-    /**
-     * Edit a server
-     *
-     * @param int $id The ID of the server to edit
-     * @return mixed
-     */
+    // Edit ------------------------------------------------------------------------------------------------------------
+
     public function getEdit($id)
     {
 
@@ -338,26 +292,20 @@ class AdminServerController extends BaseController
             $data['clan'] = $clan;
             return View::make('admin/server.edit')->with($data);
         } elseif ($auth['isLeader'] || $auth['isOfficer']) {
-            if ($profile->clan_id == $clan->id) {
+            if($profile->clan_id == $clan->id){
                 $data['server'] = $server;
                 $data['clan'] = $clan;
                 return View::make('admin/server.edit')->with($data);
-            } else {
+            }else{
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/' . $id);
+                return Redirect::to('admin/clan/show/'.$id);
             }
         } else {
             Alert::error('You don\'t have access to that group.')->flash();
-            return Redirect::to('admin/clan/show/' . $id);
+            return Redirect::to('admin/clan/show/'.$id);
         }
     }
 
-    /**
-     * Edit a server
-     *
-     * @param int $id The ID of the server to edit
-     * @return mixed
-     */
     public function postEdit($id)
     {
 
@@ -371,7 +319,7 @@ class AdminServerController extends BaseController
             'note' => Input::get('note'),
         );
 
-        $rules = array(
+        $rules = array (
             'name' => 'required',
             'hostname' => 'required',
             'ip' => 'required',
@@ -381,7 +329,7 @@ class AdminServerController extends BaseController
         $v = Validator::make($input, $rules);
 
         if ($v->fails()) {
-            return Redirect::to('admin/server/edit/' . $id)->withErrors($v)->withInput()->with($data);
+            return Redirect::to('admin/server/edit/'.$id)->withErrors($v)->withInput()->with($data);
         } else {
 
             $currentUser = $auth['user'];
@@ -390,17 +338,17 @@ class AdminServerController extends BaseController
 
             if (!$auth['isAdmin'] && !$auth['isLeader'] && !$auth['isOfficer']) {
                 Alert::error('You don\'t have access to that group.')->flash();
-                return Redirect::to('admin/clan/show/' . $id);
+                return Redirect::to('admin/clan/show/'.$id);
             }
 
-            if (!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id) {
+            if(!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id){
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/clan/show/' . $id);
+                return Redirect::to('admin/clan/show/'.$id);
             }
 
-            if (!$auth['isAdmin'] && $auth['isOfficer'] && $profile->clan_id != $clan->id) {
+            if(!$auth['isAdmin'] && $auth['isOfficer'] && $profile->clan_id != $clan->id){
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/clan/show/' . $id);
+                return Redirect::to('admin/clan/show/'.$id);
             }
 
             $server = Server::find($id);
@@ -410,20 +358,16 @@ class AdminServerController extends BaseController
             $server->ip = trim($input['ip']);
             $server->note = $input['note'];
 
-            if ($server->save()) {
+            if($server->save()){
                 Alert::success('Server updated.')->flash();
-                return Redirect::to('admin/clan/show/' . $clan->id);
+                return Redirect::to('admin/clan/show/'.$clan->id);
             }
 
         }
     }
 
-    /**
-     * ?
-     *
-     * @param $id
-     * @return mixed
-     */
+    // Delete ----------------------------------------------------------------------------------------------------------
+
     public function getConfig($id)
     {
 
@@ -437,17 +381,17 @@ class AdminServerController extends BaseController
 
         if (!$auth['isAdmin'] && !$auth['isLeader'] && !$auth['isOfficer']) {
             Alert::error('You don\'t have access to that group.')->flash();
-            return Redirect::to('admin/clan/show/' . $id);
+            return Redirect::to('admin/clan/show/'.$id);
         }
 
-        if (!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id) {
+        if(!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id){
             Alert::error('Sorry.')->flash();
-            return Redirect::to('admin/clan/show/' . $id);
+            return Redirect::to('admin/clan/show/'.$id);
         }
 
-        if (!$auth['isAdmin'] && $auth['isOfficer'] && $profile->clan_id != $clan->id) {
+        if(!$auth['isAdmin'] && $auth['isOfficer'] && $profile->clan_id != $clan->id){
             Alert::error('Sorry.')->flash();
-            return Redirect::to('admin/clan/show/' . $id);
+            return Redirect::to('admin/clan/show/'.$id);
         }
 
         $data['clan'] = $clan;
@@ -458,16 +402,12 @@ class AdminServerController extends BaseController
             'Content-Type' => 'application/x-tt',
             'Content-Disposition' => 'inline;filename=alive.cfg',
         );
-        return Response::make($content, 200, $headers);
+        return Response::make( $content, 200, $headers );
 
     }
 
-    /**
-     * Delete a server
-     *
-     * @param int $id The ID of the server to delete
-     * @return mixed
-     */
+    // Delete ----------------------------------------------------------------------------------------------------------
+
     public function postDelete($id)
     {
 
@@ -481,12 +421,12 @@ class AdminServerController extends BaseController
 
         if (!$auth['isAdmin'] && !$auth['isLeader']) {
             Alert::error('You don\'t have access to that group.')->flash();
-            return Redirect::to('admin/clan/show/' . $id);
+            return Redirect::to('admin/clan/show/'.$id);
         }
 
-        if (!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id) {
+        if(!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id){
             Alert::error('You don\'t have access to that group.')->flash();
-            return Redirect::to('admin/clan/show/' . $id);
+            return Redirect::to('admin/clan/show/'.$id);
         }
 
         $server = Server::find($id);
@@ -494,19 +434,13 @@ class AdminServerController extends BaseController
         $server->delete();
 
         Alert::success('Server deleted.')->flash();
-        return Redirect::to('admin/clan/show/' . $clan->id);
+        return Redirect::to('admin/clan/show/'.$clan->id);
 
     }
 
-    /**
-     * Generate a strong password
-     *
-     * @param int $length
-     * @param int $strength
-     * @return string The generated password
-     */
-    private function _generatePassword($length = 9, $strength = 4)
-    {
+    // Password Generate -----------------------------------------------------------------------------------------------
+
+    private function _generatePassword($length=9, $strength=4) {
         $vowels = 'aeiouy';
         $consonants = 'bcdfghjklmnpqrstvwxz';
         if ($strength & 1) {
@@ -535,5 +469,4 @@ class AdminServerController extends BaseController
         }
         return $password;
     }
-
 }

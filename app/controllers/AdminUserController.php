@@ -1,15 +1,13 @@
 <?php
-
 use Alive\UploadHandler;
 use Alive\CouchAPI;
 use Tempo\TempoDebug;
 
-class AdminUserController extends BaseController
-{
+class AdminUserController extends BaseController {
 
     public function __construct()
     {
-        // Check CSRF token on POST
+        //Check CSRF token on POST
         $this->beforeFilter('csrf', array('on' => 'post'));
 
         // Get the Throttle Provider
@@ -23,11 +21,8 @@ class AdminUserController extends BaseController
 
     }
 
-    /**
-     * Get a list of users
-     *
-     * @return mixed
-     */
+    // Lists -----------------------------------------------------------------------------------------------------------
+
     public function getIndex()
     {
         $data = get_default_data();
@@ -57,27 +52,22 @@ class AdminUserController extends BaseController
                     $data['userStatus'][$user->id] = "Not Active";
                 }
 
-                if ($user->suspended == '1') {
+                if($user->suspended == '1') {
                     $data['userStatus'][$user->id] = "Suspended";
                 }
 
-                if ($user->banned == '1') {
+                if($user->banned == '1') {
                     $data['userStatus'][$user->id] = "Banned";
                 }
             }
 
             return View::make('admin/user.index')->with($data);
-        } else {
+        }else{
             Alert::error('Sorry.')->flash();
-            return Redirect::to('admin/user/show/' . $auth['userId']);
+            return Redirect::to('admin/user/show/'.$auth['userId']);
         }
     }
 
-    /**
-     * Search users by POST
-     *
-     * @return mixed
-     */
     public function postSearch()
     {
         $data = get_default_data();
@@ -88,7 +78,7 @@ class AdminUserController extends BaseController
             'type' => Input::get('type')
         );
 
-        $rules = array(
+        $rules = array (
             'query' => 'required',
             'type' => 'required|alpha',
         );
@@ -104,19 +94,19 @@ class AdminUserController extends BaseController
 
             if ($auth['isAdmin']) {
 
-                $users = Sentry::getUserProvider()->getEmptyUser()
+                $users =  Sentry::getUserProvider()->getEmptyUser()
                     ->join('throttle', 'throttle.user_id', '=', 'users.id')
                     ->join('profiles', 'profiles.user_id', '=', 'users.id');
 
-                switch ($type) {
+                switch($type){
                     case 'id':
                         $users = $users->where('users.id', $query);
                         break;
                     case 'email':
-                        $users = $users->where('email', 'LIKE', '%' . $query . '%');
+                        $users = $users->where('email', 'LIKE', '%'.$query.'%');
                         break;
                     case 'userName':
-                        $users = $users->where('profiles.username', 'LIKE', '%' . $query . '%');
+                        $users = $users->where('profiles.username', 'LIKE', '%'.$query.'%');
                         break;
                 }
 
@@ -130,11 +120,11 @@ class AdminUserController extends BaseController
                         $data['userStatus'][$user->id] = "Not Active";
                     }
 
-                    if ($user->suspended == '1') {
+                    if($user->suspended == '1') {
                         $data['userStatus'][$user->id] = "Suspended";
                     }
 
-                    if ($user->banned == '1') {
+                    if($user->banned == '1') {
                         $data['userStatus'][$user->id] = "Banned";
                     }
                 }
@@ -144,19 +134,15 @@ class AdminUserController extends BaseController
                 $data['query'] = $query;
 
                 return View::make('admin/user.search')->with($data);
-            } else {
+            }else{
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/user/show/' . $auth['userId']);
+                return Redirect::to('admin/user/show/'.$auth['userId']);
             }
         }
     }
 
-    /**
-     * Show a user by ID
-     *
-     * @param int $id The ID of the user requested
-     * @return mixed
-     */
+    // Show ------------------------------------------------------------------------------------------------------------
+
     public function getShow($id)
     {
 
@@ -170,7 +156,7 @@ class AdminUserController extends BaseController
                 $user = Sentry::getUserProvider()->findById($id);
 
                 $applicationCount = $user->applications->count();
-                if ($applicationCount > 0) {
+                if($applicationCount > 0){
                     $data['applications'] = $user->applications->all();
                 }
 
@@ -182,21 +168,17 @@ class AdminUserController extends BaseController
 
             } else {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/user/show/' . $auth['userId']);
+                return Redirect::to('admin/user/show/'.$auth['userId']);
             }
 
         } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
             Alert::error('There was a problem accessing that account.')->flash();
-            return Redirect::to('admin/user/show/' . $auth['userId']);
+            return Redirect::to('admin/user/show/'.$auth['userId']);
         }
     }
 
-    /**
-     * Edit a user
-     *
-     * @param int $id The user ID to edit
-     * @return mixed
-     */
+    // Edit ------------------------------------------------------------------------------------------------------------
+
     public function getEdit($id)
     {
         try {
@@ -206,7 +188,7 @@ class AdminUserController extends BaseController
 
             if ($auth['isAdmin']) {
                 $data['ageGroup'] = get_age_group_data();
-                $data['countries'] = DB::table('countries')->lists('name', 'iso_3166_2');
+                $data['countries'] = DB::table('countries')->lists('name','iso_3166_2');
                 $data['user'] = Sentry::getUserProvider()->findById($id);
                 $data['userGroups'] = $data['user']->getGroups();
                 $data['profile'] = $data['user']->profile;
@@ -215,7 +197,7 @@ class AdminUserController extends BaseController
 
             } elseif ($auth['userId'] == $id) {
                 $data['ageGroup'] = get_age_group_data();
-                $data['countries'] = DB::table('countries')->lists('name', 'iso_3166_2');
+                $data['countries'] = DB::table('countries')->lists('name','iso_3166_2');
                 $data['user'] = Sentry::getUserProvider()->findById($id);
                 $data['userGroups'] = $data['user']->getGroups();
                 $data['profile'] = $data['user']->profile;
@@ -223,23 +205,16 @@ class AdminUserController extends BaseController
 
             } else {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/user/show/' . $auth['userId']);
+                return Redirect::to('admin/user/show/'.$auth['userId']);
             }
 
         } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
             Alert::error('There was a problem accessing this account.')->flash();
-            return Redirect::to('admin/user/show/' . $auth['userId']);
+            return Redirect::to('admin/user/show/'.$auth['userId']);
         }
     }
 
-    /**
-     * Edit a user by POST
-     *
-     * @param int $id The user ID to edit
-     * @return mixed
-     */
-    public function postEdit($id)
-    {
+    public function postEdit($id) {
 
         $data = get_default_data();
         $auth = $data['auth'];
@@ -263,7 +238,7 @@ class AdminUserController extends BaseController
             */
         );
 
-        $rules = array(
+        $rules = array (
             'username' => 'required',
             'a3ID' => 'required',
         );
@@ -286,15 +261,15 @@ class AdminUserController extends BaseController
 
                     if ($user->save()) {
 
-                        if ($input['country'] != '') {
-                            $countries = DB::table('countries')->lists('name', 'iso_3166_2');
+                        if($input['country'] != ''){
+                            $countries = DB::table('countries')->lists('name','iso_3166_2');
                             $countryName = $countries[$input['country']];
                             $profile->country = $input['country'];
                             $profile->country_name = $countryName;
                         }
 
                         $cloudCreate = false;
-                        if (is_null($profile->a3_id)) {
+                        if(is_null($profile->a3_id)){
                             $cloudCreate = true;
                         }
 
@@ -316,30 +291,30 @@ class AdminUserController extends BaseController
 
                         if ($profile->save()) {
 
-                            if ($cloudCreate) {
+                            if($cloudCreate){
                                 $couchAPI = new Alive\CouchAPI();
                                 $result = $couchAPI->createClanMember($profile->a3_id, $profile->username, $clan->tag);
 
-                                if (isset($result['response'])) {
-                                    if (isset($result['response']->rev)) {
+                                if(isset($result['response'])){
+                                    if(isset($result['response']->rev)){
                                         $remoteId = $result['response']->rev;
                                         $profile->remote_id = $remoteId;
                                         $profile->save();
 
                                         Alert::success('Member connected to the cloud data store.')->flash();
-                                        return Redirect::to('admin/user/show/' . $auth['userId']);
-                                    } else {
+                                        return Redirect::to('admin/user/show/'.$auth['userId']);
+                                    }else{
                                         Alert::error('There was an error connecting to the cloud data store, please try again later.')->flash();
-                                        return Redirect::to('admin/user/show/' . $auth['userId']);
+                                        return Redirect::to('admin/user/show/'.$auth['userId']);
                                     }
-                                } else {
+                                }else{
                                     Alert::error('There was an error connecting to the cloud data store, please try again later.')->flash();
-                                    return Redirect::to('admin/user/show/' . $auth['userId']);
+                                    return Redirect::to('admin/user/show/'.$auth['userId']);
                                 }
                             }
 
                             Alert::success('Profile updated.')->flash();
-                            return Redirect::to('admin/user/show/' . $id);
+                            return Redirect::to('admin/user/show/'. $id);
                         }
                     } else {
                         Alert::error('Profile could not be updated.')->flash();
@@ -356,20 +331,15 @@ class AdminUserController extends BaseController
 
             } else {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/user/show/' . $auth['userId']);
+                return Redirect::to('admin/user/show/'.$auth['userId']);
             }
 
         }
     }
+	
+    // Avatar ----------------------------------------------------------------------------------------------------------
 
-    /**
-     * Allow the user to change their avatar by POST
-     *
-     * @param int $id The ID of the user to edit
-     * @return mixed
-     */
-    public function postChangeavatar($id)
-    {
+    public function postChangeavatar($id) {
 
         $data = get_default_data();
         $auth = $data['auth'];
@@ -378,7 +348,7 @@ class AdminUserController extends BaseController
             'avatar' => Input::file('avatar'),
         );
 
-        $rules = array(
+        $rules = array (
             'avatar' => 'mimes:jpeg,bmp,png',
         );
 
@@ -400,7 +370,7 @@ class AdminUserController extends BaseController
 
                     if ($profile->save()) {
                         Alert::success('Profile updated.')->flash();
-                        return Redirect::to('admin/user/show/' . $id);
+                        return Redirect::to('admin/user/show/'. $id);
                     } else {
                         Alert::error('Profile could not be updated.')->flash();
                         return Redirect::to('admin/user/edit/' . $id);
@@ -416,19 +386,14 @@ class AdminUserController extends BaseController
 
             } else {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/user/show/' . $auth['userId']);
+                return Redirect::to('admin/user/show/'.$auth['userId']);
             }
         }
     }
 
-    /**
-     * Change the users password by POST
-     *
-     * @param int $id The id of the user to edit
-     * @return mixed
-     */
-    public function postChangepassword($id)
-    {
+    // Password --------------------------------------------------------------------------------------------------------
+
+    public function postChangepassword($id) {
 
         $data = get_default_data();
         $auth = $data['auth'];
@@ -439,7 +404,7 @@ class AdminUserController extends BaseController
             'newPassword_confirmation' => Input::get('newPassword_confirmation')
         );
 
-        $rules = array(
+        $rules = array (
             'oldPassword' => 'required|min:6',
             'newPassword' => 'required|min:6|confirmed',
             'newPassword_confirmation' => 'required'
@@ -461,7 +426,7 @@ class AdminUserController extends BaseController
 
                         if ($user->save()) {
                             Alert::success('Your password has been changed.')->flash();
-                            return Redirect::to('admin/user/show/' . $id);
+                            return Redirect::to('admin/user/show/'. $id);
                         } else {
                             Alert::error('Your password could not be changed.')->flash();
                             return Redirect::to('admin/user/edit/' . $id);
@@ -484,22 +449,15 @@ class AdminUserController extends BaseController
 
             } else {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/user/show/' . $auth['userId']);
+                return Redirect::to('admin/user/show/'.$auth['userId']);
             }
         }
     }
 
-    /**
-     * Clear the reset password status
-     *
-     * TODO: Put proper redundancies on $id
-     *
-     * @param int|null $id The ID of the user to edit
-     */
-    public function getClearReset($id = null)
+    public function getClearReset($userId = null)
     {
         try {
-            $user = Sentry::getUserProvider()->findById($id);
+            $user = Sentry::getUserProvider()->findById($userId);
 
             $user->clearResetPassword();
 
@@ -509,12 +467,8 @@ class AdminUserController extends BaseController
         }
     }
 
-    /**
-     * Change a user's email by post
-     *
-     * @param int $id The ID of the user to edit
-     * @return mixed
-     */
+    // Email -----------------------------------------------------------------------------------------------------------
+
     public function postChangeemail($id)
     {
 
@@ -527,7 +481,7 @@ class AdminUserController extends BaseController
             'newEmail_confirmation' => Input::get('newEmail_confirmation')
         );
 
-        $rules = array(
+        $rules = array (
             'oldEmail' => 'required|email',
             'newEmail' => 'required|email|confirmed',
             'newEmail_confirmation' => 'required'
@@ -549,7 +503,7 @@ class AdminUserController extends BaseController
 
                     if ($user->save()) {
                         Alert::success('Your email has been changed.')->flash();
-                        return Redirect::to('admin/user/show/' . $id);
+                        return Redirect::to('admin/user/show/'. $id);
                     } else {
                         Alert::error('Your email could not be changed.')->flash();
                         return Redirect::to('admin/user/edit/' . $id);
@@ -567,17 +521,13 @@ class AdminUserController extends BaseController
 
             } else {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/user/show/' . $auth['userId']);
+                return Redirect::to('admin/user/show/'.$auth['userId']);
             }
         }
     }
 
-    /**
-     * Update a user's memberships
-     *
-     * @param int $id The user's ID
-     * @return mixed
-     */
+    // User Groups -----------------------------------------------------------------------------------------------------
+
     public function postUpdatememberships($id)
     {
 
@@ -610,11 +560,11 @@ class AdminUserController extends BaseController
                 }
 
                 Alert::success($statusMessage)->flash();
-                return Redirect::to('admin/user/show/' . $id);
+                return Redirect::to('admin/user/show/'. $id);
 
             } else {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/user/show/' . $auth['userId']);
+                return Redirect::to('admin/user/show/'.$auth['userId']);
             }
 
         } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
@@ -626,12 +576,8 @@ class AdminUserController extends BaseController
         }
     }
 
-    /**
-     * Form to suspend a user
-     *
-     * @param int $id The ID of the user you want to suspend
-     * @return mixed
-     */
+    // Suspend ---------------------------------------------------------------------------------------------------------
+
     public function getSuspend($id)
     {
         $data = get_default_data();
@@ -650,16 +596,10 @@ class AdminUserController extends BaseController
 
         } else {
             Alert::error('Sorry.')->flash();
-            return Redirect::to('admin/user/show/' . $auth['userId']);
+            return Redirect::to('admin/user/show/'.$auth['userId']);
         }
     }
 
-    /**
-     * Suspend a user by POST
-     *
-     * @param int $id The ID of the user to suspend
-     * @return mixed
-     */
     public function postSuspend($id)
     {
 
@@ -670,7 +610,7 @@ class AdminUserController extends BaseController
             'suspendTime' => Input::get('suspendTime')
         );
 
-        $rules = array(
+        $rules = array (
             'suspendTime' => 'required|numeric'
         );
 
@@ -688,7 +628,7 @@ class AdminUserController extends BaseController
                     $throttle->suspend();
 
                     Alert::success("User has been suspended for " . $input['suspendTime'] . " minutes.")->flash();
-                    return Redirect::to('admin/user/show/' . $id);
+                    return Redirect::to('admin/user/show/'. $id);
 
                 } catch (Cartalyst\Sentry\UserNotFoundException $e) {
                     Alert::error('There was a problem accessing that user\s account.')->flash();
@@ -697,17 +637,13 @@ class AdminUserController extends BaseController
 
             } else {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/user/show/' . $auth['userId']);
+                return Redirect::to('admin/user/show/'.$auth['userId']);
             }
         }
     }
 
-    /**
-     * Delete a user by POST
-     *
-     * @param int $id The ID of the user to delete
-     * @return mixed
-     */
+    // Delete ----------------------------------------------------------------------------------------------------------
+
     public function postDelete($id)
     {
 
@@ -724,7 +660,7 @@ class AdminUserController extends BaseController
 
                 $applications = $user->applications->all();
 
-                foreach ($applications as $application) {
+                foreach($applications as $application){
                     $application->delete();
                 }
 
@@ -739,9 +675,9 @@ class AdminUserController extends BaseController
 
                 if ($user->delete()) {
 
-                    if ($auth['userId'] == $id) {
+                    if($auth['userId'] == $id){
                         return Redirect::to('/');
-                    } else {
+                    }else{
                         Alert::success('User deleted.')->flash();
                         return Redirect::to('admin/user');
                     }
@@ -753,7 +689,7 @@ class AdminUserController extends BaseController
 
             } else {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/user/show/' . $auth['userId']);
+                return Redirect::to('admin/user/show/'.$auth['userId']);
             }
 
         } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
@@ -765,39 +701,30 @@ class AdminUserController extends BaseController
         }
     }
 
-    /**
-     * Upload images form
-     *
-     * @return mixed
-     */
-    public function getUploadimages()
-    {
-        $data = get_default_data();
+	// Upload Mod Images -----------------------------------------------------------------------------------------------
+	public function getUploadimages()
+	{
+		$data = get_default_data();
         $auth = $data['auth'];
 
         return View::make('admin/user.uploadimages')->with($data);
-    }
+	}
+/*
+	public function postFiles()
+	{
+		$data = get_default_data();
+        $auth = $data['auth'];
+		
+		error_reporting(E_ALL | E_STRICT);
+		
+		$upload_handler = new UploadHandler();	
 
-    /*
-        public function postFiles()
-        {
-            $data = get_default_data();
-            $auth = $data['auth'];
+        return View::make('admin/user.uploadimages')->with($data);		
+	}
+*/
+	
+    // Cloud connect ---------------------------------------------------------------------------------------------------
 
-            error_reporting(E_ALL | E_STRICT);
-
-            $upload_handler = new UploadHandler();
-
-            return View::make('admin/user.uploadimages')->with($data);
-        }
-    */
-
-    /**
-     * Connect to the cloud
-     *
-     * @param int $id The user to connect to the cloud
-     * @return mixed
-     */
     public function getConnect($id)
     {
 
@@ -815,39 +742,39 @@ class AdminUserController extends BaseController
 
                 $clan = Clan::find($clan_id);
 
-                if (!is_null($profile->remote_id)) {
+                if(!is_null($profile->remote_id)){
                     Alert::error('Already connected to cloud data store.')->flash();
-                    return Redirect::to('admin/user/show/' . $auth['userId']);
+                    return Redirect::to('admin/user/show/'.$auth['userId']);
                 }
 
-                if (is_null($profile->a3_id)) {
+                if(is_null($profile->a3_id)){
                     Alert::error('You need to add your Arma 3 player id to your profile to connect to the cloud.')->flash();
-                    return Redirect::to('admin/user/show/' . $auth['userId']);
+                    return Redirect::to('admin/user/show/'.$auth['userId']);
                 }
 
                 $couchAPI = new Alive\CouchAPI();
                 $result = $couchAPI->createClanMember($profile->a3_id, $profile->username, $clan->tag);
 
-                if (isset($result['response'])) {
-                    if (isset($result['response']->rev)) {
+                if(isset($result['response'])){
+                    if(isset($result['response']->rev)){
                         $remoteId = $result['response']->rev;
                         $profile->remote_id = $remoteId;
                         $profile->save();
 
                         Alert::success('Member connected to the cloud data store.')->flash();
-                        return Redirect::to('admin/user/show/' . $auth['userId']);
-                    } else {
+                        return Redirect::to('admin/user/show/'.$auth['userId']);
+                    }else{
                         Alert::error('There was an error connecting to the cloud data store, please try again later.')->flash();
-                        return Redirect::to('admin/user/show/' . $auth['userId']);
+                        return Redirect::to('admin/user/show/'.$auth['userId']);
                     }
-                } else {
+                }else{
                     Alert::error('There was an error connecting to the cloud data store, please try again later.')->flash();
-                    return Redirect::to('admin/user/show/' . $auth['userId']);
+                    return Redirect::to('admin/user/show/'.$auth['userId']);
                 }
 
             } else {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/user/show/' . $auth['userId']);
+                return Redirect::to('admin/user/show/'.$auth['userId']);
             }
 
         } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
@@ -859,12 +786,6 @@ class AdminUserController extends BaseController
         }
     }
 
-    /**
-     * Debug cloud connection
-     *
-     * @param int $id The user to attempt connection with
-     * @return mixed
-     */
     public function getConnectdebug($id)
     {
 
@@ -884,20 +805,20 @@ class AdminUserController extends BaseController
                 TempoDebug::dump($profile->toArray());
                 TempoDebug::dump($clan->toArray());
 
-                TempoDebug::message('Connection test for group : ' . $clan->name . ' [' . $clan->tag . ']');
+                TempoDebug::message('Connection test for group : ' . $clan->name . ' [' .  $clan->tag . ']');
 
-                if (!is_null($clan->remote_id)) {
+                if(!is_null($clan->remote_id)){
                     TempoDebug::message('Group remote_id is set rev id: ' . $clan->remote_id);
                     TempoDebug::message('Get group couch profile..');
 
                     $couchAPI = new Alive\CouchAPI();
                     $result = $couchAPI->getClanUser($clan->key, $clan->password);
 
-                    if (isset($result['response'])) {
+                    if(isset($result['response'])){
                         $response = $result['response'];
-                        if (isset($response->error)) {
+                        if(isset($response->error)){
                             TempoDebug::dump($response);
-                        } else {
+                        }else{
                             TempoDebug::dump($response);
                         }
                     }
@@ -906,17 +827,17 @@ class AdminUserController extends BaseController
                 $couchAPI = new Alive\CouchAPI();
                 $result = $couchAPI->getClanUser($clan->key, $clan->password);
 
-                if (isset($result['response'])) {
+                if(isset($result['response'])){
                     $response = $result['response'];
-                    if (isset($response->error)) {
+                    if(isset($response->error)){
 
                         TempoDebug::message('Attempt to create couch group user..');
                         TempoDebug::dump($response);
 
                         $result = $couchAPI->createClanUser($clan->key, $clan->password, $clan->tag);
 
-                        if (isset($result['response'])) {
-                            if (isset($result['response']->rev)) {
+                        if(isset($result['response'])){
+                            if(isset($result['response']->rev)){
                                 $remoteId = $result['response']->rev;
                                 $clan->remote_id = $remoteId;
                                 $clan->save();
@@ -929,7 +850,7 @@ class AdminUserController extends BaseController
 
                 TempoDebug::message('Connection test for player : ' . $profile->username);
 
-                if (!is_null($profile->remote_id)) {
+                if(!is_null($profile->remote_id)){
 
                     TempoDebug::message('Profile remote_id is set rev id: ' . $profile->remote_id);
                     TempoDebug::message('Get player couch profile..');
@@ -937,7 +858,7 @@ class AdminUserController extends BaseController
                     $couchAPI = new Alive\CouchAPI();
                     $result = $couchAPI->getClanMember($profile->a3_id);
 
-                    if (isset($result['response'])) {
+                    if(isset($result['response'])){
                         $response = $result['response'];
                         TempoDebug::dump($response);
                     }
@@ -945,7 +866,7 @@ class AdminUserController extends BaseController
                     exit;
                 }
 
-                if (is_null($profile->a3_id) || $profile->a3_id == '') {
+                if(is_null($profile->a3_id) || $profile->a3_id == ''){
                     TempoDebug::message('Players profile A3ID is not set!');
                     exit;
                 }
@@ -953,22 +874,22 @@ class AdminUserController extends BaseController
                 $couchAPI = new Alive\CouchAPI();
                 $result = $couchAPI->getClanMember($profile->a3_id);
 
-                if (isset($result['response'])) {
+                if(isset($result['response'])){
                     $response = $result['response'];
 
                     TempoDebug::message('Get player couch profile..');
 
-                    if (isset($response->error)) {
+                    if(isset($response->error)){
 
                         TempoDebug::dump($response);
                         TempoDebug::message('Attempt to create couch profile..');
 
                         $result = $couchAPI->createClanMember($profile->a3_id, $profile->username, $clan->tag);
-                        if (isset($result['response'])) {
+                        if(isset($result['response'])){
                             $response = $result['response'];
-                            if (isset($response->error)) {
-                            } else {
-                                if (isset($response->rev)) {
+                            if(isset($response->error)){
+                            }else{
+                                if(isset($response->rev)){
                                     $remoteId = $response->rev;
                                     $profile->remote_id = $remoteId;
                                     $profile->save();
@@ -976,7 +897,7 @@ class AdminUserController extends BaseController
                                 }
                             }
                         }
-                    } else {
+                    }else{
 
                         TempoDebug::dump($response);
 
@@ -989,7 +910,7 @@ class AdminUserController extends BaseController
 
             } else {
                 Alert::error('Sorry.')->flash();
-                return Redirect::to('admin/user/show/' . $auth['userId']);
+                return Redirect::to('admin/user/show/'.$auth['userId']);
             }
 
         } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
@@ -1000,13 +921,10 @@ class AdminUserController extends BaseController
             return Redirect::to('admin/user/edit/' . $id);
         }
     }
+	
+	// Email
 
-    /**
-     * Form to edit a user's email
-     *
-     * @return mixed
-     */
-    public function getEmail()
+	 public function getEmail()
     {
 
         $data = get_default_data();
@@ -1015,20 +933,11 @@ class AdminUserController extends BaseController
         return View::make('admin/user/email')->with($data);
 
     }
+	
 
-    /**
-     * Edit a user's email by POST
-     *
-     * TODO: Does this work?
-     * TODO: Clean this up.
-     *
-     * @return mixed
-     * @throws Exception
-     * @throws Mandrill_Error
-     */
-    public function postEmail()
+	public function postEmail()
     {
-        $data = get_default_data();
+ 		$data = get_default_data();
         $auth = $data['auth'];
 
         /*
@@ -1047,144 +956,144 @@ class AdminUserController extends BaseController
         } else {
         */
 
-        $currentUser = $auth['user'];
-        $profile = $auth['profile'];
+            $currentUser = $auth['user'];
+            $profile = $auth['profile'];
 
-        if (!$auth['isAdmin']) {
-            Alert::error('You don\'t have access to do that.')->flash();
-            return Redirect::to('admin/user/index');
-        }
-
-        $date = new \DateTime;
-        $nowTime = time();
-
-        $content = View::make('emails/bulk/manw')->render();
-
-        $result = DB::select('select * from bulk_email where id =?', array(1));
-
-        echo '<a href="' . url('admin/user/index') . '">Go Back</a><br/><br/>';
-
-        if (count($result) == 0) {
-            DB::table('bulk_email')->insert(array('count' => 0, 'created_at' => $date, 'updated_at' => $date));
-            $count = 0;
-        } else {
-            $count = (int)$result[0]->count;
-            $updated_at = strtotime($result[0]->updated_at);
-            $timeDiff = $nowTime - $updated_at;
-
-            /*
-            if($timeDiff < 3600) {
-                $window = floor((3600 - $timeDiff) / 100);
-                echo 'Last called less than one hour ago, next window opens in ' . $window . ' minutes.';
-                exit;
+            if (!$auth['isAdmin']) {
+                Alert::error('You don\'t have access to do that.')->flash();
+                return Redirect::to('admin/user/index');
             }
-            */
 
-        }
+            $date = new \DateTime;
+            $nowTime = time();
 
-        $users = DB::table('users')
-            ->skip($count)
-            ->take(1000)
-            ->get();
+            $content = View::make('emails/bulk/manw')->render();
 
-        if (count($users)) {
+            $result = DB::select('select * from bulk_email where id =?', array(1));
 
-            echo count($users) . " users found<br/><br/>";
+            echo '<a href="' . url('admin/user/index') . '">Go Back</a><br/><br/>';
 
-            $toSend = 0;
+            if(count($result) == 0){
+                DB::table('bulk_email')->insert(array('count' => 0,'created_at' => $date,'updated_at' => $date));
+                $count = 0;
+            }else{
+                $count = (int) $result[0]->count;
+                $updated_at = strtotime($result[0]->updated_at);
+                $timeDiff = $nowTime-$updated_at;
 
-            foreach ($users as $user) {
+                /*
+                if($timeDiff < 3600) {
+                    $window = floor((3600 - $timeDiff) / 100);
+                    echo 'Last called less than one hour ago, next window opens in ' . $window . ' minutes.';
+                    exit;
+                }
+                */
 
-                $user = (array)$user;
+            }
 
-                $user_id = $user['id'];
-                $email = $user['email'];
-                $isSystemAddress = strstr($email, 'alivemod.com');
+            $users = DB::table('users')
+                ->skip($count)
+                ->take(1000)
+                ->get();
 
-                if ($isSystemAddress == false) {
+            if(count($users)){
 
-                    echo 'sending to user id: ' . $user_id . ' ' . $email . '<br>';
+                echo count($users) . " users found<br/><br/>";
 
-                    $toSend++;
+                $toSend = 0;
 
-                    $to_array = [
-                        [
-                            'email' => $email,
-                            //'email' => 'unsub-test@testing.mandrillapp.com',
-                            //'email' => 'tupolov73@gmail.com',
-                            'name' => 'ALiVE user',
-                            'type' => 'to'
-                        ]
-                    ];
+                foreach($users as $user){
 
-                    try {
+                    $user = (array) $user;
 
-                        $mandrill = new Mandrill('9vhpxeW9tOS4PEtcPhtmyA');
-                        //$mandrill = new Mandrill('AkPMcwIKlP87oLU2aJaPsg'); // test key
-                        $message = array(
-                            'html' => $content,
-                            'text' => '',
-                            'subject' => 'ALiVE Mod Update: 0.9.4 Released!',
-                            'from_email' => 'noreply@alivemod.com',
-                            'from_name' => 'Arma 3 ALIVE Mod Team',
-                            'to' => $to_array,
-                            'headers' => array('Reply-To' => 'noreply@alivemod.com'),
-                            'important' => false,
-                            'track_opens' => null,
-                            'track_clicks' => null,
-                            'auto_text' => null,
-                            'auto_html' => null,
-                            'inline_css' => null,
-                            'url_strip_qs' => null,
-                            'preserve_recipients' => null,
-                            'view_content_link' => null,
-                            'tracking_domain' => null,
-                            'signing_domain' => null,
-                            'return_path_domain' => null
-                        );
-                        $async = false;
+                    $user_id = $user['id'];
+                    $email = $user['email'];
+                    $isSystemAddress = strstr($email,'alivemod.com');
 
-                        $result = $mandrill->messages->send($message, $async);
+                    if($isSystemAddress == false){
 
-                        if ($result[0]['status'] == 'sent') {
-                            echo 'sent to: ' . $email . '<br>';
+                        echo 'sending to user id: ' . $user_id . ' ' . $email . '<br>';
 
-                        } else {
-                            var_dump($result);
+                        $toSend++;
+
+                        $to_array = [
+                            [
+                                'email' => $email,
+                                //'email' => 'unsub-test@testing.mandrillapp.com',
+                                //'email' => 'tupolov73@gmail.com',
+                                'name' => 'ALiVE user',
+                                'type' => 'to'
+                            ]
+                        ];
+
+                        try {
+
+                            $mandrill = new Mandrill('9vhpxeW9tOS4PEtcPhtmyA');
+                            //$mandrill = new Mandrill('AkPMcwIKlP87oLU2aJaPsg'); // test key
+                            $message = array(
+                                'html' => $content,
+                                'text' => '',
+                                'subject' => 'ALiVE Mod Update: 0.9.4 Released!',
+                                'from_email' => 'noreply@alivemod.com',
+                                'from_name' => 'Arma 3 ALIVE Mod Team',
+                                'to' => $to_array,
+                                'headers' => array('Reply-To' => 'noreply@alivemod.com'),
+                                'important' => false,
+                                'track_opens' => null,
+                                'track_clicks' => null,
+                                'auto_text' => null,
+                                'auto_html' => null,
+                                'inline_css' => null,
+                                'url_strip_qs' => null,
+                                'preserve_recipients' => null,
+                                'view_content_link' => null,
+                                'tracking_domain' => null,
+                                'signing_domain' => null,
+                                'return_path_domain' => null
+                            );
+                            $async = false;
+
+                            $result = $mandrill->messages->send($message, $async);
+
+                            if($result[0]['status'] == 'sent') {
+                                echo 'sent to: ' . $email . '<br>';
+
+                            }else{
+                                var_dump($result);
+                            }
+
+                        } catch(Mandrill_Error $e) {
+                            echo 'A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage();
+                            throw $e;
                         }
 
-                    } catch (Mandrill_Error $e) {
-                        echo 'A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage();
-                        throw $e;
+                        //exit;
+
                     }
-
-                    //exit;
-
                 }
+
+                $count += 1000;
+
+                DB::table('bulk_email')
+                    ->where('id', 1)
+                    ->update(array('count' => $count,'created_at' => $date,'updated_at' => $date));
+            }else{
+                echo "all emails sent!<br/>";
+
+                /*
+                DB::table('bulk_email')
+                    ->where('id', 1)
+                    ->update(array('count' => 0,'created_at' => $date,'updated_at' => $date));
+                */
             }
 
-            $count += 1000;
-
-            DB::table('bulk_email')
-                ->where('id', 1)
-                ->update(array('count' => $count, 'created_at' => $date, 'updated_at' => $date));
-        } else {
-            echo "all emails sent!<br/>";
-
             /*
-            DB::table('bulk_email')
-                ->where('id', 1)
-                ->update(array('count' => 0,'created_at' => $date,'updated_at' => $date));
+			Alert::success('You have successfully sent an email to all users.')->flash();
+			return Redirect::to('admin/user/index');
             */
-        }
-
-        /*
-        Alert::success('You have successfully sent an email to all users.')->flash();
-        return Redirect::to('admin/user/index');
-        */
 
         //}
-    }
+    }	
 
 }
 
