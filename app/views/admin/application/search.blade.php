@@ -41,7 +41,7 @@
                 <tbody>
                 @foreach ($allClans as $clan)
                 <tr>
-                    <td><a href="{{ URL::to('admin/clan/show') }}/{{ $clan->id }}"><img src="{{ $clan->avatar->url('tiny') }}" onerror="this.src='{{ URL::to('/') }}/avatars/tiny/clan.png';"></a></td>
+                    <td><a href="{{ URL::to('admin/clan/show') }}/{{ $clan->id }}"><img src="{{ $clan->avatar->url('tiny') }}" ></a></td>
                     <td><a href="{{ URL::to('admin/clan/show') }}/{{ $clan->id }}">{{{ $clan->name }}}</a></td>
                     <td>
                         <?php

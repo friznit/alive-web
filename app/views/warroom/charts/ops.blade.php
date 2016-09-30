@@ -42,7 +42,7 @@ text: 'Operation AO',
 
 {{-- Chart Tooltip --}}
 @section('chart_tooltip')
-return '<b>' + this.point.name + ' Operations: '+ this.y + '</b> ';
+return '<b>' + (this.point.name.charAt(0).toUpperCase() + this.point.name.slice(1)) + ' Operations: '+ this.y + '</b> ';
 @overwrite
 
 {{-- Chart Element --}}

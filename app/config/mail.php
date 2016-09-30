@@ -15,7 +15,7 @@ return array(
 	|
 	*/
 
-	'driver' => 'mail',
+	'driver' => 'smtp',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return array(
 	|
 	*/
 
-	'host' => 'mail.alivemod.com',
+	'host' => 'mail.iinet.net.au',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-    'from' => array('address' => 'admin@alivemod.com', 'name' => 'ALiVE Admin'),
+    'from' => array('address' => 'andyj@netspace.net.au', 'name' => 'Andy Johnston'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => 'admin@alivemod.com',
+	'username' => null,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => 'adsf;lk32',
+	'password' => null,
 
 	/*
 	|--------------------------------------------------------------------------

@@ -11,6 +11,7 @@ use Imagine\Gd\Font;
 use Gravatar;
 use Config;
 
+// TODO: Format with PSR and PHPDoc
 
 class SigGenerate {
 
@@ -23,7 +24,7 @@ class SigGenerate {
         $username = $data['username'];
 		$useremail = $data['email'];
         $playerdata = $data['playerdata'];
-		if (!empty($data['clan'])) {
+		if ($data['clan']) {
        	 $clan = json_decode($data['clan']);
 		}
         $avatar = $data['avatar'];
@@ -69,7 +70,7 @@ class SigGenerate {
 			$flag = $this->imagine->open($public.'/img/flags_iso/24/_United Nations.png');
 		}
 				
-        $sig = $this->imagine->create(new Box(600, 100));
+        $sig = $this->imagine->create(new Box(601, 100));
 
         $avatar = $this->resizeAuto($avatar, 100, 100);
         $clantar = $this->resizeAuto($clantar, 95, 95);
@@ -95,11 +96,7 @@ class SigGenerate {
 			$name = $username;
 		}
 
-		if (!empty($data['clan'])) {
-        	$mainTitle = '['.$clan->tag.'] ' . $name . ' - ' .$clan->name;
-		} else{
-			$mainTitle = '[JTFHQ]' . $name . ' - Joint Task Force';
-		}
+        $mainTitle = '['.$clan->tag.'] ' . $name . ' - ' .$clan->name;
 
         $sig->draw()->text($mainTitle, $titleFont, new Point(135, 5), 0);
 
