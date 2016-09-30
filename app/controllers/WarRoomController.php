@@ -7,7 +7,7 @@ class WarRoomController extends BaseController {
 
     public function __construct()
     {
-        //Check CSRF token on POST
+        // Check CSRF token on POST
         $this->beforeFilter('csrf', array('on' => 'post'));
 
         // Authenticated access only
@@ -24,9 +24,9 @@ class WarRoomController extends BaseController {
 
         $cacheKey = 'home';
 
-       if (Cache::has($cacheKey)) {
-           $content = Cache::get($cacheKey);
-       }else{
+        if (Cache::has($cacheKey)) {
+            $content = Cache::get($cacheKey);
+        }else{
 
             // AO data
 
@@ -82,8 +82,6 @@ class WarRoomController extends BaseController {
 
                 $clan->couchData = $couchAPI->getGroupTotalsByTag($clan->tag);
 
-                $clan->lastop = $couchAPI->getGroupLastOp($clan->tag);
-
                 $clanorbat = $clan->orbat();
                 $orbattype = $clanorbat['type'];
                 $orbatsize = $clanorbat['size'];
@@ -127,7 +125,7 @@ class WarRoomController extends BaseController {
 
             $content = View::make('warroom/home.index')->with($data)->render();
             Cache::add($cacheKey, $content, 60);
-       }
+        }
 
 
         $header = View::make('warroom/layouts/home_header')->render();
@@ -137,16 +135,23 @@ class WarRoomController extends BaseController {
         return $header . $nav . $content . $footer;
     }
 
-    // Personnel -------------------------------------------------------------------------------------------------------
-
+    /**
+     * Get a personnel list
+     *
+     * @return mixed
+     */
     public function getPersonnel()
     {
         $data = get_default_data();
         return View::make('warroom/personnel.index')->with($data);
     }
-	
-	    // Show ------------------------------------------------------------------------------------------------------------
 
+    /**
+     * Show personnel by ArmAID
+     *
+     * @param int $armaid The ArmA id to request
+     * @return mixed
+     */
     public function getShowpersonnel($armaid)
     {
 
@@ -201,14 +206,22 @@ class WarRoomController extends BaseController {
 
     }
 
-    // Operations ------------------------------------------------------------------------------------------------------
-
+    /**
+     * Get the War Room operations list
+     *
+     * @return mixed
+     */
     public function getOperations()
     {
         $data = get_default_data();
         return View::make('warroom/operations.index')->with($data);
     }
-	
+
+    /**
+     * Show an operation by GET query strings
+     *
+     * @return mixed
+     */
 	public function getShowoperation()
     {
 		$name = Input::get('name');
@@ -224,9 +237,12 @@ class WarRoomController extends BaseController {
 
         return View::make('warroom/operations.show')->with($data);
     }
-	
-	// Orbat -------------------------------------------------------------------------------------------------------
 
+    /**
+     * Get a list of ORBATs
+     *
+     * @return mixed
+     */
     public function getOrbat()
     {
         $data = get_default_data();
@@ -247,9 +263,13 @@ class WarRoomController extends BaseController {
 
         return View::make('warroom/orbat.index')->with($data);
     }
-	
-	// Show ------------------------------------------------------------------------------------------------------------
 
+    /**
+     * Show a specific ORBAT by ID
+     *
+     * @param int $id The ID of the ORBAT to show
+     * @return mixed
+     */
     public function getShoworbat($id)
     {
 
@@ -296,4 +316,5 @@ class WarRoomController extends BaseController {
         }
 
     }
+
 }

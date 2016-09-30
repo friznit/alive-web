@@ -83,8 +83,8 @@
 
             var data = {{$dev->couchData}};
             var myIcon = new groupIcon({
-                iconSize:     [50, 50], // size of the icon
-                shadowSize:   [50, 50], // size of the shadowicon
+                iconSize:     [40, 40], // size of the icon
+                shadowSize:   [40, 40], // size of the shadowicon
                 shadowUrl: '{{ URL::to('/') }}/img/icons/w_{{$dev->sizeicon}}.png',
                 iconUrl: '{{ URL::to('/') }}/img/icons/b_{{$dev->icon}}.png'});
             var marker = new MyCustomMarker(map.unproject([data.globalX,data.globalY], map.getMaxZoom()), {
@@ -115,46 +115,19 @@
         @foreach ($clans as $clan)
 
             var data = {{$clan->couchData}};
-
-
 			if (!(data.Operations)) {
 					var myIcon = new groupIcon({
 						iconUrl: '{{ URL::to('/') }}/img/icons/dot.png', 
 						shadowURL: '{{URL::to('/') }}/img/icons/dotshadow.png',
-						iconSize:     [4, 4], // size of the icon
-						shadowSize:   [4, 4], // size of the shadow
-                        iconAnchor: [2, 2],  // point of the icon which will correspond to markers location
-						shadowAnchor: [2, 2]  // the same for the shadow
+						iconSize:     [10, 10], // size of the icon
+						shadowSize:   [10, 10], // size of the shadow
+						shadowAnchor: [5, 5]  // the same for the shadow
 					});		
 			} else {
-
-                var clanLastOp = {{$clan->lastop}};             
-                var lastop = clanLastOp.date;                  
-                var lsystem_date = new Date(lastop);
-                var luser_date = new Date();
-                var ldiff = Math.floor((luser_date - lsystem_date) / 1000);
-
-                var iconSizer = 30 - Math.round(ldiff / 777600);
-
-                if (ldiff < 15552000) {
            		 var myIcon = new groupIcon({
-                        iconSize: [iconSizer,iconSizer],
-                        shadowSize: [iconSizer,iconSizer],
-                        iconAnchor:   [iconSizer/2, iconSizer/2], 
-                        shadowAnchor: [iconSizer/2, iconSizer/2],                        
 					 	shadowUrl: '{{ URL::to('/') }}/img/icons/w_group_0.png',
 						iconUrl: '{{ URL::to('/') }}/img/icons/b_{{$clan->icon}}.png'
 					});
-                } else {
-                    var myIcon = new groupIcon({
-                        iconUrl: '{{ URL::to('/') }}/img/icons/dot.png', 
-                        shadowURL: '{{URL::to('/') }}/img/icons/dotshadow.png',
-                        iconSize:     [10, 10], // size of the icon
-                        shadowSize:   [10, 10], // size of the shadow
-                        iconAnchor:   [5, 5], // point of the icon which will correspond to markers location
-                        shadowAnchor: [5, 5]  // the same for the shadow
-                    });                 
-                }
 			}
             var marker = new MyCustomMarker(map.unproject([{{$clan->lon}},{{$clan->lat}}], map.getMaxZoom()), {
                 icon: myIcon
@@ -176,7 +149,7 @@
 				return true;
 			}
 			
-            var popup = L.popup({maxWidth:400})
+            var popup = L.popup()
                 .setContent("<table><tr><td colspan='2'><div class='strip'>Unit</div></td></tr><tr><td><img width='100' src='{{ $clan->avatar->url('thumb') }}' onerror='this.src=\"http://alivemod.com/avatars/thumb/clan.png\"'></td><td>" +
                     "<div class='unit-popup'>" +
                     "<p>" +
@@ -185,8 +158,7 @@
                     " <img src='{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($clan->country) }}.png' alt='{{ $clan->country_name }}' title='{{ $clan->country_name }}' width='18' height='18'/><br/>" +
                     "<span class='highlight'>OPS:</span> " + data.Operations + " <span class='highlight'>| EKIA:</span> " + data.Kills + " <span class='highlight'>| LOSSES:</span> " + data.Deaths + "</br>" +
                     "<span class='highlight'>HRS:</span> " + Math.round((data.CombatHours / 60)*10)/10 + " <span class='highlight'>| AMMO:</span> " + data.ShotsFired + "</br>" +
-                    "<span class='highlight'>VEHICLE HRS:</span> " + Math.round((data.VehicleTime / 60)*10)/10 + " <span class='highlight'>| FLIGHT HRS:</span> " + Math.round((data.PilotTime / 60)*10)/10 + "</br>" +
-                    "<span class='highlight'>LAST OP:</span> " + clanLastOp.Operation + "</br>" + parseArmaDate(lastop) +                                  
+                    "<span class='highlight'>VEHICLE HRS:</span> " + Math.round((data.VehicleTime / 60)*10)/10 + " <span class='highlight'>| FLIGHT HRS:</span> " + Math.round((data.PilotTime / 60)*10)/10 +
                     "</p>" +
                     "</div></td></tr></table>");
 

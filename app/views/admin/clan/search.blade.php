@@ -31,9 +31,6 @@
                             <label class="radio-inline">
                                 <input type="radio" name="type" value="name" checked> by Name
                             </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="type" value="tag" checked> by Tag
-                            </label>                           
                         </div>
                     </div>
                 </div>
@@ -44,7 +41,6 @@
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Tag</th>                   
                     <th>Options</th>
                 </tr>
                 </thead>
@@ -52,7 +48,6 @@
                 @foreach ($allClans as $clan)
                 <tr>
                     <td><a href="{{ URL::to('admin/clan/show') }}/{{ $clan->id }}">{{{ $clan->name }}}</a></td>
-                    <td><a href="{{ URL::to('admin/clan/show') }}/{{ $clan->id }}">{{{ $clan->tag }}}</a></td>                   
                     <td>
                         <button class="btn btn-default" onClick="location.href='{{ URL::to('admin/clan/edit') }}/{{ $clan->id}}'">Edit</button>
                         <button class="btn btn-default action_confirm" href="{{ URL::to('admin/clan/delete') }}/{{ $clan->id}}" data-token="{{ Session::getToken() }}" data-method="post">Delete</button>

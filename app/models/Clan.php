@@ -1,18 +1,20 @@
 <?php
 
-class Clan extends Eloquent {
+class Clan extends Eloquent
+{
 
     use Codesleeve\Stapler\Stapler;
 
-	protected $guarded = array();
-	public static $rules = array();
+    protected $guarded = array();
+    public static $rules = array();
 
-    public function __construct(array $attributes = array()) {
+    public function __construct(array $attributes = array())
+    {
         $this->hasAttachedFile('avatar', [
             'styles' => [
-            'medium' => 'x300',
-            'thumb' => 'x100',
-            'tiny' => 'x40'
+                'medium' => 'x300',
+                'thumb' => 'x100',
+                'tiny' => 'x40'
             ]
         ]);
 
@@ -21,14 +23,16 @@ class Clan extends Eloquent {
 
     public function members()
     {
-       return $this->hasMany('Profile');
+        return $this->hasMany('Profile');
     }
 
-    public function applications() {
+    public function applications()
+    {
         return $this->hasMany('Application');
     }
 
-    public function servers() {
+    public function servers()
+    {
         return $this->hasMany('Server');
     }
 
