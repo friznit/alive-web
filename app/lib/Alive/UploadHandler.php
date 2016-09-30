@@ -10,8 +10,6 @@
  * http://www.opensource.org/licenses/MIT
  */
 
-// TODO: Format with PSR and PHPDoc
-
 class UploadHandler
 {
     protected $options;

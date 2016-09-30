@@ -55,9 +55,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'alive_db',
-			'username'  => 'root',
-			'password'  => 'root',
+			'database'  => 'alivemod_db',
+			'username'  => 'alivemod_dbuser',
+			'password'  => 'asdvbAETRhdsgj23',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

@@ -28,7 +28,7 @@ return [
 	|
 	*/
 
-	'path' => ':laravel_root/public:url',
+	'path' => ':laravel_root/html:url',
 
 	/*
 	|--------------------------------------------------------------------------

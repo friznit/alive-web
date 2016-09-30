@@ -22,7 +22,7 @@ class AddCountriesToClanTable extends Migration {
     {
         Schema::table('clans', function(Blueprint $table)
         {
-            $table->dropColumn('country_name');
+            $table->string("country_name")->nullable();
         });
     }
 

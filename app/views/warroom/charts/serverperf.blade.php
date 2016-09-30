@@ -8,7 +8,7 @@ $(function() {
 	var seriesOptions = [],
 		yAxisOptions = [],
 		seriesCounter = 0,
-		names = ['Players','FPS','FPSMIN','CPS','Objects','Agents','Entities','Triggers','AllDead','Vehicles','REMAI','LOCAI','ActiveProf','InactiveProf','UnitsProf','VehProf','Mem','CPU','IORead','IOWrite','DiskQueue','Threads'],
+		names = ['Players','FPS','FPSMIN','CPS','Objects','Agents','Entities','Triggers','AllDead','Vehicles','REMAI','LOCAI','ActiveProf','InactiveProf','UnitsProf','VehProf','Mem','CPU','IORead','Threads','DiskQueue','IOWrite'],
 		colors = Highcharts.getOptions().colors;
 
 	$.each(names, function(i, name) {
@@ -71,7 +71,7 @@ $(function() {
                 }
             },
 		    rangeSelector: {
-		        selected: 4,
+		        selected: 0,
                 inputEnabled: false,
                 buttonTheme: { // styles for the buttons
                     fill: 'none',
@@ -97,6 +97,42 @@ $(function() {
                         }
                     }
                 },
+				buttons: [
+				{
+					type: 'minute',
+					count: 240,
+					text: '4h'
+				},				{
+					type: 'day',
+					count: 1,
+					text: '1d'
+				},				{
+					type: 'week',
+					count: 1,
+					text: '1w'
+				},				{
+					type: 'month',
+					count: 1,
+					text: '1m'
+				}, {
+					type: 'month',
+					count: 3,
+					text: '3m'
+				}, {
+					type: 'month',
+					count: 6,
+					text: '6m'
+				}, {
+					type: 'ytd',
+					text: 'YTD'
+				}, {
+					type: 'year',
+					count: 1,
+					text: '1y'
+				}, {
+					type: 'all',
+					text: 'All'
+				}],				
                 labelStyle: {
                     color: 'silver',
                     fontWeight: 'bold'

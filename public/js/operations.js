@@ -81,6 +81,7 @@ function parseArmaDate(input) {
     var system_date = new Date(input);
     var user_date = new Date();
     var diff = Math.floor((user_date - system_date) / 1000);
+    if (diff < 0) {return "on " + system_date;}
     if (diff <= 1) {return "just now";}
     if (diff < 20) {return diff + " seconds ago";}
     if (diff < 40) {return "half a minute ago";}
@@ -91,10 +92,14 @@ function parseArmaDate(input) {
     if (diff <= 86400) {return Math.round(diff / 3600) + " hours ago";}
     if (diff <= 129600) {return "1 day ago";}
     if (diff < 604800) {return Math.round(diff / 86400) + " days ago";}
-    if (diff <= 777600) {return "1 week ago";}
-		if (diff > 777600) {return "Over a week ago";}
+    if (diff <= 907200) {return "1 week ago";}
+    if (diff < 2419200) {return Math.round(diff / 604800) + " weeks ago";}
+    if (diff <= 3888000) {return "1 month ago";}
+    if (diff < 15552000) {return Math.round(diff / 2592000) + " months ago";}
+    if (diff => 15552000) {return "Over 6 months ago";}
     return "on " + system_date;
 }
+
 
 
 

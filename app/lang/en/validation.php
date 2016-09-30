@@ -71,16 +71,6 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Custom Validation Rules
-	|--------------------------------------------------------------------------
-	|
-	| Custom rules created in app/validators.php
-	|
-	*/
-	"alpha_spaces"     => "The :attribute may only contain letters, numbers and spaces.",
-
-	/*
-	|--------------------------------------------------------------------------
 	| Custom Validation Language Lines
 	|--------------------------------------------------------------------------
 	|

@@ -28,8 +28,8 @@ class AddCountriesToProfileTable extends Migration {
 	{
 		Schema::table('profiles', function(Blueprint $table)
 		{
-            $table->dropColumn('country');
-            $table->dropColumn('country_name');
+            $table->string("country")->nullable();
+            $table->string("country_name")->nullable();
 		});
 	}
 
