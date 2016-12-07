@@ -17,6 +17,113 @@ class APIController extends BaseController {
         return preg_replace( "/[^0-9]/", "", $string );
     }
 
+    public function getAar()
+    {
+        $group = Input::get('clan');
+        $map = Input::get('map');
+        $operation = Input::get('name');
+
+        /* $group = "NSG"; */
+        /* $map = "Stratis"; */
+        /* $operation = "ALiVE | Getting Started"; */
+        /* $group = "102nd"; */
+        /* $map = "Takistan"; */
+        /* $operation = "MSEU_CO16_TSAF_1-1_Matze"; */
+        $group = "CSORQC";
+        $map = "Chernarus";
+        $operation = "Zone_Rouge";
+
+        return $this->R3($this->couchAPI->getAar($group, $map, $operation));
+    }
+
+    public function R3($data) {
+        /* ini_set('memory_limit', '2048M'); */
+
+        $map = [
+            'positions_infantry' => [
+                'unit'     => 'AAR_unit',
+                'id'       => 'AAR_playerUID',
+                'pos'      => 'AAR_pos',
+                'dir'      => 'AAR_dir',
+                'ico'      => 'AAR_ico',
+                'fac'      => 'AAR_side',
+                'grp'      => 'AAR_groupid',
+                'ldr'      => 'AAR_isLeader',
+            ],
+            'positions_vehicles' => [
+                'unit'     => 'AAR_unit',
+                'id'       => 'AAR_playerUID',
+                'pos'      => 'AAR_pos',
+                'dir'      => 'AAR_dir',
+                'cls'      => 'AAR_config',
+                'ico'      => 'AAR_ico',
+                'icp'      => '',
+                'fac'      => 'AAR_side',
+                'grp'      => 'AAR_groupid',
+                'crw'      => 'AAR_crew',
+                'cgo'      => 'AAR_cargo'
+            ]
+        ];
+
+        $sides = [
+            "EAST" => 0,
+            "WEST" => 1,
+            "GUER" => 2,
+            "CIV" => 3,
+            "UNKNOWN" => 3
+        ];
+
+        $result = [];
+
+        foreach ($data['response']['rows'] as $row) {
+            $nr = [];
+            $nr['playerId'] = '0';
+            $nr['type'] = $row['value']['type'];
+            /* $nr['missionTime'] = $row['value']['missionTime']; */
+            $nr['missionTime'] = count($result);
+
+            $type = $row['value']['type'];
+
+            foreach ($row['value']['value'] as $value) {
+                $nv = [];
+
+                foreach ($map[$type] as $k => $v) {
+                    if (isset($value[$v])) {
+                        if ($k === 'fac') {
+                            $nv[$k] = $sides[$value[$v]];
+                        } else {
+                            $nv[$k] = $value[$v];
+                        }
+                    } else {
+                        if ($k === 'ico') {
+                            if ($type === 'positions_infantry') {
+                                $nv[$k] = 'iconMan';
+                            } else if ($type === 'positions_vehicles') {
+                                $nv[$k] = 'iconCar';
+                            }
+                        } else {
+                            $nv[$k] = '';
+                        }
+                    }
+                }
+
+                /* $value = $nv; */
+                $nr['value'][] = $nv;
+            }
+
+            $nr['value'] = json_encode($nr['value']);
+
+            $result[] = $nr;
+        }
+
+        /* echo '<pre>'; */
+        /* print_r($result); */
+        /* echo '</pre>'; */
+
+        /* exit(); */
+        return $result;
+    }
+
 	public function getSig()
 	{
 		$armaid = Input::get('id');
