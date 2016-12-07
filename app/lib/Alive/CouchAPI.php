@@ -54,6 +54,20 @@ class CouchAPI {
         return $this->call($path, array(), $requestType);
     }
 
+    public function getAar($group, $map, $operation)
+    {
+        $group = rawurlencode($group);
+        $map = rawurlencode($map);
+        $operation = rawurlencode($operation);
+
+        $path = 'sys_aar/_design/AAR/_view/titan_aar?key=['
+            . '"' . $group . '",'
+            . '"' . $map . '",'
+            . '"' . $operation . '"]';
+
+        return $this->call($path, [], 'GET', true);
+    }
+
     public function getClanUser($name, $password)
     {
         $path = '_users/org.couchdb.user:' . $name;
