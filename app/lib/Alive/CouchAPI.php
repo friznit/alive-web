@@ -2134,7 +2134,7 @@ class CouchAPI {
         }
     }
 
-    public function call($path, $data=array(), $requestType='GET')
+    public function call($path, $data=array(), $requestType='GET', $associative = false)
     {
 
         $payload = json_encode($data);
@@ -2165,7 +2165,7 @@ class CouchAPI {
         $result = array();
         $result['info'] = curl_getinfo($ch);
         $result['error'] = curl_error($ch);
-        $result['response'] = json_decode($response);
+        $result['response'] = json_decode($response, $associative);
 
         if($this->debug){
             TempoDebug::stopProfile($profiler);
