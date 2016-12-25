@@ -180,9 +180,9 @@
                         <th>Donate</th>
                     </tr>
                     <tr class="success">
-                        <td>1.1.1.1607191</td>
-                        <td>Arma 3 Stable 1.62.137494</td>
-                        <td><a class="btn btn-primary btn-lg pull-right" href="http://alivemod.com/downloads/ALiVE_1.1.1.1607191.7z"><i class="fa fa-download"></i> Download</a></td>
+                        <td>1.2.3.1612051</td>
+                        <td>Arma 3 Stable 1.66 (Build 139494)</td>
+                        <td><a class="btn btn-primary btn-lg pull-right" href="https://github.com/ALiVEOS/ALiVE.OS/releases/download/v1.2.3.1612051/ALiVE_1.2.3.1612051.7z"><i class="fa fa-download"></i> Download</a></td>
  						<td><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                                 <input type="image" class="btn btn-yellow btn-lg" name="submit" alt="Voluntary Donation" style="margin-top: -10px;">
                                 <input type="hidden" name="cmd" value="_s-xclick">

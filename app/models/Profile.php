@@ -1,18 +1,19 @@
 <?php
 
-class Profile extends Eloquent {
-
+class Profile extends Eloquent
+{
     use Codesleeve\Stapler\Stapler;
 
-	protected $guarded = array();
-	public static $rules = array();
+    protected $guarded = array();
+    public static $rules = array();
 
-    public function __construct(array $attributes = array()) {
+    public function __construct(array $attributes = array())
+    {
         $this->hasAttachedFile('avatar', [
             'styles' => [
-            'medium' => 'x300',
-            'thumb' => 'x100',
-            'tiny' => 'x40'
+                'medium' => 'x300',
+                'thumb' => 'x100',
+                'tiny' => 'x40'
             ]
         ]);
 
@@ -21,10 +22,11 @@ class Profile extends Eloquent {
 
     public function user()
     {
-       return $this->belongsTo('User');
+        return $this->belongsTo('User');
     }
 
-    public function clan() {
+    public function clan()
+    {
         return $this->belongsTo('Clan');
     }
 
