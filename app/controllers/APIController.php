@@ -2,15 +2,18 @@
 
 use Alive\CouchAPI;
 use Alive\SigGenerate;
+use Alive\AfterActionReplay;
 use Tempo\TempoDebug;
 
 class APIController extends BaseController {
 
     private $couchAPI;
+    private $aar;
 
     public function __construct()
     {
         $this->couchAPI = new CouchAPI();
+        $this->aar = new AfterActionReplay();
     }
 
     function stripNonNumeric( $string ) {
@@ -19,109 +22,75 @@ class APIController extends BaseController {
 
     public function getAar()
     {
+        // Hopefully crashes on huge AARs
+        ini_set('memory_limit', '1024M');
+
         $group = Input::get('clan');
         $map = Input::get('map');
         $operation = Input::get('name');
 
-        /* $group = "NSG"; */
-        /* $map = "Stratis"; */
-        /* $operation = "ALiVE | Getting Started"; */
-        /* $group = "102nd"; */
-        /* $map = "Takistan"; */
-        /* $operation = "MSEU_CO16_TSAF_1-1_Matze"; */
-        $group = "CSORQC";
-        $map = "Chernarus";
-        $operation = "Zone_Rouge";
+        $rawEvents = $this->couchAPI->getOperationEvents($group, $map, $operation);
+        $events = $this->aar->convert($rawEvents);
 
-        return $this->R3($this->couchAPI->getAar($group, $map, $operation));
+        $rawAar = $this->couchAPI->getAar($group, $map, $operation);
+        $aar = $this->aar->convert($rawAar);
+
+        $final = array_merge($events, $aar);
+
+        usort($final, function($a, $b) {
+            $at = DateTime::createFromFormat('d/m/Y H:i:s', $a['realTime'])->getTimestamp();
+            $bt = DateTime::createFromFormat('d/m/Y H:i:s', $b['realTime'])->getTimestamp();
+            return ($at - $bt);
+        });
+
+        $count = 1;
+        $last = -1;
+        $high = -1;
+        $prev = null;
+        foreach ($final as &$a) {
+            $a['old'] = $a['missionTime'];
+
+            if ($last == -1) {
+                $last = $a['missionTime'];
+            }
+
+            if ($a['missionTime'] - $last >= 5 || $a['missionTime'] - $last < 0) {
+                $last = $a['missionTime'];
+                $count++;
+                $a['missionTime'] = $last;
+            } else {
+                $a['missionTime'] = $last;
+            }
+
+            if (intval($a['missionTime']) >= $high) {
+                $high = intval($a['missionTime']);
+            } else {
+                $a['missionTime'] = $high + intval($a['missionTime']);
+            }
+
+            $prev = $a;
+        }
+
+        return $final;
     }
 
-    public function R3($data) {
-        /* ini_set('memory_limit', '2048M'); */
+    public function getPlayersbyoperation()
+    {
+        $group = Input::get('clan');
+        $map = Input::get('map');
+        $operation = Input::get('name');
 
-        $map = [
-            'positions_infantry' => [
-                'unit'     => 'AAR_unit',
-                'id'       => 'AAR_playerUID',
-                'pos'      => 'AAR_pos',
-                'dir'      => 'AAR_dir',
-                'ico'      => 'AAR_ico',
-                'fac'      => 'AAR_side',
-                'grp'      => 'AAR_groupid',
-                'ldr'      => 'AAR_isLeader',
-            ],
-            'positions_vehicles' => [
-                'unit'     => 'AAR_unit',
-                'id'       => 'AAR_playerUID',
-                'pos'      => 'AAR_pos',
-                'dir'      => 'AAR_dir',
-                'cls'      => 'AAR_config',
-                'ico'      => 'AAR_ico',
-                'icp'      => '',
-                'fac'      => 'AAR_side',
-                'grp'      => 'AAR_groupid',
-                'crw'      => 'AAR_crew',
-                'cgo'      => 'AAR_cargo'
-            ]
-        ];
-
-        $sides = [
-            "EAST" => 0,
-            "WEST" => 1,
-            "GUER" => 2,
-            "CIV" => 3,
-            "UNKNOWN" => 3
-        ];
-
+        $data = $this->couchAPI->getPlayersByOperation($group, $map, $operation);
         $result = [];
 
         foreach ($data['response']['rows'] as $row) {
-            $nr = [];
-            $nr['playerId'] = '0';
-            $nr['type'] = $row['value']['type'];
-            /* $nr['missionTime'] = $row['value']['missionTime']; */
-            $nr['missionTime'] = count($result);
-
-            $type = $row['value']['type'];
-
-            foreach ($row['value']['value'] as $value) {
-                $nv = [];
-
-                foreach ($map[$type] as $k => $v) {
-                    if (isset($value[$v])) {
-                        if ($k === 'fac') {
-                            $nv[$k] = $sides[$value[$v]];
-                        } else {
-                            $nv[$k] = $value[$v];
-                        }
-                    } else {
-                        if ($k === 'ico') {
-                            if ($type === 'positions_infantry') {
-                                $nv[$k] = 'iconMan';
-                            } else if ($type === 'positions_vehicles') {
-                                $nv[$k] = 'iconCar';
-                            }
-                        } else {
-                            $nv[$k] = '';
-                        }
-                    }
-                }
-
-                /* $value = $nv; */
-                $nr['value'][] = $nv;
-            }
-
-            $nr['value'] = json_encode($nr['value']);
-
-            $result[] = $nr;
+            $result[] = [
+                'id' => $row['key'][3],
+                'name' => $row['key'][4]
+            ];
         }
 
-        /* echo '<pre>'; */
-        /* print_r($result); */
-        /* echo '</pre>'; */
-
-        /* exit(); */
-        return $result;
+        return json_encode($result);
     }
 
 	public function getSig()

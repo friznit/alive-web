@@ -12,6 +12,7 @@
             "bAutoWidth": true,
             "aaSorting": [[ 4, "desc" ]],
             "bProcessing" : true,
+            "bDeferRender": true,
             "aoColumnDefs": [
                 { "mData": "key", "aTargets": [ 0 ],
 				  "mRender" : function (data, type) {

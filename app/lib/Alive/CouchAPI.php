@@ -68,6 +68,36 @@ class CouchAPI {
         return $this->call($path, [], 'GET', true);
     }
 
+    public function getPlayersByOperation($group, $map, $operation)
+    {
+        $group = rawurlencode($group);
+        $map = rawurlencode($map);
+        $operation = rawurlencode($operation);
+
+        $key1 = '["'.$map.'","'.$group.'","'.$operation.'"]';
+        $key2 = '["'.$map.'","'.$group.'","'.$operation.'",{}]';
+        $path = 'events/_design/operationPage/_view/players_list_names'
+            . '?startkey='.$key1
+            . '&endkey='.$key2
+            . '&group=true';
+
+        return $this->call($path, [], 'GET', true);
+    }
+
+    public function getOperationEvents($group, $map, $operation)
+    {
+        $group = rawurlencode($group);
+        $map = rawurlencode($map);
+        $operation = rawurlencode($operation);
+
+        $path = 'events/_design/operationPage/_view/operation_events?key=['
+            . '"' . $map . '",'
+            . '"' . $group . '",'
+            . '"' . $operation . '"]';
+
+        return $this->call($path, [], 'GET', true);
+    }
+
     public function getClanUser($name, $password)
     {
         $path = '_users/org.couchdb.user:' . $name;
@@ -2128,6 +2158,8 @@ class CouchAPI {
 
     public function getCache($cacheKey)
     {
+        return false;
+
         if (\Cache::has($cacheKey) && !$this->reset && $this->cache) {
             $data = \Cache::get($cacheKey);
 
