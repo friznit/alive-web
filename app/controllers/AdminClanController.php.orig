@@ -350,11 +350,10 @@ class AdminClanController extends BaseController
             'lon' => Input::get('lon'),
         );
 
+        $rules = array(
 <<<<<<< HEAD
-        $rules = array (
             'name' => 'required|alpha_num',
 =======
-        $rules = array(
             'name' => 'required',
 >>>>>>> 2111035cc6ba25dad0aecd5a5a3387edee5e136d
             'website' => 'url',

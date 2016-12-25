@@ -154,44 +154,6 @@ class AdminAOController extends BaseController
             $ao->configName = $input['configName'];
             $ao->imageMapX = $input['imageMapX'];
             $ao->imageMapY = $input['imageMapY'];
-<<<<<<< HEAD
-			$ao->latitude = $input['latitude'];
-			$ao->longitude = $input['longitude'];
-
-            if($ao->save()){
-
-				ini_set('max_execution_time',600);
-				
-				// Create Tile request?
-				$url = 'http://db.alivemod.com/maps/tile.php?map=' . $ao->configName;
-				$ch = curl_init();
-				
-				curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0 );
-				curl_setopt($ch, CURLOPT_URL, $url);
-				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-				curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
-				curl_setopt($ch, CURLOPT_TIMEOUT, 600); //timeout in seconds
-		
-		        $response = curl_exec($ch);
-				
-				$result = array();
-				$result['info'] = curl_getinfo($ch);
-				$result['error'] = curl_error($ch);
-				$result['response'] = json_decode($response);	
-	
-				ini_set('max_execution_time',30);					
-				if (!$response) {
-               		Alert::success('You have successfully created an Area of Operation.')->flash();						
-					Alert::error('However, there was an error creating the map tiles.')->flash();
-					TempoDebug::dump($response);
-					TempoDebug::dump($result);					
-				} else {
-                	Alert::success('You have successfully created an Area of Operation. '.$response)->flash();
-					return Redirect::to('admin/ao/index');
-				}
-=======
             $ao->latitude = $input['latitude'];
             $ao->longitude = $input['longitude'];
 
@@ -200,7 +162,11 @@ class AdminAOController extends BaseController
                 ini_set('max_execution_time', 600);
 
                 // Create Tile request?
+<<<<<<< HEAD
+				$url = 'http://db.alivemod.com/maps/tile.php?map=' . $ao->configName;
+=======
                 $url = 'http://db.alivemod.com/maps/tile?map=' . $ao->configName;
+>>>>>>> 2111035cc6ba25dad0aecd5a5a3387edee5e136d
                 $ch = curl_init();
 
                 curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
@@ -228,7 +194,6 @@ class AdminAOController extends BaseController
                     Alert::success('You have successfully created an Area of Operation. ' . $response)->flash();
                     return Redirect::to('admin/ao/index');
                 }
->>>>>>> 2111035cc6ba25dad0aecd5a5a3387edee5e136d
 
             }
 
@@ -474,55 +439,6 @@ class AdminAOController extends BaseController
         $auth = $data['auth'];
 
         try {
-<<<<<<< HEAD
-			$currentUser = $auth['user'];
-			$profile = $auth['profile'];
-
-			$ao = AO::find($id);
-
-			if (!$auth['isAdmin']) {
-				Alert::error('You don\'t have access to that AO.')->flash();
-				return Redirect::to('admin/ao/show/'.$id);
-			}
-
-			ini_set('max_execution_time',600);
-				
-			// Create Tile request?
-			$url = 'http://db.alivemod.com/maps/tile.php?map=' . $ao->configName;
-			$ch = curl_init();
-			
-			curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0 );
-			curl_setopt($ch, CURLOPT_URL, $url);
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
-			curl_setopt($ch, CURLOPT_TIMEOUT, 600); //timeout in seconds
-	
-			$response = curl_exec($ch);
-			
-			$result = array();
-			$result['info'] = curl_getinfo($ch);
-			$result['error'] = curl_error($ch);
-			$result['response'] = json_decode($response);	
-
-			ini_set('max_execution_time',30);					
-			if (!$response) {					
-				Alert::error('There was an error creating the map tiles.')->flash();
-				TempoDebug::dump($response);
-				TempoDebug::dump($result);					
-			} else {
-				Alert::success($response)->flash();
-				return Redirect::to('admin/ao/index');
-			}
-
-		} catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
-			Alert::error('User was not found.')->flash();
-			return Redirect::to('user/login' . $id);
-		}
-    }	
-    // Delete ----------------------------------------------------------------------------------------------------------
-=======
             $currentUser = $auth['user'];
             $profile = $auth['profile'];
 
@@ -536,7 +452,11 @@ class AdminAOController extends BaseController
             ini_set('max_execution_time', 600);
 
             // Create Tile request?
+<<<<<<< HEAD
+			$url = 'http://db.alivemod.com/maps/tile.php?map=' . $ao->configName;
+=======
             $url = 'http://db.alivemod.com/maps/tile?map=' . $ao->configName;
+>>>>>>> 2111035cc6ba25dad0aecd5a5a3387edee5e136d
             $ch = curl_init();
 
             curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
@@ -569,7 +489,6 @@ class AdminAOController extends BaseController
             return Redirect::to('user/login' . $id);
         }
     }
->>>>>>> 2111035cc6ba25dad0aecd5a5a3387edee5e136d
 
     /**
      * Delete an AO by POST

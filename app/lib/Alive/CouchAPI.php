@@ -8,6 +8,8 @@ ini_set('max_execution_time', 600);
 
 // TODO: Format with PSR and PHPDoc
 
+// TODO: Format with PSR and PHPDoc
+
 class CouchAPI {
 
     ///*
