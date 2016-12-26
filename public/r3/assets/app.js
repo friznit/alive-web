@@ -1033,7 +1033,8 @@ PlayBack.prototype.init = function(replayDetails, sharedPresets, cacheAvailable)
 
         if (error) {
 
-            window.location = webPath + '?missing-terrain&terrain=' + this.replayDetails.map;
+            // window.location = webPath + '?missing-terrain&terrain=' + this.replayDetails.map;
+            alert("Missing terrain: " + this.replayDetails.map);
             return;
         }
 
@@ -1045,7 +1046,7 @@ PlayBack.prototype.init = function(replayDetails, sharedPresets, cacheAvailable)
 
 PlayBack.prototype.fetch = function(cacheAvailable) {
 
-    var eventSourceUrl = "http://localhost:8080/api/aar";
+    var eventSourceUrl = webRoot + "/api/aar";
     var fetchType = "GET";
 
     var self = this;
@@ -1065,7 +1066,8 @@ PlayBack.prototype.fetch = function(cacheAvailable) {
 
             var errorCode = (xhr.status >= 200 && xhr.status < 400)? message : xhr.status;
 
-            window.location = webPath + '?events-error&code=' + errorCode;
+            // window.location = webPath + '?events-error&code=' + errorCode;
+            alert('Error fetching playback data - Status: ' + errorType + ' - Message: ' + message);
         }
     });
 };
@@ -1129,7 +1131,7 @@ function Players() {
 };
 
 Players.prototype.init = function() {
-    var eventSourceUrl = "http://localhost:8080/api/playersbyoperation";
+    var eventSourceUrl = webRoot + "/api/playersbyoperation";
     var fetchType = "GET";
 
     var self = this;

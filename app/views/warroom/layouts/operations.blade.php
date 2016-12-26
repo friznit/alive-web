@@ -42,7 +42,8 @@
         /* var playerList = [{"id":"76561197982137286","name":"Tupolov"}]; */
     </script>
     <script type="text/javascript">
-        var webPath = 'http://localhost:8080/r3';
+        var webPath = '{{ URL::to('/') }}/r3';
+        var webRoot = '{{ URL::to('/') }}';
         var configDefaults = { speed: 10 };
         var opName = '{{ Input::get('name') }}';
         var opMap = '{{ Input::get('map') }}';
