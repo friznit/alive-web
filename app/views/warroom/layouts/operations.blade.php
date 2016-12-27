@@ -56,6 +56,7 @@
     <script src="{{ URL::to('/') }}/r3/assets/app.js"></script>
 </head>
 <body id="warroom_operations_body">
+@include('warroom/partials/_nav')
 
 @yield('content')
 
