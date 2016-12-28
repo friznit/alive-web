@@ -225,7 +225,9 @@ class AfterActionReplay {
 
                     if (isset($v['options']['map'])) {
                         // get map from class property
-                        $value = $this->{$v['options']['map']}[$value];
+                        if (isset($this->{$v['options']['map']}[$value])) {
+                            $value = $this->{$v['options']['map']}[$value];
+                        }
                     } else if (isset($v['options']['sub'])) {
                         $value = $v['options']['sub'];
                     }
