@@ -4,13 +4,13 @@
 @section('content')
 
 
-<div class="playback-container" style="top: 33px;">
+<div class="playback-container" style="top: 50px;">
     <div class="playback-container__map" id="map"></div>
 
     <div class="player-list">
         <a href="<?php //echo WEB_PATH; ?>" class="playback-container__back">
             <i class="fa fa-arrow-left"></i>
-            Mission list
+            Restart
         </a>
 
         <a href="#" class="player-list__toggle-sticky" title="Toggle player list auto hide">
