@@ -57,6 +57,36 @@ class AfterActionReplay {
             ],
         ],
         'Event' => [
+            'PlayerStart' => [
+                'playerId' => 'Player',
+                'type' => [
+                    'options' => [
+                        'key' => 'Event',
+                        'sub' => 'player_connected'
+                    ]
+                ],
+                'missionTime' => 'missionTime',
+                'realTime' => 'realTime',
+                'value' => [
+                    'id' => 'Player',
+                    'name' => 'PlayerName'
+                ]
+            ],
+            'PlayerFinish' => [
+                'playerId' => 'Player',
+                'type' => [
+                    'options' => [
+                        'key' => 'Event',
+                        'sub' => 'player_disconnected'
+                    ]
+                ],
+                'missionTime' => 'missionTime',
+                'realTime' => 'realTime',
+                'value' => [
+                    'id' => 'Player',
+                    'name' => 'PlayerName'
+                ]
+            ],
             'GetIn' => [
                 'playerId' => 'Player',
                 'type' => [
