@@ -8,11 +8,142 @@ class APIController extends BaseController
 {
 
     private $couchAPI;
+    private $data;
 
     public function __construct()
     {
         $this->couchAPI = new CouchAPI();
     }
+
+public function getAos()
+{
+       $couchAPI = new Alive\CouchAPI();
+          $cacheKey = 'aos';
+
+       if (Cache::has($cacheKey)) {
+           $aos = Cache::get($cacheKey);
+       }else{
+        $aos = AO::all();
+             foreach($aos as &$ao){
+                $ao->couchData = $couchAPI->getMapTotals($ao->configName);
+              }
+        Cache::add($cacheKey, $aos, 60);
+       }
+ return $aos;
+}
+
+public function getDevs()
+{
+ $couchAPI = new Alive\CouchAPI();
+
+    $cacheKey = 'devs';
+
+    if (Cache::has($cacheKey)) {
+           $devs = Cache::get($cacheKey);
+    }else{
+     $devs = Profile::where('remark', '=', 'Developer')->get();
+
+            forEach($devs as &$dev) {
+
+                $dev->couchData = $couchAPI->getDevCredits($dev->a3_id);
+
+                $clan = $dev->clan;
+                $dev->orbat = $clan->orbat();
+
+                $orbattype = $dev->orbat['type'];
+                $orbatsize = $dev->orbat['size'];
+
+                $icon = '';
+                $name = '';
+                $size = '';
+                $sizeicon = '';
+
+                if(count($orbattype) > 0){
+                    $icon = $orbattype[0]->icon;
+                    $name = $orbattype[0]->name;
+                }
+                if(count($orbatsize) > 0){
+                    $size = $orbatsize[0]->name;
+                    $sizeicon = $orbatsize[0]->icon;
+                }
+
+                $dev->icon = $icon;
+                $dev->name = $name;
+                $dev->size = $size;
+                $dev->sizeicon = $sizeicon;
+
+            }
+           Cache::add($cacheKey, $devs, 60);
+       }
+ return $devs;
+}
+
+public function getClans()
+{
+    $couchAPI = new Alive\CouchAPI();
+
+    $cacheKey = 'clans';
+  
+
+    if (Cache::has($cacheKey)) {
+        $clans = Cache::get($cacheKey);
+    }else{
+        $clans = Clan::where('parent', '!=', 'JTF')->orwhereNull('parent')->get();
+
+            forEach($clans as &$clan) {
+
+                $clan->couchData = $couchAPI->getGroupTotalsByTag($clan->tag);
+
+                $clan->lastop = $couchAPI->getGroupLastOp($clan->tag);
+                $clanorbat = $clan->orbat();
+                $orbattype = $clanorbat['type'];
+                $orbatsize = $clanorbat['size'];
+
+                $icon = '';
+                $name = '';
+                $size = '';
+                $sizeicon = '';
+                $lat = '';
+                $lon = '';
+                $country = '';
+
+                if(count($orbattype) > 0){
+                    $icon = $orbattype[0]->icon;
+                    $name = $orbattype[0]->name;
+                }
+                if(count($orbatsize) > 0){
+                    $size = $orbatsize[0]->name;
+                    $sizeicon = $orbatsize[0]->icon;
+                }
+                 if (is_null ($clan->country)) {
+                    $country = "GB";
+                 } else {
+                    $country = $clan->country;
+                }
+                if (is_null ($clan->lat)) {
+                    $lat = rand(3000,4500);
+                } else {
+                    $lat = $clan->lat;
+                }
+                if (is_null ($clan->lon)) {
+                    $lon = rand(1800,6400);
+                } else {
+                    $lon = $clan->lon;
+                }
+
+                $clan->country = $country;
+                $clan->icon = $icon;
+                $clan->orbatname = $name;
+                $clan->size = $size;
+                $clan->sizeicon = $sizeicon;
+                $clan->lat = $lat;
+                $clan->lon = $lon;
+            }
+             Cache::add($cacheKey, $clans, 60);
+       }
+ return $clans;
+}
+
 
     /**
      * TODO: Should this be public or private?

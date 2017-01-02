@@ -20,122 +20,17 @@ class WarRoomController extends BaseController {
     public function getIndex()
     {
         $data = get_default_data();
-        $couchAPI = new Alive\CouchAPI();
 
-        $cacheKey = 'home';
-
-       if (Cache::has($cacheKey)) {
-           $content = Cache::get($cacheKey);
-       }else{
-
-            // AO data
-
-            $aos = AO::all();
-            foreach($aos as &$ao){
-                $ao->couchData = $couchAPI->getMapTotals($ao->configName);
-            }
-
-            $data['allAOs'] = $aos;
-
-            // DEV data
-
-            $devs = Profile::where('remark', '=', 'Developer')->get();
-
-            forEach($devs as &$dev) {
-
-                $dev->couchData = $couchAPI->getDevCredits($dev->a3_id);
-
-                $clan = $dev->clan;
-                $dev->orbat = $clan->orbat();
-
-                $orbattype = $dev->orbat['type'];
-                $orbatsize = $dev->orbat['size'];
-
-                $icon = '';
-                $name = '';
-                $size = '';
-                $sizeicon = '';
-
-                if(count($orbattype) > 0){
-                    $icon = $orbattype[0]->icon;
-                    $name = $orbattype[0]->name;
-                }
-                if(count($orbatsize) > 0){
-                    $size = $orbatsize[0]->name;
-                    $sizeicon = $orbatsize[0]->icon;
-                }
-
-                $dev->icon = $icon;
-                $dev->name = $name;
-                $dev->size = $size;
-                $dev->sizeicon = $sizeicon;
-
-            }
-
-            $data['devs'] = $devs;
-
-            // CLAN data
-
-            $clans = Clan::where('parent', '!=', 'JTF')->orwhereNull('parent')->get();
-
-            forEach($clans as &$clan) {
-
-                $clan->couchData = $couchAPI->getGroupTotalsByTag($clan->tag);
-
-                $clan->lastop = $couchAPI->getGroupLastOp($clan->tag);
-
-                $clanorbat = $clan->orbat();
-                $orbattype = $clanorbat['type'];
-                $orbatsize = $clanorbat['size'];
-
-                $icon = '';
-                $name = '';
-                $size = '';
-                $sizeicon = '';
-                $lat = '';
-                $lon = '';
-
-                if(count($orbattype) > 0){
-                    $icon = $orbattype[0]->icon;
-                    $name = $orbattype[0]->name;
-                }
-                if(count($orbatsize) > 0){
-                    $size = $orbatsize[0]->name;
-                    $sizeicon = $orbatsize[0]->icon;
-                }
-
-                if (is_null ($clan->lat)) {
-                    $lat = rand(3000,4500);
-                } else {
-                    $lat = $clan->lat;
-                }
-                if (is_null ($clan->lon)) {
-                    $lon = rand(1800,6400);
-                } else {
-                    $lon = $clan->lon;
-                }
-
-                $clan->icon = $icon;
-                $clan->orbatname = $name;
-                $clan->size = $size;
-                $clan->sizeicon = $sizeicon;
-                $clan->lat = $lat;
-                $clan->lon = $lon;
-            }
-
-            $data['clans'] = $clans;
-
-            $content = View::make('warroom/home.index')->with($data)->render();
-            Cache::add($cacheKey, $content, 60);
-       }
-
+        $content = View::make('warroom/home.index')->with($data)->render();
 
         $header = View::make('warroom/layouts/home_header')->render();
         $nav = View::make('warroom/layouts/nav')->with($data)->render();
         $footer = View::make('warroom/layouts/home_footer')->with($data)->render();
 
-        return $header . $nav . $content . $footer;
+       return $header . $nav . $content . $footer;
+      //  return View::make('warroom/home.loading')->with($data)->render();
     }
+    
 
     /**
      * Get a personnel list

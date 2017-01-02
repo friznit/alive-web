@@ -2,7 +2,23 @@
 
 {{-- Content --}}
 @section('content')
- 
+ <div id="loading" class="loading">
+   <h1>
+    <span class="let1">I</span>  
+    <span class="let2">N</span>  
+    <span class="let3">I</span>  
+    <span class="let4">T</span>  
+    <span class="let5">I</span>  
+    <span class="let6">A</span>  
+    <span class="let7">L</span>  
+    <span class="let8">I</span>  
+    <span class="let9">S</span>  
+    <span class="let10">I</span>  
+    <span class="let11">N</span>  
+    <span class="let12">G</span>  
+  </h1>
+ </div>
+
 <div id="map" style="height: 900px;"></div>
 
 <script type="text/javascript">
@@ -44,50 +60,67 @@
 
     var items = {};
 				
-    $(document).ready(function() {
+  $(document).ready(function() {
 		$(".trigger").click(function(){
 			$(".panel").toggle("fast");
 			$(this).toggleClass("active");
 			return false;
 		});
 
-        @foreach ($allAOs as $ao)
+$.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        })
 
-            var mapdata = {{$ao->couchData}};
-            var marker = new MyCustomMarker(map.unproject([{{$ao->imageMapX}},{{$ao->imageMapY}}], map.getMaxZoom()), {
+$.ajax({
+    url: '{{ URL::to('/') }}/api/aos',
+    type: "GET", 
+    success: function(data){
+$.each(data, function(index, data){
+            var mapdata = $.parseJSON(data.couchData);
+            var mapid = data.id
+ 
+            if(mapid < 10) {
+                mapid = "00"+mapid;
+            } else if (mapid < 100) {
+                mapid = "0"+mapid;
+            } else {
+                mapid = mapid;
+            }
+            var marker = new MyCustomMarker(map.unproject([data.imageMapX,data.imageMapY], map.getMaxZoom()), {
                 icon: hostileIcon
             });
-
             var popup = L.popup()
                 .setContent("<div class='strip'>AO</div>" +
                     "<div class='ao-popup'>" +
                     "<p>" +
-                    "<span class='title'>{{$ao->name}}</span></br>" +
-                    "<img src='{{ $ao->image->url('thumbAO') }}' ></br>" +
+                    "<span class='title'>" + data.name +"</span></br>" +
+                    "<img src='http://alivemod.com/system/AO/images/000/000/"+ mapid +"/thumbAO/" + data.image_file_name + "' ></br>" +
                     "<span class='highlight'>OPS:</span> " + mapdata.Operations + " <span class='highlight'>| EKIA:</span> " + mapdata.Kills + " <span class='highlight'>| LOSSES:</span> " + mapdata.Deaths + "</br>" +
                     "<span class='highlight'>HRS:</span> " + Math.round((mapdata.CombatHours / 60)*10)/10 + " <span class='highlight'>| AMMO:</span> " + mapdata.ShotsFired + " <span class='highlight'>| UNITS:</span> " + mapdata.Operations +
                     "</p>" +
                     "</div>");
-
             marker.bindPopup(popup, {
                 showOnMouseOver: true,
                 offset: new L.Point(-4, -12)
             });
-
             map.addLayer(marker);
+        });
 
-        @endforeach
-
-
-        @foreach ($devs as $dev)
-
-            var data = {{$dev->couchData}};
+//DEVS
+$.ajax({
+    url: '{{ URL::to('/') }}/api/devs',
+    type: "GET", 
+    success: function(data){
+$.each(data, function(index, data){
+  var devdata = $.parseJSON(data.couchData);
             var myIcon = new groupIcon({
                 iconSize:     [50, 50], // size of the icon
                 shadowSize:   [50, 50], // size of the shadowicon
-                shadowUrl: '{{ URL::to('/') }}/img/icons/w_{{$dev->sizeicon}}.png',
-                iconUrl: '{{ URL::to('/') }}/img/icons/b_{{$dev->icon}}.png'});
-            var marker = new MyCustomMarker(map.unproject([data.globalX,data.globalY], map.getMaxZoom()), {
+                shadowUrl: '{{ URL::to('/') }}/img/icons/w_'+ data.sizeicon +'.png',
+                iconUrl: '{{ URL::to('/') }}/img/icons/b_'+ data.icon +'.png'});
+            var marker = new MyCustomMarker(map.unproject([devdata.globalX,devdata.globalY], map.getMaxZoom()), {
                 icon: myIcon
             });
 
@@ -95,11 +128,11 @@
                 .setContent("<div class='strip'>Lead Unit</div>" +
                     "<div class='unit-popup'>" +
                     "<p>" +
-                    "<span class='title'>{{$dev->clan->name}} [{{$dev->clan->tag}}]</span></br>" +
-                    "<span class='highlight'>{{$dev->orbatname}} {{$dev->size}}</span></br>" +
-                    "<span class='highlight'>Cmdr:</span> " + data.PlayerName +
-                    " <img src='{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($dev->country) }}.png' alt='{{ $dev->country_name }}' title='{{ $dev->country_name }}' width='16' height='16'/><br/>" +
-                    "<span class='highlight'>Credits:</span> " + data.Credits +
+                    "<span class='title'>" + data.clan.name + data.clan.tag +"</span></br>" +
+                    "<span class='highlight'>" + data.orbatname + data.size +"</span></br>" +
+                    "<span class='highlight'>Cmdr:</span> " + devdata.PlayerName +
+                    " <img src='{{ URL::to('/') }}/img/flags_iso/32/" + data.country.toLowerCase() +".png' alt='" + data.country_name +"' title='" + data.country_name +"' width='16' height='16'/><br/>" +
+                    "<span class='highlight'>Credits:</span> " + devdata.Credits +
                     "</p>" +
                     "</div>");
 
@@ -108,16 +141,18 @@
                 offset: new L.Point(-3, -5)
             });
             map.addLayer(marker);
+//end devs each
+      });
 
-        @endforeach
+//clans
+$.ajax({
+    url: '{{ URL::to('/') }}/api/clans',
+    type: "GET", 
+    success: function(data){
+        $.each(data, function(index, data){
+        var clandata = $.parseJSON(data.couchData);
 
-
-        @foreach ($clans as $clan)
-
-            var data = {{$clan->couchData}};
-
-
-			if (!(data.Operations)) {
+			if (!(clandata.Operations)) {
 					var myIcon = new groupIcon({
 						iconUrl: '{{ URL::to('/') }}/img/icons/dot.png', 
 						shadowURL: '{{URL::to('/') }}/img/icons/dotshadow.png',
@@ -127,14 +162,27 @@
 						shadowAnchor: [2, 2]  // the same for the shadow
 					});		
 			} else {
-
-                var clanLastOp = {{$clan->lastop}};             
-                var lastop = clanLastOp.date;                  
-                var lsystem_date = new Date(lastop);
+               var clanLastOpData = $.parseJSON(data.lastop);
+              
+                var clanLastOp = clanLastOpData.Operation;     
+                var lastOpDate = clanLastOpData.date; 
+       ;               
+                var lsystem_date = new Date(lastOpDate);
                 var luser_date = new Date();
                 var ldiff = Math.floor((luser_date - lsystem_date) / 1000);
 
                 var iconSizer = 30 - Math.round(ldiff / 777600);
+
+                var country = "";
+                var country_name = "";
+                if(data.country === "")
+                {
+                    country = data.country.toLowerCase();
+                    country_name = data.country_name;
+                } else {
+                    country = "gb";
+                    country_name = "United Kingdom";
+                }
 
                 if (ldiff < 15552000) {
            		 var myIcon = new groupIcon({
@@ -143,7 +191,7 @@
                         iconAnchor:   [iconSizer/2, iconSizer/2], 
                         shadowAnchor: [iconSizer/2, iconSizer/2],                        
 					 	shadowUrl: '{{ URL::to('/') }}/img/icons/w_group_0.png',
-						iconUrl: '{{ URL::to('/') }}/img/icons/b_{{$clan->icon}}.png'
+						iconUrl: '{{ URL::to('/') }}/img/icons/b_'+ data.icon + '.png'
 					});
                 } else {
                     var myIcon = new groupIcon({
@@ -156,7 +204,7 @@
                     });                 
                 }
 			}
-            var marker = new MyCustomMarker(map.unproject([{{$clan->lon}},{{$clan->lat}}], map.getMaxZoom()), {
+            var marker = new MyCustomMarker(map.unproject([data.lon,data.lat], map.getMaxZoom()), {
                 icon: myIcon
             });
 			
@@ -177,16 +225,16 @@
 			}
 			
             var popup = L.popup({maxWidth:400})
-                .setContent("<table><tr><td colspan='2'><div class='strip'>Unit</div></td></tr><tr><td><img width='100' src='{{ $clan->avatar->url('thumb') }}' onerror='this.src=\"http://alivemod.com/avatars/thumb/clan.png\"'></td><td>" +
+                .setContent("<table><tr><td colspan='2'><div class='strip'>Unit</div></td></tr><tr><td><img width='100' src='http://alivemod.com/avatars/thumb/clan.png' onerror='this.src=\"http://alivemod.com/avatars/thumb/clan.png\"'></td><td>" +
                     "<div class='unit-popup'>" +
                     "<p>" +
-                    "<a href={{ URL::to('war-room/showorbat') }}/{{$clan->id}}><span class='title'>{{$clan->name}} [{{$clan->tag}}]</span></a></br>" +
-                    "<span class='highlight'>{{$clan->name}} {{$clan->size}}</span>" +
-                    " <img src='{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($clan->country) }}.png' alt='{{ $clan->country_name }}' title='{{ $clan->country_name }}' width='18' height='18'/><br/>" +
+                    "<a href={{ URL::to('war-room/showorbat') }}/" + data.id +"><span class='title'>"+ data.name + data.tag +"</span></a></br>" +
+                    "<span class='highlight'>" + data.name + data.size +"</span>" +
+                   " <img src='{{ URL::to('/') }}/img/flags_iso/32/"+ country +".png' alt='" + country_name +"' title='" + country_name +"' width='18' height='18'/><br/>" +
                     "<span class='highlight'>OPS:</span> " + data.Operations + " <span class='highlight'>| EKIA:</span> " + data.Kills + " <span class='highlight'>| LOSSES:</span> " + data.Deaths + "</br>" +
                     "<span class='highlight'>HRS:</span> " + Math.round((data.CombatHours / 60)*10)/10 + " <span class='highlight'>| AMMO:</span> " + data.ShotsFired + "</br>" +
                     "<span class='highlight'>VEHICLE HRS:</span> " + Math.round((data.VehicleTime / 60)*10)/10 + " <span class='highlight'>| FLIGHT HRS:</span> " + Math.round((data.PilotTime / 60)*10)/10 + "</br>" +
-                    "<span class='highlight'>LAST OP:</span> " + clanLastOp.Operation + "</br>" + parseArmaDate(lastop) +                                  
+                    "<span class='highlight'>LAST OP:</span> " + clanLastOp + "</br>" + parseArmaDate(lastOpDate) +                                  
                     "</p>" +
                     "</div></td></tr></table>");
 
@@ -195,10 +243,25 @@
                 offset: new L.Point(-3, -5)
             });
             map.addLayer(marker);
+                  //end clans each
+                  });
+                   $("#loading").fadeOut(3000);
+	          }
+	  //end clans ajax
+	     });
+        
+      	}
+    //end devs ajax
+    });
+     
+    }
+	//	end main ajax
+ 
+});	 
+   
+ //end doc ready
+});
 
-        @endforeach
-
-	});
 	
 	var hostileIcon = L.icon({
 		iconUrl: '{{ URL::to('/') }}/img/icons/hostileIcon.png',
