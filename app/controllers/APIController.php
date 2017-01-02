@@ -2,6 +2,7 @@
 
 use Alive\CouchAPI;
 use Alive\SigGenerate;
+use Alive\AfterActionReplay;
 use Tempo\TempoDebug;
 
 class APIController extends BaseController
@@ -9,141 +10,201 @@ class APIController extends BaseController
 
     private $couchAPI;
     private $data;
+    private $aar;
 
     public function __construct()
     {
         $this->couchAPI = new CouchAPI();
+        $this->aar = new AfterActionReplay();         
     }
 
-public function getAos()
-{
-       $couchAPI = new Alive\CouchAPI();
-          $cacheKey = 'aos';
+    public function getAos()
+    {
+           $couchAPI = new Alive\CouchAPI();
+              $cacheKey = 'aos';
 
-       if (Cache::has($cacheKey)) {
-           $aos = Cache::get($cacheKey);
-       }else{
-        $aos = AO::all();
-             foreach($aos as &$ao){
-                $ao->couchData = $couchAPI->getMapTotals($ao->configName);
-              }
-        Cache::add($cacheKey, $aos, 60);
-       }
- return $aos;
-}
+           if (Cache::has($cacheKey)) {
+               $aos = Cache::get($cacheKey);
+           }else{
+            $aos = AO::all();
+                 foreach($aos as &$ao){
+                    $ao->couchData = $couchAPI->getMapTotals($ao->configName);
+                  }
+            Cache::add($cacheKey, $aos, 60);
+           }
+         return $aos;
+    }
 
-public function getDevs()
-{
- $couchAPI = new Alive\CouchAPI();
+    public function getDevs()
+    {
+        $couchAPI = new Alive\CouchAPI();
 
-    $cacheKey = 'devs';
+        $cacheKey = 'devs';
 
-    if (Cache::has($cacheKey)) {
-           $devs = Cache::get($cacheKey);
-    }else{
-     $devs = Profile::where('remark', '=', 'Developer')->get();
+        if (Cache::has($cacheKey)) {
+               $devs = Cache::get($cacheKey);
+        }else{
+          $devs = Profile::where('remark', '=', 'Developer')->get();
 
-            forEach($devs as &$dev) {
+                forEach($devs as &$dev) {
 
-                $dev->couchData = $couchAPI->getDevCredits($dev->a3_id);
+                    $dev->couchData = $couchAPI->getDevCredits($dev->a3_id);
 
-                $clan = $dev->clan;
-                $dev->orbat = $clan->orbat();
+                    $clan = $dev->clan;
+                    $dev->orbat = $clan->orbat();
 
-                $orbattype = $dev->orbat['type'];
-                $orbatsize = $dev->orbat['size'];
+                    $orbattype = $dev->orbat['type'];
+                    $orbatsize = $dev->orbat['size'];
 
-                $icon = '';
-                $name = '';
-                $size = '';
-                $sizeicon = '';
+                    $icon = '';
+                    $name = '';
+                    $size = '';
+                    $sizeicon = '';
 
-                if(count($orbattype) > 0){
-                    $icon = $orbattype[0]->icon;
-                    $name = $orbattype[0]->name;
+                    if(count($orbattype) > 0){
+                        $icon = $orbattype[0]->icon;
+                        $name = $orbattype[0]->name;
+                    }
+                    if(count($orbatsize) > 0){
+                        $size = $orbatsize[0]->name;
+                        $sizeicon = $orbatsize[0]->icon;
+                    }
+
+                    $dev->icon = $icon;
+                    $dev->name = $name;
+                    $dev->size = $size;
+                    $dev->sizeicon = $sizeicon;
+
                 }
-                if(count($orbatsize) > 0){
-                    $size = $orbatsize[0]->name;
-                    $sizeicon = $orbatsize[0]->icon;
+               Cache::add($cacheKey, $devs, 60);
+           }
+     return $devs;
+    }
+
+    public function getClans()
+    {
+        $couchAPI = new Alive\CouchAPI();
+
+        $cacheKey = 'clans';
+      
+
+        if (Cache::has($cacheKey)) {
+            $clans = Cache::get($cacheKey);
+        }else{
+            $clans = Clan::where('parent', '!=', 'JTF')->orwhereNull('parent')->get();
+
+                forEach($clans as &$clan) {
+
+                    $clan->couchData = $couchAPI->getGroupTotalsByTag($clan->tag);
+
+                    $clan->lastop = $couchAPI->getGroupLastOp($clan->tag);
+                    $clanorbat = $clan->orbat();
+                    $orbattype = $clanorbat['type'];
+                    $orbatsize = $clanorbat['size'];
+
+                    $icon = '';
+                    $name = '';
+                    $size = '';
+                    $sizeicon = '';
+                    $lat = '';
+                    $lon = '';
+                    $country = '';
+
+                    if(count($orbattype) > 0){
+                        $icon = $orbattype[0]->icon;
+                        $name = $orbattype[0]->name;
+                    }
+                    if(count($orbatsize) > 0){
+                        $size = $orbatsize[0]->name;
+                        $sizeicon = $orbatsize[0]->icon;
+                    }
+                     if (is_null ($clan->country)) {
+                        $country = "GB";
+                     } else {
+                        $country = $clan->country;
+                    }
+                    if (is_null ($clan->lat)) {
+                        $lat = rand(3000,4500);
+                    } else {
+                        $lat = $clan->lat;
+                    }
+                    if (is_null ($clan->lon)) {
+                        $lon = rand(1800,6400);
+                    } else {
+                        $lon = $clan->lon;
+                    }
+
+                    $clan->country = $country;
+                    $clan->icon = $icon;
+                    $clan->orbatname = $name;
+                    $clan->size = $size;
+                    $clan->sizeicon = $sizeicon;
+                    $clan->lat = $lat;
+                    $clan->lon = $lon;
                 }
+                 Cache::add($cacheKey, $clans, 60);
+           }
+     return $clans;
+    }
 
-                $dev->icon = $icon;
-                $dev->name = $name;
-                $dev->size = $size;
-                $dev->sizeicon = $sizeicon;
-
+    public function getAar()
+    {
+        // Hopefully crashes on huge AARs
+        ini_set('memory_limit', '1024M');
+        $group = Input::get('clan');
+        $map = Input::get('map');
+        $operation = Input::get('name');
+        $rawEvents = $this->couchAPI->getOperationEvents($group, $map, $operation);      
+        $events = $this->aar->convert($rawEvents);
+        $rawAar = $this->couchAPI->getAar($group, $map, $operation);
+        $aar = $this->aar->convert($rawAar);
+        $final = array_merge($events, $aar);
+        usort($final, function($a, $b) {
+            $at = DateTime::createFromFormat('d/m/Y H:i:s', $a['realTime'])->getTimestamp();
+            $bt = DateTime::createFromFormat('d/m/Y H:i:s', $b['realTime'])->getTimestamp();
+            return ($at - $bt);
+        });
+        $count = 1;
+        $last = -1;
+        $high = -1;
+        $prev = null;
+        foreach ($final as &$a) {
+            $a['old'] = $a['missionTime'];
+            if ($last == -1) {
+                $last = $a['missionTime'];
             }
-           Cache::add($cacheKey, $devs, 60);
-       }
- return $devs;
-}
-
-public function getClans()
-{
-    $couchAPI = new Alive\CouchAPI();
-
-    $cacheKey = 'clans';
-  
-
-    if (Cache::has($cacheKey)) {
-        $clans = Cache::get($cacheKey);
-    }else{
-        $clans = Clan::where('parent', '!=', 'JTF')->orwhereNull('parent')->get();
-
-            forEach($clans as &$clan) {
-
-                $clan->couchData = $couchAPI->getGroupTotalsByTag($clan->tag);
-
-                $clan->lastop = $couchAPI->getGroupLastOp($clan->tag);
-                $clanorbat = $clan->orbat();
-                $orbattype = $clanorbat['type'];
-                $orbatsize = $clanorbat['size'];
-
-                $icon = '';
-                $name = '';
-                $size = '';
-                $sizeicon = '';
-                $lat = '';
-                $lon = '';
-                $country = '';
-
-                if(count($orbattype) > 0){
-                    $icon = $orbattype[0]->icon;
-                    $name = $orbattype[0]->name;
-                }
-                if(count($orbatsize) > 0){
-                    $size = $orbatsize[0]->name;
-                    $sizeicon = $orbatsize[0]->icon;
-                }
-                 if (is_null ($clan->country)) {
-                    $country = "GB";
-                 } else {
-                    $country = $clan->country;
-                }
-                if (is_null ($clan->lat)) {
-                    $lat = rand(3000,4500);
-                } else {
-                    $lat = $clan->lat;
-                }
-                if (is_null ($clan->lon)) {
-                    $lon = rand(1800,6400);
-                } else {
-                    $lon = $clan->lon;
-                }
-
-                $clan->country = $country;
-                $clan->icon = $icon;
-                $clan->orbatname = $name;
-                $clan->size = $size;
-                $clan->sizeicon = $sizeicon;
-                $clan->lat = $lat;
-                $clan->lon = $lon;
+            if ($a['missionTime'] - $last >= 5 || $a['missionTime'] - $last < 0) {
+                $last = $a['missionTime'];
+                $count++;
+                $a['missionTime'] = $last;
+            } else {
+                $a['missionTime'] = $last;
             }
-             Cache::add($cacheKey, $clans, 60);
-       }
- return $clans;
-}
+            if (intval($a['missionTime']) >= $high) {
+                $high = intval($a['missionTime']);
+            } else {
+                $a['missionTime'] = $high + intval($a['missionTime']);
+            }
+            $prev = $a;
+        }
+        return $final;
+    }
 
+    public function getPlayersbyoperation()
+    {
+        $group = Input::get('clan');
+        $map = Input::get('map');
+        $operation = Input::get('name');
+        $data = $this->couchAPI->getPlayersByOperation($group, $map, $operation);
+        $result = [];
+        foreach ($data['response']['rows'] as $row) {
+            $result[] = [
+                'id' => $row['key'][3],
+                'name' => $row['key'][4]
+            ];
+        }
+        return json_encode($result);
+    }
 
     /**
      * TODO: Should this be public or private?

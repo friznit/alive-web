@@ -7,6 +7,7 @@
             "sAjaxDataProp": "rows",
             "bPaginate": true,
             "aaSorting": [[1, "desc" ]],
+            "bDeferRender": true,
             "aoColumnDefs": [
                 { "mData": "key",  "aTargets": [ 0 ],
 				  "mRender" : function (data, type) {

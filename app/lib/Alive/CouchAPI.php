@@ -6,24 +6,12 @@ use Tempo\TempoDebug;
 
 ini_set('max_execution_time', 600);
 
-// TODO: Format with PSR and PHPDoc
-
-// TODO: Format with PSR and PHPDoc
-
 class CouchAPI {
 
-    ///*
     private $user = 'aliveadmin';
     private $pass = 'tupolov';
     private $url = 'http://db.alivemod.com:5984/';
-    //*/
-
-    /*
-    private $user = 'arjay';
-    private $pass = 'sfgdhl;asdr234';
-    private $url = 'http://localhost:5984/';
-    */
-
+    
     public $reset = false;
     public $debug = false;
     public $cache = true;
@@ -119,6 +107,44 @@ class CouchAPI {
 
         return $this->call($path, $data, $requestType);
     }
+
+    public function getAar($group, $map, $operation)
+    {
+        $group = rawurlencode($group);
+        $map = rawurlencode($map);
+        $operation = rawurlencode($operation);
+        $path = 'sys_aar/_design/AAR/_view/titan_aar?key=['
+            . '"' . $group . '",'
+            . '"' . $map . '",'
+            . '"' . $operation . '"]';
+        return $this->call($path, [], 'GET', true);
+    }
+
+    public function getPlayersByOperation($group, $map, $operation)
+    {
+        $group = rawurlencode($group);
+        $map = rawurlencode($map);
+        $operation = rawurlencode($operation);
+        $key1 = '["'.$map.'","'.$group.'","'.$operation.'"]';
+        $key2 = '["'.$map.'","'.$group.'","'.$operation.'",{}]';
+        $path = 'events/_design/operationPage/_view/players_list_names'
+            . '?startkey='.$key1
+            . '&endkey='.$key2
+            . '&group=true';
+        return $this->call($path, [], 'GET', true);
+    }
+    
+    public function getOperationEvents($group, $map, $operation)
+    {
+        $group = rawurlencode($group);
+        $map = rawurlencode($map);
+        $operation = rawurlencode($operation);
+        $path = 'events/_design/operationPage/_view/operation_events?key=['
+            . '"' . $map . '",'
+            . '"' . $group . '",'
+            . '"' . $operation . '"]';
+        return $this->call($path, [], 'GET', true);
+    }
 	
 	public function deleteOldEvents()
 	{
@@ -212,7 +238,7 @@ class CouchAPI {
         return $encoded;
     }
 	
-	 public function getMapTotals($name)
+	public function getMapTotals($name)
     {
 
         $cacheKey = 'MapTotals' . $name;
@@ -2136,11 +2162,9 @@ class CouchAPI {
         }
     }
 
-    public function call($path, $data=array(), $requestType='GET')
+    public function call($path, $data=array(), $requestType='GET', $associative = false)
     {
-
         $payload = json_encode($data);
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0 );
         curl_setopt($ch, CURLOPT_URL, $this->url . $path);
@@ -2148,26 +2172,24 @@ class CouchAPI {
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $requestType);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 120);        
         curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout); //timeout in seconds
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-type: application/json',
             'Accept: application/json'
         ));
-
         if($this->debug){
             TempoDebug::message($this->url . $path);
             TempoDebug::dump($payload, 'Payload');
             $profiler = TempoDebug::startProfile();
         }
-
         $response = curl_exec($ch);
-
         $result = array();
         $result['info'] = curl_getinfo($ch);
         $result['error'] = curl_error($ch);
-        $result['response'] = json_decode($response);
+        $result['response'] = json_decode($response, $associative);
 
         if($this->debug){
             TempoDebug::stopProfile($profiler);
