@@ -7,6 +7,8 @@ if(Config::get('app.debug')){
 
 Route::controller('api', 'APIController');
 Route::controller('user', 'UserController');
+Route::controller('loading', 'LoadingController');
+Route::controller('war-room/load', 'WarRoomController');
 Route::controller('war-room', 'WarRoomController');
 
 Route::get('/admin', function() {
@@ -20,6 +22,8 @@ Route::controller('admin/clan', 'AdminClanController');
 Route::controller('admin/server', 'AdminServerController');
 Route::controller('admin/user', 'AdminUserController');
 Route::resource('admin/group', 'AdminGroupController');
+
+Route::get('/war-room/load', 'WarRoomController@getIndex');
 
 Route::get('/missions', function() {
     return View::make('public/missions/index');
