@@ -116,7 +116,7 @@ class CouchAPI {
         $path = 'sys_aar/_design/AAR/_view/titan_aar?key=['
             . '"' . $group . '",'
             . '"' . $map . '",'
-            . '"' . $operation . '"]';
+            . '"' . $operation . '"]&limit=2000';
         return $this->call($path, [], 'GET', true);
     }
 
