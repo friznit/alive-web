@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-6">
                 <img id="welcome_logo" src="{{ URL::to('/') }}/img/home_logo.png" class="img-responsive"/>
-                <p id="welcome_text">ALIVE is the next generation dynamic persistent mission addon for ArmA3. Developed by Arma community veterans, the easy to use modular mission framework provides everything that players and mission makers need to set up and run realistic military operations in almost any scenario up to Company level, including command, combat support, service support and logistics.</p>
+                <p id="welcome_text">ALIVE is the next generation dynamic persistent mission addon for Arma 3. Developed by Arma community veterans, the easy to use modular mission framework provides everything that players and mission makers need to set up and run realistic military operations in almost any scenario up to Company level, including command, combat support, service support and logistics.</p>
             </div>
             <div id="welcome_image" class="col-md-5 col-md-offset-1">
                 <img src="{{ URL::to('/') }}/img/action3.jpg" class="img-responsive light-blue-border" />
@@ -180,9 +180,9 @@
                         <th>Donate</th>
                     </tr>
                     <tr class="success">
-                        <td>1.2.7.1701061</td>
+                        <td>1.2.8.1701171</td>
                         <td>Arma 3 Stable 1.66 (Build 139494)</td>
-                        <td><a class="btn btn-primary btn-lg pull-right" href="https://github.com/ALiVEOS/ALiVE.OS/releases/download/v1.2.7.1701061/ALiVE_1.2.7.1701061.7z"><i class="fa fa-download"></i> Download</a></td>
+                        <td><a class="btn btn-primary btn-lg pull-right" href="https://github.com/ALiVEOS/ALiVE.OS/releases/download/v1.2.8.1701171/ALiVE_1.2.8.1701171.7z"><i class="fa fa-download"></i> Download</a></td>
  						<td><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                                 <input type="image" class="btn btn-yellow btn-lg" name="submit" alt="Voluntary Donation" style="margin-top: -10px;">
                                 <input type="hidden" name="cmd" value="_s-xclick">
