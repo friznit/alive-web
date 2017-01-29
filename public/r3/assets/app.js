@@ -1,3 +1,42 @@
+function Admin() {
+
+
+};
+
+Admin.prototype.setupInteractionHandlers = function() {
+
+    $('body').on('click', '.js-admin-login', function(e) {
+        e.preventDefault();
+
+        var password = $('input[name="admin-password"]').val();
+
+        $.ajax({
+            url: webPath + '/admin/login',
+            type: 'POST',
+            dataType: 'json',
+            data: { "password": password },
+            success: function(response) {
+
+                if(response.error)
+                    return admin.loginError();
+
+                window.location = webPath + '/admin/'
+            },
+            error: function(xhr, errorType, message) {
+
+                console.error('Error logging in - Status: ' + errorType + ' - Message: ' + message);
+                admin.loginError();
+            }
+        });
+    });
+};
+
+Admin.prototype.loginError = function() {
+
+    $('.feedback').remove();
+    $('input[name="admin-password"]').after('<div class="feedback feedback--error">Wrong password</div>');
+};
+
 function Events() {
 
     this.list = {};
@@ -126,10 +165,18 @@ Events.prototype.actionType = function(type, replayEvent, eventValue) {
             case "incoming_missile":
 
                 self.projectileLaunch(eventValue);
+
+                break;
+
+            case "projectile":
+
+                self.projectileExplode(eventValue);
+
                 break;
 
             case "markers":
 
+                objectiveMarkers.add(eventValue);
 
                 break;
 
@@ -142,7 +189,7 @@ Events.prototype.actionType = function(type, replayEvent, eventValue) {
 // Killed or unconscious
 Events.prototype.hit = function(hitType, eventData) {
 
-    //console.log(hitType, eventData.victim);
+    console.log(hitType, eventData.victim);
 
     var victim = eventData.victim;
     var attacker = eventData.attacker;
@@ -186,6 +233,8 @@ Events.prototype.hit = function(hitType, eventData) {
             }, 1000);
         }
     }
+
+    console.log(markers.list[victim.unit]);
 
     // Lets mark the unit as unconscious so we can change the colour of their icon
     if(typeof markers.list[victim.unit] !== "undefined") {
@@ -255,7 +304,7 @@ Events.prototype.projectileLaunch = function(eventData) {
 
         var projectileIcon = L.marker(map.rc.unproject([launchPos[0], launchPos[1]]), {
             icon: L.icon({
-                iconUrl: webPath + '/assets/images/map/markers/' + attacker.ammoType.toLowerCase() + '.png',
+                iconUrl: webRoot + '/r3/assets/images/map/markers/' + attacker.ammoType.toLowerCase() + '.png',
                 iconSize: [30, 30],
                 iconAnchor: [15, 15],
                 className: 'projectile-' + attacker.ammoType.toLowerCase()
@@ -274,6 +323,67 @@ Events.prototype.projectileLaunch = function(eventData) {
 
     if (typeof playerInfo !== "undefined")
         notifications.info(attacker.ammoType + ' Launch at ' + playerInfo.name);
+};
+
+// Pulse a large circle around the attacker and animate a smoke or explosion where the projectile lands
+Events.prototype.projectileExplode = function(eventData) {
+
+    var self = this;
+
+    var unit = eventData.unit;
+    var projectileType = eventData.type;
+    var ammoName = eventData.ammo.toLowerCase();
+    var explodedPos = map.gamePointToMapPoint(eventData.position[0], eventData.position[1]);
+    var unitMarker = markers.list[unit];
+
+    var sourcePos = (typeof unitMarker !== "undefined") ? unitMarker.getLatLng() : false;
+
+    var playerInfo = players.getInfo(eventData.id);
+
+    if(projectileType == "grenade") {
+
+        var explodePulse = L.circle(map.rc.unproject([explodedPos[0], explodedPos[1]]), 15, {
+            weight: 1,
+            color: 'black',
+            opacity: 0.6,
+            fill: true,
+            className: 'projectile-grenade',
+            clickable: false
+        }).addTo(map.handler);
+
+        setTimeout(function() {
+            map.handler.removeLayer(explodePulse);
+        }, 1000);
+    } else {
+
+        var color = '#CCC';
+
+        if(ammoName.indexOf('purple') > -1)
+            color = 'purple';
+
+        if(ammoName.indexOf('green') > -1)
+            color = 'green';
+
+        if(ammoName.indexOf('red') > -1)
+            color = 'red';
+
+        if(ammoName.indexOf('blue') > -1)
+            color = 'blue';
+
+        console.log(ammoName, color);
+
+        var smokeCircle = L.circle(map.rc.unproject([explodedPos[0], explodedPos[1]]), 50, {
+            weight: 40,
+            color: color,
+            opacity: 0.5,
+            className: 'projectile-smoke',
+            clickable: false
+        }).addTo(map.handler);
+
+        setTimeout(function() {
+            map.handler.removeLayer(smokeCircle);
+        }, 5000);
+    }
 };
 
 function Map() {
@@ -355,6 +465,7 @@ Map.prototype.render = function(cb) {
     this.setupInteractionHandlers();
 
     poi.init(this.terrain);
+    objectiveMarkers.init();
 
     cb(false);
 };
@@ -457,8 +568,7 @@ function Markers() {
 
     this.list = {};
     this.matchedIcons = {};
-    this.icons = {};
-    this.vehicleIcons = {};
+    this.icons = (typeof icons !== "undefined") ? icons : {};
     this.maxZoomLevelForIndividualPlayerLabels = 7;
     this.eventGroups = {
         'positions_vehicles': {},
@@ -486,28 +596,7 @@ Markers.prototype.setupLayers = function() {
 
     this.eventGroups.positions_vehicles.addTo(map.handler);
     this.eventGroups.positions_infantry.addTo(map.handler);
-
-    // this.fetchVehicleIcons();
 }
-
-Markers.prototype.fetchVehicleIcons = function() {
-
-    var self = this;
-
-    $.ajax({
-        url: webPath + '/fetch-vehicle-icons',
-        type: 'GET',
-        dataType: 'json',
-        success: function(responseData) {
-            self.vehicleIcons = responseData;
-
-            console.log(self.vehicleIcons);
-        },
-        error: function(jq, status, message) {
-            console.log('Error fetching playback data - Status: ' + status + ' - Message: ' + message);
-        }
-    });
-};
 
 // Cleanup old units we are no longer receiving data for and add update others
 Markers.prototype.processPositionalUpdate = function(replayEvent, eventValue, type) {
@@ -613,10 +702,6 @@ Markers.prototype.add = function(unit, data, type, timeUpdated) {
 
     var markerId = (isPlayer)? data.id : this.cleanUnitName(unit);
 
-    // Show height markers on AI aircraft, but we need a name for it to display nicely
-    if (icon == "iconPlane" && !isPlayer)
-        label = 'Jet';
-
     // If this is a vehicle and we have crew lets add them to the label
     if (isVehicle && crew.length && crew.length > 1)
         label += this.addCrewCargoToLabel('crew', crew, data.id);
@@ -633,7 +718,7 @@ Markers.prototype.add = function(unit, data, type, timeUpdated) {
         iconSize: [30, 30],
         iconAnchor: [15, 15],
         className: 'unit-marker unit-marker__class--' + iconClass + ' unit-marker--' + icon + ' unit-marker__id--' + markerId,
-        iconUrl: webPath + '/assets/images/map/markers/' + iconType + '/'
+        iconUrl: webRoot + '/r3/assets/images/map/markers/'
     };
 
     // This marker isn't on the map yet
@@ -683,7 +768,7 @@ Markers.prototype.add = function(unit, data, type, timeUpdated) {
 
         if (typeof this.list[unit].unconscious !== "undefined" && this.list[unit].unconscious) {
 
-            var iconUrl = webPath + '/assets/images/map/markers/' + iconType + '/iconMan-unconcious.png';
+            var iconUrl = iconMarkerDefaults.iconUrl + 'iconMan-unconcious.png';
 
             var mapIcon = L.icon(_.extend(iconMarkerDefaults, {
                 iconUrl: iconUrl,
@@ -761,7 +846,12 @@ Markers.prototype.add = function(unit, data, type, timeUpdated) {
             //markerDomElement.addClass('unit-marker--tracking');
 
             $('.unit-marker__label--tracking').removeClass('unit-marker__label--tracking');
-            $('.unit-marker__label--' + players.trackTarget).not('.unit-marker__label--positions_vehicles').addClass('unit-marker__label--tracking').css('z-index', 99999);
+
+            if(isVehicle && !$('.unit-marker__label--' + players.trackTarget).length) {
+                $('.unit-marker__label__group--' + group).not('.unit-marker__label--positions_vehicles').addClass('unit-marker__label--tracking').css('z-index', 99999);
+            } else {
+                $('.unit-marker__label--' + players.trackTarget).not('.unit-marker__label--positions_vehicles').addClass('unit-marker__label--tracking').css('z-index', 99999);
+            }
 
             if(label == " ")
                 this.list[unit].label.setContent(players.getNameFromId(data.id));
@@ -794,11 +884,8 @@ Markers.prototype.getIconWithFaction = function(isVehicle, iconPath, defaultIcon
 
     var icon = defaultIcon + '.png';
 
-    if (typeof iconPath !== "undefined")
-        iconPath = iconPath.toLowerCase();
-
-    if (isVehicle && typeof this.vehicleIcons[iconPath] !== "undefined")
-        icon = 'mod-specific' + this.vehicleIcons[iconPath];
+    if (typeof iconPath !== "undefined" && typeof this.icons[iconPath.toLowerCase()] !== "undefined")
+        icon = this.icons[iconPath.toLowerCase()] + '.png';
 
     // Add our faction to the icon name so we get a colour specific version
     return icon.replace(".png", "-" + faction.name + ".png");
@@ -808,6 +895,8 @@ Markers.prototype.addCrewCargoToLabel = function(type, data, unitId) {
 
     var label = '<span class="operation-' + type + '">';
 
+    var groupCargo = {};
+
     _.each(data, function(c) {
 
         // We don't want to include the driver
@@ -815,8 +904,20 @@ Markers.prototype.addCrewCargoToLabel = function(type, data, unitId) {
 
             var playerInfo = players.getInfo(c);
 
-            if (typeof playerInfo !== "undefined")
-                label += '<span class="operation-cargo__unit unit-marker__label--' + c + '">' + playerInfo.name + '</span>';
+            if (typeof playerInfo !== "undefined") {
+
+                if(type == "cargo" && data.length > 5) {
+
+                    if(typeof groupCargo[playerInfo.group] === "undefined") {
+                        groupCargo[playerInfo.group] = 1;
+                        label += '<span class="operation-cargo__unit unit-marker__label__group--' + playerInfo.group + '">' + playerInfo.group + '</span>';
+                    } else {
+                        groupCargo[playerInfo.group]++;
+                    }
+                } else {
+                    label += '<span class="operation-cargo__unit unit-marker__label--' + c + '">' + playerInfo.name + '</span>';
+                }
+            }
         }
     });
 
@@ -1011,6 +1112,101 @@ Notifications.prototype.error = function(message) {
     toastr.error(message);
 };
 
+function ObjectiveMarkers() {
+
+    this.supportedList = (typeof objectiveMarkersConfig !== "undefined") ? objectiveMarkersConfig : {};
+    this.ready = false;
+    this.layer = null;
+    this.validMarkerCount = 0;
+};
+
+ObjectiveMarkers.prototype.init = function(terrainName) {
+
+    this.setupInteractionHandlers();
+}
+
+ObjectiveMarkers.prototype.setupInteractionHandlers = function() {
+
+    var self = this;
+
+    $('body').on('click', '.hide-markers__ignore', function(e) {
+        e.preventDefault();
+
+        $('.hide-markers').fadeOut();
+        $('.hide-markers__ignore').fadeOut();
+    });
+
+    $('body').on('click', '.hide-markers', function(e) {
+        e.preventDefault();
+
+        if($(this).hasClass('hide-markers--active')) {
+
+            $(this).removeClass('hide-markers--active').find('span').html('Hide editor markers');
+            self.layer.addTo(map.handler);
+
+        } else {
+
+            $(this).addClass('hide-markers--active').find('span').html('Show editor markers');
+            map.handler.removeLayer(self.layer);
+        }
+    });
+};
+
+ObjectiveMarkers.prototype.add = function(markerData) {
+
+    var self = this;
+    var newLayer = false;
+
+    if(!this.layer) {
+        this.layer = new L.featureGroup([]);
+        this.layer.addTo(map.handler);
+    }
+
+    async.forEachOf(markerData, function(singleMarker, key, callback) {
+
+        var markerType = singleMarker.type.toLowerCase();
+
+        if (self.supportedList.indexOf(markerType) === -1) {
+            console.warn('Unsupported marker', singleMarker);
+            return callback();
+        }
+
+        if(self.validMarkerCount == 0)
+            newLayer = true;
+
+        var offset = [0, 0];
+        var iconSize = [30, 30];
+        var iconAnchor = [15, 15];
+
+        var poiIcon = L.icon({
+            iconUrl: webRoot + '/r3/assets/images/map/markers/' + markerType + '.png',
+            iconSize: iconSize,
+            iconAnchor: iconAnchor,
+            className: 'obj-marker-image obj-marker-image--' + markerType
+        });
+
+        var pos = map.gamePointToMapPoint(singleMarker.pos[0], singleMarker.pos[1]);
+
+        var objMarker = L.marker(map.rc.unproject([pos[0], pos[1]]), {
+            icon: poiIcon,
+            clickable: false
+        }).bindLabel(singleMarker.text, {
+            noHide: true,
+            className: 'obj-marker obj-marker-' + markerType,
+            offset: offset
+        });
+
+        self.layer.addLayer(objMarker);
+
+        callback();
+    }, function(err) {
+
+        if(newLayer)
+            $('.hide-markers, .hide-markers__ignore').show();
+
+    });
+};
+
 function PlayBack() {
 
     this.zoomedToFirstPlayer = false;
@@ -1050,6 +1246,9 @@ PlayBack.prototype.fetch = function(cacheAvailable) {
     var fetchType = "GET";
 
     var self = this;
+
+    if(!cacheAvailable)
+        $('.timeline').addClass('timeline--caching');
 
     $.ajax({
         url: eventSourceUrl,
@@ -1266,8 +1465,10 @@ Players.prototype.add = function(id, name, group, factionData, unit) {
         "name": name
     };
 
-    if(typeof this.masterList[id] !== "undefined")
+    if(typeof this.masterList[id] !== "undefined") {
         this.masterList[id].unit = unit;
+        this.masterList[id].group = group;
+    }
 
     // Do we have this faction setup yet?
     if(typeof this.factionGroups[factionData.name] === "undefined")
@@ -1351,7 +1552,7 @@ Players.prototype.updateList = function(forceUpdate) {
 
                 var playerData = self.getInfo(playerId);
 
-                var imgUrl = webPath + '/assets/images/map/markers/blank.png';
+                var imgUrl = webRoot + '/r3/assets/images/map/markers/blank.png';
 
                 //console.log('p', playerData);
                 //console.log(markers.list);
@@ -1502,7 +1703,7 @@ Poi.prototype.add = function() {
             }
 
             var poiIcon = L.icon({
-                iconUrl: webPath + '/assets/images/map/markers/poi/' + poiIconName + '.png',
+                iconUrl: webRoot + '/r3/assets/images/map/markers/' + poiIconName + '.png',
                 iconSize: iconSize,
                 iconAnchor: iconAnchor,
                 className: 'poi-image--' + poi.type
@@ -1702,6 +1903,7 @@ Timeline.prototype.setupScrubber = function(eventList) {
 
     $('.timeline__silder__value').html(0);
     $('.timeline').removeClass('timeline--loading');
+    $('.timeline').removeClass('timeline--caching');
 
     this.timePointer = this.timeBounds.min;
 
@@ -1927,10 +2129,12 @@ var replayList = new ReplayList(),
     players = new Players(),
     markers = new Markers(),
     poi = new Poi(),
+    objectiveMarkers = new ObjectiveMarkers(),
     map = new Map(),
     timeline = new Timeline(),
     notifications = new Notifications(),
-    modal = new Modal();
+    modal = new Modal(),
+    admin = new Admin();
 
 $('document').ready(function() {
 
@@ -1945,4 +2149,10 @@ $('document').ready(function() {
         playBack.init(replayDetails, sharedPresets, cacheAvailable);
         notifications.init();
     }
+
+    $('body').on('click', '.js-help', function(e) {
+        e.preventDefault();
+
+        modal.show('modal__help');
+    });
 });

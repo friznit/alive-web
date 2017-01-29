@@ -169,6 +169,30 @@ class AfterActionReplay {
                         'distance' => 'Distance'
                     ]
                 ]
+            ],
+            'Missile' => [
+                'playerId' => 'Player',
+                'type' => [
+                    'options' => [
+                        'key' => 'Event',
+                        'sub' => 'incoming_missile'
+                    ]
+                ],
+                'missionTime' => 'missionTime',
+                'realTime' => 'realTime',
+                'value' => [
+                    'victim' => [
+                        'unit' => 'target',
+                        'id'   => ''
+                    ],
+                    'attacker' => [
+                        'unit'     => 'source',
+                        'id'       => '',
+                        'pos'      => 'sourceGeoPos',
+                        'weapon'   => 'Weapon',
+                        'ammoType' => ''
+                    ]
+                ]
             ]
         ]
     ];
