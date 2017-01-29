@@ -23,7 +23,8 @@ sudo php5enmod mcrypt > /dev/null
 service apache2 restart > /dev/null
 
 echo "BOOTSTRAP: Creating database"
-mysql --user=root --password=root -e "CREATE DATABASE alive_db CHARACTER SET utf8 COLLATE utf8_general_ci"; 
+mysql --user=root --password=root -e "CREATE DATABASE alivemod_db CHARACTER SET utf8 COLLATE utf8_general_ci"; 
+mysql --user=root --password=root -e "grant all privileges on alivemod_db.* to 'alivemod_dbuser'@'localhost' identified by 'asdvbAETRhdsgj23'; flush privileges;"
 
 echo "BOOTSTRAP: Setting up swapfile"
 fallocate -l 1G /swapfile # required for composer...
