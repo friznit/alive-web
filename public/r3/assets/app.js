@@ -304,7 +304,7 @@ Events.prototype.projectileLaunch = function(eventData) {
 
         var projectileIcon = L.marker(map.rc.unproject([launchPos[0], launchPos[1]]), {
             icon: L.icon({
-                iconUrl: webRoot + '/r3/assets/images/map/markers/' + attacker.ammoType.toLowerCase() + '.png',
+                iconUrl: 'https://r3icons.titanmods.xyz/' + attacker.ammoType.toLowerCase() + '.png',
                 iconSize: [30, 30],
                 iconAnchor: [15, 15],
                 className: 'projectile-' + attacker.ammoType.toLowerCase()
@@ -1179,7 +1179,7 @@ ObjectiveMarkers.prototype.add = function(markerData) {
         var iconAnchor = [15, 15];
 
         var poiIcon = L.icon({
-            iconUrl: webRoot + '/r3/assets/images/map/markers/' + markerType + '.png',
+            iconUrl: 'https://r3icons.titanmods.xyz/' + markerType + '.png',
             iconSize: iconSize,
             iconAnchor: iconAnchor,
             className: 'obj-marker-image obj-marker-image--' + markerType
@@ -1552,7 +1552,7 @@ Players.prototype.updateList = function(forceUpdate) {
 
                 var playerData = self.getInfo(playerId);
 
-                var imgUrl = webRoot + '/r3/assets/images/map/markers/blank.png';
+                var imgUrl = 'https://r3icons.titanmods.xyz/blank.png';
 
                 //console.log('p', playerData);
                 //console.log(markers.list);
@@ -1703,7 +1703,7 @@ Poi.prototype.add = function() {
             }
 
             var poiIcon = L.icon({
-                iconUrl: webRoot + '/r3/assets/images/map/markers/' + poiIconName + '.png',
+                iconUrl: 'https://r3icons.titanmods.xyz/' + poiIconName + '.png',
                 iconSize: iconSize,
                 iconAnchor: iconAnchor,
                 className: 'poi-image--' + poi.type
