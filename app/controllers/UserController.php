@@ -32,17 +32,19 @@ class UserController extends BaseController
      */
     public function postRegister()
     {
-        /*
-        require_once(app_path().'/lib/reCaptcha/recaptchalib.php');
+        $secret = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe";
+        $response = Input::get('g-recaptcha-response');
+        $url = "https://www.google.com/recaptcha/api/siteverify";
+        $response = json_decode(
+            file_get_contents(
+                $url."?secret=".$secret."&response=".$response."&remoteip=".$_SERVER['REMOTE_ADDR']
+            )
+        );
 
-        $privatekey = "6LejYfISAAAAAPD3vW4aZQoTv2ot7ZIuyCSda9s4";
-        $resp = recaptcha_check_answer ($privatekey,$_SERVER["REMOTE_ADDR"],$_POST["recaptcha_challenge_field"],$_POST["recaptcha_response_field"]);
-
-        if (!$resp->is_valid) {
+        if (!$response->success) {
             Alert::error('Captcha incorrect')->flash();
             return Redirect::to('user/register')->withInput();
         }
-        */
 
         $input = array(
             'email' => Input::get('email'),
