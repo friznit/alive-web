@@ -33,11 +33,12 @@ class UserController extends BaseController
     public function postRegister()
     {
         $secret = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe";
-        $response = Input::get('g-recaptcha-response');
         $url = "https://www.google.com/recaptcha/api/siteverify";
+        $userResponse = Input::get('g-recaptcha-response');
+
         $response = json_decode(
             file_get_contents(
-                $url."?secret=".$secret."&response=".$response."&remoteip=".$_SERVER['REMOTE_ADDR']
+                $url."?secret=".$secret."&response=".$userResponse."&remoteip=".$_SERVER['REMOTE_ADDR']
             )
         );
 
