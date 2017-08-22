@@ -1,33 +1,29 @@
 <script>
     $(document).ready(function(){
+
         $('#pilots').dataTable({
             "bJQueryUI": true,
             "sAjaxSource": '{{ URL::to('/') }}/api/orbatpilots?id={{{$clan->tag}}}',
             "sAjaxDataProp": "rows",
-					"bPaginate": false,
-					"bInfo": false,
-					"bFilter": false,
-            "aaSorting": [[3, "desc" ]],
+			"bPaginate": false,
+			"bInfo": false,
+			"bFilter": false,
+            "aaSorting": [[2, "desc" ]],
             "aoColumnDefs": [
                 { "mDataProp": "key", "aTargets": [ 0 ],
-					"mRender" : function (data, type) {
+				    "mRender" : function (data, type) {
 						return "<a href={{ URL::to('war-room/showpersonnel') }}/" + data[1] + ">" +  data[2] + "</a>";
 					}  
 				},
-				{ "mDataProp": "key.4", "aTargets": [ 1 ],
-					"mRender" : function (data, type) {
-						return "<img src={{ URL::to('img/classes/thumbs/150px-Arma3_CfgVehicles_') }}" + data + ".png onerror=this.style.display='none'>";
-					}
-			    },				
-                { "mDataProp": "key.3", "aTargets": [ 2 ],
-					"mRender" : function (data, type) {
-						if (data.indexOf("_") > -1) {
-							data = data.replace(/_/g," ");
-						}
-						return data;
-					}
-				 },
-                { "mDataProp": "value", "aTargets": [ 3 ]  }
+				{ "mDataProp": "key", "aTargets": [ 1 ],
+                    "mRender" : function (data, type) {
+                        if (data[3].indexOf("_") > -1) {
+                            data[3] = data[3].replace(/_/g," ");
+                        }
+                        return "<img src={{ URL::to('img/classes/thumbs/150px-Arma3_CfgVehicles_') }}" + data[4] + ".png alt='" + data[3] +"' title='" + data[3] +"'/>";
+                    }
+			    },
+                { "mDataProp": "value", "aTargets": [ 2 ]  }
             ]
         } );
     });
@@ -38,7 +34,6 @@
     <thead>
     <tr>
         <th>Unit</th>
-        <th>Image</th>
         <th>Vehicle</th>
         <th>EKIA</th>
     </tr>
