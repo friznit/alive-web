@@ -125,8 +125,8 @@ class AdminClanController extends BaseController
         );
 
         $rules = array(
-            'newGroup' => 'required|alpha_num',
-            'tag' => 'required',
+            'newGroup' => 'required|regex:/^[\pL\s\pN]+$/u',
+            'tag' => 'required|alpha_num',
         );
 
         $v = Validator::make($input, $rules);
@@ -351,7 +351,8 @@ class AdminClanController extends BaseController
         );
 
         $rules = array(
-            'name' => 'required|alpha_num',
+            'name' => 'required|regex:/^[\pL\s\pN]+$/u',
+            'tag' => 'alpha_num',
             'website' => 'url',
             'twitchStream' => 'url',
         );
