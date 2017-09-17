@@ -10,29 +10,33 @@
                     <li><i class="fa-li fa fa-arrow-right"></i>Hazey</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Highhead</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Jman</li>
-                    <li><i class="fa-li fa fa-arrow-right"></i>Raptor</li>                  
+                    <li><i class="fa-li fa fa-arrow-right"></i>MarcelDev</li>                    
+                    <li><i class="fa-li fa fa-arrow-right"></i>Raptor</li>
+                    <li><i class="fa-li fa fa-arrow-right"></i>SpyderBlack723</li>                                      
                     <li><i class="fa-li fa fa-arrow-right"></i>Tupolov</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Wolffy.au</li>
                 </ul>
                 <h4><i class="fa fa-cogs"></i> ALiVE Contributors</h4>
-                <ul class="fa-ul dark-list">            
+                <ul class="fa-ul dark-list">
+                    <li><i class="fa-li fa fa-arrow-right"></i>AUTigerGrad</li>                        
                     <li><i class="fa-li fa fa-arrow-right"></i>Cameroon</li>
+                    <li><i class="fa-li fa fa-arrow-right"></i>HeroesAndVillainsOS</li>                    
                     <li><i class="fa-li fa fa-arrow-right"></i>Naught</li>
+                    <li><i class="fa-li fa fa-arrow-right"></i>Neo</li>                    
                     <li><i class="fa-li fa fa-arrow-right"></i>Rye</li>
                     <li><i class="fa-li fa fa-arrow-right"></i>Sacha L</li>
-                    <li><i class="fa-li fa fa-arrow-right"></i>SpyderBlack723</li>                                          
+                    <li><i class="fa-li fa fa-arrow-right"></i>Whigital</li>                                                              
                     <li><i class="fa-li fa fa-arrow-right"></i>WobblyHeadedBob</li>
                 </ul>                
             </div>
             <div class="col-md-4">
                 <h4><i class="fa fa-info-circle"></i> More Information</h4>
-                <p>Feedback and bug reports for ALIVE are welcome at the dev-heaven <a href="https://dev-heaven.net/projects/alive/issues">Community Issue Tracker</a></p>
-                <p>Please note that support will be strictly limited to issues and bugs directly relating to our official ALIVE modules only.  We cannot provide support for queries and issues arising from general mission editing, the ArmA3 game, other mods or addons unrelated to ALiVE.</p>
+                <p>Feedback and bug reports for ALIVE are welcome at our <a href="https://github.com/ALiVEOS/ALiVE.OS/issues">GitHub Issue Tracker</a></p>
+                <p>Please note that support will be strictly limited to issues and bugs directly relating to our official ALIVE modules only.  We cannot provide support for queries and issues arising from general mission editing, the Arma 3 game, other mods or addons unrelated to ALiVE.</p>
             </div>
             <div class="col-md-4">
                 <h4><i class="fa fa-pencil"></i> End User License Agreement</h4>
-                <p>This addon is released under Creative Commons Licence Attribution-NonCommercial-NoDerivs CC BY-NC-ND</p>
-                <p>You may share this addon with others as long as you credit the original authors. You are NOT permitted to edit, tweak or change the addon in any way without explicit permission from the authors.</p>
+                <p>This addon is open source, see our <a href="https://github.com/ALiVEOS/ALiVE.OS/blob/master/LICENSE.txt">License on GitHub</a></p>
                 <p>You are permitted to download and use this software for personal entertainment purposes only. This add-on is meant for ARMA 3 game platform by Bohemia Interactive only. Any commercial or military use is strictly forbidden without permission from the authors.</p>
             </div>
         </div>
