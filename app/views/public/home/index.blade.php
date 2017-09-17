@@ -52,7 +52,7 @@
                 <ul class="fa-ul white-list">                
                     <li><i class="fa-li fa fa-caret-right"></i>Easy to use Arma 3 editor modules for rapid scenario generation</li>
                     <li><i class="fa-li fa fa-caret-right"></i>Automatic map-wide strategic placement of enemy AI for large scale scenarios</li>
-                    <li><i class="fa-li fa fa-caret-right"></i>Virtual AI system allowing for simulation of thousands of AI for large scale scenarios</li>                    
+                    <li><i class="fa-li fa fa-caret-right"></i>Virtual AI system allowing for simulation of thousands of AI for large scale scenarios including land, air and sea forces.</li>                    
                     <li><i class="fa-li fa fa-caret-right"></i>AI commanders that use different strategies to occupy/invade/terrorize objectives</li>
                     <li><i class="fa-li fa fa-caret-right"></i>Military logistics system allowing AI commanders to reinforce and resupply</li>
                     <li><i class="fa-li fa fa-caret-right"></i>Complete insurgency simulation based on civilian interaction, recruitment and asymmetric warfare</li>
@@ -60,9 +60,10 @@
                     <li><i class="fa-li fa fa-caret-right"></i>C2ISTAR system for task/mission generation and management, intel via map overlays and SITREP systems</li>
                     <li><i class="fa-li fa fa-caret-right"></i>Player logistics system for lift/shift of objects, towing and more</li>                    
                     <li><i class="fa-li fa fa-caret-right"></i>Advanced persistent map markers and tools with SITREP integration</li>                    
-                     <li><i class="fa-li fa fa-caret-right"></i>Ambient urban combat simulation for close quarters battle</li>
+                    <li><i class="fa-li fa fa-caret-right"></i>Ambient urban combat simulation for close quarters battle</li>
                     <li><i class="fa-li fa fa-caret-right"></i>Ambient IED, VBIED and suicide bomber threat</li>                   
-                    <li><i class="fa-li fa fa-caret-right"></i>MP player support systems such as admin actions, player tags, view distance control, player gear persistence, multi-respawn, crew info and more</li>          
+                    <li><i class="fa-li fa fa-caret-right"></i>MP player support systems such as admin actions, player tags, view distance control, player gear persistence, multi-respawn, crew info and more</li>
+                    <li><i class="fa-li fa fa-caret-right"></i>In-game faction creation tool (ORBATRON) making it very simple to create new factions and groups.</li>          
  				</ul>
             </div>
             <div class="col-md-5 col-md-offset-1">
@@ -180,9 +181,9 @@
                         <th>Donate</th>
                     </tr>
                     <tr class="success">
-                        <td>1.2.8.1701171</td>
-                        <td>Arma 3 Stable 1.66 (Build 139494)</td>
-                        <td><a class="btn btn-primary btn-lg pull-right" href="https://github.com/ALiVEOS/ALiVE.OS/releases/download/v1.2.8.1701171/ALiVE_1.2.8.1701171.7z"><i class="fa fa-download"></i> Download</a></td>
+                        <td>1.4.0.1709171</td>
+                        <td>Arma 3 Stable 1.76 (Build 142872)</td>
+                        <td><a class="btn btn-primary btn-lg pull-right" href="https://github.com/ALiVEOS/ALiVE.OS/releases/download/v1.4.0.1709171/ALiVE_1.4.0.1709171.7z"><i class="fa fa-download"></i> Download</a></td>
  						<td><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                                 <input type="image" class="btn btn-yellow btn-lg" name="submit" alt="Voluntary Donation" style="margin-top: -10px;">
                                 <input type="hidden" name="cmd" value="_s-xclick">
