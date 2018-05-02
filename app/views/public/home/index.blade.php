@@ -114,32 +114,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-7">
-                <h2>Help the team, donate</h2>
-                <p>To help cover costs of server expenses and to just say thanks, donate to the ALiVE team.</p>
-                <table class="table">
-                    <tr>
-                        <th>PayPal</th>
-                        <th></th>
-                        <th>Bitcoin</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                                <input type="hidden" name="cmd" value="_s-xclick">
-                                <input type="hidden" name="hosted_button_id" value="YEX976YKH796L">
-                                <input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online.">
-                                <img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
-                            </form>
-                        </td>
-                        <td></td>
-                        <td>
-                            <a href="bitcoin:1M8uieNM4tiEhkBLJNoUcFYHPpwj8z3HTC?amount=0.01&label=ALiVE%20Mod">
-                                <p>1M8uieNM4tiEhkBLJNoUcFYHPpwj8z3HTC</p>
-                            </a>
-                            <img src="{{ URL::to('/') }}/img/alive_ss.gif"/>
-                        </td>
-                    </tr>
-                </table>
+                <h2>Visit our hosts and sponsors!</h2>
+                <p><a href="https://armahosts.com"><img src="https://armahosts.com/img/logo.png" alt="ArmaHosts" width="652" height="171" /></a></p>
             </div>
             <div class="col-md-1">
             </div>
@@ -178,19 +154,11 @@
                         <th>Version</th>
                         <th>Compatible With</th>
                         <th>Download</th>
-                        <th>Donate</th>
                     </tr>
                     <tr class="success">
-                        <td>1.4.0.1709171</td>
-                        <td>Arma 3 Stable 1.76 (Build 142872)</td>
-                        <td><a class="btn btn-primary btn-lg pull-right" href="https://github.com/ALiVEOS/ALiVE.OS/releases/download/v1.4.0.1709171/ALiVE_1.4.0.1709171.7z"><i class="fa fa-download"></i> Download</a></td>
- 						<td><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                                <input type="image" class="btn btn-yellow btn-lg" name="submit" alt="Voluntary Donation" style="margin-top: -10px;">
-                                <input type="hidden" name="cmd" value="_s-xclick">
-                                <input type="hidden" name="hosted_button_id" value="YEX976YKH796L">                                
-                            </form>
-                       		Donate to our server costs.
-                        </td>                        
+                        <td>1.6.1.1804271</td>
+                        <td>Arma 3 Stable 1.82</td>
+                        <td><a class="btn btn-primary btn-lg pull-right" href="https://github.com/ALiVEOS/ALiVE.OS/releases/download/v1.6.1.1804271/ALiVE_1.6.1.1804271.7z"><i class="fa fa-download"></i> Download</a></td>
                     </tr>                   
                 </table>
             </div>

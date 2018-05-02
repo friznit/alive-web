@@ -8,7 +8,7 @@ ini_set('max_execution_time', 600);
 
 class CouchAPI {
 
-    private $user = 'aliveadmin';
+    private $user = 'AliveAdmin';
     private $pass = 'tupolov';
     private $url = 'http://db.alivemod.com:5984/';
     
