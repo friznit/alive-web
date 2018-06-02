@@ -18,92 +18,125 @@ class WarRoomController extends BaseController {
     // Home ------------------------------------------------------------------------------------------------------------
 
    public function getIndex()
-    {
+   {
         ini_set('memory_limit', '1024M');
         $data = get_default_data();
         $couchAPI = new Alive\CouchAPI();
-        $cacheKey = 'home';
-       if (Cache::has($cacheKey)) {
-           $content = Cache::get($cacheKey);
-       }else{
-            // AO data
-            $aos = AO::all();
-            foreach($aos as &$ao){
-                $ao->couchData = $couchAPI->getMapTotals($ao->configName);
+
+        // AO data
+        $aos = AO::all();
+        $aoData = $couchAPI->getAllMapTotals();
+
+        foreach($aos as &$ao){
+            $ao->couchData = (!empty($aoData[strtolower($ao->configName)]))
+                           ? json_encode($aoData[strtolower($ao->configName)])
+                           : json_encode([]);
+        }
+
+        $data['allAOs'] = $aos;
+        unset($oas);
+        unset($aoData);
+
+        $orbatTypes = [];
+        foreach (OrbatType::all() as $orbatType) {
+            $orbatTypes[$orbatType->type] = $orbatType;
+        }
+
+        $orbatSizes = [];
+        foreach (OrbatSize::all() as $orbatSize) {
+            $orbatSizes[$orbatSize->type] = $orbatSize;
+        }
+
+        // DEV data
+        $devs = Profile::where('remark', '=', 'Developer')->with('clan')->get();
+        $devData = $couchAPI->getAllDevCredits();
+
+        forEach($devs as &$dev) {
+            $dev->couchData = (!empty($devData[$dev->a3_id]))
+                            ? json_encode($devData[$dev->a3_id])
+                            : json_encode([]);
+
+            $orbatType = $orbatTypes[$dev->clan->type];
+            $orbatTize = $orbatSizes[$dev->clan->size];
+
+            $dev->icon = $orbatType->icon;
+            $dev->orbatname = $orbatType->name;
+            $dev->size = $orbatSize->name;
+            $dev->sizeicon = $orbatSize->icon;
+        }
+
+        $data['devs'] = $devs;
+        unset($devs);
+        unset($devData);
+
+        // CLAN data
+        $clans = Clan::where('parent', '!=', 'JTF')->orwhereNull('parent')->get();
+        $clanData = $couchAPI->getGroupTotals();
+        $clanData = json_decode($clanData);
+        $newData = [];
+
+        // hacky but whatever
+        foreach ($clanData->rows as $row) {
+            $newData[$row->key[0]] = (array)$row->value;
+        }
+
+        $clanData = $newData;
+        unset($newData);
+        $clanOps = $couchAPI->getAllLastOps();
+
+        forEach($clans as $key => &$clan) {
+            // remove clans without any group and/or OP couch data
+            if (empty($clanData[$clan->tag]) || empty($clanOps[$clan->tag])) {
+                unset($clans[$key]);
+                continue;
             }
-            $data['allAOs'] = $aos;
-            // DEV data
-            $devs = Profile::where('remark', '=', 'Developer')->get();
-            forEach($devs as &$dev) {
-                $dev->couchData = $couchAPI->getDevCredits($dev->a3_id);
-                $clan = $dev->clan;
-                $dev->orbat = $clan->orbat();
-                $orbattype = $dev->orbat['type'];
-                $orbatsize = $dev->orbat['size'];
-                $icon = '';
-                $name = '';
-                $size = '';
-                $sizeicon = '';
-                if(count($orbattype) > 0){
-                    $icon = $orbattype[0]->icon;
-                    $name = $orbattype[0]->name;
-                }
-                if(count($orbatsize) > 0){
-                    $size = $orbatsize[0]->name;
-                    $sizeicon = $orbatsize[0]->icon;
-                }
-                $dev->icon = $icon;
-                $dev->name = $name;
-                $dev->size = $size;
-                $dev->sizeicon = $sizeicon;
+
+            // remove inactive clans from the map overview thingy
+            $opDate = new DateTime($clanOps[$clan->tag][0][1]);
+            $now = new DateTime();
+            $diff = $opDate->diff($now);
+
+            if ($diff->m + ($diff->y * 12) >= 6) {
+                unset($clans[$key]);
+                continue;
             }
-            $data['devs'] = $devs;
-            // CLAN data
-            $clans = Clan::where('parent', '!=', 'JTF')->orwhereNull('parent')->get();
-            forEach($clans as &$clan) {
-                $clan->couchData = $couchAPI->getGroupTotalsByTag($clan->tag);
-                $clan->lastop = $couchAPI->getGroupLastOp($clan->tag);
-                $clanorbat = $clan->orbat();
-                $orbattype = $clanorbat['type'];
-                $orbatsize = $clanorbat['size'];
-                $icon = '';
-                $name = '';
-                $size = '';
-                $sizeicon = '';
-                $lat = '';
-                $lon = '';
-                if(count($orbattype) > 0){
-                    $icon = $orbattype[0]->icon;
-                    $name = $orbattype[0]->name;
-                }
-                if(count($orbatsize) > 0){
-                    $size = $orbatsize[0]->name;
-                    $sizeicon = $orbatsize[0]->icon;
-                }
-                if (is_null ($clan->lat)) {
-                    $lat = rand(3000,4500);
-                } else {
-                    $lat = $clan->lat;
-                }
-                if (is_null ($clan->lon)) {
-                    $lon = rand(1800,6400);
-                } else {
-                    $lon = $clan->lon;
-                }
-                $clan->icon = $icon;
-                $clan->orbatname = $name;
-                $clan->size = $size;
-                $clan->sizeicon = $sizeicon;
-                $clan->lat = $lat;
-                $clan->lon = $lon;
+
+            $clan->couchData = json_encode($clanData[$clan->tag]);
+            $clan->lastop = json_encode(['date' => $clanOps[$clan->tag][0][1], 'Operation' => $clanOps[$clan->tag][0][2]]);
+
+            $orbatType = $orbatTypes[$clan->type];
+            $orbatTize = $orbatSizes[$clan->size];
+
+            $clan->icon = $orbatType->icon;
+            $clan->orbatname = $orbatType->name;
+            $clan->size = $orbatSize->name;
+            $clan->sizeicon = $orbatSize->icon;
+
+            if (is_null ($clan->lat)) {
+                $lat = rand(3000,4500);
+            } else {
+                $lat = $clan->lat;
             }
-            $data['clans'] = $clans;
-            $content = View::make('warroom/home.index')->with($data)->render();
-            Cache::add($cacheKey, $content, 60);
-       }
-        $header = View::make('warroom/layouts/home_header')->render();
-        $nav = View::make('warroom/layouts/nav')->with($data)->render();
-        $footer = View::make('warroom/layouts/home_footer')->with($data)->render();
+
+            if (is_null ($clan->lon)) {
+                $lon = rand(1800,6400);
+            } else {
+                $lon = $clan->lon;
+            }
+
+            $clan->lat = $lat;
+            $clan->lon = $lon;
+        }
+
+        $data['clans'] = $clans;
+        unset($clans);
+        unset($clanData);
+        unset($clanOps);
+
+        $content = View::make('warroom/home.index')->with($data);
+        $header = View::make('warroom/layouts/home_header');
+        $nav = View::make('warroom/layouts/nav')->with(get_default_data());
+        $footer = View::make('warroom/layouts/home_footer')->with(get_default_data());
 
         return $header . $nav . $content . $footer;
     }

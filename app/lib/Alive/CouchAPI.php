@@ -270,6 +270,29 @@ class CouchAPI {
         return $encoded;
     }
 
+    public function getAllMapTotals()
+    {
+        $cacheKey = 'AllMapTotals';
+        $result = [];
+
+        if ($cache = $this->getCache($cacheKey)) {
+            $result = $cache;
+        } else {
+            $path = 'events/_design/operationsTable/_view/operationTotals?group_level=1';
+            $data = $this->call($path);
+
+            foreach ($data['response']->rows as $row) {
+                if (!empty($row->key[0])) {
+                    $result[$row->key[0]] = (array)$row->value;
+                }
+            }
+
+            $this->setCache($cacheKey, $result, 'day');
+        }
+
+        return $result;
+    }
+
     public function getActiveUnitCount()
     {
 
@@ -277,7 +300,7 @@ class CouchAPI {
 
         if($cache = $this->getCache($cacheKey)){ return $cache;}
 
-        $path = 'events/_design/homePage/_view/players_list?group_level=2';
+        $path = 'events/_design/homePage/_view/players_list_new?group_level=2';
 
         $data = $this->call($path);
 
@@ -958,6 +981,29 @@ class CouchAPI {
         return $encoded;
     }
 
+    public function getAllDevCredits()
+    {
+        $cacheKey = 'AllDevCredits';
+        $result = [];
+
+        if ($cache = $this->getCache($cacheKey)) {
+            $result = $cache;
+        } else {
+            $path = 'credits/_design/warroom/_view/devcredits';
+            $data = $this->call($path);
+
+            foreach ($data['response']->rows as $row) {
+                if (!empty($row->key[0])) {
+                    $result[$row->value->Player] = (array)$row->value;
+                }
+            }
+
+            $this->setCache($cacheKey, $result, 'hour');
+        }
+
+        return $result;
+    }
+
 	public function getPlayerTotals($id)
     {
 
@@ -1352,6 +1398,29 @@ class CouchAPI {
         }
 
         return $encoded;
+    }
+
+    public function getAllLastOps()
+    {
+        $cacheKey = 'AllLastOps';
+        $result = [];
+
+        if ($cache = $this->getCache($cacheKey)) {
+            $result = $cache;
+        } else {
+            $path = 'events/_design/groupPage/_view/group_finish_new?group_level=1';
+            $data = $this->call($path);
+
+            foreach ($data['response']->rows as $row) {
+                if (!empty($row->key[0])) {
+                    $result[$row->key[0]] = $row->value;
+                }
+            }
+
+            $this->setCache($cacheKey, $result, 'hour');
+        }
+
+        return $result;
     }
 	
 	public function getPersonnelTotals()

@@ -7,7 +7,7 @@
 		
 	$('#recent_ops').empty();
 
-	$.getJSON('http://alivemod.com/api/recentoperations', function(opsdata) {
+	$.getJSON('{{ URL::to('/') }}/api/recentoperations', function(opsdata) {
 
             $.each(opsdata.rows, function (index, row) {
 				

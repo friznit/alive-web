@@ -117,72 +117,52 @@
 
             var data = {{$clan->couchData}};
 
-			if (data.Operations) {
-				var myIcon = new groupIcon({
-					iconUrl: '{{ URL::to('/') }}/img/icons/dot.png', 
-					shadowURL: '{{URL::to('/') }}/img/icons/dotshadow.png',
-					iconSize:     [4, 4], // size of the icon
-					shadowSize:   [4, 4], // size of the shadow
-                    iconAnchor: [2, 2],  // point of the icon which will correspond to markers location
-					shadowAnchor: [2, 2]  // the same for the shadow
-				});		
+            var clanLastOp = {{$clan->lastop}};             
+            var lastop = clanLastOp.date;                  
+            var lsystem_date = new Date(lastop);
+            var luser_date = new Date();
+            var ldiff = Math.floor((luser_date - lsystem_date) / 1000);
 
-                var clanLastOp = {{$clan->lastop}};             
-                var lastop = clanLastOp.date;                  
-                var lsystem_date = new Date(lastop);
-                var luser_date = new Date();
-                var ldiff = Math.floor((luser_date - lsystem_date) / 1000);
+            var iconSizer = 30 - Math.round(ldiff / 777600);
 
-                var iconSizer = 30 - Math.round(ldiff / 777600);
+            var myIcon = new groupIcon({
+                iconSize: [iconSizer,iconSizer],
+                shadowSize: [iconSizer,iconSizer],
+                iconAnchor:   [iconSizer/2, iconSizer/2], 
+                shadowAnchor: [iconSizer/2, iconSizer/2],                        
+                shadowUrl: '{{ URL::to('/') }}/img/icons/w_group_0.png',
+                iconUrl: '{{ URL::to('/') }}/img/icons/b_{{$clan->icon}}.png'
+            });
 
-                if (ldiff < 15552000) {
-           		   var myIcon = new groupIcon({
-                        iconSize: [iconSizer,iconSizer],
-                        shadowSize: [iconSizer,iconSizer],
-                        iconAnchor:   [iconSizer/2, iconSizer/2], 
-                        shadowAnchor: [iconSizer/2, iconSizer/2],                        
-					 	shadowUrl: '{{ URL::to('/') }}/img/icons/w_group_0.png',
-						iconUrl: '{{ URL::to('/') }}/img/icons/b_{{$clan->icon}}.png'
-					});
+            var marker = new MyCustomMarker(map.unproject([{{$clan->lon}},{{$clan->lat}}], map.getMaxZoom()), {
+                icon: myIcon
+            });
+            
+            var popup = L.popup({maxWidth:400})
+                .setContent("<table><tr><td colspan='2'><div class='strip'>Unit</div></td></tr><tr><td><img width='100' src='{{ $clan->avatar->url('thumb') }}' onerror='this.src=\"{{ URL::to('/') }}/avatars/thumb/clan.png\"'></td><td>" +
+                    "<div class='unit-popup'>" +
+                    "<p>" +
+                    "<a href={{ URL::to('war-room/showorbat') }}/{{$clan->id}}><span class='title'>{{$clan->name}} [{{$clan->tag}}]</span></a></br>" +
+                    "<span class='highlight'>{{$clan->name}} {{$clan->size}}</span>" +
+                    " <img src='{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($clan->country) }}.png' alt='{{ $clan->country_name }}' title='{{ $clan->country_name }}' width='18' height='18'/><br/>" +
+                    "<span class='highlight'>OPS:</span> " + data.Operations + " <span class='highlight'>| EKIA:</span> " + data.Kills + " <span class='highlight'>| LOSSES:</span> " + data.Deaths + "</br>" +
+                    "<span class='highlight'>HRS:</span> " + Math.round((data.CombatHours / 60)*10)/10 + " <span class='highlight'>| AMMO:</span> " + data.ShotsFired + "</br>" +
+                    "<span class='highlight'>VEHICLE HRS:</span> " + Math.round((data.VehicleTime / 60)*10)/10 + " <span class='highlight'>| FLIGHT HRS:</span> " + Math.round((data.PilotTime / 60)*10)/10 + "</br>" +
+                    "<span class='highlight'>LAST OP:</span> " + clanLastOp.Operation + "</br>" + parseArmaDate(lastop) +                                  
+                    "</p>" +
+                    "</div></td></tr></table>");
 
-                    var marker = new MyCustomMarker(map.unproject([{{$clan->lon}},{{$clan->lat}}], map.getMaxZoom()), {
-                        icon: myIcon
-                    });
-        			   			
-        			function onErrFunction(source){
-        				source.src = "http://alivemod.com/avatars/thumb/clan.png";
-        				source.onerror = "";
-        				return true;
-        			}
-        			
-                    var popup = L.popup({maxWidth:400})
-                        .setContent("<table><tr><td colspan='2'><div class='strip'>Unit</div></td></tr><tr><td><img width='100' src='{{ $clan->avatar->url('thumb') }}' onerror='this.src=\"http://alivemod.com/avatars/thumb/clan.png\"'></td><td>" +
-                            "<div class='unit-popup'>" +
-                            "<p>" +
-                            "<a href={{ URL::to('war-room/showorbat') }}/{{$clan->id}}><span class='title'>{{$clan->name}} [{{$clan->tag}}]</span></a></br>" +
-                            "<span class='highlight'>{{$clan->name}} {{$clan->size}}</span>" +
-                            " <img src='{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($clan->country) }}.png' alt='{{ $clan->country_name }}' title='{{ $clan->country_name }}' width='18' height='18'/><br/>" +
-                            "<span class='highlight'>OPS:</span> " + data.Operations + " <span class='highlight'>| EKIA:</span> " + data.Kills + " <span class='highlight'>| LOSSES:</span> " + data.Deaths + "</br>" +
-                            "<span class='highlight'>HRS:</span> " + Math.round((data.CombatHours / 60)*10)/10 + " <span class='highlight'>| AMMO:</span> " + data.ShotsFired + "</br>" +
-                            "<span class='highlight'>VEHICLE HRS:</span> " + Math.round((data.VehicleTime / 60)*10)/10 + " <span class='highlight'>| FLIGHT HRS:</span> " + Math.round((data.PilotTime / 60)*10)/10 + "</br>" +
-                            "<span class='highlight'>LAST OP:</span> " + clanLastOp.Operation + "</br>" + parseArmaDate(lastop) +                                  
-                            "</p>" +
-                            "</div></td></tr></table>");
-
-                    marker.bindPopup(popup, {
-                        showOnMouseOver: true,
-                        offset: new L.Point(-3, -5)
-                    });
-                    map.addLayer(marker);
-                }
-            }
-
+            marker.bindPopup(popup, {
+                showOnMouseOver: true,
+                offset: new L.Point(-3, -5)
+            });
+            map.addLayer(marker);
         @endforeach
 
 	});
 	
 	var hostileIcon = L.icon({
-		iconUrl: '{{ URL::to('/') }}/img/icons/hostileIcon.png',
+    iconUrl: '{{ URL::to('/') }}/img/icons/hostileIcon.png',
 		shadowUrl: '{{ URL::to('/') }}/img/icons/hostileIconShadow.png',
 		iconSize:     [30, 30], // size of the icon
 		shadowSize:   [30, 30], // size of the shadow
