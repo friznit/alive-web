@@ -29,11 +29,12 @@ class WarRoomController extends BaseController {
 
         foreach($aos as &$ao){
             $ao->couchData = (!empty($aoData[strtolower($ao->configName)]))
-                           ? json_encode($aoData[strtolower($ao->configName)])
-                           : json_encode([]);
+                           ? $aoData[strtolower($ao->configName)]
+                           : [];
+            $ao->thumbAO = $ao->image->url('thumbAO');
         }
 
-        $data['allAOs'] = $aos;
+        $data['allAOs'] = $aos->toJson();
         unset($oas);
         unset($aoData);
 
@@ -53,8 +54,8 @@ class WarRoomController extends BaseController {
 
         forEach($devs as &$dev) {
             $dev->couchData = (!empty($devData[$dev->a3_id]))
-                            ? json_encode($devData[$dev->a3_id])
-                            : json_encode([]);
+                            ? $devData[$dev->a3_id]
+                            : [];
 
             $orbatType = $orbatTypes[$dev->clan->type];
             $orbatTize = $orbatSizes[$dev->clan->size];
@@ -65,7 +66,7 @@ class WarRoomController extends BaseController {
             $dev->sizeicon = $orbatSize->icon;
         }
 
-        $data['devs'] = $devs;
+        $data['devs'] = $devs->toJson();
         unset($devs);
         unset($devData);
 
@@ -87,7 +88,7 @@ class WarRoomController extends BaseController {
         forEach($clans as $key => &$clan) {
             // remove clans without any group and/or OP couch data
             if (empty($clanData[$clan->tag]) || empty($clanOps[$clan->tag])) {
-                unset($clans[$key]);
+                $clans->forget($key);
                 continue;
             }
 
@@ -97,12 +98,15 @@ class WarRoomController extends BaseController {
             $diff = $opDate->diff($now);
 
             if ($diff->m + ($diff->y * 12) >= 6) {
-                unset($clans[$key]);
+                $clans->forget($key);
                 continue;
             }
 
-            $clan->couchData = json_encode($clanData[$clan->tag]);
-            $clan->lastop = json_encode(['date' => $clanOps[$clan->tag][0][1], 'Operation' => $clanOps[$clan->tag][0][2]]);
+            $clan->couchData = $clanData[$clan->tag];
+            $clan->lastop = [
+                'date' => $clanOps[$clan->tag][0][1],
+                'Operation' => $clanOps[$clan->tag][0][2]
+            ];
 
             $orbatType = $orbatTypes[$clan->type];
             $orbatTize = $orbatSizes[$clan->size];
@@ -126,9 +130,11 @@ class WarRoomController extends BaseController {
 
             $clan->lat = $lat;
             $clan->lon = $lon;
+
+            $clan->thumbAvatar = $clan->avatar->url('thumb');
         }
 
-        $data['clans'] = $clans;
+        $data['clans'] = $clans->values()->toJson();
         unset($clans);
         unset($clanData);
         unset($clanOps);

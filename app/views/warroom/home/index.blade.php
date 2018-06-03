@@ -42,8 +42,6 @@
         position: "topright"
     }));
 
-    var items = {};
-				
     $(document).ready(function() {
         $('#map-content').fadeIn();
 		$(".trigger").click(function(){
@@ -52,10 +50,9 @@
 			return false;
 		});
 
-        @foreach ($allAOs as $ao)
-
-            var mapdata = {{$ao->couchData}};
-            var marker = new MyCustomMarker(map.unproject([{{$ao->imageMapX}},{{$ao->imageMapY}}], map.getMaxZoom()), {
+        var aos = {{ $allAOs }};
+        aos.forEach(function (ao) {
+            var marker = new MyCustomMarker(map.unproject([ao.imageMapY,ao.imageMapX], map.getMaxZoom()), {
                 icon: hostileIcon
             });
 
@@ -63,10 +60,10 @@
                 .setContent("<div class='strip'>AO</div>" +
                     "<div class='ao-popup'>" +
                     "<p>" +
-                    "<span class='title'>{{$ao->name}}</span></br>" +
-                    "<img src='{{ $ao->image->url('thumbAO') }}' ></br>" +
-                    "<span class='highlight'>OPS:</span> " + mapdata.Operations + " <span class='highlight'>| EKIA:</span> " + mapdata.Kills + " <span class='highlight'>| LOSSES:</span> " + mapdata.Deaths + "</br>" +
-                    "<span class='highlight'>HRS:</span> " + Math.round((mapdata.CombatHours / 60)*10)/10 + " <span class='highlight'>| AMMO:</span> " + mapdata.ShotsFired + " <span class='highlight'>| UNITS:</span> " + mapdata.Operations +
+                    "<span class='title'>" + ao.name + "</span></br>" +
+                    "<img src='" + ao.thumbAO + "' ></br>" +
+                    "<span class='highlight'>OPS:</span> " + ao.couchData.Operations + " <span class='highlight'>| EKIA:</span> " + ao.couchData.Kills + " <span class='highlight'>| LOSSES:</span> " + ao.couchData.Deaths + "</br>" +
+                    "<span class='highlight'>HRS:</span> " + Math.round((ao.couchData.CombatHours / 60)*10)/10 + " <span class='highlight'>| AMMO:</span> " + ao.couchData.ShotsFired + " <span class='highlight'>| UNITS:</span> " + ao.couchData.Operations +
                     "</p>" +
                     "</div>");
 
@@ -76,19 +73,17 @@
             });
 
             map.addLayer(marker);
+        });
 
-        @endforeach
 
-
-        @foreach ($devs as $dev)
-
-            var data = {{$dev->couchData}};
+        var devs = {{ $devs }};
+        devs.forEach(function (dev) {
             var myIcon = new groupIcon({
                 iconSize:     [50, 50], // size of the icon
                 shadowSize:   [50, 50], // size of the shadowicon
-                shadowUrl: '{{ URL::to('/') }}/img/icons/w_{{$dev->sizeicon}}.png',
-                iconUrl: '{{ URL::to('/') }}/img/icons/b_{{$dev->icon}}.png'});
-            var marker = new MyCustomMarker(map.unproject([data.globalX,data.globalY], map.getMaxZoom()), {
+                shadowUrl: '{{ URL::to('/') }}/img/icons/w_' + dev.sizeicon + '.png',
+                iconUrl: '{{ URL::to('/') }}/img/icons/b_' + dev.icon + '.png'});
+            var marker = new MyCustomMarker(map.unproject([dev.couchData.globalX,dev.couchData.globalY], map.getMaxZoom()), {
                 icon: myIcon
             });
 
@@ -96,11 +91,11 @@
                 .setContent("<div class='strip'>Lead Unit</div>" +
                     "<div class='unit-popup'>" +
                     "<p>" +
-                    "<span class='title'>{{$dev->clan->name}} [{{$dev->clan->tag}}]</span></br>" +
-                    "<span class='highlight'>{{$dev->orbatname}} {{$dev->size}}</span></br>" +
-                    "<span class='highlight'>Cmdr:</span> " + data.PlayerName +
-                    " <img src='{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($dev->country) }}.png' alt='{{ $dev->country_name }}' title='{{ $dev->country_name }}' width='16' height='16'/><br/>" +
-                    "<span class='highlight'>Credits:</span> " + data.Credits +
+                    "<span class='title'>" + dev.clan.name + " [" + dev.clan.tag + "]</span></br>" +
+                    "<span class='highlight'>" + dev.orbatname + " " + dev.size + "</span></br>" +
+                    "<span class='highlight'>Cmdr:</span> " + dev.couchData.PlayerName +
+                    " <img src='{{ URL::to('/') }}/img/flags_iso/32/" + dev.country.toLowerCase() + ".png' alt='" + dev.country_name + "' title='" + dev.country_name + "' width='16' height='16'/><br/>" +
+                    "<span class='highlight'>Credits:</span> " + dev.couchData.Credits +
                     "</p>" +
                     "</div>");
 
@@ -109,16 +104,11 @@
                 offset: new L.Point(-3, -5)
             });
             map.addLayer(marker);
+        });
 
-        @endforeach
-
-
-        @foreach ($clans as $clan)
-
-            var data = {{$clan->couchData}};
-
-            var clanLastOp = {{$clan->lastop}};             
-            var lastop = clanLastOp.date;                  
+        var clans = {{ $clans }};
+        clans.forEach(function (clan) {
+            var lastop = clan.lastop.date;
             var lsystem_date = new Date(lastop);
             var luser_date = new Date();
             var ldiff = Math.floor((luser_date - lsystem_date) / 1000);
@@ -131,24 +121,24 @@
                 iconAnchor:   [iconSizer/2, iconSizer/2], 
                 shadowAnchor: [iconSizer/2, iconSizer/2],                        
                 shadowUrl: '{{ URL::to('/') }}/img/icons/w_group_0.png',
-                iconUrl: '{{ URL::to('/') }}/img/icons/b_{{$clan->icon}}.png'
+                iconUrl: '{{ URL::to('/') }}/img/icons/b_' + clan.icon + '.png'
             });
 
-            var marker = new MyCustomMarker(map.unproject([{{$clan->lon}},{{$clan->lat}}], map.getMaxZoom()), {
+            var marker = new MyCustomMarker(map.unproject([clan.lon,clan.lat], map.getMaxZoom()), {
                 icon: myIcon
             });
-            
+
             var popup = L.popup({maxWidth:400})
-                .setContent("<table><tr><td colspan='2'><div class='strip'>Unit</div></td></tr><tr><td><img width='100' src='{{ $clan->avatar->url('thumb') }}' onerror='this.src=\"{{ URL::to('/') }}/avatars/thumb/clan.png\"'></td><td>" +
+                .setContent("<table><tr><td colspan='2'><div class='strip'>Unit</div></td></tr><tr><td><img width='100' src='" + clan.thumbAvatar + "' onerror='this.src=\"{{ URL::to('/') }}/avatars/thumb/clan.png\"'></td><td>" +
                     "<div class='unit-popup'>" +
                     "<p>" +
-                    "<a href={{ URL::to('war-room/showorbat') }}/{{$clan->id}}><span class='title'>{{$clan->name}} [{{$clan->tag}}]</span></a></br>" +
-                    "<span class='highlight'>{{$clan->name}} {{$clan->size}}</span>" +
-                    " <img src='{{ URL::to('/') }}/img/flags_iso/32/{{ strtolower($clan->country) }}.png' alt='{{ $clan->country_name }}' title='{{ $clan->country_name }}' width='18' height='18'/><br/>" +
-                    "<span class='highlight'>OPS:</span> " + data.Operations + " <span class='highlight'>| EKIA:</span> " + data.Kills + " <span class='highlight'>| LOSSES:</span> " + data.Deaths + "</br>" +
-                    "<span class='highlight'>HRS:</span> " + Math.round((data.CombatHours / 60)*10)/10 + " <span class='highlight'>| AMMO:</span> " + data.ShotsFired + "</br>" +
-                    "<span class='highlight'>VEHICLE HRS:</span> " + Math.round((data.VehicleTime / 60)*10)/10 + " <span class='highlight'>| FLIGHT HRS:</span> " + Math.round((data.PilotTime / 60)*10)/10 + "</br>" +
-                    "<span class='highlight'>LAST OP:</span> " + clanLastOp.Operation + "</br>" + parseArmaDate(lastop) +                                  
+                    "<a href={{ URL::to('war-room/showorbat') }}/" + clan.id + "><span class='title'>" + clan.name + " [" + clan.tag + "]</span></a></br>" +
+                    "<span class='highlight'>" + clan.name + " " + clan.size + "</span>" +
+                    " <img src='{{ URL::to('/') }}/img/flags_iso/32/" + (clan.country != null ? clan.country.toLowerCase() : '') + ".png' alt='" + clan.country_name + "' title='" + clan.country_name + "' width='18' height='18'/><br/>" +
+                    "<span class='highlight'>OPS:</span> " + clan.couchData.Operations + " <span class='highlight'>| EKIA:</span> " + clan.couchData.Kills + " <span class='highlight'>| LOSSES:</span> " + clan.couchData.Deaths + "</br>" +
+                    "<span class='highlight'>HRS:</span> " + Math.round((clan.couchData.CombatHours / 60)*10)/10 + " <span class='highlight'>| AMMO:</span> " + clan.couchData.ShotsFired + "</br>" +
+                    "<span class='highlight'>VEHICLE HRS:</span> " + Math.round((clan.couchData.VehicleTime / 60)*10)/10 + " <span class='highlight'>| FLIGHT HRS:</span> " + Math.round((clan.couchData.PilotTime / 60)*10)/10 + "</br>" +
+                    "<span class='highlight'>LAST OP:</span> " + clan.lastop.Operation + "</br>" + parseArmaDate(lastop) +                                  
                     "</p>" +
                     "</div></td></tr></table>");
 
@@ -157,8 +147,7 @@
                 offset: new L.Point(-3, -5)
             });
             map.addLayer(marker);
-        @endforeach
-
+        });
 	});
 	
 	var hostileIcon = L.icon({
