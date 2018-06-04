@@ -52,7 +52,7 @@
 
         var aos = {{ $allAOs }};
         aos.forEach(function (ao) {
-            var marker = new MyCustomMarker(map.unproject([ao.imageMapY,ao.imageMapX], map.getMaxZoom()), {
+            var marker = new MyCustomMarker(map.unproject([ao.imageMapX,ao.imageMapY], map.getMaxZoom()), {
                 icon: hostileIcon
             });
 
