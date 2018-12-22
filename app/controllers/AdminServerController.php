@@ -481,12 +481,12 @@ class AdminServerController extends BaseController
 
         if (!$auth['isAdmin'] && !$auth['isLeader']) {
             Alert::error('You don\'t have access to that group.')->flash();
-            return Redirect::to('admin/clan/show/' . $id);
+            return Redirect::to('admin/clan/show/' . $clan->id);
         }
 
         if (!$auth['isAdmin'] && $auth['isLeader'] && $profile->clan_id != $clan->id) {
             Alert::error('You don\'t have access to that group.')->flash();
-            return Redirect::to('admin/clan/show/' . $id);
+            return Redirect::to('admin/clan/show/' . $clan->id);
         }
 
         $server = Server::find($id);
