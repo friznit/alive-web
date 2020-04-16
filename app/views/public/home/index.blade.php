@@ -157,7 +157,7 @@
                     </tr>
                     <tr class="success">
                         <td>1.12.1.2002131</td>
-                        <td>Arma 3 Stable/td>
+                        <td>Arma 3 Stable</td>
                         <td><a class="btn btn-primary btn-lg pull-right" href="https://github.com/ALiVEOS/ALiVE.OS/releases"><i class="fa fa-download"></i> Download</a></td>
                     </tr>                   
                 </table>
