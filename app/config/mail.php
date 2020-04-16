@@ -28,7 +28,7 @@ return array(
 	|
 	*/
 
-	'host' => 'mail.alivemod.com',
+	'host' => 'smtp.gmail.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => 'admin@alivemod.com',
+	'username' => 'Arma3ALiVE@gmail.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => 'adsf;lk32',
+	'password' => 'friznitblowsgoats',
 
 	/*
 	|--------------------------------------------------------------------------
