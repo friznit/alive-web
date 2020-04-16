@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-    'from' => array('address' => 'admin@alivemod.com', 'name' => 'ALiVE Admin'),
+    'from' => array('address' => 'Arma3ALiVE@gmail.com', 'name' => 'ALiVE Admin'),
 
 	/*
 	|--------------------------------------------------------------------------
